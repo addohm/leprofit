@@ -6,6 +6,17 @@ change.
 ## Done
 
 - Standard docs (2026-11-16).
+- Design agreed (2026-11-16, below).
+- Forever checks (2026-11-16):
+  - The auction house cut isn't published and the game's AH API doesn't
+    report it, so 5% stays a setting. The minimum deposit is 1 copper since
+    the Nov 10 hotfix, so leaving the deposit out is fine.
+  - Auctionator supports Forever (third-party guides). TSM on Forever is
+    unconfirmed; market value stays blank without it.
+  - CraftProfit Forever (vystery, all rights reserved, ~95k downloads) already
+    puts profit tags in the profession window. leprofit differs with its own
+    window, recipes you'd buy, and hiding what doesn't sell. Don't copy its
+    code.
 
 ## Design (agreed 2026-11-16)
 
@@ -42,9 +53,7 @@ Modelled on the source addon (a levelling planner), but for profit.
 
 ## Next
 
-1. Check Forever's auction house cut (faction and neutral) and that
-   Auctionator and TSM run on Forever.
-2. First build: core + the Blacksmithing module, Crafts tab only, with the
+1. First build: core + the Blacksmithing module, Crafts tab only, with the
    install, release and test tools.
 
 ## Ideas
