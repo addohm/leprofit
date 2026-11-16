@@ -86,6 +86,60 @@ local function OtherProfession(id, prof)
 	end
 end
 
+-- The profession window, if one is shown: Forever's ProfessionsFrame, or the older TradeSkillFrame.
+function Recorder.Frame()
+	for _, name in ipairs({ "ProfessionsFrame", "TradeSkillFrame" }) do
+		local f = rawget(_G, name)
+		if f and f.IsShown and f:IsShown() then return f end
+	end
+end
+
+-- How many of a profession's recipes this character's window has shown as known.
+function Recorder.KnownCount(prof)
+	local n = 0
+	for _, rec in pairs(ns.db.recipes[prof] or {}) do
+		if rec.learned then n = n + 1 end
+	end
+	return n
+end
+
+-- The game's skill line for each profession, for opening its window.
+local SKILL_LINES = {
+	Alchemy = 171, Blacksmithing = 164, Cooking = 185, Enchanting = 333, Engineering = 202,
+	["First Aid"] = 129, Leatherworking = 165, Tailoring = 197,
+}
+
+-- Opens your profession window on `prof` (Leprofit reads your recipes from it), unless it's
+-- already open on it, you don't have the profession, or you're in combat. True if it opened.
+function Recorder.OpenWindow(prof)
+	if not prof or InCombatLockdown() then return false end
+	if Recorder.Frame() and Recorder.OpenProfession(false) == prof then return false end
+	local line = (ns.professions[prof] and ns.professions[prof].skillLine) or SKILL_LINES[prof]
+	if not line or not ns.Skill(prof) then return false end
+	local api = C_TradeSkillUI
+	return ns.Try(api and api.OpenTradeSkill, line) and true or false
+end
+
+-- Learning a recipe (at a trainer, or from a pattern) marks it known straight away; the game
+-- says which recipe. The next look at the profession window fills in the rest.
+function Recorder.Learned(recipeID)
+	if not (ns.db and recipeID) then return end
+	for prof, def in pairs(ns.professions) do
+		local own = ns.db.recipes[prof] and ns.db.recipes[prof][recipeID]
+		local data = def.recipes[recipeID]
+		if own or data then
+			ns.db.recipes[prof] = ns.db.recipes[prof] or {}
+			if not own then
+				own = { name = data.name, icon = data.icon, product = data.product, yield = data.yield, reagents = data.reagents }
+				ns.db.recipes[prof][recipeID] = own
+			end
+			own.learned = true
+			ns.DataChanged()
+			return
+		end
+	end
+end
+
 function Recorder.Record()
 	if not ns.db then return end
 	local prof = Recorder.OpenProfession(true)
@@ -220,10 +274,11 @@ local events = CreateFrame("Frame")
 for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE" }) do
 	pcall(events.RegisterEvent, events, e)
 end
-events:SetScript("OnEvent", function(_, event)
+events:SetScript("OnEvent", function(_, event, arg)
 	if event == "MERCHANT_SHOW" or event == "MERCHANT_UPDATE" then
 		Recorder.ScanMerchant()
 	else
+		if event == "NEW_RECIPE_LEARNED" then Recorder.Learned(arg) end
 		RecordSoon()
 	end
 end)

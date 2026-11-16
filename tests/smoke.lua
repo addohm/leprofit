@@ -64,6 +64,11 @@ eq(row.value, 19000, "2g less 5%")
 ns.db.rankBy = "buyout"
 WM.SetTSM(nil)
 
+-- Auctionator's record of what vendors charge counts as a vendor price.
+WM.auctionatorVendor[2840] = 700
+eq(ns.Profit.Evaluate("Blacksmithing", belt).cost, 4200, "Copper Bars at Auctionator's vendor price")
+WM.auctionatorVendor[2840] = nil
+
 -- A vendor's price beats the auction for materials.
 ns.adb.vendorPrices[2840] = 500
 eq(ns.Profit.Evaluate("Blacksmithing", belt).cost, 3000, "Copper Bars from a vendor")
@@ -133,7 +138,8 @@ ok(#rows >= 2, "profitable crafts listed: " .. #rows)
 eq(rows[1].rec.name, "Test Sharpened Thing", "the most profitable first")
 eq(rows[2].rec.name, "Copper Chain Belt")
 ok(left.unknown > 300, "recipes with no known source left out: " .. left.unknown)
-ok(left.losses > 0, "crafts without a price left out")
+ok(left.unpriced > 0, "crafts without a price left out")
+eq(left.losses, 0, "and counted apart from losses")
 ns.db.hidden[990002] = true
 rows, left = ns.Profit.Rows("Blacksmithing")
 eq(rows[1].rec.name, "Copper Chain Belt", "marked doesn't sell")
@@ -221,6 +227,14 @@ eq(after, before, "another profession's list isn't recorded")
 WM.profession = "Mining"
 eq(ns.Recorder.OpenProfession(true), nil, "not a module's profession")
 
+-- Learning a recipe marks it known straight away.
+WM.profession = nil
+eq(Find("Copper Chain Pants").source.kind, "trainer")
+WM.Fire("NEW_RECIPE_LEARNED", 2662)
+eq(ns.db.recipes.Blacksmithing[2662].learned, true, "Copper Chain Pants learned")
+eq(Find("Copper Chain Pants").source.kind, "known", "and listed as known")
+eq(ns.Recorder.KnownCount("Blacksmithing"), 4)
+
 -- The window: both tabs build and refresh.
 Defaults()
 WM.auctionator[2840] = 1000
@@ -229,6 +243,8 @@ ns.db.profession = "Blacksmithing"
 SlashCmdList.LEPROFIT("")
 WM.RunTimers()
 ok(ns.Window.IsShown(), "/leprofit opens the window")
+eq(#WM.opened, 1, "and the profession window")
+eq(WM.opened[1], 164, "Blacksmithing's")
 ok(ns.Window.CurrentPanel(), "a page is shown")
 local function Drawn(text)
 	for _, f in ipairs(WM.frames) do
@@ -283,6 +299,44 @@ SlashCmdList.LEPROFIT("nonsense")
 ok(WM.printed[#WM.printed]:find("unknown command"), "unknown command")
 SlashCmdList.LEPROFIT("reset")
 
+-- /leprofit why: the whole sum for one craft, by name, link or part of a name.
+local function Printed(text)
+	for _, line in ipairs(WM.printed) do
+		if line:find(text, 1, true) then return true end
+	end
+end
+WM.printed = {}
+SlashCmdList.LEPROFIT("why Copper Chain Belt")
+ok(Printed("6 x Copper Bar: 10s each (auction) = 60s"), "each material and its price")
+ok(Printed("Lowest buyout 1g"), "the buyout")
+ok(Printed("Sells for 95s each after 5% cut, by lowest buyout"), "the sale")
+ok(Printed("Profit: 35s a craft"), "the profit")
+WM.printed = {}
+SlashCmdList.LEPROFIT("why |cff1eff00|Hitem:2851::::::::|h[Copper Chain Belt]|h|r")
+ok(Printed("Copper Chain Belt|r (Blacksmithing, you know it)"), "a shift-clicked link")
+WM.printed = {}
+SlashCmdList.LEPROFIT("why copper")
+ok(Printed("recipes match"), "part of a name lists the matches")
+WM.printed = {}
+SlashCmdList.LEPROFIT("why zzzz")
+ok(Printed("no recipe"), "nothing matches")
+WM.printed = {}
+WM.auctionator[2835] = 100 -- Rough Stone, so the stones can be crafted
+SlashCmdList.LEPROFIT("why Test Sharpened")
+ok(Printed("crafted with Rough Sharpening Stone"), "a crafted material says how")
+
+-- Recipes not read yet: Known only explains instead of saying nothing makes a profit.
+local saved = ns.db.recipes.Blacksmithing
+ns.db.recipes.Blacksmithing = {}
+ns.db.knownOnly = true
+ns.DataChanged()
+ns.Window.Show("crafts")
+ns.Window.Refresh()
+eq(ns.Recorder.KnownCount("Blacksmithing"), 0)
+ns.db.recipes.Blacksmithing, ns.db.knownOnly = saved, false
+ns.DataChanged()
+ns.Window.Hide()
+
 -- No modules: the window explains what to enable.
 local order = ns.professionOrder
 ns.professionOrder = {}
@@ -304,9 +358,11 @@ end
 ok(button, "a button on the profession window")
 ns.Window.Hide()
 ns.db.profession = "Testcraft"
+local openedBefore = #WM.opened
 button:Click()
 ok(ns.Window.IsShown(), "it opens the window")
 eq(ns.db.profession, "Blacksmithing", "on the open profession")
+eq(#WM.opened, openedBefore, "the profession window is already open")
 ns.db.professionButton = false
 ns.ProfessionButton.Apply()
 ok(not button:IsShown(), "the option hides it")

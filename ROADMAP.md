@@ -51,7 +51,8 @@ Modelled on the source addon (a levelling planner), but for profit.
   tabs). Tabs: Crafts (ranked list; click a row for its materials, a craft
   count and Send to Auctionator), Shopping, Options.
 - **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
-  button on the profession window.
+  button on the profession window. Opening it opens your profession window
+  too, every time (the owner's pick), so your known recipes are read.
 - **Settings** are per character.
 - **Tools** as in leboof: an install script for the Windows PC, a release
   script that zips the addons, and tests that run here.

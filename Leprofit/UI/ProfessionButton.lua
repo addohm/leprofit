@@ -8,13 +8,6 @@ ns.ProfessionButton = PB
 
 local buttons = {} -- host frame -> button
 
-local function Host()
-	for _, name in ipairs({ "ProfessionsFrame", "TradeSkillFrame" }) do
-		local f = rawget(_G, name)
-		if f and f.IsShown and f:IsShown() then return f end
-	end
-end
-
 local function Create(host)
 	local b = CreateFrame("Button", nil, host)
 	b:SetSize(22, 22)
@@ -45,7 +38,7 @@ local function Create(host)
 end
 
 function PB.Apply()
-	local host = Host()
+	local host = ns.Recorder.Frame()
 	if host and not buttons[host] then buttons[host] = Create(host) end
 	for _, b in pairs(buttons) do b:SetShown(ns.db.professionButton and true or false) end
 end

@@ -149,19 +149,46 @@ local function Help()
 	ns.Print(ns.Version())
 	ns.Print("/leprofit - open or close the window")
 	ns.Print("/leprofit status - price sources, modules and recipes known")
+	ns.Print("/leprofit why <item> - the whole sum for one craft: name, item ID or shift-click a link")
 	ns.Print("/leprofit minimap - show or hide the minimap button")
 	ns.Print("/leprofit reset - put the window back in the middle at its normal size")
 end
 
 SLASH_LEPROFIT1 = "/leprofit"
+local function Why(query)
+	if query == "" then
+		ns.Print("/leprofit why <item>: type the item's name or shift-click it.")
+		return
+	end
+	local prof, rec = ns.Profit.Find(query)
+	if not prof then
+		local list = rec or {}
+		if #list == 0 then
+			ns.Print("no recipe in your enabled professions makes '" .. query .. "'.")
+		else
+			local names = {}
+			for i = 1, math.min(#list, 8) do names[i] = list[i].rec.name end
+			ns.Print(("%d recipes match: %s%s. Type more of the name."):format(#list, table.concat(names, ", "),
+				#list > 8 and ", ..." or ""))
+		end
+		return
+	end
+	for i, line in ipairs(ns.Profit.Explain(prof, rec)) do
+		if i == 1 then ns.Print(line) else print(line) end
+	end
+end
+
 SlashCmdList.LEPROFIT = function(msg)
-	local cmd = strtrim(msg or ""):lower()
+	local cmd, rest = strtrim(msg or ""):match("^(%S*)%s*(.-)$")
+	cmd = cmd:lower()
 	if cmd == "" then
 		ns.Window.Toggle()
 	elseif cmd == "help" then
 		Help()
 	elseif cmd == "status" then
 		Status()
+	elseif cmd == "why" then
+		Why(rest)
 	elseif cmd == "minimap" then
 		ns.Minimap.SetShown(ns.db.minimap.hide)
 	elseif cmd == "reset" then

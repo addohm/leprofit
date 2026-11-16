@@ -8,7 +8,13 @@ local COL_W = 96          -- the Profit, Buyout and Market columns
 local RIGHT = 4           -- the list's right edge, inside the scroll bar
 local DETAIL_H = 214      -- the materials panel at the bottom
 local MAT_ROWS = 7        -- the most materials a recipe needs
+local MAT_COLS = 5        -- Need, Have, Buy, Each, Cost
 local GREY, ORANGE = "|cff9d9d9d", "|cffff9933"
+-- Where each material's price comes from, after its name in the materials panel.
+local SOURCE_TAGS = {
+	auction = GREY .. " (auction)|r", vendor = GREY .. " (vendor)|r", craft = GREY .. " (craft it)|r",
+	none = ORANGE .. " (no price)|r",
+}
 
 local panel, scroll, inner, emptyText, leftText, picker, sourcesText
 local detail
@@ -115,15 +121,15 @@ local function MaterialRow(parent, y)
 	r:SetHeight(15)
 	r.name = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 	r.name:SetPoint("LEFT", 4, 0)
-	r.name:SetPoint("RIGHT", r, "RIGHT", -(4 * 70 + 4), 0)
+	r.name:SetPoint("RIGHT", r, "RIGHT", -(MAT_COLS * 70 + 4), 0)
 	r.name:SetJustifyH("LEFT")
 	r.name:SetWordWrap(false)
 	r.cols = {}
-	for i = 1, 4 do
+	for i = 1, MAT_COLS do
 		local fs = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 		fs:SetWidth(66)
 		fs:SetJustifyH("RIGHT")
-		fs:SetPoint("RIGHT", r, "RIGHT", -((4 - i) * 70 + 4), 0)
+		fs:SetPoint("RIGHT", r, "RIGHT", -((MAT_COLS - i) * 70 + 4), 0)
 		r.cols[i] = fs
 	end
 	return r
@@ -207,7 +213,7 @@ local function BuildDetail()
 	detail.header = MaterialRow(detail, -76)
 	detail.header.name:SetFontObject("GameFontNormalSmall")
 	detail.header.name:SetText("Material")
-	for i, text in ipairs({ "Need", "Have", "Buy", "Cost" }) do
+	for i, text in ipairs({ "Need", "Have", "Buy", "Each", "Cost" }) do
 		detail.header.cols[i]:SetFontObject("GameFontNormalSmall")
 		detail.header.cols[i]:SetText(text)
 	end
@@ -273,12 +279,12 @@ local function ShowDetail(row, prof)
 	for i, r in ipairs(detail.mats) do
 		local m = list[i]
 		if m then
-			local tag = m.how == "craft" and (GREY .. " (craft it)|r") or (m.how == "vendor" and (GREY .. " (vendor)|r") or "")
-			r.name:SetText(ns.ItemNameColored(m.itemID) .. tag)
+			r.name:SetText(ns.ItemNameColored(m.itemID) .. (SOURCE_TAGS[m.how] or SOURCE_TAGS.none))
 			r.cols[1]:SetText(m.need)
 			r.cols[2]:SetText(m.have > 0 and m.have or (GREY .. "0|r"))
 			r.cols[3]:SetText(m.buy > 0 and m.buy or (GREY .. "-|r"))
-			r.cols[4]:SetText(m.buy > 0 and ns.Money(m.cost) or (GREY .. "-|r"))
+			r.cols[4]:SetText(m.price and ns.Money(m.price) or (ORANGE .. "?|r"))
+			r.cols[5]:SetText(m.buy > 0 and (m.cost and ns.Money(m.cost) or (ORANGE .. "?|r")) or (GREY .. "-|r"))
 			r:Show()
 		else
 			r:Hide()
@@ -304,6 +310,7 @@ local function Picker(parent)
 		end
 		selected = nil
 		ns.SetProfession(order[(idx - 1 + dir) % #order + 1])
+		ns.Recorder.OpenWindow(ns.CurrentProfession())
 		ns.Window.Refresh()
 	end
 	local function Arrow(dir, x)
@@ -404,7 +411,8 @@ end
 local function LeftOutText(left)
 	local parts = {}
 	if left.unlearned > 0 then parts[#parts + 1] = left.unlearned .. " you don't know" end
-	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss or without a price" end
+	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss" end
+	if left.unpriced > 0 then parts[#parts + 1] = left.unpriced .. " without a price" end
 	if left.hidden > 0 then parts[#parts + 1] = left.hidden .. " marked doesn't sell" end
 	if left.unknown > 0 then parts[#parts + 1] = left.unknown .. " with no known trainer or vendor" end
 	if #parts == 0 then return "" end
@@ -454,16 +462,31 @@ local function Refresh()
 	for i = #list + 1, #rows do rows[i]:Hide() end
 	inner:SetHeight(math.max(1, y))
 
+	-- Recipes you know are read from the profession window: until then none count as known.
+	local unread = ns.Skill(prof) and ns.Recorder.KnownCount(prof) == 0
 	if #list == 0 then
-		emptyText:SetText(hasAuction
-			and (ns.db.knownOnly and "Nothing you know makes a profit at these prices. Untick Known only, or tick Show losses."
-				or "Nothing makes a profit at these prices. Tick Show losses to see everything.")
-			or "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again.")
+		local text
+		if ns.db.knownOnly and not ns.Skill(prof) then
+			text = "This character doesn't have " .. prof .. ". Untick Known only to see what it could learn."
+		elseif ns.db.knownOnly and unread then
+			text = ("Leprofit hasn't read your %s recipes yet: open your %s window."):format(prof, prof)
+		elseif not hasAuction then
+			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
+		elseif ns.db.knownOnly then
+			text = "Nothing you know makes a profit at these prices. Untick Known only, or tick Show losses."
+		else
+			text = "Nothing makes a profit at these prices. Tick Show losses to see everything."
+		end
+		emptyText:SetText(text)
 		emptyText:Show()
 	else
 		emptyText:Hide()
 	end
-	leftText:SetText(LeftOutText(left))
+	local leftOut = LeftOutText(left)
+	if unread then
+		leftOut = ORANGE .. ("Open your %s window so Leprofit knows your recipes.|r "):format(prof) .. leftOut
+	end
+	leftText:SetText(leftOut)
 	if not picked then
 		picked = list[1]
 		selected = picked and picked.product

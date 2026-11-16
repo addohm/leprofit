@@ -22,6 +22,13 @@ build you tried (`/leprofit help` shows it).
       prices"; a pattern vendor prints "recorded Plans: ...".
 - [ ] A material you can craft cheaper than buy (a sharpening or grinding stone) shows
       "(craft it)" in the materials panel.
+- [ ] Opening Leprofit opens your Blacksmithing window (not when it's already open, or in
+      combat); switching profession with the arrows opens that one.
+- [ ] Learning a recipe at the trainer lists it as known without opening the profession window.
+- [ ] `/leprofit why <item>` by name, part of a name, and a shift-clicked link; the sum matches the
+      list.
+- [ ] The materials panel's Each column and (auction)/(vendor)/(craft it)/(no price) tags.
+- [ ] "Not listed" counts losses and "without a price" apart.
 
 **The window**
 - [ ] Rows, notes and the materials panel fit at the normal size; resizing works; Escape closes.

@@ -47,12 +47,19 @@ function Prices.Age(itemID)
 	return type(age) == "number" and age or nil
 end
 
--- What a vendor charges for one, if anyone has recorded it.
+-- What a vendor charges for one, if anyone has recorded it: you (Recorder.lua), the source addon's
+-- players (the module's data), or Auctionator, which records the same thing at every vendor you
+-- open (items in endless supply, the price for one).
 function Prices.Vendor(itemID)
 	local price = ns.adb and ns.adb.vendorPrices[itemID]
 	if price then return price end
 	for _, def in pairs(ns.professions) do
 		if def.vendorPrices[itemID] then return def.vendorPrices[itemID] end
+	end
+	local api = Auctionator()
+	if api and api.GetVendorPriceByItemID then
+		price = ns.Try(api.GetVendorPriceByItemID, ADDON, itemID)
+		if type(price) == "number" and price > 0 then return price end
 	end
 	return nil
 end

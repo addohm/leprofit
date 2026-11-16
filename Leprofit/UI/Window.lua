@@ -202,10 +202,14 @@ function Window.CurrentPanel()
 	return current and pages[current] and pages[current].panel
 end
 
+-- Opening the window also opens your profession window on the profession shown, so Leprofit
+-- reads the recipes you know (the owner's pick: every time).
 function Window.Show(page)
 	if not frame then Build() end
+	local opening = not frame:IsShown()
 	frame:Show()
 	if page then Window.Select(page) end
+	if opening then ns.Recorder.OpenWindow(ns.CurrentProfession()) end
 end
 
 function Window.Hide()

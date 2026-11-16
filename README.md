@@ -19,12 +19,15 @@ it hasn't been tried in game yet ([TESTING.md](TESTING.md)). Source:
    character has (**Leprofit - Blacksmithing**). Modules are ticked per character.
 3. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
    from their scans.
-4. Open your profession window once on each character, so Leprofit reads the recipes you know.
+4. Open Leprofit: it opens your profession window too, and reads the recipes you know from it.
 
 ## Usage
 
 Open the window with `/leprofit`, the minimap button (right-click for Options), the addon menu by
 the minimap, or the coin button on the profession window, which opens it on that profession.
+Opening Leprofit (or picking another profession in it) also opens your profession window, unless
+it's already open, you don't have that profession, or you're in combat: Leprofit reads the recipes
+you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
 - The arrows at the top pick the profession.
@@ -36,9 +39,12 @@ the minimap, or the coin button on the profession window, which opens it on that
   old.
 - Crafts at 0 or negative profit are hidden; tick **Show losses** to see them. Tick **Known only**
   to list just the recipes this character knows. The line above the materials panel says how many
-  crafts were left out and why.
+  crafts were left out and why: you don't know them, at a loss, without a price (a material or the
+  item has none), marked doesn't sell, or no known trainer or vendor.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
-  material's need, what you hold, what to buy and its cost for the number of **Crafts** you set.
+  material's need, what you hold, what to buy, its price for one (**Each**) and its cost for the
+  number of **Crafts** you set. After each name, where its price is from: auction, vendor, craft it,
+  or no price.
   **Doesn't sell** hides the item from the list, after asking; Options lists the hidden items, where
   you can unhide them.
 
@@ -52,7 +58,10 @@ the minimap, or the coin button on the profession window, which opens it on that
   price too: using one you could sell costs you that one. The materials panel shows the gold you'd
   actually spend on what you don't have.
 - Leprofit records vendor prices for materials, and the patterns vendors sell, when you open a
-  vendor.
+  vendor. Auctionator's own record of vendor prices counts too.
+- `/leprofit why <item>` prints the whole sum for one craft in chat: each material, its price and
+  where it's from, the buyout, market value and vendor price, the cut, the profit, and where to
+  learn it. Type the name (or part of it), or shift-click the item.
 
 **Options tab** (saved per character)
 - Rank by lowest buyout or market value; the auction house cut; your undercut; how old an auction
@@ -70,6 +79,7 @@ the minimap, or the coin button on the profession window, which opens it on that
 |---|---|
 | `/leprofit` | Open or close the window |
 | `/leprofit status` | Price sources, modules, and recipes known |
+| `/leprofit why <item>` | The whole sum for one craft (name, part of it, or a shift-clicked link) |
 | `/leprofit minimap` | Show or hide the minimap button |
 | `/leprofit reset` | Put the window back in the middle at its normal size |
 | `/leprofit help` | The commands and the build |

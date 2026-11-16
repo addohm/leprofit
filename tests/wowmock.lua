@@ -4,8 +4,10 @@
 local M = {
 	printed = {}, frames = {}, timers = {},
 	items = {},       -- itemID -> { name, sellPrice, bindType, quality, count }
-	auctionator = {}, -- itemID -> price (nil: Auctionator not installed when WM.noAuctionator)
+	auctionator = {}, -- itemID -> price
+	auctionatorVendor = {}, -- itemID -> what a vendor charges, as Auctionator recorded it
 	ages = {},        -- itemID -> days
+	opened = {},      -- skill lines C_TradeSkillUI.OpenTradeSkill was asked to open
 	tsm = nil,        -- { DBMinBuyout = { [id] = n }, DBMarket = { [id] = n } } when TSM is installed
 	profession = nil, -- the open profession window's name
 	recipes = {},     -- what the open window lists: { id, name, learned, product, min, max, reagents = { { id, n } } }
@@ -181,6 +183,10 @@ end
 C_TradeSkillUI = {
 	GetBaseProfessionInfo = function() return M.profession and { professionName = M.profession } end,
 	GetTradeSkillLine = function() return 1, M.profession end,
+	OpenTradeSkill = function(line)
+		table.insert(M.opened, line)
+		return true
+	end,
 	GetAllRecipeIDs = function()
 		local ids = {}
 		for _, r in ipairs(M.recipes) do ids[#ids + 1] = r.id end
@@ -221,6 +227,7 @@ Auctionator = { API = { v1 = {
 		return M.auctionator[id]
 	end,
 	GetAuctionAgeByItemID = function(_, id) return M.ages[id] end,
+	GetVendorPriceByItemID = function(_, id) return M.auctionatorVendor[id] end,
 } } }
 function M.SetTSM(prices)
 	M.tsm = prices

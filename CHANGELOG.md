@@ -17,6 +17,13 @@ All notable changes to leprofit. The format follows
     default; Known only lists just the recipes you know.
   - Doesn't sell asks before hiding an item, and Options lists the hidden
     items with Unhide and Unhide all.
+  - Opening Leprofit opens your profession window too, so it reads your
+    recipes; learning a recipe marks it known straight away.
+  - Finding out why: `/leprofit why <item>` prints the whole sum; the
+    materials panel shows each material's price and where it's from; the
+    "Not listed" line counts losses and crafts without a price apart; an
+    empty list says when your recipes haven't been read yet.
+  - Auctionator's record of vendor prices counts as a vendor price.
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

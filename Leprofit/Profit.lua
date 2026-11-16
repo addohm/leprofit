@@ -104,10 +104,11 @@ function Profit.Evaluate(prof, rec, memo)
 end
 
 -- The rows the Crafts tab lists for a profession, most profitable first, and how many were left out:
--- { unlearned = n (Known only), unknown = n (no known source), hidden = n, losses = n }.
+-- { unlearned = n (Known only), unknown = n (no known source), hidden = n, unpriced = n (a material
+-- or the item has no price), losses = n (0 or less) }.
 function Profit.Rows(prof)
 	local db, memo = ns.db, {}
-	local rows, left = {}, { unlearned = 0, unknown = 0, hidden = 0, losses = 0 }
+	local rows, left = {}, { unlearned = 0, unknown = 0, hidden = 0, unpriced = 0, losses = 0 }
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
 		if db.knownOnly and rec.source.kind ~= "known" then
 			left.unlearned = left.unlearned + 1
@@ -117,7 +118,9 @@ function Profit.Rows(prof)
 			left.hidden = left.hidden + 1
 		else
 			local row = Profit.Evaluate(prof, rec, memo)
-			if (not row.profit or row.profit <= 0) and not db.showLosses then
+			if not row.profit and not db.showLosses then
+				left.unpriced = left.unpriced + 1
+			elseif row.profit and row.profit <= 0 and not db.showLosses then
 				left.losses = left.losses + 1
 			else
 				rows[#rows + 1] = row
@@ -145,4 +148,67 @@ function Profit.Shopping(row, n)
 		list[#list + 1] = { itemID = m.itemID, need = need, have = have, buy = buy, cost = cost, how = m.how, price = m.price }
 	end
 	return list, not unpriced and spend or nil
+end
+
+-- /leprofit why: the recipe a name, an item ID or an item link means, in any enabled profession.
+-- Returns the profession and recipe, or nil and the recipes whose names contain the text.
+function Profit.Find(query)
+	local id = tonumber(query) or tonumber(query:match("item:(%d+)"))
+	local q = query:lower():gsub("^%s+", ""):gsub("%s+$", "")
+	local partial = {}
+	for _, prof in ipairs(ns.professionOrder) do
+		for _, rec in ipairs(ns.Recipes.List(prof)) do
+			local name, item = rec.name:lower(), ns.ItemName(rec.product):lower()
+			if (id and rec.product == id) or (not id and (name == q or item == q)) then return prof, rec end
+			if not id and q ~= "" and (name:find(q, 1, true) or item:find(q, 1, true)) then
+				partial[#partial + 1] = { prof = prof, rec = rec }
+			end
+		end
+	end
+	if #partial == 1 then return partial[1].prof, partial[1].rec end
+	return nil, partial
+end
+
+local SOURCES = { auction = "auction", vendor = "vendor", craft = "crafted" }
+
+-- The whole sum for one recipe, as lines of text: each material and its price, the sale, the
+-- profit, and where to learn it.
+function Profit.Explain(prof, rec)
+	local row = Profit.Evaluate(prof, rec)
+	local M, db = ns.Money, ns.db
+	local lines = {}
+	local function Add(s) lines[#lines + 1] = s end
+	local known = rec.source.kind == "known" and "you know it" or "you don't know it"
+	Add(("%s (%s, %s)"):format(ns.ItemNameColored(rec.product), prof, known))
+	for _, m in ipairs(row.materials) do
+		local how = m.how == "craft" and ("crafted with " .. m.option.rec.name) or SOURCES[m.how] or "no price"
+		Add(("  %d x %s: %s each (%s)%s"):format(m.count, ns.ItemName(m.itemID), M(m.price), how,
+			m.price and (" = " .. M(m.price * m.count)) or ""))
+	end
+	Add("  Materials: " .. (row.cost and M(row.cost) or ("no price for " .. ns.ItemName(row.missing))) .. " a craft")
+	local vendor = ns.ItemSale(rec.product)
+	Add(("  Lowest buyout %s, market value %s, a vendor pays %s%s"):format(M(row.buyout), M(row.market),
+		M(vendor), row.bop and "; binds on pickup" or ""))
+	if row.value then
+		local why = row.via == "vendor" and "to a vendor"
+			or ("after %d%% cut%s, by %s"):format(db.cut, db.undercut > 0 and (" and " .. db.undercut .. "% undercut") or "",
+				db.rankBy == "market" and "market value" or "lowest buyout")
+		Add(("  Sells for %s each %s; makes %s"):format(M(row.value), why, row.yield))
+	else
+		Add("  No sale price: nobody has recorded one")
+	end
+	Add("  Profit: " .. (row.profit and M(row.profit) .. " a craft" or "can't tell without every price"))
+	local src = rec.source
+	if src.kind == "trainer" then
+		Add(("  Learn it from a trainer for %s%s"):format(M(src.cost), src.skill and (", skill " .. src.skill) or ""))
+	elseif src.kind == "pattern" then
+		local s = src.sellers and src.sellers[1]
+		Add(("  The pattern costs %s%s"):format(M(src.cost), s and (" from " .. s.vendor) or ""))
+	elseif src.kind == "unknown" then
+		Add("  Where to learn it isn't recorded")
+	end
+	if row.payback then Add(("  Pays back in %d craft%s"):format(row.payback, row.payback == 1 and "" or "s")) end
+	if row.age then Add(("  The auction price is %d day%s old"):format(row.age, row.age == 1 and "" or "s")) end
+	if db.hidden[rec.product] then Add("  Marked doesn't sell (Options lists it)") end
+	return lines
 end

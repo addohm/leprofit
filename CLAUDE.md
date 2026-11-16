@@ -25,7 +25,8 @@ is the reference: check how it handles an area before writing that area.
     showed), one per name, and where to learn each
   - `Profit.lua`: the sums: make-vs-buy, sale value after the cut, profit,
     payback, flags, the filtered and sorted rows, shopping for n crafts
-  - `Recorder.lua`: reads the profession window and vendors
+  - `Recorder.lua`: reads the profession window and vendors, opens the
+    profession window, marks recipes learned at trainers
   - `UI/`: `Widgets.lua`, `Window.lua`, `Minimap.lua` (from leboof), `Confirm.lua`
     (the confirmation dialog), `Crafts.lua` and `Options.lua` (the tabs),
     `ProfessionButton.lua`
