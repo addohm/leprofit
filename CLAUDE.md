@@ -40,5 +40,6 @@ TODO: none yet. What language/stack will it use?
 ## Don't
 
 - Commit secrets (`.env`, keys, tokens).
-- Copy code from the source addon, or commit it: its licence is all rights
-  reserved and forbids copying or modifying it.
+- Commit the source addon itself; it stays gitignored. Its licence is all rights
+  reserved, but its author has given the owner permission to copy and
+  reference its code as needed.
