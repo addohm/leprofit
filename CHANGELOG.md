@@ -38,6 +38,9 @@ All notable changes to leprofit. The format follows
     from the 14-day average.
   - Rows are one line: hover over a row for the detail (the sum, the
     history, where to learn it and any warnings) under the item's tooltip.
+  - The Shopping tab: Add to list from the materials panel, the planned
+    crafts and their combined materials, Clear, and Send to Auctionator
+    (one "Leprofit" list, vendor materials left out).
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

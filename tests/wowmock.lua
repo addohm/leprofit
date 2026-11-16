@@ -10,6 +10,7 @@ local M = {
 	opened = {},      -- skill lines C_TradeSkillUI.OpenTradeSkill was asked to open
 	history = {},     -- itemID -> Auctionator's price history, newest first: { rawDay, minSeen, maxSeen, available }
 	today = 2000,     -- Auctionator's day number for today
+	lists = {},       -- Auctionator shopping lists made: name -> search strings
 	tsm = nil,        -- { DBMinBuyout = { [id] = n }, DBMarket = { [id] = n } } when TSM is installed
 	profession = nil, -- the open profession window's name
 	recipes = {},     -- what the open window lists: { id, name, learned, product, min, max, reagents = { { id, n } } }
@@ -248,6 +249,11 @@ Auctionator = { Constants = { SCAN_DAY_0 = 0 }, Database = {
 	end,
 	GetAuctionAgeByItemID = function(_, id) return M.ages[id] end,
 	GetVendorPriceByItemID = function(_, id) return M.auctionatorVendor[id] end,
+	ConvertToSearchString = function(_, term) return ('"%s";;;;;;;;;;;;;%d'):format(term.searchString, term.quantity) end,
+	CreateShoppingList = function(caller, name, terms)
+		assert(caller == "Leprofit")
+		M.lists[name] = terms
+	end,
 } } }
 function M.SetTSM(prices)
 	M.tsm = prices

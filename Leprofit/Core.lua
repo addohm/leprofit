@@ -20,6 +20,7 @@ local DEFAULTS = {
 	showUnknown = false,     -- also list recipes nobody has recorded a trainer or vendor for
 	professionButton = true, -- a Leprofit button on the profession window
 	hidden = {},             -- itemID -> true: marked "doesn't sell", never listed (Options unhides them)
+	plan = {},               -- the shopping list: { { prof, id (recipe), count } } (Shopping.lua)
 	recipes = {},            -- profession -> recipeID -> what the profession window showed (Recorder.lua)
 	crafts = 1,              -- the craft count in the materials panel
 	window = {},             -- the window: pos, size, tab

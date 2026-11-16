@@ -40,6 +40,13 @@ build you tried (`/leprofit help` shows it).
       Auctionator) search box focused: the link goes in. Ctrl-click opens the dressing room.
 - [ ] Hovering a material shows its tooltip.
 
+**Shopping**
+- [ ] Add to list adds the Crafts box's count; again adds more; the chat line says how many.
+- [ ] The Shopping tab: planned crafts with counts (typing a new one, 0 removes), Remove; the
+      materials combined with what you hold counted once; (vendor) and (no price) tags; the total.
+- [ ] Clear asks first. Send to Auctionator makes the "Leprofit" list in Auctionator's Shopping tab
+      with the right quantities, replaces it when sent again, and names the vendor materials in chat.
+
 **The window**
 - [ ] Rows (one line each) and the materials panel fit at the normal size; resizing works; Escape
       closes.

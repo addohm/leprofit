@@ -66,7 +66,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   or no price. Hover over a material for its tooltip; shift-click it to link it, for example into
   the auction house search.
   **Doesn't sell** hides the item from the list, after asking; Options lists the hidden items, where
-  you can unhide them.
+  you can unhide them. **Add to list** puts that many crafts on the Shopping tab (again adds more).
 
 **How profit is worked out**
 - An item sells for the lowest buyout (or the 14-day average, see Options) less your undercut, less
@@ -82,6 +82,17 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - `/leprofit why <item>` prints the whole sum for one craft in chat: each material, its price and
   where it's from, the buyout, 14-day average and vendor price, Auctionator's history (days seen,
   how many listed, the trend), the cut, the profit, and where to learn it. Type the name (or part of it), or shift-click the item.
+
+**Shopping tab** (saved per character)
+- The crafts you've planned, each with its count (type a new one and press Enter; 0 removes it) and
+  **Remove**.
+- Every material they need, combined: need, what you hold (counted once across the list), what to
+  buy, the price of one and the cost. Materials are bought as they are, not crafted first. Vendor
+  materials are tagged (vendor); ones with no price, (no price).
+- The gold to spend, **Clear** (after asking), and **Send to Auctionator**: it makes Auctionator's
+  "Leprofit" shopping list from what's left to buy (exact names and how many), replacing the last
+  one. Vendor materials are left out and named in chat. At the auction house, open Auctionator's
+  Shopping tab and pick the list.
 
 **Options tab** (saved per character)
 - Profit from the lowest buyout or the 14-day average (where there's no average, the lowest buyout

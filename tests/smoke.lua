@@ -424,6 +424,7 @@ barRow:Click()
 ok(inserted and inserted:find("item:2840", 1, true), "into the chat box")
 HandleModifiedItemClick, ChatFrameUtil = handler, nil
 WM.modifier = nil
+
 beltRow:Click()
 local function ShownButton(text)
 	for _, f in ipairs(WM.frames) do
@@ -456,6 +457,71 @@ ns.db.hidden[2851], ns.db.hidden[2862] = true, true
 ns.Window.Refresh()
 ShownButton("Unhide all"):Click()
 eq(next(ns.db.hidden), nil, "Unhide all")
+ns.Window.Select("crafts")
+
+-- The shopping list: Add to list in the materials panel, the Shopping tab, Send to Auctionator.
+local function Said(text)
+	for _, line in ipairs(WM.printed) do
+		if line:find(text, 1, true) then return true end
+	end
+end
+beltRow:Click()
+ns.db.crafts = 3
+ShownButton("Add to list"):Click()
+eq(#ns.db.plan, 1, "a craft planned")
+eq(ns.db.plan[1].count, 3, "as many as the Crafts box says")
+eq(ns.db.plan[1].prof, "Blacksmithing")
+ShownButton("Add to list"):Click()
+eq(#ns.db.plan, 1, "the same craft again")
+eq(ns.db.plan[1].count, 6, "adds more")
+ns.Shopping.Add("Blacksmithing", Find("Rough Sharpening Stone"), 4)
+ns.adb.vendorPrices[2835] = 20
+WM.items[2835] = { name = "Rough Stone" }
+WM.items[2840].count = 10
+local plannedCrafts, mats, total = ns.Shopping.Build()
+eq(#plannedCrafts, 2)
+eq(mats[1].itemID, 2840, "Copper Bar first, the dearest")
+eq(mats[1].need, 36, "6 crafts x 6 bars")
+eq(mats[1].buy, 26, "less the 10 you hold")
+eq(mats[1].cost, 26000)
+eq(mats[2].itemID, 2835)
+eq(mats[2].vendor, true, "Rough Stone from a vendor")
+eq(total, 26080, "the gold to spend")
+WM.printed = {}
+eq(ns.Shopping.SendToAuctionator(), 1, "one item to Auctionator")
+local list = WM.lists.Leprofit
+eq(#list, 1)
+ok(list[1]:find('"Copper Bar"', 1, true) and list[1]:find("26$"), "Copper Bar, 26 of them: " .. list[1])
+ok(Said("Left out because a vendor sells them: Rough Stone"), "the vendor item is named instead")
+-- A material nobody has a price for: the total says so.
+WM.auctionator[2840] = nil
+local _, _, noTotal, priced = ns.Shopping.Build()
+eq(noTotal, nil, "no total without every price")
+eq(priced, 80, "what has a price")
+WM.auctionator[2840] = 1000
+-- The tab: its rows, a count changed, Remove, and Clear (after asking).
+ns.Window.Select("shopping")
+local removeButton = ShownButton("Remove")
+ok(removeButton, "each planned craft has Remove")
+ns.Shopping.SetCount(1, 2)
+eq(ns.db.plan[1].count, 2, "a new count")
+ns.Shopping.SetCount(2, 0)
+eq(#ns.db.plan, 1, "a count of 0 removes it")
+ns.Window.Refresh()
+local clearButton = ns.Window.CurrentPanel().clear
+clearButton:Click()
+local confirm = ns.ConfirmDialog()
+ok(confirm:IsShown(), "Clear asks first")
+confirm.cancel:Click()
+eq(#ns.db.plan, 1, "Cancel keeps the list")
+clearButton:Click()
+confirm.accept:Click()
+eq(#ns.db.plan, 0, "Clear empties it")
+ns.Window.Refresh()
+WM.printed = {}
+eq(ns.Shopping.SendToAuctionator(), 0, "nothing to send")
+ok(Said("nothing to buy"), "and it says so")
+WM.items[2840].count = nil
 ns.Window.Select("crafts")
 ns.Window.Select("options")
 ns.Window.Select("crafts")

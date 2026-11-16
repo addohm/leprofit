@@ -10,6 +10,7 @@ change.
 - 0.1.0 built (2026-11-16): the core with the Crafts and Options tabs and
   the Blacksmithing module, install/release/data tools and tests. Not yet
   tried in game (TESTING.md).
+- The Shopping tab and Send to Auctionator (2026-11-16).
 - Forever checks (2026-11-16):
   - The auction house cut isn't published and the game's AH API doesn't
     report it, so 5% stays a setting. The minimum deposit is 1 copper since
@@ -52,7 +53,9 @@ Modelled on the source addon (a levelling planner), but for profit.
   Tailoring. Each character sees only its own professions.
 - **Window:** its own window, in leboof's style (dark panel, gold border, flat
   tabs). Tabs: Crafts (ranked list; click a row for its materials, a craft
-  count and Send to Auctionator), Shopping, Options.
+  count and Add to list), Shopping (planned crafts, combined materials
+  bought as they are, Clear, Send to Auctionator as one "Leprofit" list
+  without vendor materials), Options.
 - **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
   button on the profession window. Opening it opens your profession window
   too, every time (the owner's pick), so your known recipes are read.
@@ -63,10 +66,9 @@ Modelled on the source addon (a levelling planner), but for profit.
 ## Next
 
 1. Try 0.1.0 in game (TESTING.md) and fix what it finds.
-2. The Shopping tab and Send to Auctionator (the source addon's Shopping.lua).
-3. The other seven modules: Alchemy, Cooking, Enchanting, Engineering, First
+2. The other seven modules: Alchemy, Cooking, Enchanting, Engineering, First
    Aid, Leatherworking, Tailoring.
-4. The release kit: icon and banner art, LISTING.md.
+3. The release kit: icon and banner art, LISTING.md.
 
 ## Ideas
 

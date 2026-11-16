@@ -15,12 +15,14 @@ Util.lua
 Prices.lua
 Recipes.lua
 Profit.lua
+Shopping.lua
 Recorder.lua
 
 UI\Widgets.lua
 UI\Window.lua
 UI\Confirm.lua
 UI\Crafts.lua
+UI\Shopping.lua
 UI\Options.lua
 UI\Minimap.lua
 UI\ProfessionButton.lua
