@@ -53,11 +53,11 @@ local function Build(panel)
 
 	Add(UI.OptionHeading(panel, "Prices"))
 	local get, set = Setting("rankBy")
-	Add(UI.OptionSelect(panel, "Rank by", {
+	Add(UI.OptionSelect(panel, "Profit from", {
 		{ "buyout", "Lowest buyout" }, { "market", "Market value" },
 	}, get, set, { tooltip = {
-		"Rank by",
-		"Which auction price profit is worked out from. Lowest buyout is what you can sell for today (Auctionator or TSM). Market value is TSM's steadier average; without TSM the lowest buyout is used.",
+		"Profit from",
+		"Which auction price profit is worked out from. Lowest buyout is what you can sell for today (Auctionator or TSM). Market value is TSM's steadier average; without TSM the lowest buyout is used. Click the Crafts list's headings to sort it.",
 	} }))
 	get, set = Setting("showMarket")
 	Add(UI.OptionCheck(panel, "Show the Market column (needs TSM)", get, set, {

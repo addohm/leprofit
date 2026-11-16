@@ -35,11 +35,61 @@ local function PlaceColumns(f, name, owner)
 	Place(f.buyout, market and 2 or 1)
 	Place(f.cost, market and 3 or 2)
 	f.market:SetShown(market and true or false)
+	if f.buttons then f.buttons.market:SetShown(market and true or false) end
 	if name then
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", 28, -4)
 		name:SetPoint("RIGHT", owner, "RIGHT", -(n * COL_W + RIGHT), 0)
 	end
+end
+
+-- The headings: each is a button that sorts the list by its column; clicking it again reverses
+-- the order. The one sorting has an arrow: up for lowest (or A) first, down for highest first.
+local HEADINGS = { item = "Item", cost = "Cost", buyout = "Buyout", market = "Market", profit = "Profit" }
+local HEADING_TIPS = {
+	item = "The item the recipe makes. A recipe that makes several shows x3 (or so) after it.",
+	cost = "The materials for one craft, each at the cheaper of buying and crafting it.",
+	buyout = "The lowest buyout for one item.",
+	market = "TSM's market value for one item.",
+	profit = "One craft's items after the cut, less the cost. A recipe that makes several sells them all, so Cost and Buyout don't add up for it.",
+}
+local UP, DOWN = "|TInterface\\Buttons\\Arrow-Up-Up:12:12|t", "|TInterface\\Buttons\\Arrow-Down-Up:12:12|t"
+
+local function HeadingTexts(header)
+	for key, label in pairs(HEADINGS) do
+		local text = label
+		if ns.db.sortBy == key then
+			local arrow = ns.db.sortDesc and DOWN or UP
+			text = key == "item" and (label .. " " .. arrow) or (arrow .. " " .. label)
+		end
+		header[key]:SetText(text)
+	end
+end
+
+local function SortButton(header, key)
+	local fs = header[key]
+	local b = CreateFrame("Button", nil, header)
+	b:SetPoint("TOPLEFT", fs, "TOPLEFT", -2, 3)
+	b:SetPoint("BOTTOMRIGHT", fs, "BOTTOMRIGHT", 2, -3)
+	b:SetHighlightTexture("Interface\\Buttons\\UI-Listbox-Highlight2", "ADD")
+	b:SetScript("OnClick", function()
+		if ns.db.sortBy == key then
+			ns.db.sortDesc = not ns.db.sortDesc
+		else
+			ns.db.sortBy, ns.db.sortDesc = key, key ~= "item"
+		end
+		ns.Window.Refresh()
+	end)
+	b:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		GameTooltip:AddLine(HEADINGS[key])
+		GameTooltip:AddLine(HEADING_TIPS[key], 1, 1, 1, true)
+		GameTooltip:AddLine("Click to sort by it; again to reverse.", 0.7, 0.7, 0.7, true)
+		if key == "item" then GameTooltip:AddLine("Shift-click a row to link the item in chat or a search box.", 0.7, 0.7, 0.7, true) end
+		GameTooltip:Show()
+	end)
+	b:SetScript("OnLeave", GameTooltip_Hide)
+	header.buttons[key] = b
 end
 
 local function Column(parent, font, rightOffset, justify)
@@ -408,25 +458,16 @@ local function Build(p)
 	header:SetPoint("TOPLEFT", 0, -32)
 	header:SetPoint("RIGHT", panel, "RIGHT", -24, 0)
 	header:SetHeight(16)
-	local item = header:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-	item:SetPoint("LEFT", 28, 0)
-	item:SetText("Item")
-	for key, text in pairs({ cost = "Cost", buyout = "Buyout", market = "Market", profit = "Profit" }) do
+	header.buttons = {}
+	header.item = header:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+	header.item:SetPoint("LEFT", 28, 0)
+	header.item:SetWidth(160)
+	header.item:SetJustifyH("LEFT")
+	SortButton(header, "item")
+	for _, key in ipairs({ "cost", "buyout", "market", "profit" }) do
 		header[key] = Column(header, "GameFontNormalSmall", 0)
-		header[key]:SetText(text)
+		SortButton(header, key)
 	end
-	header:EnableMouse(true)
-	header:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_TOP")
-		GameTooltip:AddLine("The columns")
-		GameTooltip:AddLine("Cost: the materials for one craft, each at the cheaper of buying and crafting it.", 1, 1, 1, true)
-		GameTooltip:AddLine("Buyout: the lowest buyout for one item.", 1, 1, 1, true)
-		if ns.db.showMarket then GameTooltip:AddLine("Market: TSM's market value for one item.", 1, 1, 1, true) end
-		GameTooltip:AddLine("Profit: one craft's items after the cut, less the cost. A recipe that makes several (x3 after its name) sells them all, so Cost and Buyout don't add up for it.", 1, 1, 1, true)
-		GameTooltip:AddLine("Shift-click a row to link the item in chat or a search box.", 0.7, 0.7, 0.7, true)
-		GameTooltip:Show()
-	end)
-	header:SetScript("OnLeave", GameTooltip_Hide)
 	panel.header = header
 	local rule = panel:CreateTexture(nil, "BORDER")
 	rule:SetPoint("TOPLEFT", 0, -50)
@@ -471,6 +512,7 @@ local function Refresh()
 	panel.losses:SetChecked(ns.db.showLosses)
 	panel.known:SetChecked(ns.db.knownOnly)
 	PlaceColumns(panel.header)
+	HeadingTexts(panel.header)
 	local hasAuction = ns.Prices.HasAuctionator() or ns.Prices.HasTSM()
 	sourcesText:SetText((hasAuction and "Prices: " or ORANGE) .. ns.Prices.SourcesText() .. (hasAuction and "" or "|r"))
 

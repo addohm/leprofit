@@ -127,12 +127,34 @@ function Profit.Rows(prof)
 			end
 		end
 	end
+	Profit.Sort(rows)
+	return rows, left
+end
+
+-- What each Crafts column sorts by.
+local SORT_VALUE = {
+	item = function(r) return ns.ItemName(r.product):lower() end,
+	cost = function(r) return r.cost end,
+	buyout = function(r) return r.buyout end,
+	market = function(r) return r.market end,
+	profit = function(r) return r.profit end,
+}
+
+-- Sorts rows by the column picked (ns.db.sortBy, highest or Z first when sortDesc). Rows without a
+-- value in that column go last either way; ties go by recipe name.
+function Profit.Sort(rows)
+	local value = SORT_VALUE[ns.db.sortBy] or SORT_VALUE.profit
+	local desc = ns.db.sortDesc and true or false
+	for _, r in ipairs(rows) do r.sortValue = value(r) end
 	table.sort(rows, function(a, b)
-		if (a.profit ~= nil) ~= (b.profit ~= nil) then return a.profit ~= nil end
-		if a.profit and a.profit ~= b.profit then return a.profit > b.profit end
+		local va, vb = a.sortValue, b.sortValue
+		if (va ~= nil) ~= (vb ~= nil) then return va ~= nil end
+		if va ~= nil and va ~= vb then
+			if desc then return va > vb end
+			return va < vb
+		end
 		return a.rec.name < b.rec.name
 	end)
-	return rows, left
 end
 
 -- For n crafts: each material's need, what you hold, what to buy and its cost, and the gold you'd

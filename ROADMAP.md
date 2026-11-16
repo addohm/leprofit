@@ -28,8 +28,8 @@ Modelled on the source addon (a levelling planner), but for profit.
 
 - **Profit per craft** = auction price x (1 - cut) - materials. The cut is 5%
   by default, undercut 0; both are settings. The deposit is left out.
-- **Prices:** lowest buyout, ranked by it (a setting switches to market
-  value). Auctionator, then TSM; market value needs TSM, so its column is
+- **Prices:** profit from the lowest buyout (a setting switches to market
+  value); the list sorts by any column, Profit by default. Auctionator, then TSM; market value needs TSM, so its column is
   off by default and Options turns it on. Vendor prices for materials as in the source addon.
 - **Materials** cost the cheaper of buying and crafting them. Materials you
   own count at their market price; a second figure shows the gold you'd

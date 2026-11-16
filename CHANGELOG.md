@@ -30,6 +30,8 @@ All notable changes to leprofit. The format follows
     (Market,) Profit.
   - Shift-click a craft or a material to link it in chat or a search box;
     materials show their tooltip on hover.
+  - Click a heading to sort the Crafts list by it (again to reverse); the
+    order is saved per character. Options' "Rank by" is now "Profit from".
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

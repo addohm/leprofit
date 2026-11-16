@@ -154,6 +154,27 @@ for _, r in ipairs(rows) do eq(r.rec.source.kind, "known", "known only: " .. r.r
 eq(#rows, 3, "the three recipes the window showed")
 ok(left.unlearned > 50, "the rest counted: " .. left.unlearned)
 ns.db.knownOnly, ns.db.showLosses = false, false
+
+-- Sorting: by any column, either way round; rows without a value go last.
+ns.db.showLosses = true
+ns.db.sortBy, ns.db.sortDesc = "cost", false
+local sorted = ns.Profit.Rows("Blacksmithing")
+for i = 2, #sorted do
+	local a, b = sorted[i - 1].cost, sorted[i].cost
+	if a and b then ok(a <= b, "cost low to high") end
+	if not a then ok(not b, "rows without a cost last") end
+end
+eq(sorted[#sorted].cost, nil, "unpriced last")
+ns.db.sortDesc = true
+sorted = ns.Profit.Rows("Blacksmithing")
+ok(sorted[1].cost >= sorted[2].cost, "cost high to low")
+eq(sorted[#sorted].cost, nil, "unpriced still last")
+ns.db.sortBy, ns.db.sortDesc = "item", false
+sorted = ns.Profit.Rows("Blacksmithing")
+for i = 2, #sorted do
+	ok(ns.ItemName(sorted[i - 1].product):lower() <= ns.ItemName(sorted[i].product):lower(), "A to Z")
+end
+ns.db.sortBy, ns.db.sortDesc, ns.db.showLosses = "profit", true, false
 ns.db.showLosses = true
 local all = ns.Profit.Rows("Blacksmithing")
 ok(#all > #rows, "losses shown")
@@ -265,6 +286,26 @@ ns.Window.Refresh()
 eq(beltRow.cost.text, "60s", "the Cost column: 6 Copper Bars at 10s")
 eq(beltRow.cost.points[1][4], -(2 * 96 + 4), "Cost left of Buyout and Profit")
 eq(beltRow.profit.points[1][4], -4, "Profit at the right edge")
+
+-- The headings sort the list: click one, then again to reverse; an arrow marks it.
+local header = ns.Window.CurrentPanel().header
+ok(header.profit.text:find("Arrow-Down", 1, true), "Profit sorts, highest first")
+header.buttons.cost:Click()
+eq(ns.db.sortBy, "cost")
+eq(ns.db.sortDesc, true, "money columns start highest first")
+ok(header.cost.text:find("Arrow-Down", 1, true), "the arrow moves to Cost")
+eq(header.profit.text, "Profit", "and leaves Profit")
+header.buttons.cost:Click()
+eq(ns.db.sortDesc, false, "again: reversed")
+ok(header.cost.text:find("Arrow-Up", 1, true), "lowest first")
+header.buttons.item:Click()
+eq(ns.db.sortBy, "item")
+eq(ns.db.sortDesc, false, "Item starts A to Z")
+ok(header.item.text:find("Arrow-Up", 1, true))
+eq(header.buttons.market.shown, false, "no Market heading while the column is off")
+header.buttons.profit:Click()
+eq(ns.db.sortBy, "profit")
+eq(ns.db.sortDesc, true)
 
 -- Shift-click links the item; a plain click picks the row.
 WM.modifier = "CHATLINK"

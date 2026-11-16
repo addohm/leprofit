@@ -35,7 +35,10 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   buyout for one item) and **Profit** (per craft, after the cut). A recipe that makes several (x3
   after its name) sells them all, so its Cost and Buyout don't add up to its Profit. A Market column
   (TSM's market value) can be turned on in Options; it's off by default, since TSM doesn't seem to
-  run on Forever. Hover over the headings for a reminder.
+  run on Forever. Hover over a heading for what it means.
+- Click a heading to sort the list by it, and again to reverse the order; an arrow marks the one
+  sorting. Profit, highest first, is the default. Crafts without a value in that column go last.
+  The order is saved per character.
 - Shift-click a row to put the item's link in chat or a search box (the auction house's, or
   Auctionator's); ctrl-click shows it in the dressing room.
 - The grey line under a row says where to learn the recipe (trainer or pattern, its price, and the
@@ -71,7 +74,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   learn it. Type the name (or part of it), or shift-click the item.
 
 **Options tab** (saved per character)
-- Rank by lowest buyout or market value (TSM; without it the lowest buyout is used); show the Market
+- Profit from the lowest buyout or the market value (TSM; without it the lowest buyout is used); show the Market
   column; the auction house cut; your undercut; how old an auction price is before it's flagged.
 - Show only the recipes this character knows; crafts at a loss or without a price; and recipes
   nobody has recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody
