@@ -321,6 +321,28 @@ end
 local beltRow = Drawn("Copper Chain Belt")
 ok(beltRow, "the Crafts list shows Copper Chain Belt")
 ok(beltRow.profit.text and beltRow.profit.text ~= "", "with its profit")
+eq(beltRow.h, 22, "one line per row")
+local function TipHas(text)
+	for _, line in ipairs(GameTooltip.lines) do
+		if line:find(text, 1, true) then return true end
+	end
+end
+beltRow.scripts.OnEnter(beltRow)
+eq(GameTooltip.item, 2851, "the row's tooltip is the item's")
+ok(TipHas("Cost (one craft) | 60s"), "then the cost")
+ok(TipHas("Sells for after the 5% cut | 95s"), "what it sells for")
+ok(TipHas("Profit | 35s"), "the profit")
+ok(TipHas("Lowest buyout | 1g"), "the buyout")
+ok(not TipHas("Trend"), "no history lines without history")
+ok(TipHas("Shift-click to link it"), "and how to use it")
+ns.db.showLosses = true
+ns.Window.Refresh()
+local maceRow = Drawn("Copper Mace")
+ok(maceRow, "a recipe you'd learn, shown with the losses")
+maceRow.scripts.OnEnter(maceRow)
+ok(TipHas("Trainer 50c (skill 15)"), "its tooltip says where to learn it")
+ns.db.showLosses = false
+ns.Window.Refresh()
 eq(beltRow.market.shown, false, "the Market column is off by default")
 eq(ns.Window.CurrentPanel().header.market.shown, false, "and its heading")
 ns.db.showMarket = true
@@ -338,6 +360,11 @@ WM.history[2851] = {
 ns.db.showTrend, ns.db.showSeen, ns.db.showListed = true, true, true
 ns.Window.Refresh()
 eq(beltRow.seen.text, "2/14", "Seen")
+beltRow.scripts.OnEnter(beltRow)
+ok(TipHas("Seen | 2 of the last 14 days"), "the tooltip has the history")
+ok(TipHas("Trend | going up"))
+ok(TipHas("Listed at the last scan | 4"))
+ok(TipHas("14-day average | 95s"))
 eq(beltRow.listed.text, "4", "Listed")
 ok(beltRow.trend.text:find("Arrow-Up", 1, true), "Trend: up")
 eq(beltRow.cost.points[1][4], -(4 + 96 + 52 + 48 + 44 + 96), "Cost moves left of them")

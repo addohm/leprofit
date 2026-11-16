@@ -64,6 +64,9 @@ is the reference: check how it handles an area before writing that area.
   limits: guard secret values as the source addon's `ns.Plain` does).
 - The UI follows leboof's look (`addohm/leboof`, `Leboof/UI/`).
 - Settings are per character.
+- When the Crafts list gets dense, put per-craft detail in the row tooltip;
+  add a column only for things worth sorting or scanning by (the owner's
+  rule).
 - Tabs for indentation; a comment at the top of each file says what it's
   for, and comments explain why, in plain words (leboof's style).
 - Every module's `.toc` version matches the core's (the tests check).

@@ -3,7 +3,7 @@
 -- materials: what you hold, what to buy, and what that costs for the number of crafts you set.
 local _, ns = ...
 
-local ROW_H, NOTE_H = 22, 14
+local ROW_H = 22
 local RIGHT = 4           -- the list's right edge, inside the scroll bar
 local DETAIL_H = 214      -- the materials panel at the bottom
 local MAT_ROWS = 7        -- the most materials a recipe needs
@@ -134,39 +134,76 @@ local function CellText(key, row)
 	if key == "profit" then return row.profit and ns.Money(row.profit) or (GREY .. "?|r") end
 end
 
--- The notes under a craft: where to learn it and what it pays back in, and anything to be wary of.
-local function Notes(row, prof)
-	local notes, src = {}, row.rec.source
+-- Where to learn a recipe you don't know, and what it pays back in; nil for one you know.
+local function LearnLine(row, prof)
+	local src = row.rec.source
 	local skill = ns.Skill(prof)
 	local function SkillText(need)
 		if not need then return "" end
 		if skill and skill >= need then return (" (skill %d)"):format(need) end
 		return (" (skill %d, you have %s)"):format(need, skill or "none")
 	end
+	local text
 	if src.kind == "trainer" then
-		notes[#notes + 1] = "Trainer " .. ns.Money(src.cost) .. SkillText(src.skill)
+		text = "Trainer " .. ns.Money(src.cost) .. SkillText(src.skill)
 	elseif src.kind == "pattern" then
 		local s = src.sellers and src.sellers[1]
-		notes[#notes + 1] = "Pattern " .. ns.Money(src.cost) .. (s and (" from " .. s.vendor) or "") .. SkillText(src.skill)
+		text = "Pattern " .. ns.Money(src.cost) .. (s and (" from " .. s.vendor) or "") .. SkillText(src.skill)
 	elseif src.kind == "unknown" then
-		notes[#notes + 1] = "where to learn it isn't recorded"
+		text = "Where to learn it isn't recorded"
+	else
+		return nil
 	end
 	if row.payback then
-		notes[#notes + 1] = ("pays back in %d craft%s"):format(row.payback, row.payback == 1 and "" or "s")
+		text = text .. (", pays back in %d craft%s"):format(row.payback, row.payback == 1 and "" or "s")
 	end
-	if row.missing then
-		notes[#notes + 1] = ORANGE .. "no price for " .. ns.ItemName(row.missing) .. "|r" .. GREY
-	end
+	return text
+end
+
+-- Anything to be wary of about a craft.
+local function Warnings(row)
+	local list = {}
+	if row.missing then list[#list + 1] = "No price for " .. ns.ItemName(row.missing) end
 	if row.bop then
-		notes[#notes + 1] = "binds on pickup: vendor only"
+		list[#list + 1] = "Binds on pickup: vendor only"
 	elseif row.via == "vendor" then
-		notes[#notes + 1] = (row.buyout or row.market) and "a vendor pays more" or "no auction price: vendor price"
+		list[#list + 1] = (row.buyout or row.market) and "A vendor pays more than the auction house" or "No auction price: the vendor's price"
 	end
-	if row.stale then
-		notes[#notes + 1] = ORANGE .. ("auction price %d days old"):format(row.age) .. "|r" .. GREY
+	if row.stale then list[#list + 1] = ("The auction price is %d days old"):format(row.age) end
+	return list
+end
+
+-- The row's tooltip: the game's item tooltip, then Leprofit's sum, the auction history, where to
+-- learn the recipe and any warnings. The list's columns are a summary; this is the detail.
+local function RowTooltip(owner, row, prof)
+	local tip = GameTooltip
+	tip:SetOwner(owner, "ANCHOR_RIGHT")
+	tip:SetItemByID(row.product)
+	tip:AddLine(" ")
+	tip:AddLine("Leprofit")
+	local function Pair(label, value) tip:AddDoubleLine(label, value, 1, 0.82, 0, 1, 1, 1) end
+	Pair("Cost (one craft)", row.cost and ns.Money(row.cost) or (ORANGE .. "?|r"))
+	if row.value then
+		local how = row.via == "vendor" and "to a vendor" or ("after the " .. ns.db.cut .. "% cut")
+		Pair("Sells for " .. how .. (row.yield ~= 1 and (", x" .. row.yield) or ""), ns.Money(row.value))
 	end
-	if #notes == 0 then return nil end
-	return GREY .. table.concat(notes, " · ") .. "|r"
+	Pair("Profit", row.profit and ns.Money(row.profit) or (GREY .. "?|r"))
+	Pair("Lowest buyout", ns.Money(row.buyout))
+	local h = ns.Prices.History(row.product)
+	if h then
+		Pair(ns.Prices.MarketName(), ns.Money(row.market))
+		local trend = h.trend and ({ [1] = "going up", [0] = "level", [-1] = "going down" })[h.trend] or "-"
+		Pair("Trend", trend)
+		Pair("Seen", ("%d of the last %d days"):format(h.seen, h.days))
+		if h.listed then Pair("Listed at the last scan", tostring(h.listed)) end
+	elseif row.market then
+		Pair(ns.Prices.MarketName(), ns.Money(row.market))
+	end
+	local learn = LearnLine(row, prof)
+	if learn then tip:AddLine(learn, 1, 1, 1, true) end
+	for _, w in ipairs(Warnings(row)) do tip:AddLine(w, 1, 0.6, 0.2, true) end
+	tip:AddLine("Click for its materials. Shift-click to link it.", 0.6, 0.6, 0.6, true)
+	tip:Show()
 end
 
 local function ProfitText(p)
@@ -191,15 +228,8 @@ local function GetRow(i)
 	b.name:SetPoint("RIGHT", b, "RIGHT", -RIGHT, 0)
 	b.name:SetJustifyH("LEFT")
 	b.name:SetWordWrap(false)
-	b.note = b:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-	b.note:SetPoint("TOPLEFT", 28, -ROW_H + 2)
-	b.note:SetPoint("RIGHT", b, "RIGHT", -RIGHT, 0)
-	b.note:SetJustifyH("LEFT")
-	b.note:SetWordWrap(false)
-	b.line = CreateFrame("Frame", nil, b) -- the money columns sit on the first line
-	b.line:SetPoint("TOPLEFT")
-	b.line:SetPoint("TOPRIGHT")
-	b.line:SetHeight(ROW_H)
+	b.line = CreateFrame("Frame", nil, b) -- the columns
+	b.line:SetAllPoints()
 	for _, col in ipairs(COLUMNS) do
 		b[col.key] = Column(b.line, col.key == "profit" and "GameFontHighlight" or "GameFontHighlightSmall", col.w)
 	end
@@ -209,9 +239,7 @@ local function GetRow(i)
 		ns.Window.Refresh()
 	end)
 	b:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:SetItemByID(self.product)
-		GameTooltip:Show()
+		if self.row then RowTooltip(self, self.row, ns.CurrentProfession()) end
 	end)
 	b:SetScript("OnLeave", GameTooltip_Hide)
 	rows[i] = b
@@ -562,18 +590,15 @@ local function Refresh()
 	local y, picked = 0, nil
 	for i, row in ipairs(list) do
 		local b = GetRow(i)
-		local note = Notes(row, prof)
-		local h = note and (ROW_H + NOTE_H) or ROW_H
 		b:ClearAllPoints()
 		b:SetPoint("TOPLEFT", 0, -y)
 		b:SetPoint("RIGHT", inner, "RIGHT")
-		b:SetHeight(h)
-		y = y + h
-		b.product = row.product
+		b:SetHeight(ROW_H)
+		y = y + ROW_H
+		b.product, b.row = row.product, row
 		b.icon:SetTexture(ns.ItemIcon(row.product))
 		local yield = row.yield ~= 1 and (GREY .. " x" .. row.yield .. "|r") or ""
 		b.name:SetText(ns.ItemNameColored(row.product) .. yield)
-		b.note:SetText(note or "")
 		for _, col in ipairs(COLUMNS) do b[col.key]:SetText(CellText(col.key, row)) end
 		PlaceColumns(b, b.name, b)
 		b.sel:SetShown(row.product == selected)

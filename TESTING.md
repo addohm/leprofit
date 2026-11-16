@@ -41,7 +41,10 @@ build you tried (`/leprofit help` shows it).
 - [ ] Hovering a material shows its tooltip.
 
 **The window**
-- [ ] Rows, notes and the materials panel fit at the normal size; resizing works; Escape closes.
+- [ ] Rows (one line each) and the materials panel fit at the normal size; resizing works; Escape
+      closes.
+- [ ] Hovering a row: the item's tooltip, then Leprofit's lines (cost, sells for, profit, buyout,
+      history, where to learn it, warnings in orange).
 - [ ] Show losses, Known only and the Crafts box behave.
 - [ ] Doesn't sell asks first, over a dimmed window: Cancel and Escape hide nothing, Hide hides it.
 - [ ] Options > Hidden items lists it; Unhide and Unhide all bring items back.

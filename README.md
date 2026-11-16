@@ -50,10 +50,12 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   The order is saved per character.
 - Shift-click a row to put the item's link in chat or a search box (the auction house's, or
   Auctionator's); ctrl-click shows it in the dressing room.
-- The grey line under a row says where to learn the recipe (trainer or pattern, its price, and the
-  skill it needs), how many crafts pay that back, and anything to be wary of: a material with no
-  price, an item that binds on pickup or that a vendor pays more for, an auction price several days
-  old.
+- Each row is one line; hover over it for the detail. Under the game's item tooltip, Leprofit adds
+  the cost, what it sells for after the cut, the profit, the lowest buyout, Auctionator's history
+  (14-day average, trend, days seen, how many listed), where to learn the recipe (trainer or
+  pattern, its price, the skill it needs, and how many crafts pay it back), and anything to be wary
+  of: a material with no price, an item that binds on pickup or that a vendor pays more for, an
+  auction price several days old.
 - Crafts at 0 or negative profit are hidden; tick **Show losses** to see them. Tick **Known only**
   to list just the recipes this character knows. The line above the materials panel says how many
   crafts were left out and why: you don't know them, at a loss, without a price (a material or the

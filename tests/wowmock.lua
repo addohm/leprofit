@@ -85,6 +85,11 @@ UIParent = NewFrame("Frame", "UIParent")
 Minimap = NewFrame("Frame", "Minimap")
 GameTooltip = NewFrame("GameTooltip", "GameTooltip")
 function GameTooltip:SetItemByID(id) self.item = id end
+-- The tooltip keeps its lines (a double line as "left | right") until the next SetOwner.
+GameTooltip.lines = {}
+function GameTooltip:SetOwner() self.lines = {} end
+function GameTooltip:AddLine(text) table.insert(self.lines, tostring(text)) end
+function GameTooltip:AddDoubleLine(left, right) table.insert(self.lines, tostring(left) .. " | " .. tostring(right)) end
 function GameTooltip_Hide() end
 UISpecialFrames = {}
 SlashCmdList = {}

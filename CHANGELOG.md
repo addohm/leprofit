@@ -36,6 +36,8 @@ All notable changes to leprofit. The format follows
     Market column; TSM's value still wins if installed), Trend, Seen and
     Listed columns, and a line in `/leprofit why`. Profit can be worked out
     from the 14-day average.
+  - Rows are one line: hover over a row for the detail (the sum, the
+    history, where to learn it and any warnings) under the item's tooltip.
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material
