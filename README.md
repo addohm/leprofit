@@ -33,9 +33,18 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - The arrows at the top pick the profession.
 - Each row is a craft: the item, then **Cost** (the materials for one craft), **Buyout** (the lowest
   buyout for one item) and **Profit** (per craft, after the cut). A recipe that makes several (x3
-  after its name) sells them all, so its Cost and Buyout don't add up to its Profit. A Market column
-  (TSM's market value) can be turned on in Options; it's off by default, since TSM doesn't seem to
-  run on Forever. Hover over a heading for what it means.
+  after its name) sells them all, so its Cost and Buyout don't add up to its Profit. Hover over a
+  heading for what it means.
+- Four more columns come from Auctionator's price history (the days you scanned; it keeps 21 by
+  default). Each is turned on in Options:
+  - **Avg 14d:** each day's lowest price averaged over 14 days, steadier than the lowest buyout
+    (TSM's market value instead, if TSM is installed).
+  - **Trend:** an arrow up or down, or = when level: the last 3 days' prices against the 4 before.
+  - **Seen:** on how many of the last 14 days it was listed, e.g. 9/14. Days you didn't scan don't
+    count.
+  - **Listed:** how many were up at your last scan: your competition.
+  They show what was listed, not what sold. The history isn't part of Auctionator's official
+  interface, so if an Auctionator update changes it, these columns just show "-".
 - Click a heading to sort the list by it, and again to reverse the order; an arrow marks the one
   sorting. Profit, highest first, is the default. Crafts without a value in that column go last.
   The order is saved per character.
@@ -58,7 +67,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   you can unhide them.
 
 **How profit is worked out**
-- An item sells for the lowest buyout (or the market value, see Options) less your undercut, less
+- An item sells for the lowest buyout (or the 14-day average, see Options) less your undercut, less
   the auction house cut (5% by default). The deposit is left out: it's 1 copper at least, and it
   comes back when the item sells. If a vendor pays more, or the item binds on pickup, the vendor's
   price is used.
@@ -69,13 +78,13 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - Leprofit records vendor prices for materials, and the patterns vendors sell, when you open a
   vendor. Auctionator's own record of vendor prices counts too.
 - `/leprofit why <item>` prints the whole sum for one craft in chat: each material, its price and
-  where it's from, the buyout (and market value, with that column on) and vendor price, the cut,
-  the profit, and where to
-  learn it. Type the name (or part of it), or shift-click the item.
+  where it's from, the buyout, 14-day average and vendor price, Auctionator's history (days seen,
+  how many listed, the trend), the cut, the profit, and where to learn it. Type the name (or part of it), or shift-click the item.
 
 **Options tab** (saved per character)
-- Profit from the lowest buyout or the market value (TSM; without it the lowest buyout is used); show the Market
-  column; the auction house cut; your undercut; how old an auction price is before it's flagged.
+- Profit from the lowest buyout or the 14-day average (where there's no average, the lowest buyout
+  is used); the Avg 14d, Trend, Seen and Listed columns; the auction house cut; your undercut; how
+  old an auction price is before it's flagged.
 - Show only the recipes this character knows; crafts at a loss or without a price; and recipes
   nobody has recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody
   can learn; hidden by default because there are hundreds).

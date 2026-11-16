@@ -54,16 +54,30 @@ local function Build(panel)
 	Add(UI.OptionHeading(panel, "Prices"))
 	local get, set = Setting("rankBy")
 	Add(UI.OptionSelect(panel, "Profit from", {
-		{ "buyout", "Lowest buyout" }, { "market", "Market value" },
+		{ "buyout", "Lowest buyout" }, { "market", "14-day average" },
 	}, get, set, { tooltip = {
 		"Profit from",
-		"Which auction price profit is worked out from. Lowest buyout is what you can sell for today (Auctionator or TSM). Market value is TSM's steadier average; without TSM the lowest buyout is used. Click the Crafts list's headings to sort it.",
+		"Which auction price profit is worked out from. Lowest buyout is what you can sell for today. The 14-day average (Auctionator's history, or TSM's market value if installed) is steadier; where there's none, the lowest buyout is used. Click the Crafts list's headings to sort it.",
 	} }))
+	Add(UI.OptionHeading(panel, "Auction history columns"))
+	Add(UI.OptionText(panel, "From the days you scanned with Auctionator (it keeps 21 by default). They show what was listed, not what sold.", 30))
 	get, set = Setting("showMarket")
-	Add(UI.OptionCheck(panel, "Show the Market column (needs TSM)", get, set, {
-		"Market column",
-		"TradeSkillMaster's market value, a steadier average than the lowest buyout. TSM doesn't seem to run on Forever yet; without it the column shows -.",
+	Add(UI.OptionCheck(panel, "Avg 14d: the average lowest price", get, set, {
+		"Avg 14d", "Each day's lowest price averaged over the last 14 days (TSM's market value instead, if installed).",
 	}))
+	get, set = Setting("showTrend")
+	Add(UI.OptionCheck(panel, "Trend: prices going up, down or level", get, set, {
+		"Trend", "The last 3 days' prices against the 4 days before; level within 5%.",
+	}))
+	get, set = Setting("showSeen")
+	Add(UI.OptionCheck(panel, "Seen: days listed of the last 14", get, set, {
+		"Seen", "How many of the last 14 days it was listed in your scans. Days you didn't scan don't count.",
+	}))
+	get, set = Setting("showListed")
+	Add(UI.OptionCheck(panel, "Listed: how many at your last scan", get, set, {
+		"Listed", "How many were listed when your last scan saw it: the competition you'd post against.",
+	}))
+	Add(UI.OptionHeading(panel, "Auction house"))
 	get, set = Setting("cut")
 	Add(UI.OptionSelect(panel, "Auction house cut", Percent({ 0, 1, 3, 5, 10, 15 }), get, set, { tooltip = {
 		"Auction house cut",

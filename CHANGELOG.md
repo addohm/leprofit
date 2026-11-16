@@ -32,6 +32,10 @@ All notable changes to leprofit. The format follows
     materials show their tooltip on hover.
   - Click a heading to sort the Crafts list by it (again to reverse); the
     order is saved per character. Options' "Rank by" is now "Profit from".
+  - Auctionator's price history: optional Avg 14d (replacing the TSM-only
+    Market column; TSM's value still wins if installed), Trend, Seen and
+    Listed columns, and a line in `/leprofit why`. Profit can be worked out
+    from the 14-day average.
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

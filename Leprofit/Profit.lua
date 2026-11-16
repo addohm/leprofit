@@ -98,6 +98,8 @@ function Profit.Evaluate(prof, rec, memo)
 	if learn and learn > 0 and row.profit and row.profit > 0 then
 		row.payback = math.ceil(learn / row.profit)
 	end
+	local h = ns.Prices.History(rec.product)
+	if h then row.seen, row.days, row.listed, row.trend = h.seen, h.days, h.listed, h.trend end
 	row.age = ns.Prices.Age(rec.product)
 	row.stale = (row.age and row.age >= (ns.db.staleDays or 3)) and true or false
 	return row
@@ -137,6 +139,9 @@ local SORT_VALUE = {
 	cost = function(r) return r.cost end,
 	buyout = function(r) return r.buyout end,
 	market = function(r) return r.market end,
+	trend = function(r) return r.trend end,
+	seen = function(r) return r.seen end,
+	listed = function(r) return r.listed end,
 	profit = function(r) return r.profit end,
 }
 
@@ -209,12 +214,21 @@ function Profit.Explain(prof, rec)
 	end
 	Add("  Materials: " .. (row.cost and M(row.cost) or ("no price for " .. ns.ItemName(row.missing))) .. " a craft")
 	local vendor = ns.ItemSale(rec.product)
-	Add(("  Lowest buyout %s%s, a vendor pays %s%s"):format(M(row.buyout),
-		db.showMarket and (", market value " .. M(row.market)) or "", M(vendor), row.bop and "; binds on pickup" or ""))
+	Add(("  Lowest buyout %s, %s %s, a vendor pays %s%s"):format(M(row.buyout), ns.Prices.MarketName(),
+		M(row.market), M(vendor), row.bop and "; binds on pickup" or ""))
+	local h = ns.Prices.History(rec.product)
+	if h then
+		local trend = h.trend and ({ [1] = ", prices going up", [0] = ", prices level", [-1] = ", prices going down" })[h.trend] or ""
+		Add(("  Auctionator: listed on %d of the last %d days%s%s"):format(h.seen, h.days,
+			h.listed and (", " .. h.listed .. " listed at the last scan" .. (h.lastSeen > 0 and (" (" .. h.lastSeen .. (h.lastSeen == 1 and " day" or " days") .. " ago)") or "")) or "",
+			trend))
+	else
+		Add("  Auctionator: no price history for it")
+	end
 	if row.value then
 		local why = row.via == "vendor" and "to a vendor"
 			or ("after %d%% cut%s, by %s"):format(db.cut, db.undercut > 0 and (" and " .. db.undercut .. "% undercut") or "",
-				db.rankBy == "market" and "market value" or "lowest buyout")
+				db.rankBy == "market" and ns.Prices.MarketName() or "lowest buyout")
 		Add(("  Sells for %s each %s; makes %s"):format(M(row.value), why, row.yield))
 	else
 		Add("  No sale price: nobody has recorded one")

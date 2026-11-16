@@ -15,8 +15,8 @@ change.
     report it, so 5% stays a setting. The minimum deposit is 1 copper since
     the Nov 10 hotfix, so leaving the deposit out is fine.
   - Auctionator supports Forever (third-party guides). TSM doesn't seem to
-    work on Forever (the owner, 2026-11-16), so the Market column is off by
-    default.
+    work on Forever (the owner, 2026-11-16), so the average comes from
+    Auctionator's own price history instead.
   - CraftProfit Forever (vystery, all rights reserved, ~95k downloads) already
     puts profit tags in the profession window. leprofit differs with its own
     window, recipes you'd buy, and hiding what doesn't sell. Don't copy its
@@ -29,8 +29,10 @@ Modelled on the source addon (a levelling planner), but for profit.
 - **Profit per craft** = auction price x (1 - cut) - materials. The cut is 5%
   by default, undercut 0; both are settings. The deposit is left out.
 - **Prices:** profit from the lowest buyout (a setting switches to market
-  value); the list sorts by any column, Profit by default. Auctionator, then TSM; market value needs TSM, so its column is
-  off by default and Options turns it on. Vendor prices for materials as in the source addon.
+  value); the list sorts by any column, Profit by default. Auctionator, then TSM. Optional columns
+  from Auctionator's price history (internal, guarded): 14-day average (TSM's market value if
+  installed), trend, days seen of 14, listed at the last scan. Vendor prices for materials as in
+  the source addon.
 - **Materials** cost the cheaper of buying and crafting them. Materials you
   own count at their market price; a second figure shows the gold you'd
   actually spend after what you hold.
@@ -68,6 +70,7 @@ Modelled on the source addon (a levelling planner), but for profit.
 
 ## Ideas
 
+- Record your own sales from the "Auction successful" mails: real sales, not listings.
 - Count materials on your other characters (the source addon's Alts.lua).
 - Make-vs-buy across professions (smelting bars for Blacksmithing).
 - Profit lines in item tooltips.

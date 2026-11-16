@@ -1,10 +1,9 @@
--- Leprofit: the Crafts tab. A profession picker, the crafts that make gold (most profitable first,
--- with lowest buyout and market value), and for the one picked its materials: what you hold, what
--- to buy, and what that costs for the number of crafts you set.
+-- Leprofit: the Crafts tab. A profession picker, the crafts that make gold (most profitable first;
+-- each column sorts), with Auctionator's history in optional columns, and for the one picked its
+-- materials: what you hold, what to buy, and what that costs for the number of crafts you set.
 local _, ns = ...
 
 local ROW_H, NOTE_H = 22, 14
-local COL_W = 96          -- the Cost, Buyout, Market and Profit columns
 local RIGHT = 4           -- the list's right edge, inside the scroll bar
 local DETAIL_H = 214      -- the materials panel at the bottom
 local MAT_ROWS = 7        -- the most materials a recipe needs
@@ -21,39 +20,62 @@ local detail
 local rows = {}
 local selected -- the product of the recipe picked
 
--- Places the money columns of a row (or the header), left to right: Cost, Buyout, Market (when
--- that column is on) and Profit at the right edge; the name stops where they start.
-local function Place(fs, slot)
-	fs:ClearAllPoints()
-	fs:SetPoint("RIGHT", fs.anchor, "RIGHT", -(slot * COL_W + RIGHT), 0)
+-- The columns right of the item, left to right, with their widths. Profit is always at the right
+-- edge; the ones with a setting are turned on in Options.
+local COLUMNS = {
+	{ key = "cost", w = 96 },
+	{ key = "buyout", w = 96 },
+	{ key = "market", w = 96, setting = "showMarket" },
+	{ key = "trend", w = 44, setting = "showTrend" },
+	{ key = "seen", w = 48, setting = "showSeen" },
+	{ key = "listed", w = 52, setting = "showListed" },
+	{ key = "profit", w = 96 },
+}
+
+local function Shown(col)
+	return not col.setting or (ns.db[col.setting] and true or false)
 end
+
+-- Places a row's (or the header's) columns from the right edge, hiding the ones turned off; the
+-- name stops where they start.
 local function PlaceColumns(f, name, owner)
-	local market = ns.db.showMarket
-	local n = market and 4 or 3
-	Place(f.profit, 0)
-	Place(f.market, 1)
-	Place(f.buyout, market and 2 or 1)
-	Place(f.cost, market and 3 or 2)
-	f.market:SetShown(market and true or false)
-	if f.buttons then f.buttons.market:SetShown(market and true or false) end
+	local x = RIGHT
+	for i = #COLUMNS, 1, -1 do
+		local col = COLUMNS[i]
+		local fs, on = f[col.key], Shown(col)
+		fs:SetShown(on)
+		if f.buttons then f.buttons[col.key]:SetShown(on) end
+		if on then
+			fs:ClearAllPoints()
+			fs:SetPoint("RIGHT", fs.anchor, "RIGHT", -x, 0)
+			x = x + col.w
+		end
+	end
 	if name then
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", 28, -4)
-		name:SetPoint("RIGHT", owner, "RIGHT", -(n * COL_W + RIGHT), 0)
+		name:SetPoint("RIGHT", owner, "RIGHT", -x, 0)
 	end
 end
 
 -- The headings: each is a button that sorts the list by its column; clicking it again reverses
 -- the order. The one sorting has an arrow: up for lowest (or A) first, down for highest first.
-local HEADINGS = { item = "Item", cost = "Cost", buyout = "Buyout", market = "Market", profit = "Profit" }
+local HEADINGS = {
+	item = "Item", cost = "Cost", buyout = "Buyout", market = "Avg 14d", trend = "Trend", seen = "Seen",
+	listed = "Listed", profit = "Profit",
+}
 local HEADING_TIPS = {
 	item = "The item the recipe makes. A recipe that makes several shows x3 (or so) after it.",
 	cost = "The materials for one craft, each at the cheaper of buying and crafting it.",
-	buyout = "The lowest buyout for one item.",
-	market = "TSM's market value for one item.",
+	buyout = "The lowest buyout for one item, from your last scan.",
+	market = "The average of each day's lowest price over the last 14 days of your Auctionator scans (TSM's market value instead, if TSM is installed). One cheap listing doesn't swing it.",
+	trend = "The last 3 days' prices against the 4 days before: up, down, or level (within 5%).",
+	seen = "How many of the last 14 days it was listed in your scans. It only counts days you scanned.",
+	listed = "How many were listed at your last scan: the competition you'd post against.",
 	profit = "One craft's items after the cut, less the cost. A recipe that makes several sells them all, so Cost and Buyout don't add up for it.",
 }
 local UP, DOWN = "|TInterface\\Buttons\\Arrow-Up-Up:12:12|t", "|TInterface\\Buttons\\Arrow-Down-Up:12:12|t"
+local TREND = { [1] = UP, [0] = GREY .. "=|r", [-1] = DOWN }
 
 local function HeadingTexts(header)
 	for key, label in pairs(HEADINGS) do
@@ -92,13 +114,24 @@ local function SortButton(header, key)
 	header.buttons[key] = b
 end
 
-local function Column(parent, font, rightOffset, justify)
+local function Column(parent, font, width)
 	local fs = parent:CreateFontString(nil, "OVERLAY", font)
-	fs:SetWidth(COL_W - 6)
-	fs:SetJustifyH(justify or "RIGHT")
-	fs:SetPoint("RIGHT", parent, "RIGHT", rightOffset, 0)
+	fs:SetWidth(width - 6)
+	fs:SetJustifyH("RIGHT")
+	fs:SetPoint("RIGHT", parent, "RIGHT", 0, 0)
 	fs.anchor = parent
 	return fs
+end
+
+-- Each column's cell for a row.
+local function CellText(key, row)
+	if key == "cost" then return row.cost and ns.Money(row.cost) or (ORANGE .. "?|r") end
+	if key == "buyout" then return ns.Money(row.buyout) end
+	if key == "market" then return ns.Money(row.market) end
+	if key == "trend" then return row.trend and TREND[row.trend] or (GREY .. "-|r") end
+	if key == "seen" then return row.seen and (row.seen .. "/" .. row.days) or (GREY .. "-|r") end
+	if key == "listed" then return row.listed and tostring(row.listed) or (GREY .. "-|r") end
+	if key == "profit" then return row.profit and ns.Money(row.profit) or (GREY .. "?|r") end
 end
 
 -- The notes under a craft: where to learn it and what it pays back in, and anything to be wary of.
@@ -155,7 +188,7 @@ local function GetRow(i)
 	b.icon:SetPoint("TOPLEFT", 4, -2)
 	b.name = b:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 	b.name:SetPoint("TOPLEFT", 28, -4)
-	b.name:SetPoint("RIGHT", b, "RIGHT", -(3 * COL_W + RIGHT), 0)
+	b.name:SetPoint("RIGHT", b, "RIGHT", -RIGHT, 0)
 	b.name:SetJustifyH("LEFT")
 	b.name:SetWordWrap(false)
 	b.note = b:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -167,10 +200,9 @@ local function GetRow(i)
 	b.line:SetPoint("TOPLEFT")
 	b.line:SetPoint("TOPRIGHT")
 	b.line:SetHeight(ROW_H)
-	b.cost = Column(b.line, "GameFontHighlightSmall", 0)
-	b.buyout = Column(b.line, "GameFontHighlightSmall", 0)
-	b.market = Column(b.line, "GameFontHighlightSmall", 0)
-	b.profit = Column(b.line, "GameFontHighlight", 0)
+	for _, col in ipairs(COLUMNS) do
+		b[col.key] = Column(b.line, col.key == "profit" and "GameFontHighlight" or "GameFontHighlightSmall", col.w)
+	end
 	b:SetScript("OnClick", function(self)
 		if ns.ItemModifiedClick(self.product) then return end
 		selected = self.product
@@ -312,7 +344,7 @@ local function SaleText(row)
 	local each
 	if row.via == "auction" then
 		local price = (db.rankBy == "market" and (row.market or row.buyout)) or (row.buyout or row.market)
-		local which = (price == row.market and price ~= row.buyout) and "market value" or "lowest buyout"
+		local which = (price == row.market and price ~= row.buyout) and ns.Prices.MarketName() or "lowest buyout"
 		each = ("Sells for %s each (%s %s, less %d%% cut%s)."):format(ns.Money(row.value), which, ns.Money(price),
 			db.cut, db.undercut > 0 and (" and " .. db.undercut .. "% undercut") or "")
 	elseif row.via == "vendor" then
@@ -464,9 +496,9 @@ local function Build(p)
 	header.item:SetWidth(160)
 	header.item:SetJustifyH("LEFT")
 	SortButton(header, "item")
-	for _, key in ipairs({ "cost", "buyout", "market", "profit" }) do
-		header[key] = Column(header, "GameFontNormalSmall", 0)
-		SortButton(header, key)
+	for _, col in ipairs(COLUMNS) do
+		header[col.key] = Column(header, "GameFontNormalSmall", col.w)
+		SortButton(header, col.key)
 	end
 	panel.header = header
 	local rule = panel:CreateTexture(nil, "BORDER")
@@ -542,10 +574,7 @@ local function Refresh()
 		local yield = row.yield ~= 1 and (GREY .. " x" .. row.yield .. "|r") or ""
 		b.name:SetText(ns.ItemNameColored(row.product) .. yield)
 		b.note:SetText(note or "")
-		b.profit:SetText(ProfitText(row.profit))
-		b.buyout:SetText(ns.Money(row.buyout))
-		b.market:SetText(ns.Money(row.market))
-		b.cost:SetText(row.cost and ns.Money(row.cost) or (ORANGE .. "?|r"))
+		for _, col in ipairs(COLUMNS) do b[col.key]:SetText(CellText(col.key, row)) end
 		PlaceColumns(b, b.name, b)
 		b.sel:SetShown(row.product == selected)
 		if row.product == selected then picked = row end

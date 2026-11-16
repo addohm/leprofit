@@ -34,9 +34,82 @@ function Prices.Buyout(itemID)
 	return TSMPrice("DBMinBuyout", itemID)
 end
 
--- The market value: TSM only (Auctionator doesn't offer one).
+-- Auctionator's price history. Its database keeps, for each day you scanned (21 days by default),
+-- the lowest price seen and the most listed at once. That isn't in Auctionator's official API, so
+-- every step is checked: if an update changes it, these numbers are simply missing.
+local HISTORY_DAYS = 14
+Prices.HISTORY_DAYS = HISTORY_DAYS
+
+local function Today()
+	local A = rawget(_G, "Auctionator")
+	local zero = type(A) == "table" and type(A.Constants) == "table" and A.Constants.SCAN_DAY_0
+	if type(zero) ~= "number" then return nil end
+	return math.floor((time() - zero) / 86400)
+end
+
+local function ReadHistory(itemID)
+	local A = rawget(_G, "Auctionator")
+	local db = type(A) == "table" and A.Database
+	if type(db) ~= "table" or type(db.GetPriceHistory) ~= "function" then return nil end
+	local list = ns.Try(db.GetPriceHistory, db, tostring(itemID))
+	if type(list) ~= "table" or #list == 0 then return nil end
+	local days = {}
+	for _, e in ipairs(list) do
+		local day, price = type(e) == "table" and tonumber(e.rawDay), type(e) == "table" and tonumber(e.minSeen)
+		if day and price then days[#days + 1] = { day = day, price = price, listed = tonumber(e.available) } end
+	end
+	if #days == 0 then return nil end
+	table.sort(days, function(a, b) return a.day > b.day end)
+	local today = Today() or days[1].day
+	local sum, seen, recent, nRecent, before, nBefore = 0, 0, 0, 0, 0, 0
+	for _, d in ipairs(days) do
+		local ago = today - d.day
+		if ago >= 0 and ago < HISTORY_DAYS then
+			sum, seen = sum + d.price, seen + 1
+		end
+		if ago >= 0 and ago < 3 then
+			recent, nRecent = recent + d.price, nRecent + 1
+		elseif ago >= 3 and ago < 7 then
+			before, nBefore = before + d.price, nBefore + 1
+		end
+	end
+	local h = { seen = seen, days = HISTORY_DAYS, listed = days[1].listed, lastSeen = today - days[1].day }
+	if seen > 0 then h.average = math.floor(sum / seen) end
+	-- The trend: the last 3 days against the 4 before, level within 5%.
+	if nRecent > 0 and nBefore > 0 then
+		local a, b = recent / nRecent, before / nBefore
+		h.trend = (a > b * 1.05 and 1) or (a < b * 0.95 and -1) or 0
+	end
+	return h
+end
+
+-- An item's history: { average (14 days), seen (days listed of the last 14), days (14), listed
+-- (at the last scan it was seen), lastSeen (days ago), trend (1 up, 0 level, -1 down) }, or nil.
+-- Read once per moment: the list asks for it many times.
+local memo, memoStamp = {}, nil
+function Prices.History(itemID)
+	local stamp = GetTime()
+	if stamp ~= memoStamp then memo, memoStamp = {}, stamp end
+	local h = memo[itemID]
+	if h == nil then
+		h = ReadHistory(itemID) or false
+		memo[itemID] = h
+	end
+	return h or nil
+end
+
+-- The steadier price: TSM's market value if TSM is installed, else the 14-day average of
+-- Auctionator's daily lowest prices.
 function Prices.Market(itemID)
-	return TSMPrice("DBMarket", itemID)
+	local tsm = TSMPrice("DBMarket", itemID)
+	if tsm then return tsm end
+	local h = Prices.History(itemID)
+	return h and h.average
+end
+
+-- What that steadier price is called, for the sums' text.
+function Prices.MarketName()
+	return TSM() and "TSM's market value" or "14-day average"
 end
 
 -- How many days old Auctionator's price is, or nil if unknown.

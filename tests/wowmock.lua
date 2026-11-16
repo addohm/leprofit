@@ -8,6 +8,8 @@ local M = {
 	auctionatorVendor = {}, -- itemID -> what a vendor charges, as Auctionator recorded it
 	ages = {},        -- itemID -> days
 	opened = {},      -- skill lines C_TradeSkillUI.OpenTradeSkill was asked to open
+	history = {},     -- itemID -> Auctionator's price history, newest first: { rawDay, minSeen, maxSeen, available }
+	today = 2000,     -- Auctionator's day number for today
 	tsm = nil,        -- { DBMinBuyout = { [id] = n }, DBMarket = { [id] = n } } when TSM is installed
 	profession = nil, -- the open profession window's name
 	recipes = {},     -- what the open window lists: { id, name, learned, product, min, max, reagents = { { id, n } } }
@@ -126,7 +128,8 @@ function strsplit(sep, s, n)
 end
 function wipe(t) for k in pairs(t) do t[k] = nil end return t end
 tinsert = table.insert
-function GetTime() return 1000 end
+function GetTime() return M.clock or 1000 end
+function time() return M.today * 86400 + 3600 end
 -- Modified clicks: set WM.modifier to "CHATLINK" (shift) or "DRESSUP" (ctrl); links land in WM.linked.
 M.linked = {}
 function IsModifiedClick(action) return M.modifier ~= nil and M.modifier == action end
@@ -228,7 +231,12 @@ C_MerchantFrame = {
 }
 
 -- Price addons
-Auctionator = { API = { v1 = {
+Auctionator = { Constants = { SCAN_DAY_0 = 0 }, Database = {
+	GetPriceHistory = function(_, key)
+		assert(type(key) == "string", "Auctionator's keys are strings")
+		return M.history[tonumber(key)] or {}
+	end,
+}, API = { v1 = {
 	GetAuctionPriceByItemID = function(caller, id)
 		assert(caller == "Leprofit", "Auctionator needs the caller's name")
 		return M.auctionator[id]

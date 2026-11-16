@@ -20,7 +20,8 @@ is the reference: check how it handles an area before writing that area.
     (`Leprofit.RegisterProfession`), events, slash commands
   - `Util.lua`: safe calls, `ns.Plain` (secret values), money text, item
     names/icons/sale info, counts, skill
-  - `Prices.lua`: Auctionator and TSM prices, vendor prices
+  - `Prices.lua`: Auctionator and TSM prices, vendor prices, and Auctionator's
+    price history (its internal database: every step guarded)
   - `Recipes.lua`: a profession's recipes (module data + what the window
     showed), one per name, and where to learn each
   - `Profit.lua`: the sums: make-vs-buy, sale value after the cut, profit,

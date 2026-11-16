@@ -64,6 +64,52 @@ eq(row.value, 19000, "2g less 5%")
 ns.db.rankBy = "buyout"
 WM.SetTSM(nil)
 
+-- Auctionator's history: the 14-day average, days seen, how many listed, and the trend.
+WM.clock = 2001 -- a new moment, so the history is read again
+WM.history[2851] = {
+	{ rawDay = "2000", minSeen = 12000, maxSeen = 12500, available = 7 }, -- today
+	{ rawDay = "1999", minSeen = 11000, maxSeen = 11000, available = 9 },
+	{ rawDay = "1998", minSeen = 11000, maxSeen = 11000 },                -- the last 3 days: 11333
+	{ rawDay = "1996", minSeen = 9000, maxSeen = 9000 },
+	{ rawDay = "1994", minSeen = 9000, maxSeen = 9000 },                  -- the 4 before: 9000
+	{ rawDay = "1980", minSeen = 1000, maxSeen = 1000 },                  -- over 14 days ago
+}
+local h = ns.Prices.History(2851)
+eq(h.seen, 5, "listed on 5 of the last 14 days")
+eq(h.average, 10400, "the 14-day average")
+eq(h.listed, 7, "7 listed at the last scan")
+eq(h.trend, 1, "going up")
+row = ns.Profit.Evaluate("Blacksmithing", belt)
+eq(row.market, 10400, "the average stands in for TSM's market value")
+eq(row.seen, 5)
+eq(row.listed, 7)
+eq(row.trend, 1)
+ns.db.rankBy = "market"
+eq(ns.Profit.Evaluate("Blacksmithing", belt).value, 9880, "profit from the average: 10400 less 5%")
+ns.db.rankBy = "buyout"
+WM.SetTSM({ DBMarket = { [2851] = 20000 } })
+eq(ns.Profit.Evaluate("Blacksmithing", belt).market, 20000, "TSM's market value wins when installed")
+WM.SetTSM(nil)
+WM.clock = 2002
+WM.history[2851][1].minSeen, WM.history[2851][2].minSeen, WM.history[2851][3].minSeen = 9100, 8900, 9000
+eq(ns.Prices.History(2851).trend, 0, "level within 5%")
+WM.clock = 2003
+WM.history[2851][1].minSeen = 5000
+eq(ns.Prices.History(2851).trend, -1, "going down")
+WM.clock = 2004
+WM.history[2851] = { { rawDay = "2000", minSeen = 10000, maxSeen = 10000 } }
+eq(ns.Prices.History(2851).trend, nil, "no trend from one day")
+WM.clock = 2005
+WM.history[2851] = nil
+eq(ns.Prices.History(2851), nil, "no history")
+eq(ns.Profit.Evaluate("Blacksmithing", belt).market, nil)
+-- If Auctionator changes its insides, the history is just missing.
+local database = Auctionator.Database
+Auctionator.Database = nil
+WM.clock = 2006
+eq(ns.Prices.History(2851), nil, "no database, no history")
+Auctionator.Database = database
+
 -- Auctionator's record of what vendors charge counts as a vendor price.
 WM.auctionatorVendor[2840] = 700
 eq(ns.Profit.Evaluate("Blacksmithing", belt).cost, 4200, "Copper Bars at Auctionator's vendor price")
@@ -283,6 +329,28 @@ eq(beltRow.market.shown, true, "Options turns it on")
 eq(ns.Window.CurrentPanel().header.market.shown, true)
 ns.db.showMarket = false
 ns.Window.Refresh()
+-- The history columns: each turned on in Options, placed between Buyout and Profit.
+WM.clock = 3000
+WM.history[2851] = {
+	{ rawDay = "2000", minSeen = 10000, maxSeen = 10000, available = 4 },
+	{ rawDay = "1995", minSeen = 9000, maxSeen = 9000 },
+}
+ns.db.showTrend, ns.db.showSeen, ns.db.showListed = true, true, true
+ns.Window.Refresh()
+eq(beltRow.seen.text, "2/14", "Seen")
+eq(beltRow.listed.text, "4", "Listed")
+ok(beltRow.trend.text:find("Arrow-Up", 1, true), "Trend: up")
+eq(beltRow.cost.points[1][4], -(4 + 96 + 52 + 48 + 44 + 96), "Cost moves left of them")
+local headings = ns.Window.CurrentPanel().header.buttons
+eq(headings.seen.shown, true, "their headings sort too")
+headings.seen:Click()
+eq(ns.db.sortBy, "seen")
+headings.profit:Click()
+ns.db.showTrend, ns.db.showSeen, ns.db.showListed = false, false, false
+WM.history[2851] = nil
+WM.clock = 3001
+ns.Window.Refresh()
+eq(beltRow.seen.shown, false, "off again")
 eq(beltRow.cost.text, "60s", "the Cost column: 6 Copper Bars at 10s")
 eq(beltRow.cost.points[1][4], -(2 * 96 + 4), "Cost left of Buyout and Profit")
 eq(beltRow.profit.points[1][4], -4, "Profit at the right edge")
@@ -383,7 +451,17 @@ end
 WM.printed = {}
 SlashCmdList.LEPROFIT("why Copper Chain Belt")
 ok(Printed("6 x Copper Bar: 10s each (auction) = 60s"), "each material and its price")
-ok(Printed("Lowest buyout 1g, a vendor pays 2s"), "the buyout, no market value with the column off")
+ok(Printed("Lowest buyout 1g, 14-day average "), "the buyout and the average")
+ok(Printed("Auctionator: no price history for it"), "the history line")
+WM.history[2851] = {
+	{ rawDay = "1999", minSeen = 10000, maxSeen = 10000, available = 3 },
+	{ rawDay = "1995", minSeen = 8000, maxSeen = 8000 },
+}
+WM.clock, WM.printed = 4000, {}
+SlashCmdList.LEPROFIT("why Copper Chain Belt")
+ok(Printed("Auctionator: listed on 2 of the last 14 days, 3 listed at the last scan (1 day ago), prices going up"), "the history in words")
+ok(Printed("14-day average 90s"), "and the average")
+WM.history[2851], WM.clock = nil, 4001
 ok(Printed("Sells for 95s each after 5% cut, by lowest buyout"), "the sale")
 ok(Printed("Profit: 35s a craft"), "the profit")
 WM.printed = {}
