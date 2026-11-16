@@ -11,3 +11,4 @@ All notable changes to leprofit. The format follows
 - Standard docs: README, CLAUDE, CHANGELOG, DEPLOY, SECURITY and ROADMAP (2026-11-16).
 - Filled the docs in with what's known; open questions are marked TODO
   (2026-11-16).
+- the source addon 1.2.0 as a gitignored reference copy (2026-11-16).

@@ -14,6 +14,8 @@ TODO: what is leprofit? (Ask the owner before starting; plan first.)
 - `README.md`, `CHANGELOG.md`, `DEPLOY.md`, `SECURITY.md`, `ROADMAP.md`: the
   standard docs
 - `CLAUDE.md`: this file
+- `source.zip`, `.source/` (gitignored): its author's Profession
+  Planner 1.2.0, a Forever profession-levelling addon, kept as reference
 
 TODO: add the code layout once there is some.
 
@@ -38,3 +40,5 @@ TODO: none yet. What language/stack will it use?
 ## Don't
 
 - Commit secrets (`.env`, keys, tokens).
+- Copy code from the source addon, or commit it: its licence is all rights
+  reserved and forbids copying or modifying it.
