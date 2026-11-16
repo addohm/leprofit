@@ -36,12 +36,16 @@ Modelled on the source addon (a levelling planner), but for profit.
   count and Send to Auctionator), Shopping, Options.
 - **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
   button on the profession window.
+- **Settings** are per character.
+- **Tools** as in leboof: an install script for the Windows PC, a release
+  script that zips the addons, and tests that run here.
 
 ## Next
 
 1. Check Forever's auction house cut (faction and neutral) and that
    Auctionator and TSM run on Forever.
-2. First build: core + one profession module, Crafts tab only.
+2. First build: core + the Blacksmithing module, Crafts tab only, with the
+   install, release and test tools.
 
 ## Ideas
 

@@ -40,6 +40,7 @@ TODO: add the code layout once there is some.
 - Lua for WoW: Forever (Classic content, modern client, Midnight addon
   limits: guard secret values as the source addon's `ns.Plain` does).
 - The UI follows leboof's look (`addohm/leboof`, `Leboof/UI/`).
+- Settings are per character.
 
 ## Don't
 
