@@ -1,9 +1,13 @@
 # leprofit
 
-No code yet: the repo holds only the standard docs (2026-11-16). Source:
-[addohm/leprofit](https://github.com/addohm/leprofit).
+A World of Warcraft: Forever addon for profit crafting. For each of your
+professions it lists which crafts make gold (auction price after the cut, less
+what the materials cost), most profitable first, including recipes you'd have
+to buy first. It's for crafters who want to know what's worth making and
+selling.
 
-TODO: what is leprofit, and who is it for?
+No code yet: the design is agreed (see [ROADMAP.md](ROADMAP.md)), building
+hasn't started. Source: [addohm/leprofit](https://github.com/addohm/leprofit).
 
 ## Getting started
 

@@ -4,10 +4,12 @@ Orientation for Claude working on leprofit. Read this first.
 
 ## What this is
 
-No code yet; the repo holds only the standard docs. The remote is
-`addohm/leprofit` on GitHub.
+A WoW: Forever addon (Lua, interface 16001) that ranks the crafts that make
+gold. A core addon plus one module per profession. The agreed design is in
+ROADMAP.md. No code yet; the remote is `addohm/leprofit` on GitHub.
 
-TODO: what is leprofit? (Ask the owner before starting; plan first.)
+Discuss each feature with the owner before building it. the source addon (below)
+is the reference: check how it handles an area before writing that area.
 
 ## Layout
 
@@ -35,7 +37,9 @@ TODO: add the code layout once there is some.
 
 ## Conventions
 
-TODO: none yet. What language/stack will it use?
+- Lua for WoW: Forever (Classic content, modern client, Midnight addon
+  limits: guard secret values as the source addon's `ns.Plain` does).
+- The UI follows leboof's look (`addohm/leboof`, `Leboof/UI/`).
 
 ## Don't
 
