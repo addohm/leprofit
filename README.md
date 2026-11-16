@@ -34,11 +34,13 @@ the minimap, or the coin button on the profession window, which opens it on that
   skill it needs), how many crafts pay that back, and anything to be wary of: a material with no
   price, an item that binds on pickup or that a vendor pays more for, an auction price several days
   old.
-- Crafts at 0 or negative profit are hidden; tick **Show losses** to see them. The line above the
-  materials panel says how many crafts were left out and why.
+- Crafts at 0 or negative profit are hidden; tick **Show losses** to see them. Tick **Known only**
+  to list just the recipes this character knows. The line above the materials panel says how many
+  crafts were left out and why.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
   material's need, what you hold, what to buy and its cost for the number of **Crafts** you set.
-  **Doesn't sell** hides the item from the list (Options can show it again).
+  **Doesn't sell** hides the item from the list, after asking; Options lists the hidden items, where
+  you can unhide them.
 
 **How profit is worked out**
 - An item sells for the lowest buyout (or the market value, see Options) less your undercut, less
@@ -55,10 +57,12 @@ the minimap, or the coin button on the profession window, which opens it on that
 **Options tab** (saved per character)
 - Rank by lowest buyout or market value; the auction house cut; your undercut; how old an auction
   price is before it's flagged.
-- Show crafts at a loss or without a price, items marked doesn't sell, and recipes nobody has
-  recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody can learn;
-  hidden by default because there are hundreds).
+- Show only the recipes this character knows; crafts at a loss or without a price; and recipes
+  nobody has recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody
+  can learn; hidden by default because there are hundreds).
 - The minimap button and the profession window button.
+- **Hidden items:** everything marked Doesn't sell, each with an **Unhide** button, and
+  **Unhide all**. Defaults leaves them hidden.
 
 **Commands**
 

@@ -54,7 +54,6 @@ local function Notes(row, prof)
 	if row.stale then
 		notes[#notes + 1] = ORANGE .. ("auction price %d days old"):format(row.age) .. "|r" .. GREY
 	end
-	if row.hidden then notes[#notes + 1] = "marked doesn't sell" end
 	if #notes == 0 then return nil end
 	return GREY .. table.concat(notes, " · ") .. "|r"
 end
@@ -153,15 +152,20 @@ local function BuildDetail()
 	detail.hide = CreateFrame("Button", nil, detail, "UIPanelButtonTemplate")
 	detail.hide:SetSize(110, 22)
 	detail.hide:SetPoint("TOPRIGHT", -2, -10)
+	detail.hide:SetText("Doesn't sell")
 	detail.hide:SetScript("OnClick", function()
-		if not selected then return end
-		ns.db.hidden[selected] = (not ns.db.hidden[selected]) or nil
-		ns.Window.Refresh()
+		local item = selected
+		if not item then return end
+		ns.Confirm(("Hide %s from the list?\n\nHidden items are listed in Options, where you can unhide them.")
+			:format(ns.ItemNameColored(item)), "Hide", function()
+			ns.db.hidden[item] = true
+			ns.Window.Refresh()
+		end)
 	end)
 	detail.hide:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
 		GameTooltip:AddLine("Doesn't sell")
-		GameTooltip:AddLine("Hide this item from the list, for example when nobody buys it. Options can show hidden items again.", 1, 1, 1, true)
+		GameTooltip:AddLine("Hide this item from the list, for example when nobody buys it. Hidden items are listed in Options, where you can unhide them.", 1, 1, 1, true)
 		GameTooltip:Show()
 	end)
 	detail.hide:SetScript("OnLeave", GameTooltip_Hide)
@@ -262,7 +266,6 @@ local function ShowDetail(row, prof)
 	local n = math.max(1, ns.db.crafts or 1)
 	detail.icon:SetTexture(ns.ItemIcon(row.product))
 	detail.title:SetText(ns.ItemNameColored(row.product))
-	detail.hide:SetText(row.hidden and "Sells again" or "Doesn't sell")
 	if not detail.count:HasFocus() then detail.count:SetText(tostring(n)) end
 	detail.sale:SetText(SaleText(row))
 	detail.learn:SetText(LearnText(row, prof))
@@ -345,6 +348,18 @@ local function Build(p)
 	lossesLabel:SetText("Show losses")
 	panel.losses = losses
 
+	local known = CreateFrame("CheckButton", nil, panel, "UICheckButtonTemplate")
+	known:SetSize(26, 26)
+	known:SetPoint("LEFT", lossesLabel, "RIGHT", 12, 0)
+	known:SetScript("OnClick", function(self)
+		ns.db.knownOnly = self:GetChecked() and true or false
+		ns.Window.Refresh()
+	end)
+	local knownLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+	knownLabel:SetPoint("LEFT", known, "RIGHT", 2, 0)
+	knownLabel:SetText("Known only")
+	panel.known = known
+
 	sourcesText = panel:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
 	sourcesText:SetPoint("RIGHT", picker, "RIGHT", -4, 0)
 	sourcesText:SetJustifyH("RIGHT")
@@ -388,6 +403,7 @@ end
 
 local function LeftOutText(left)
 	local parts = {}
+	if left.unlearned > 0 then parts[#parts + 1] = left.unlearned .. " you don't know" end
 	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss or without a price" end
 	if left.hidden > 0 then parts[#parts + 1] = left.hidden .. " marked doesn't sell" end
 	if left.unknown > 0 then parts[#parts + 1] = left.unknown .. " with no known trainer or vendor" end
@@ -398,6 +414,7 @@ end
 local function Refresh()
 	picker.Sync()
 	panel.losses:SetChecked(ns.db.showLosses)
+	panel.known:SetChecked(ns.db.knownOnly)
 	local hasAuction = ns.Prices.HasAuctionator() or ns.Prices.HasTSM()
 	sourcesText:SetText((hasAuction and "Prices: " or ORANGE) .. ns.Prices.SourcesText() .. (hasAuction and "" or "|r"))
 
@@ -439,7 +456,8 @@ local function Refresh()
 
 	if #list == 0 then
 		emptyText:SetText(hasAuction
-			and "Nothing makes a profit at these prices. Tick Show losses to see everything."
+			and (ns.db.knownOnly and "Nothing you know makes a profit at these prices. Untick Known only, or tick Show losses."
+				or "Nothing makes a profit at these prices. Tick Show losses to see everything.")
 			or "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again.")
 		emptyText:Show()
 	else

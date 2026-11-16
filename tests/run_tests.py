@@ -17,7 +17,7 @@ TESTS = ROOT / "tests"
 CORE = "Leprofit"
 MODULES = sorted(p.name for p in ROOT.glob("Leprofit_*") if (p / f"{p.name}.toc").exists())
 ALLOWED_GLOBALS = {"Leprofit", "LeprofitDB", "LeprofitCharDB", "LeprofitFrame", "LeprofitMinimapButton",
-                   "SLASH_LEPROFIT1", "Leprofit_OnAddonCompartmentClick"}
+                   "LeprofitConfirm", "SLASH_LEPROFIT1", "Leprofit_OnAddonCompartmentClick"}
 
 OPTIONAL_GLOBALS = {"GetTradeSkillLine", "GetMerchantItemInfo", "GetProfessions", "GetProfessionInfo",
                     "GetCoinTextureString", "GetItemCount", "GetItemInfo", "issecretvalue", "TSM_API"}

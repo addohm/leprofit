@@ -10,10 +10,10 @@ local DEFAULTS = {
 	undercut = 0,            -- how far under the price you post, percent
 	staleDays = 3,           -- flag items whose auction price is this many days old or more
 	showLosses = false,      -- also list crafts at 0 or negative profit, and ones that can't be priced
-	showHidden = false,      -- also list items marked "doesn't sell"
+	knownOnly = false,       -- list only recipes this character knows
 	showUnknown = false,     -- also list recipes nobody has recorded a trainer or vendor for
 	professionButton = true, -- a Leprofit button on the profession window
-	hidden = {},             -- itemID -> true: marked "doesn't sell"
+	hidden = {},             -- itemID -> true: marked "doesn't sell", never listed (Options unhides them)
 	recipes = {},            -- profession -> recipeID -> what the profession window showed (Recorder.lua)
 	crafts = 1,              -- the craft count in the materials panel
 	window = {},             -- the window: pos, size, tab
@@ -22,7 +22,7 @@ local DEFAULTS = {
 ns.DEFAULTS = DEFAULTS
 
 -- The settings the Options tab's Defaults button puts back.
-ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showLosses", "showHidden", "showUnknown", "professionButton" }
+ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showLosses", "knownOnly", "showUnknown", "professionButton" }
 
 local ACCOUNT_DEFAULTS = {
 	vendorPrices = {}, -- itemID -> copper for one, recorded at vendors

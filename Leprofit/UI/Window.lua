@@ -192,6 +192,11 @@ local function Build()
 	frame:SetScript("OnShow", function() Window.Select(current or ns.db.window.tab) end)
 end
 
+-- The window's frame, once built (Confirm.lua puts its dialog over it).
+function Window.Frame()
+	return frame
+end
+
 -- The panel of the page being shown (used by the tests).
 function Window.CurrentPanel()
 	return current and pages[current] and pages[current].panel

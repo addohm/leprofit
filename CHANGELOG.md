@@ -14,7 +14,9 @@ All notable changes to leprofit. The format follows
     of buying and crafting), with notes on where to learn each recipe and
     how many crafts pay it back, and a materials panel for n crafts. Losses,
     "doesn't sell" items and recipes with no known source are hidden by
-    default.
+    default; Known only lists just the recipes you know.
+  - Doesn't sell asks before hiding an item, and Options lists the hidden
+    items with Unhide and Unhide all.
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

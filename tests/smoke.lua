@@ -138,9 +138,16 @@ ns.db.hidden[990002] = true
 rows, left = ns.Profit.Rows("Blacksmithing")
 eq(rows[1].rec.name, "Copper Chain Belt", "marked doesn't sell")
 eq(left.hidden, 1)
-ns.db.showHidden = true
-eq(ns.Profit.Rows("Blacksmithing")[1].rec.name, "Test Sharpened Thing", "shown again")
-ns.db.showHidden, ns.db.hidden[990002] = false, nil
+ns.db.hidden[990002] = nil
+eq(ns.Profit.Rows("Blacksmithing")[1].rec.name, "Test Sharpened Thing", "unhidden")
+-- Known only: the recipes you'd have to learn are left out, and counted.
+ns.db.showLosses = true
+ns.db.knownOnly = true
+rows, left = ns.Profit.Rows("Blacksmithing")
+for _, r in ipairs(rows) do eq(r.rec.source.kind, "known", "known only: " .. r.rec.name) end
+eq(#rows, 3, "the three recipes the window showed")
+ok(left.unlearned > 50, "the rest counted: " .. left.unlearned)
+ns.db.knownOnly, ns.db.showLosses = false, false
 ns.db.showLosses = true
 local all = ns.Profit.Rows("Blacksmithing")
 ok(#all > #rows, "losses shown")
@@ -232,6 +239,38 @@ local beltRow = Drawn("Copper Chain Belt")
 ok(beltRow, "the Crafts list shows Copper Chain Belt")
 ok(beltRow.profit.text and beltRow.profit.text ~= "", "with its profit")
 beltRow:Click()
+local function ShownButton(text)
+	for _, f in ipairs(WM.frames) do
+		if f.kind == "Button" and f.shown and f.text == text then return f end
+	end
+end
+
+-- Doesn't sell asks first: Cancel leaves the item listed, Hide hides it.
+local selectedItem = beltRow.product
+ShownButton("Doesn't sell"):Click()
+local dialog = ns.ConfirmDialog()
+ok(dialog and dialog:IsShown(), "Doesn't sell asks first")
+ok(dialog.text.text:find("Copper Chain Belt", 1, true), "naming the item")
+eq(ns.db.hidden[selectedItem], nil, "nothing hidden yet")
+dialog.cancel:Click()
+ok(not dialog:IsShown(), "Cancel closes it")
+eq(ns.db.hidden[selectedItem], nil, "Cancel hides nothing")
+ShownButton("Doesn't sell"):Click()
+dialog.accept:Click()
+eq(ns.db.hidden[selectedItem], true, "Hide hides it")
+ok(not dialog:IsShown(), "and closes the dialog")
+
+-- Options lists it with an Unhide button.
+ns.Window.Select("options")
+local unhide = ShownButton("Unhide")
+ok(unhide, "the hidden item has an Unhide button")
+unhide:Click()
+eq(ns.db.hidden[selectedItem], nil, "Unhide brings it back")
+ns.db.hidden[2851], ns.db.hidden[2862] = true, true
+ns.Window.Refresh()
+ShownButton("Unhide all"):Click()
+eq(next(ns.db.hidden), nil, "Unhide all")
+ns.Window.Select("crafts")
 ns.Window.Select("options")
 ns.Window.Select("crafts")
 SlashCmdList.LEPROFIT("")

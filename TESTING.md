@@ -25,7 +25,9 @@ build you tried (`/leprofit help` shows it).
 
 **The window**
 - [ ] Rows, notes and the materials panel fit at the normal size; resizing works; Escape closes.
-- [ ] Show losses, Doesn't sell / Sells again and the Crafts box behave.
+- [ ] Show losses, Known only and the Crafts box behave.
+- [ ] Doesn't sell asks first, over a dimmed window: Cancel and Escape hide nothing, Hide hides it.
+- [ ] Options > Hidden items lists it; Unhide and Unhide all bring items back.
 - [ ] Options: each setting changes the list; Defaults puts them back; they're per character.
 - [ ] The coin button on the profession window sits left of its close button and opens Leprofit on
       that profession; the option hides it.

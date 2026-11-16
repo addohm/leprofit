@@ -71,7 +71,7 @@ Profit.SaleValue = SaleValue -- (tests)
 --   rec, product, yield; cost (materials for one craft) and materials = { { itemID, count, price,
 --   how } }, missing (a material nobody has a price for); buyout, market, value (one item, after
 --   the cut), via ("auction"/"vendor"), bop; profit (one craft); payback (crafts to pay for
---   learning it); age (days since the auction price); stale; hidden (marked "doesn't sell").
+--   learning it); age (days since the auction price); stale.
 function Profit.Evaluate(prof, rec, memo)
 	memo = memo or {}
 	local row = { rec = rec, product = rec.product, yield = math.max(rec.yield or 1, 1), cost = 0, materials = {} }
@@ -100,23 +100,24 @@ function Profit.Evaluate(prof, rec, memo)
 	end
 	row.age = ns.Prices.Age(rec.product)
 	row.stale = (row.age and row.age >= (ns.db.staleDays or 3)) and true or false
-	row.hidden = ns.db.hidden[rec.product] and true or false
 	return row
 end
 
 -- The rows the Crafts tab lists for a profession, most profitable first, and how many were left out:
--- { losses = n, hidden = n, unknown = n }.
+-- { unlearned = n (Known only), unknown = n (no known source), hidden = n, losses = n }.
 function Profit.Rows(prof)
 	local db, memo = ns.db, {}
-	local rows, left = {}, { losses = 0, hidden = 0, unknown = 0 }
+	local rows, left = {}, { unlearned = 0, unknown = 0, hidden = 0, losses = 0 }
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
-		if rec.source.kind == "unknown" and not db.showUnknown then
+		if db.knownOnly and rec.source.kind ~= "known" then
+			left.unlearned = left.unlearned + 1
+		elseif rec.source.kind == "unknown" and not db.showUnknown then
 			left.unknown = left.unknown + 1
+		elseif db.hidden[rec.product] then
+			left.hidden = left.hidden + 1
 		else
 			local row = Profit.Evaluate(prof, rec, memo)
-			if row.hidden and not db.showHidden then
-				left.hidden = left.hidden + 1
-			elseif (not row.profit or row.profit <= 0) and not db.showLosses then
+			if (not row.profit or row.profit <= 0) and not db.showLosses then
 				left.losses = left.losses + 1
 			else
 				rows[#rows + 1] = row
