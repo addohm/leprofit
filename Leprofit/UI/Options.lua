@@ -59,6 +59,11 @@ local function Build(panel)
 		"Rank by",
 		"Which auction price profit is worked out from. Lowest buyout is what you can sell for today (Auctionator or TSM). Market value is TSM's steadier average; without TSM the lowest buyout is used.",
 	} }))
+	get, set = Setting("showMarket")
+	Add(UI.OptionCheck(panel, "Show the Market column (needs TSM)", get, set, {
+		"Market column",
+		"TradeSkillMaster's market value, a steadier average than the lowest buyout. TSM doesn't seem to run on Forever yet; without it the column shows -.",
+	}))
 	get, set = Setting("cut")
 	Add(UI.OptionSelect(panel, "Auction house cut", Percent({ 0, 1, 3, 5, 10, 15 }), get, set, { tooltip = {
 		"Auction house cut",

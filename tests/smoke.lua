@@ -254,6 +254,14 @@ end
 local beltRow = Drawn("Copper Chain Belt")
 ok(beltRow, "the Crafts list shows Copper Chain Belt")
 ok(beltRow.profit.text and beltRow.profit.text ~= "", "with its profit")
+eq(beltRow.market.shown, false, "the Market column is off by default")
+eq(ns.Window.CurrentPanel().header.market.shown, false, "and its heading")
+ns.db.showMarket = true
+ns.Window.Refresh()
+eq(beltRow.market.shown, true, "Options turns it on")
+eq(ns.Window.CurrentPanel().header.market.shown, true)
+ns.db.showMarket = false
+ns.Window.Refresh()
 beltRow:Click()
 local function ShownButton(text)
 	for _, f in ipairs(WM.frames) do
@@ -308,7 +316,7 @@ end
 WM.printed = {}
 SlashCmdList.LEPROFIT("why Copper Chain Belt")
 ok(Printed("6 x Copper Bar: 10s each (auction) = 60s"), "each material and its price")
-ok(Printed("Lowest buyout 1g"), "the buyout")
+ok(Printed("Lowest buyout 1g, a vendor pays 2s"), "the buyout, no market value with the column off")
 ok(Printed("Sells for 95s each after 5% cut, by lowest buyout"), "the sale")
 ok(Printed("Profit: 35s a craft"), "the profit")
 WM.printed = {}

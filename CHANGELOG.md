@@ -24,6 +24,8 @@ All notable changes to leprofit. The format follows
     "Not listed" line counts losses and crafts without a price apart; an
     empty list says when your recipes haven't been read yet.
   - Auctionator's record of vendor prices counts as a vendor price.
+  - The Market column (TSM's market value) is off by default, since TSM
+    doesn't seem to run on Forever; Options turns it on.
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

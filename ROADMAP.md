@@ -14,8 +14,9 @@ change.
   - The auction house cut isn't published and the game's AH API doesn't
     report it, so 5% stays a setting. The minimum deposit is 1 copper since
     the Nov 10 hotfix, so leaving the deposit out is fine.
-  - Auctionator supports Forever (third-party guides). TSM on Forever is
-    unconfirmed; market value stays blank without it.
+  - Auctionator supports Forever (third-party guides). TSM doesn't seem to
+    work on Forever (the owner, 2026-11-16), so the Market column is off by
+    default.
   - CraftProfit Forever (vystery, all rights reserved, ~95k downloads) already
     puts profit tags in the profession window. leprofit differs with its own
     window, recipes you'd buy, and hiding what doesn't sell. Don't copy its
@@ -27,9 +28,9 @@ Modelled on the source addon (a levelling planner), but for profit.
 
 - **Profit per craft** = auction price x (1 - cut) - materials. The cut is 5%
   by default, undercut 0; both are settings. The deposit is left out.
-- **Prices:** lowest buyout and market value side by side, ranked by lowest
-  buyout (a setting switches it). Auctionator, then TSM; market value needs
-  TSM. Vendor prices for materials as in the source addon.
+- **Prices:** lowest buyout, ranked by it (a setting switches to market
+  value). Auctionator, then TSM; market value needs TSM, so its column is
+  off by default and Options turns it on. Vendor prices for materials as in the source addon.
 - **Materials** cost the cheaper of buying and crafting them. Materials you
   own count at their market price; a second figure shows the gold you'd
   actually spend after what you hold.

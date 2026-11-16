@@ -187,8 +187,8 @@ function Profit.Explain(prof, rec)
 	end
 	Add("  Materials: " .. (row.cost and M(row.cost) or ("no price for " .. ns.ItemName(row.missing))) .. " a craft")
 	local vendor = ns.ItemSale(rec.product)
-	Add(("  Lowest buyout %s, market value %s, a vendor pays %s%s"):format(M(row.buyout), M(row.market),
-		M(vendor), row.bop and "; binds on pickup" or ""))
+	Add(("  Lowest buyout %s%s, a vendor pays %s%s"):format(M(row.buyout),
+		db.showMarket and (", market value " .. M(row.market)) or "", M(vendor), row.bop and "; binds on pickup" or ""))
 	if row.value then
 		local why = row.via == "vendor" and "to a vendor"
 			or ("after %d%% cut%s, by %s"):format(db.cut, db.undercut > 0 and (" and " .. db.undercut .. "% undercut") or "",

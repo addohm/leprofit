@@ -16,7 +16,8 @@ build you tried (`/leprofit help` shows it).
 - [ ] Opening the Blacksmithing window, then `/leprofit status`, says how many recipes you know.
 - [ ] With Auctionator and a scan, the Crafts tab lists crafts with profit and lowest buyout.
 - [ ] A craft's profit matches by hand: lowest buyout x 0.95, less the materials (check one).
-- [ ] With TSM, the Market column fills in, and Options > Rank by > Market value changes profit.
+- [ ] The Market column is off; Options > Show the Market column turns it on (shows "-" without
+      TSM), and Profit and Buyout move back to make room.
 - [ ] A recipe you don't know shows its trainer cost or pattern, and "pays back in N crafts".
 - [ ] Opening a vendor that sells a material (Weak Flux, Coal...) prints "recorded N material
       prices"; a pattern vendor prints "recorded Plans: ...".

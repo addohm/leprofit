@@ -21,11 +21,29 @@ local detail
 local rows = {}
 local selected -- the product of the recipe picked
 
+-- Places the money columns of a row (or the header): Profit, Buyout and, when the Market column
+-- is on, Market at the right; the name stops where they start.
+local function PlaceColumns(f, name, owner)
+	local market = ns.db.showMarket
+	local n = market and 3 or 2
+	f.profit:ClearAllPoints()
+	f.profit:SetPoint("RIGHT", f.profit.anchor, "RIGHT", -((n - 1) * COL_W + RIGHT), 0)
+	f.buyout:ClearAllPoints()
+	f.buyout:SetPoint("RIGHT", f.buyout.anchor, "RIGHT", -((n - 2) * COL_W + RIGHT), 0)
+	f.market:SetShown(market and true or false)
+	if name then
+		name:ClearAllPoints()
+		name:SetPoint("TOPLEFT", 28, -4)
+		name:SetPoint("RIGHT", owner, "RIGHT", -(n * COL_W + RIGHT), 0)
+	end
+end
+
 local function Column(parent, font, rightOffset, justify)
 	local fs = parent:CreateFontString(nil, "OVERLAY", font)
 	fs:SetWidth(COL_W - 6)
 	fs:SetJustifyH(justify or "RIGHT")
 	fs:SetPoint("RIGHT", parent, "RIGHT", rightOffset, 0)
+	fs.anchor = parent
 	return fs
 end
 
@@ -378,9 +396,13 @@ local function Build(p)
 	local item = header:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 	item:SetPoint("LEFT", 28, 0)
 	item:SetText("Item")
-	Column(header, "GameFontNormalSmall", -(2 * COL_W + RIGHT)):SetText("Profit")
-	Column(header, "GameFontNormalSmall", -(COL_W + RIGHT)):SetText("Buyout")
-	Column(header, "GameFontNormalSmall", -RIGHT):SetText("Market")
+	header.profit = Column(header, "GameFontNormalSmall", -(2 * COL_W + RIGHT))
+	header.profit:SetText("Profit")
+	header.buyout = Column(header, "GameFontNormalSmall", -(COL_W + RIGHT))
+	header.buyout:SetText("Buyout")
+	header.market = Column(header, "GameFontNormalSmall", -RIGHT)
+	header.market:SetText("Market")
+	panel.header = header
 	local rule = panel:CreateTexture(nil, "BORDER")
 	rule:SetPoint("TOPLEFT", 0, -50)
 	rule:SetPoint("TOPRIGHT", 0, -50)
@@ -423,6 +445,7 @@ local function Refresh()
 	picker.Sync()
 	panel.losses:SetChecked(ns.db.showLosses)
 	panel.known:SetChecked(ns.db.knownOnly)
+	PlaceColumns(panel.header)
 	local hasAuction = ns.Prices.HasAuctionator() or ns.Prices.HasTSM()
 	sourcesText:SetText((hasAuction and "Prices: " or ORANGE) .. ns.Prices.SourcesText() .. (hasAuction and "" or "|r"))
 
@@ -455,6 +478,7 @@ local function Refresh()
 		b.profit:SetText(ProfitText(row.profit))
 		b.buyout:SetText(ns.Money(row.buyout))
 		b.market:SetText(ns.Money(row.market))
+		PlaceColumns(b, b.name, b)
 		b.sel:SetShown(row.product == selected)
 		if row.product == selected then picked = row end
 		b:Show()

@@ -31,8 +31,9 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
 - The arrows at the top pick the profession.
-- Each row is a craft: the item, its profit per craft, the lowest buyout and the market value (TSM
-  only).
+- Each row is a craft: the item, its profit per craft and the lowest buyout. A Market column (TSM's
+  market value) can be turned on in Options; it's off by default, since TSM doesn't seem to run on
+  Forever.
 - The grey line under a row says where to learn the recipe (trainer or pattern, its price, and the
   skill it needs), how many crafts pay that back, and anything to be wary of: a material with no
   price, an item that binds on pickup or that a vendor pays more for, an auction price several days
@@ -60,12 +61,13 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - Leprofit records vendor prices for materials, and the patterns vendors sell, when you open a
   vendor. Auctionator's own record of vendor prices counts too.
 - `/leprofit why <item>` prints the whole sum for one craft in chat: each material, its price and
-  where it's from, the buyout, market value and vendor price, the cut, the profit, and where to
+  where it's from, the buyout (and market value, with that column on) and vendor price, the cut,
+  the profit, and where to
   learn it. Type the name (or part of it), or shift-click the item.
 
 **Options tab** (saved per character)
-- Rank by lowest buyout or market value; the auction house cut; your undercut; how old an auction
-  price is before it's flagged.
+- Rank by lowest buyout or market value (TSM; without it the lowest buyout is used); show the Market
+  column; the auction house cut; your undercut; how old an auction price is before it's flagged.
 - Show only the recipes this character knows; crafts at a loss or without a price; and recipes
   nobody has recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody
   can learn; hidden by default because there are hundreds).
