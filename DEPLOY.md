@@ -1,6 +1,9 @@
 # Deploying leprofit
 
-TODO: where it runs (host, service, URL).
+Nothing to deploy yet: no code.
+
+TODO: where will it run or be released (host, service, URL, or a release
+site)?
 
 ## First-time setup
 

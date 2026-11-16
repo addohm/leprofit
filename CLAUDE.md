@@ -4,11 +4,18 @@ Orientation for Claude working on leprofit. Read this first.
 
 ## What this is
 
-TODO: what the project does, its main parts, and how they fit together.
+No code yet; the repo holds only the standard docs. The remote is
+`addohm/leprofit` on GitHub.
+
+TODO: what is leprofit? (Ask the owner before starting; plan first.)
 
 ## Layout
 
-TODO: the important folders and files, one line each.
+- `README.md`, `CHANGELOG.md`, `DEPLOY.md`, `SECURITY.md`, `ROADMAP.md`: the
+  standard docs
+- `CLAUDE.md`: this file
+
+TODO: add the code layout once there is some.
 
 ## Workflow
 
@@ -22,11 +29,11 @@ TODO: the important folders and files, one line each.
    - SECURITY.md: when secrets, access or permissions change
    - ROADMAP.md: when something on it is done, or new plans are made
    - this file: when the layout, workflow or conventions change
-4. Run the checks (TODO: the lint and test commands), then commit.
+4. Run the checks (TODO: none yet; add the lint and test commands with the first code), then commit.
 
 ## Conventions
 
-TODO: coding style, naming, anything a newcomer would get wrong.
+TODO: none yet. What language/stack will it use?
 
 ## Don't
 

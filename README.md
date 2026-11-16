@@ -1,14 +1,17 @@
 # leprofit
 
-TODO: one or two sentences on what this is and who it's for.
+No code yet: the repo holds only the standard docs (2026-11-16). Source:
+[addohm/leprofit](https://github.com/addohm/leprofit).
+
+TODO: what is leprofit, and who is it for?
 
 ## Getting started
 
-TODO: what you need installed, and how to set it up and run it locally.
+TODO: nothing to install yet. Fill in once there's code.
 
 ## Usage
 
-TODO: how to use it.
+TODO: fill in once there's code.
 
 ## Docs
 

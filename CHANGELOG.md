@@ -9,3 +9,5 @@ All notable changes to leprofit. The format follows
 ### Added
 
 - Standard docs: README, CLAUDE, CHANGELOG, DEPLOY, SECURITY and ROADMAP (2026-11-16).
+- Filled the docs in with what's known; open questions are marked TODO
+  (2026-11-16).
