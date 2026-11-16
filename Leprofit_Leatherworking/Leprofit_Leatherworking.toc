@@ -1,0 +1,9 @@
+## Interface: 16001
+## Title: Leprofit - Leatherworking
+## Notes: Leatherworking for Leprofit: its recipes, trainer costs and patterns. Needs Leprofit.
+## Author: addohm
+## Version: 0.1.0
+## IconTexture: Interface\Icons\Trade_LeatherWorking
+## Dependencies: Leprofit
+
+Data.lua

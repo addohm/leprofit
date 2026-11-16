@@ -24,7 +24,36 @@ end
 
 -- The module registered, and its recipes are listed one per name.
 ok(ns.professions.Blacksmithing, "Blacksmithing is registered")
-eq(ns.CurrentProfession(), "Blacksmithing", "the profession shown")
+eq(ns.CurrentProfession(), ns.professionOrder[1], "the first module shown at first")
+
+-- Every module: registered, recipes that make something from something, no recipe in two
+-- professions, and a skill line for opening its window.
+local PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Tailoring" }
+eq(#ns.professionOrder, #PROFESSIONS, "all eight modules")
+local owner, shared = {}, 0
+for i, name in ipairs(PROFESSIONS) do
+	eq(ns.professionOrder[i], name, "in alphabetical order")
+	local def = ns.professions[name]
+	local n = 0
+	for id, r in pairs(def.recipes) do
+		n = n + 1
+		ok(r.name and r.product and #r.reagents > 0, name .. " recipe " .. id .. " makes something from something")
+		if owner[id] then shared = shared + 1 end
+		owner[id] = name
+	end
+	ok(n > 20, name .. " has recipes: " .. n)
+	ok(#ns.Recipes.List(name) > 0, name .. " lists them")
+	WM.skills[name] = 1
+	WM.opened = {}
+	ok(ns.Recorder.OpenWindow(name), name .. " can open its window")
+	WM.skills[name] = nil
+end
+-- A few recipes are listed by several professions (Forever's camp and home items); more than a
+-- handful would mean a data refresh went wrong.
+ok(shared <= 16, "recipes listed by more than one profession: " .. shared)
+WM.opened = {}
+ns.db.profession = "Blacksmithing"
+eq(ns.CurrentProfession(), "Blacksmithing", "the profession picked")
 local list = ns.Recipes.List("Blacksmithing")
 ok(#list > 400, "one recipe per name: " .. #list)
 local names = {}

@@ -7,10 +7,18 @@ build you tried (`/leprofit help` shows it).
 ## 0.1.0
 
 **Install**
-- [ ] `tools\install_forever.cmd` installs `Leprofit` and `Leprofit_Blacksmithing`, stamps the
+- [ ] `tools\install_forever.cmd` installs `Leprofit` and all eight `Leprofit_*` modules, stamps the
       build, and packs the zip on the desktop.
 - [ ] Both show in the AddOns list; ticking only Leprofit gives "No profession modules are
       enabled" in the window.
+
+**Each profession** (on a character that has it, with its module ticked)
+- [ ] Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking, Tailoring: opening
+      Leprofit opens that profession's window, `/leprofit status` counts its known recipes, and the
+      Crafts list fills in. Recipes that make several (Engineering's ammo, Cooking) show x2 and
+      so on.
+- [ ] Enchanting lists rods, oils and wands, no enchants.
+- [ ] The arrows step through only the modules ticked for this character.
 
 **Recipes and prices**
 - [ ] Opening the Blacksmithing window, then `/leprofit status`, says how many recipes you know.

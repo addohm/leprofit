@@ -47,6 +47,9 @@ All notable changes to leprofit. The format follows
     prices and patterns at vendors.
   - The Blacksmithing module: 506 recipes, 86 trainer costs and 32 patterns
     from the source addon's data.
+  - The other seven modules from the source addon's data: Alchemy (200 recipes),
+    Cooking (164), Enchanting (85 that make an item), Engineering (272),
+    First Aid (41), Leatherworking (595) and Tailoring (471).
   - Tools: the Windows install script, the release zip script, the module
     data generator, and tests with a fake client.
 

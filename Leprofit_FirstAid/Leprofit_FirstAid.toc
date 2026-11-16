@@ -1,0 +1,9 @@
+## Interface: 16001
+## Title: Leprofit - First Aid
+## Notes: First Aid for Leprofit: its recipes, trainer costs and patterns. Needs Leprofit.
+## Author: addohm
+## Version: 0.1.0
+## IconTexture: Interface\Icons\Spell_Holy_SealOfSacrifice
+## Dependencies: Leprofit
+
+Data.lua

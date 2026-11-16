@@ -121,9 +121,11 @@ function Recorder.OpenWindow(prof)
 end
 
 -- Learning a recipe (at a trainer, or from a pattern) marks it known straight away; the game
--- says which recipe. The next look at the profession window fills in the rest.
+-- says which recipe. The next look at the profession window fills in the rest. A few recipes
+-- (Forever's camp and home items) are listed by several professions: it's marked in each.
 function Recorder.Learned(recipeID)
 	if not (ns.db and recipeID) then return end
+	local found = false
 	for prof, def in pairs(ns.professions) do
 		local own = ns.db.recipes[prof] and ns.db.recipes[prof][recipeID]
 		local data = def.recipes[recipeID]
@@ -134,10 +136,10 @@ function Recorder.Learned(recipeID)
 				ns.db.recipes[prof][recipeID] = own
 			end
 			own.learned = true
-			ns.DataChanged()
-			return
+			found = true
 		end
 	end
+	if found then ns.DataChanged() end
 end
 
 function Recorder.Record()
@@ -180,21 +182,22 @@ end
 
 -- Vendors ---------------------------------------------------------------------------------------
 
--- Every item any profession's recipe uses.
+-- Every item any profession's recipe uses, gathered once and again when the data changes (with
+-- all eight modules that's over 2,000 recipes, too many to search for each item a vendor sells).
+local materials, materialsVersion = nil, nil
 local function IsMaterial(itemID)
-	for prof, def in pairs(ns.professions) do
-		for _, rec in pairs(def.recipes) do
-			for _, r in ipairs(rec.reagents) do
-				if r[1] == itemID then return true end
+	if materialsVersion ~= ns.dataVersion then
+		materials, materialsVersion = {}, ns.dataVersion
+		for prof, def in pairs(ns.professions) do
+			for _, rec in pairs(def.recipes) do
+				for _, r in ipairs(rec.reagents) do materials[r[1]] = true end
 			end
-		end
-		for _, rec in pairs(ns.db.recipes[prof] or {}) do
-			for _, r in ipairs(rec.reagents or {}) do
-				if r[1] == itemID then return true end
+			for _, rec in pairs(ns.db.recipes[prof] or {}) do
+				for _, r in ipairs(rec.reagents or {}) do materials[r[1]] = true end
 			end
 		end
 	end
-	return false
+	return materials[itemID] or false
 end
 
 -- The profession whose recipe a pattern ("Plans: Copper Chain Belt") teaches, and the recipe's name.

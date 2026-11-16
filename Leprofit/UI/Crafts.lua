@@ -599,7 +599,7 @@ local function Refresh()
 	local prof = ns.CurrentProfession()
 	if not prof then
 		for _, b in ipairs(rows) do b:Hide() end
-		emptyText:SetText("No profession modules are enabled for this character. In the AddOns list (at character select, or Esc > AddOns), tick Leprofit - Blacksmithing, then /reload.")
+		emptyText:SetText("No profession modules are enabled for this character. In the AddOns list (at character select, or Esc > AddOns), tick the Leprofit module for each of this character's professions (Leprofit - Tailoring, for example), then /reload.")
 		emptyText:Show()
 		leftText:SetText("")
 		detail:Hide()

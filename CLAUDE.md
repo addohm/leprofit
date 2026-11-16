@@ -6,7 +6,7 @@ Orientation for Claude working on leprofit. Read this first.
 
 A WoW: Forever addon (Lua, interface 16001) that ranks the crafts that make
 gold. A core addon plus one module per profession. The agreed design is in
-ROADMAP.md. 0.1.0 (core + Blacksmithing) is built, untested in game. The
+ROADMAP.md. 0.1.0 (core + all eight modules) is built, partly tested in game. The
 remote is `addohm/leprofit` on GitHub.
 
 Discuss each feature with the owner before building it. the source addon (below)
@@ -34,7 +34,7 @@ is the reference: check how it handles an area before writing that area.
     (the confirmation dialog), `Crafts.lua`, `Shopping.lua` and `Options.lua`
     (the tabs),
     `ProfessionButton.lua`
-- `Leprofit_<Profession>/`: one module per profession; `Data.lua` is generated
+- `Leprofit_<Profession>/`: one module per profession (eight); `Data.lua` is generated
   by `tools/gen_data.py` and calls `Leprofit.RegisterProfession`.
 - `tests/`: `run_tests.py` (syntax, TOCs, globals, then `smoke.lua` against
   the fake client `wowmock.lua`)
@@ -73,9 +73,12 @@ is the reference: check how it handles an area before writing that area.
 - Tabs for indentation; a comment at the top of each file says what it's
   for, and comments explain why, in plain words (leboof's style).
 - Every module's `.toc` version matches the core's (the tests check).
-- A new profession module: make `Leprofit_<Profession>/` with a `.toc` like
-  Blacksmithing's, add it to `PROFESSIONS` in `tools/gen_data.py`, run it,
-  run the tests, and update README, TESTING and the install notes.
+- A new profession module: make `Leprofit_<Profession>/` (no spaces:
+  `Leprofit_FirstAid`) with a `.toc` like Blacksmithing's, add it to
+  `PROFESSIONS` in `tools/gen_data.py`, run it, add it to the tests' list,
+  run them, and update README, TESTING and the install notes.
+- A few recipe IDs are in several professions' data (Forever's camp and home
+  items, Synthetic Gordok Ogre Suit); that's kept on purpose.
 - Batch files need CRLF (`.gitattributes`).
 
 ## Don't

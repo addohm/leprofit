@@ -11,6 +11,8 @@ change.
   the Blacksmithing module, install/release/data tools and tests. Not yet
   tried in game (TESTING.md).
 - The Shopping tab and Send to Auctionator (2026-11-16).
+- The other seven modules (2026-11-16): Alchemy, Cooking, Enchanting,
+  Engineering, First Aid, Leatherworking, Tailoring.
 - Forever checks (2026-11-16):
   - The auction house cut isn't published and the game's AH API doesn't
     report it, so 5% stays a setting. The minimum deposit is 1 copper since
@@ -66,9 +68,7 @@ Modelled on the source addon (a levelling planner), but for profit.
 ## Next
 
 1. Try 0.1.0 in game (TESTING.md) and fix what it finds.
-2. The other seven modules: Alchemy, Cooking, Enchanting, Engineering, First
-   Aid, Leatherworking, Tailoring.
-3. The release kit: icon and banner art, LISTING.md.
+2. The release kit: icon and banner art, LISTING.md.
 
 ## Ideas
 

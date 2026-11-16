@@ -6,17 +6,19 @@ the cut, less what the materials cost. That includes recipes you'd have to learn
 the trainer or pattern costs and how many crafts pay it back. It's for crafters who want to know
 what's worth making and selling.
 
-Leprofit is a core addon plus one module per profession. 0.1.0 has the core and Blacksmithing;
-it hasn't been tried in game yet ([TESTING.md](TESTING.md)). Source:
+Leprofit is a core addon plus one module per profession: Alchemy, Blacksmithing, Cooking,
+Enchanting, Engineering, First Aid, Leatherworking and Tailoring. 0.1.0 hasn't been released yet;
+[TESTING.md](TESTING.md) is what's left to check in game. Source:
 [addohm/leprofit](https://github.com/addohm/leprofit).
 
 ## Getting started
 
-1. Copy the `Leprofit` and `Leprofit_Blacksmithing` folders into
+1. Copy the `Leprofit` folder and the `Leprofit_*` module folders into
    `World of Warcraft\_forever_\Interface\AddOns\`, or run `tools\install_forever.cmd` from a clone
    ([DEPLOY.md](DEPLOY.md)).
 2. In the AddOns list at character select, tick **Leprofit** and the profession modules this
-   character has (**Leprofit - Blacksmithing**). Modules are ticked per character.
+   character has (**Leprofit - Tailoring**, **Leprofit - Enchanting**...). Modules are ticked per
+   character, so each character loads only its own professions' data.
 3. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
    from their scans.
 4. Open Leprofit: it opens your profession window too, and reads the recipes you know from it.
@@ -115,6 +117,10 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 | `/leprofit minimap` | Show or hide the minimap button |
 | `/leprofit reset` | Put the window back in the middle at its normal size |
 | `/leprofit help` | The commands and the build |
+
+Enchanting lists only what makes an item (rods, oils, wands): enchants on gear can't be posted. A
+few of Forever's camp and home items (Camp Chair, Fishing Hut...) are listed by several
+professions' windows, so they show under each.
 
 English game clients only, like the source addon: profession and pattern names are matched in English.
 

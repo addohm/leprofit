@@ -1,0 +1,9 @@
+## Interface: 16001
+## Title: Leprofit - Enchanting
+## Notes: Enchanting for Leprofit: its recipes, trainer costs and patterns. Needs Leprofit.
+## Author: addohm
+## Version: 0.1.0
+## IconTexture: Interface\Icons\Trade_Engraving
+## Dependencies: Leprofit
+
+Data.lua

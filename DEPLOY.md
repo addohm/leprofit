@@ -1,7 +1,7 @@
 # Deploying leprofit
 
 Leprofit is a World of Warcraft addon: a core (`Leprofit/`) and one folder per profession module
-(`Leprofit_Blacksmithing/`...). It runs inside the game client (WoW: Forever, Interface 16001), and
+(`Leprofit_Alchemy/`, `Leprofit_Blacksmithing/`... `Leprofit_FirstAid/`... `Leprofit_Tailoring/`). It runs inside the game client (WoW: Forever, Interface 16001), and
 there's no server.
 
 TODO: where should public releases go (CurseForge, Wago, GitHub Releases, or nowhere yet)?
@@ -58,8 +58,8 @@ unzip a newer the source addon into the repo (the `.source/` folder is git-ignor
 
 ## Rolling back
 
-Install an older version: `git checkout <tag> -- Leprofit Leprofit_Blacksmithing` in the clone,
-copy the folders over the installed ones, then `git checkout main -- Leprofit Leprofit_Blacksmithing`
+Install an older version: `git checkout <tag> -- Leprofit "Leprofit_*"` in the clone, copy the
+folders over the installed ones, then `git checkout main -- Leprofit "Leprofit_*"`
 to return.
 
 ## Configuration
