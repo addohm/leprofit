@@ -1,3 +1,8 @@
 # the source addon reference addon (not ours; see CLAUDE.md)
 /source.zip
 /.source/
+
+# Python tooling and scratch downloads
+.venv/
+.scratch/
+__pycache__/

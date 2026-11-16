@@ -1,0 +1,235 @@
+-- A small fake WoW client for Leprofit's tests: frames that accept any method call, events, timers,
+-- items, a profession window, a vendor, and Auctionator's and TSM's price APIs. Tests set the data
+-- through WM (items, prices, the recipes shown, the vendor's stock) and fire events with WM.Fire.
+local M = {
+	printed = {}, frames = {}, timers = {},
+	items = {},       -- itemID -> { name, sellPrice, bindType, quality, count }
+	auctionator = {}, -- itemID -> price (nil: Auctionator not installed when WM.noAuctionator)
+	ages = {},        -- itemID -> days
+	tsm = nil,        -- { DBMinBuyout = { [id] = n }, DBMarket = { [id] = n } } when TSM is installed
+	profession = nil, -- the open profession window's name
+	recipes = {},     -- what the open window lists: { id, name, learned, product, min, max, reagents = { { id, n } } }
+	merchant = {},    -- the vendor's stock: { itemID, name, price, stack, available, extended }
+	skills = {},      -- profession -> rank
+	faction = "Alliance",
+}
+
+local function Permissive(t)
+	return setmetatable(t, { __index = function(_, k)
+		if type(k) == "string" and k:match("^%u") then return function() return nil end end
+	end })
+end
+
+local function FontString()
+	local fs = Permissive({ shown = true })
+	function fs:SetText(t) self.text = t end
+	function fs:GetText() return self.text end
+	function fs:GetStringWidth() return #(self.text or "") * 6 end
+	function fs:Show() self.shown = true end
+	function fs:Hide() self.shown = false end
+	function fs:SetShown(v) self.shown = v and true or false end
+	function fs:IsShown() return self.shown end
+	return fs
+end
+
+local function NewFrame(kind, name, parent)
+	local f = { kind = kind, name = name, parent = parent, shown = true, points = {}, scripts = {}, events = {}, level = 1, w = 0, h = 0, children = {} }
+	if parent and parent.children then table.insert(parent.children, f) end
+	function f:Show()
+		local was = self.shown
+		self.shown = true
+		if not was and self.scripts.OnShow then self.scripts.OnShow(self) end
+	end
+	function f:Hide() self.shown = false end
+	function f:SetShown(v) if v then self:Show() else self:Hide() end end
+	function f:IsShown() return self.shown end
+	function f:SetSize(w, h) self.w, self.h = w, h end
+	function f:GetSize() return self.w, self.h end
+	function f:SetWidth(w) self.w = w end
+	function f:SetHeight(h) self.h = h end
+	function f:GetWidth() return self.w end
+	function f:GetHeight() return self.h end
+	function f:GetCenter() return 0, 0 end
+	function f:GetEffectiveScale() return 1 end
+	function f:GetChecked() return self.checked end
+	function f:SetChecked(v) self.checked = v end
+	function f:SetText(t) self.text = t end
+	function f:GetText() return self.text end
+	function f:HasFocus() return false end
+	function f:ClearAllPoints() self.points = {} end
+	function f:SetPoint(...) table.insert(self.points, { ... }) end
+	function f:GetPoint() local p = self.points[1] or {} return p[1], nil, p[3], p[4], p[5] end
+	function f:GetFrameLevel() return self.level end
+	function f:SetFrameLevel(l) self.level = l end
+	function f:SetParent(p) self.parent = p end
+	function f:SetScript(event, fn) self.scripts[event] = fn end
+	function f:GetScript(event) return self.scripts[event] end
+	function f:RegisterEvent(e) self.events[e] = true end
+	function f:CreateTexture() return Permissive({}) end
+	function f:CreateFontString() return FontString() end
+	function f:Click(button) if self.scripts.OnClick then self.scripts.OnClick(self, button or "LeftButton") end end
+	table.insert(M.frames, f)
+	if name then _G[name] = f end
+	return Permissive(f)
+end
+M.NewFrame = NewFrame
+
+function CreateFrame(kind, name, parent) return NewFrame(kind, name, parent) end
+UIParent = NewFrame("Frame", "UIParent")
+Minimap = NewFrame("Frame", "Minimap")
+GameTooltip = NewFrame("GameTooltip", "GameTooltip")
+function GameTooltip:SetItemByID(id) self.item = id end
+function GameTooltip_Hide() end
+UISpecialFrames = {}
+SlashCmdList = {}
+ITEM_QUALITY_COLORS = { [2] = { hex = "|cff1eff00" } }
+Enum = {}
+
+function M.Fire(event, ...)
+	for _, f in ipairs(M.frames) do
+		if f.events[event] and f.scripts.OnEvent then f.scripts.OnEvent(f, event, ...) end
+	end
+end
+
+-- Timers run when the test calls WM.RunTimers (C_Timer.After(0) and longer alike).
+C_Timer = { After = function(_, fn) table.insert(M.timers, fn) end }
+function M.RunTimers()
+	for _ = 1, 10 do
+		local list = M.timers
+		M.timers = {}
+		if #list == 0 then return end
+		for _, fn in ipairs(list) do fn() end
+	end
+end
+
+print = function(...)
+	local parts = {}
+	for i = 1, select("#", ...) do parts[#parts + 1] = tostring(select(i, ...)) end
+	table.insert(M.printed, table.concat(parts, " "))
+end
+
+function strtrim(s) return (s:gsub("^%s+", ""):gsub("%s+$", "")) end
+function strsplit(sep, s, n)
+	local out, start = {}, 1
+	while true do
+		if n and #out == n - 1 then out[#out + 1] = s:sub(start) break end
+		local i = s:find(sep, start, true)
+		if not i then out[#out + 1] = s:sub(start) break end
+		out[#out + 1] = s:sub(start, i - 1)
+		start = i + 1
+	end
+	return unpack(out)
+end
+function wipe(t) for k in pairs(t) do t[k] = nil end return t end
+tinsert = table.insert
+function GetTime() return 1000 end
+function InCombatLockdown() return false end
+function GetCursorPosition() return 0, 0 end
+function UnitFactionGroup() return M.faction end
+function UnitName(unit) return unit == "npc" and M.vendorName or "Tester" end
+function GetZoneText() return "Stormwind City" end
+function GetSubZoneText() return "Trade District" end
+C_Map = {
+	GetBestMapForUnit = function() return 84 end,
+	GetMapInfo = function() return { name = "Stormwind City" } end,
+}
+C_AddOns = { GetAddOnMetadata = function(_, key) return key == "Version" and "0.1.0" or nil end }
+C_CurrencyInfo = {
+	GetCoinTextureString = function(c)
+		local g, s, k = math.floor(c / 10000), math.floor(c / 100) % 100, c % 100
+		local out = {}
+		if g > 0 then out[#out + 1] = g .. "g" end
+		if s > 0 then out[#out + 1] = s .. "s" end
+		if k > 0 then out[#out + 1] = k .. "c" end
+		return table.concat(out, " ")
+	end,
+}
+
+-- Items
+C_Item = {
+	GetItemNameByID = function(id) return M.items[id] and M.items[id].name end,
+	GetItemQualityByID = function(id) return M.items[id] and M.items[id].quality end,
+	GetItemIconByID = function(id) return M.items[id] and 134400 or nil end,
+	GetItemCount = function(id) return M.items[id] and M.items[id].count or 0 end,
+	GetItemInfo = function(id)
+		local it = M.items[id]
+		if not it then return nil end
+		return it.name, nil, it.quality or 1, 1, 1, "", "", 20, "", 134400, it.sellPrice or 0, 0, 0, it.bindType or 0
+	end,
+}
+Item = {
+	CreateFromItemID = function(_, id)
+		local item = {}
+		function item:IsItemEmpty() return false end
+		function item:ContinueOnItemLoad(fn) M.loads = (M.loads or 0) + 1 end
+		function item:GetItemName() return M.items[id] and M.items[id].name end
+		return item
+	end,
+}
+
+-- Skills
+function GetNumSkillLines() local n = 0 for _ in pairs(M.skills) do n = n + 1 end return n end
+function GetSkillLineInfo(i)
+	local n = 0
+	for name, rank in pairs(M.skills) do
+		n = n + 1
+		if n == i then return name, false, false, rank end
+	end
+end
+
+-- The profession window
+C_TradeSkillUI = {
+	GetBaseProfessionInfo = function() return M.profession and { professionName = M.profession } end,
+	GetTradeSkillLine = function() return 1, M.profession end,
+	GetAllRecipeIDs = function()
+		local ids = {}
+		for _, r in ipairs(M.recipes) do ids[#ids + 1] = r.id end
+		return ids
+	end,
+	GetRecipeInfo = function(id)
+		for _, r in ipairs(M.recipes) do
+			if r.id == id then return { name = r.name, learned = r.learned, icon = 1 } end
+		end
+	end,
+	GetRecipeSchematic = function(id)
+		for _, r in ipairs(M.recipes) do
+			if r.id == id then
+				local slots = {}
+				for _, g in ipairs(r.reagents) do
+					slots[#slots + 1] = { reagents = { { itemID = g[1] } }, quantityRequired = g[2], required = true }
+				end
+				return { outputItemID = r.product, quantityMin = r.min or 1, quantityMax = r.max or r.min or 1, reagentSlotSchematics = slots }
+			end
+		end
+	end,
+}
+
+-- The vendor
+function GetMerchantNumItems() return #M.merchant end
+function GetMerchantItemID(i) return M.merchant[i] and M.merchant[i].itemID end
+C_MerchantFrame = {
+	GetItemInfo = function(i)
+		local m = M.merchant[i]
+		return m and { name = m.name, price = m.price, stackCount = m.stack or 1, numAvailable = m.available or -1, hasExtendedCost = m.extended or false }
+	end,
+}
+
+-- Price addons
+Auctionator = { API = { v1 = {
+	GetAuctionPriceByItemID = function(caller, id)
+		assert(caller == "Leprofit", "Auctionator needs the caller's name")
+		return M.auctionator[id]
+	end,
+	GetAuctionAgeByItemID = function(_, id) return M.ages[id] end,
+} } }
+function M.SetTSM(prices)
+	M.tsm = prices
+	TSM_API = prices and {
+		GetCustomPriceValue = function(source, itemString)
+			local id = tonumber(itemString:match("^i:(%d+)$"))
+			return M.tsm[source] and M.tsm[source][id]
+		end,
+	} or nil
+end
+
+return M

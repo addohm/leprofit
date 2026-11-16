@@ -7,10 +7,8 @@ vulnerability.
 
 ## Secrets
 
-None yet: there's no code.
-
-TODO: which secrets leprofit uses, where each one lives, and how to rotate it.
-Never commit them.
+None: the addons and the tools use no secrets, and the addons send nothing to other players or
+anywhere else (no addon messages, unlike the source addon). Never commit secrets all the same.
 
 ## Access
 

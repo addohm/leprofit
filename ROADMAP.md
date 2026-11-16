@@ -7,6 +7,9 @@ change.
 
 - Standard docs (2026-11-16).
 - Design agreed (2026-11-16, below).
+- 0.1.0 built (2026-11-16): the core with the Crafts and Options tabs and
+  the Blacksmithing module, install/release/data tools and tests. Not yet
+  tried in game (TESTING.md).
 - Forever checks (2026-11-16):
   - The auction house cut isn't published and the game's AH API doesn't
     report it, so 5% stays a setting. The minimum deposit is 1 copper since
@@ -53,9 +56,14 @@ Modelled on the source addon (a levelling planner), but for profit.
 
 ## Next
 
-1. First build: core + the Blacksmithing module, Crafts tab only, with the
-   install, release and test tools.
+1. Try 0.1.0 in game (TESTING.md) and fix what it finds.
+2. The Shopping tab and Send to Auctionator (the source addon's Shopping.lua).
+3. The other seven modules: Alchemy, Cooking, Enchanting, Engineering, First
+   Aid, Leatherworking, Tailoring.
+4. The release kit: icon and banner art, LISTING.md.
 
 ## Ideas
 
-TODO: things that might be worth doing later.
+- Count materials on your other characters (the source addon's Alts.lua).
+- Make-vs-buy across professions (smelting bars for Blacksmithing).
+- Profit lines in item tooltips.
