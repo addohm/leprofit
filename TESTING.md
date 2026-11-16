@@ -30,6 +30,11 @@ build you tried (`/leprofit help` shows it).
       list.
 - [ ] The materials panel's Each column and (auction)/(vendor)/(craft it)/(no price) tags.
 - [ ] "Not listed" counts losses and "without a price" apart.
+- [ ] Columns read Cost, Buyout, Profit (Market before Profit when on); Cost matches the materials
+      panel's total for one craft; the headings' tooltip explains them.
+- [ ] Shift-click a row and a material with the chat box open, then with the auction house (or
+      Auctionator) search box focused: the link goes in. Ctrl-click opens the dressing room.
+- [ ] Hovering a material shows its tooltip.
 
 **The window**
 - [ ] Rows, notes and the materials panel fit at the normal size; resizing works; Escape closes.

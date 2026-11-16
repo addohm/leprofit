@@ -23,7 +23,9 @@ local function Permissive(t)
 end
 
 local function FontString()
-	local fs = Permissive({ shown = true })
+	local fs = Permissive({ shown = true, points = {} })
+	function fs:SetPoint(...) table.insert(self.points, { ... }) end
+	function fs:ClearAllPoints() self.points = {} end
 	function fs:SetText(t) self.text = t end
 	function fs:GetText() return self.text end
 	function fs:GetStringWidth() return #(self.text or "") * 6 end
@@ -125,6 +127,10 @@ end
 function wipe(t) for k in pairs(t) do t[k] = nil end return t end
 tinsert = table.insert
 function GetTime() return 1000 end
+-- Modified clicks: set WM.modifier to "CHATLINK" (shift) or "DRESSUP" (ctrl); links land in WM.linked.
+M.linked = {}
+function IsModifiedClick(action) return M.modifier ~= nil and M.modifier == action end
+function HandleModifiedItemClick(link) table.insert(M.linked, link) return true end
 function InCombatLockdown() return false end
 function GetCursorPosition() return 0, 0 end
 function UnitFactionGroup() return M.faction end
@@ -156,7 +162,8 @@ C_Item = {
 	GetItemInfo = function(id)
 		local it = M.items[id]
 		if not it then return nil end
-		return it.name, nil, it.quality or 1, 1, 1, "", "", 20, "", 134400, it.sellPrice or 0, 0, 0, it.bindType or 0
+		local link = ("|cffffffff|Hitem:%d::::::::|h[%s]|h|r"):format(id, it.name)
+		return it.name, link, it.quality or 1, 1, 1, "", "", 20, "", 134400, it.sellPrice or 0, 0, 0, it.bindType or 0
 	end,
 }
 Item = {

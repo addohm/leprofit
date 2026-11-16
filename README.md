@@ -31,9 +31,13 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
 - The arrows at the top pick the profession.
-- Each row is a craft: the item, its profit per craft and the lowest buyout. A Market column (TSM's
-  market value) can be turned on in Options; it's off by default, since TSM doesn't seem to run on
-  Forever.
+- Each row is a craft: the item, then **Cost** (the materials for one craft), **Buyout** (the lowest
+  buyout for one item) and **Profit** (per craft, after the cut). A recipe that makes several (x3
+  after its name) sells them all, so its Cost and Buyout don't add up to its Profit. A Market column
+  (TSM's market value) can be turned on in Options; it's off by default, since TSM doesn't seem to
+  run on Forever. Hover over the headings for a reminder.
+- Shift-click a row to put the item's link in chat or a search box (the auction house's, or
+  Auctionator's); ctrl-click shows it in the dressing room.
 - The grey line under a row says where to learn the recipe (trainer or pattern, its price, and the
   skill it needs), how many crafts pay that back, and anything to be wary of: a material with no
   price, an item that binds on pickup or that a vendor pays more for, an auction price several days
@@ -45,7 +49,8 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
   material's need, what you hold, what to buy, its price for one (**Each**) and its cost for the
   number of **Crafts** you set. After each name, where its price is from: auction, vendor, craft it,
-  or no price.
+  or no price. Hover over a material for its tooltip; shift-click it to link it, for example into
+  the auction house search.
   **Doesn't sell** hides the item from the list, after asking; Options lists the hidden items, where
   you can unhide them.
 

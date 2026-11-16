@@ -85,6 +85,32 @@ function ns.ItemNameColored(itemID)
 	return name
 end
 
+-- The item's link, once the game has loaded the item.
+function ns.ItemLink(itemID)
+	local getInfo = (C_Item and C_Item.GetItemInfo) or GetItemInfo
+	local _, link = ns.Try(getInfo, itemID)
+	if not link then RequestName(itemID) end
+	return link
+end
+
+-- Shift-click (the game's "chat link" click) puts the item's link in the text box you're typing in:
+-- chat, or the auction house's search. Ctrl-click shows it in the dressing room. True if it was one
+-- of those clicks. The game's HandleModifiedItemClick does both; failing that, the chat box only.
+function ns.ItemModifiedClick(itemID)
+	if not (IsModifiedClick("CHATLINK") or IsModifiedClick("DRESSUP")) then return false end
+	local link = itemID and ns.ItemLink(itemID)
+	if not link then return true end
+	local handle = rawget(_G, "HandleModifiedItemClick")
+	if handle then
+		handle(link)
+	elseif IsModifiedClick("CHATLINK") then
+		local util = rawget(_G, "ChatFrameUtil")
+		local insert = (util and util.InsertLink) or rawget(_G, "ChatEdit_InsertLink")
+		if insert then insert(link) end
+	end
+	return true
+end
+
 function ns.ItemIcon(itemID)
 	local icon = itemID and C_Item and C_Item.GetItemIconByID and Try(C_Item.GetItemIconByID, itemID)
 	return icon or "Interface\\Icons\\INV_Misc_QuestionMark"

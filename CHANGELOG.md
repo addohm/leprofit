@@ -26,6 +26,10 @@ All notable changes to leprofit. The format follows
   - Auctionator's record of vendor prices counts as a vendor price.
   - The Market column (TSM's market value) is off by default, since TSM
     doesn't seem to run on Forever; Options turns it on.
+  - A Cost column (materials for one craft); the columns read Cost, Buyout,
+    (Market,) Profit.
+  - Shift-click a craft or a material to link it in chat or a search box;
+    materials show their tooltip on hover.
   - The Options tab, `/leprofit`, the minimap button and addon menu entry,
     and a button on the profession window. Settings are per character.
   - Recording of known recipes from the profession window, and of material

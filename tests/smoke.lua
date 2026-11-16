@@ -262,6 +262,32 @@ eq(beltRow.market.shown, true, "Options turns it on")
 eq(ns.Window.CurrentPanel().header.market.shown, true)
 ns.db.showMarket = false
 ns.Window.Refresh()
+eq(beltRow.cost.text, "60s", "the Cost column: 6 Copper Bars at 10s")
+eq(beltRow.cost.points[1][4], -(2 * 96 + 4), "Cost left of Buyout and Profit")
+eq(beltRow.profit.points[1][4], -4, "Profit at the right edge")
+
+-- Shift-click links the item; a plain click picks the row.
+WM.modifier = "CHATLINK"
+beltRow:Click()
+ok(WM.linked[#WM.linked]:find("item:2851", 1, true), "shift-click links the crafted item")
+local function MaterialRowFor(itemID)
+	for _, f in ipairs(WM.frames) do
+		if f.kind == "Button" and f.itemID == itemID and f.shown then return f end
+	end
+end
+local barRow = MaterialRowFor(2840)
+ok(barRow, "the materials panel lists Copper Bar")
+barRow:Click()
+ok(WM.linked[#WM.linked]:find("item:2840", 1, true), "shift-click links a material")
+-- Without the game's handler, the link goes in the chat box.
+local handler = HandleModifiedItemClick
+HandleModifiedItemClick = nil
+local inserted
+ChatFrameUtil = { InsertLink = function(link) inserted = link end }
+barRow:Click()
+ok(inserted and inserted:find("item:2840", 1, true), "into the chat box")
+HandleModifiedItemClick, ChatFrameUtil = handler, nil
+WM.modifier = nil
 beltRow:Click()
 local function ShownButton(text)
 	for _, f in ipairs(WM.frames) do

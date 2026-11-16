@@ -4,7 +4,7 @@
 local _, ns = ...
 
 local ROW_H, NOTE_H = 22, 14
-local COL_W = 96          -- the Profit, Buyout and Market columns
+local COL_W = 96          -- the Cost, Buyout, Market and Profit columns
 local RIGHT = 4           -- the list's right edge, inside the scroll bar
 local DETAIL_H = 214      -- the materials panel at the bottom
 local MAT_ROWS = 7        -- the most materials a recipe needs
@@ -21,15 +21,19 @@ local detail
 local rows = {}
 local selected -- the product of the recipe picked
 
--- Places the money columns of a row (or the header): Profit, Buyout and, when the Market column
--- is on, Market at the right; the name stops where they start.
+-- Places the money columns of a row (or the header), left to right: Cost, Buyout, Market (when
+-- that column is on) and Profit at the right edge; the name stops where they start.
+local function Place(fs, slot)
+	fs:ClearAllPoints()
+	fs:SetPoint("RIGHT", fs.anchor, "RIGHT", -(slot * COL_W + RIGHT), 0)
+end
 local function PlaceColumns(f, name, owner)
 	local market = ns.db.showMarket
-	local n = market and 3 or 2
-	f.profit:ClearAllPoints()
-	f.profit:SetPoint("RIGHT", f.profit.anchor, "RIGHT", -((n - 1) * COL_W + RIGHT), 0)
-	f.buyout:ClearAllPoints()
-	f.buyout:SetPoint("RIGHT", f.buyout.anchor, "RIGHT", -((n - 2) * COL_W + RIGHT), 0)
+	local n = market and 4 or 3
+	Place(f.profit, 0)
+	Place(f.market, 1)
+	Place(f.buyout, market and 2 or 1)
+	Place(f.cost, market and 3 or 2)
 	f.market:SetShown(market and true or false)
 	if name then
 		name:ClearAllPoints()
@@ -113,10 +117,12 @@ local function GetRow(i)
 	b.line:SetPoint("TOPLEFT")
 	b.line:SetPoint("TOPRIGHT")
 	b.line:SetHeight(ROW_H)
-	b.profit = Column(b.line, "GameFontHighlight", -(2 * COL_W + RIGHT))
-	b.buyout = Column(b.line, "GameFontHighlightSmall", -(COL_W + RIGHT))
-	b.market = Column(b.line, "GameFontHighlightSmall", -RIGHT)
+	b.cost = Column(b.line, "GameFontHighlightSmall", 0)
+	b.buyout = Column(b.line, "GameFontHighlightSmall", 0)
+	b.market = Column(b.line, "GameFontHighlightSmall", 0)
+	b.profit = Column(b.line, "GameFontHighlight", 0)
 	b:SetScript("OnClick", function(self)
+		if ns.ItemModifiedClick(self.product) then return end
 		selected = self.product
 		ns.Window.Refresh()
 	end)
@@ -133,7 +139,15 @@ end
 -- The materials panel ------------------------------------------------------------------------------
 
 local function MaterialRow(parent, y)
-	local r = CreateFrame("Frame", nil, parent)
+	local r = CreateFrame("Button", nil, parent)
+	r:SetScript("OnEnter", function(self)
+		if not self.itemID then return end
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetItemByID(self.itemID)
+		GameTooltip:Show()
+	end)
+	r:SetScript("OnLeave", GameTooltip_Hide)
+	r:SetScript("OnClick", function(self) ns.ItemModifiedClick(self.itemID) end)
 	r:SetPoint("TOPLEFT", 0, y)
 	r:SetPoint("RIGHT")
 	r:SetHeight(15)
@@ -296,6 +310,7 @@ local function ShowDetail(row, prof)
 	local list, spend = ns.Profit.Shopping(row, n)
 	for i, r in ipairs(detail.mats) do
 		local m = list[i]
+		r.itemID = m and m.itemID
 		if m then
 			r.name:SetText(ns.ItemNameColored(m.itemID) .. (SOURCE_TAGS[m.how] or SOURCE_TAGS.none))
 			r.cols[1]:SetText(m.need)
@@ -396,12 +411,22 @@ local function Build(p)
 	local item = header:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 	item:SetPoint("LEFT", 28, 0)
 	item:SetText("Item")
-	header.profit = Column(header, "GameFontNormalSmall", -(2 * COL_W + RIGHT))
-	header.profit:SetText("Profit")
-	header.buyout = Column(header, "GameFontNormalSmall", -(COL_W + RIGHT))
-	header.buyout:SetText("Buyout")
-	header.market = Column(header, "GameFontNormalSmall", -RIGHT)
-	header.market:SetText("Market")
+	for key, text in pairs({ cost = "Cost", buyout = "Buyout", market = "Market", profit = "Profit" }) do
+		header[key] = Column(header, "GameFontNormalSmall", 0)
+		header[key]:SetText(text)
+	end
+	header:EnableMouse(true)
+	header:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		GameTooltip:AddLine("The columns")
+		GameTooltip:AddLine("Cost: the materials for one craft, each at the cheaper of buying and crafting it.", 1, 1, 1, true)
+		GameTooltip:AddLine("Buyout: the lowest buyout for one item.", 1, 1, 1, true)
+		if ns.db.showMarket then GameTooltip:AddLine("Market: TSM's market value for one item.", 1, 1, 1, true) end
+		GameTooltip:AddLine("Profit: one craft's items after the cut, less the cost. A recipe that makes several (x3 after its name) sells them all, so Cost and Buyout don't add up for it.", 1, 1, 1, true)
+		GameTooltip:AddLine("Shift-click a row to link the item in chat or a search box.", 0.7, 0.7, 0.7, true)
+		GameTooltip:Show()
+	end)
+	header:SetScript("OnLeave", GameTooltip_Hide)
 	panel.header = header
 	local rule = panel:CreateTexture(nil, "BORDER")
 	rule:SetPoint("TOPLEFT", 0, -50)
@@ -478,6 +503,7 @@ local function Refresh()
 		b.profit:SetText(ProfitText(row.profit))
 		b.buyout:SetText(ns.Money(row.buyout))
 		b.market:SetText(ns.Money(row.market))
+		b.cost:SetText(row.cost and ns.Money(row.cost) or (ORANGE .. "?|r"))
 		PlaceColumns(b, b.name, b)
 		b.sel:SetShown(row.product == selected)
 		if row.product == selected then picked = row end
