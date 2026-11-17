@@ -35,8 +35,8 @@ so most of it is covered by the first part.
 
 **Other professions' lists** (tick, say, Leprofit - Tailoring on the Blacksmith)
 - [ ] Without the profession, its list still shows what you could learn (trainer and pattern
-      costs, payback), with prices, tooltips, Shopping and `/leprofit why`; Show at Known explains
-      that this character doesn't have it. Opening Leprofit on it doesn't try to open a window.
+      costs, payback), with prices, tooltips, Shopping and `/leprofit why`, all with Show all ticked;
+      without it the empty list explains that this character doesn't have the profession. Opening Leprofit on it doesn't try to open a window.
 - [ ] Enchanting lists rods, oils and wands, no enchants.
 
 **Prices**
@@ -67,9 +67,10 @@ so most of it is covered by the first part.
       Auctionator) search box focused: the link goes in. Ctrl-click opens the dressing room.
 - [ ] Hovering a material shows its tooltip.
 - [ ] Show losses and the Crafts box behave.
-- [ ] The Show slider (Blizzard's, with arrows): Known lists only known recipes; Up to 150 (you: N)
-      adds trainer and pattern recipes needing skill 150 or less; All lists everything; the
-      "Not listed" line says how many are past it; each profession keeps its own place.
+- [ ] Recipes you haven't learned but have the skill for are listed greyed out (grey name and
+      icon, faded numbers), their tooltip starting "Not learned yet"; Show all adds those needing
+      more skill; Hide unlearned leaves only the known ones and greys out Show all; the "Not
+      listed" line counts what's left out.
 - [ ] The top bar fits at the normal size and at the narrowest the window goes.
 - [ ] Doesn't sell asks first, over a dimmed window: Cancel and Escape hide nothing, Hide hides it.
 - [ ] Options > Hidden items lists it; Unhide and Unhide all bring items back.
@@ -94,7 +95,7 @@ so most of it is covered by the first part.
 For each of Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking and Tailoring, on a
 character that has it, with its module ticked:
 - [ ] Opening Leprofit opens that profession's window; `/leprofit status` counts its known recipes;
-      Show at Known lists them.
+      Hide unlearned lists them.
 - [ ] Recipes that make several (Engineering's ammo, some Cooking) show x2 and so on, and their
       profit counts every item.
 - [ ] Learning a recipe at its trainer lists it as known straight away.

@@ -109,18 +109,22 @@ function Profit.Evaluate(prof, rec, memo)
 end
 
 -- The rows the Crafts tab lists for a profession, most profitable first, and how many were left out:
--- { unlearned = n (beyond the Show slider), unknown = n (no known source), hidden = n, unpriced = n (a material
--- or the item has no price), losses = n (0 or less) }.
+-- { unlearned = n (Hide unlearned), unknown = n (no known source), later = n (needing more skill
+-- than you have, without Show all), hidden = n, unpriced = n (a material or the item has no price),
+-- losses = n (0 or less) }. Recipes you'd learn are listed (greyed) when you have the skill.
 function Profit.Rows(prof)
 	local db, memo = ns.db, {}
-	local rows, left = {}, { unlearned = 0, unknown = 0, hidden = 0, unpriced = 0, losses = 0 }
+	local rows, left = {}, { unlearned = 0, unknown = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
-		local upTo = ns.ShowUpTo(prof)
+		local known = rec.source.kind == "known"
 		local need = rec.source.skill
-		if rec.source.kind ~= "known" and upTo < ns.SHOW_ALL and (upTo == ns.SHOW_KNOWN or not need or need > upTo) then
+		if not known and db.hideUnlearned then
 			left.unlearned = left.unlearned + 1
 		elseif rec.source.kind == "unknown" and not db.showUnknown then
 			left.unknown = left.unknown + 1
+		elseif not known and not db.showAll and not (need and skill and need <= skill) then
+			left.later = left.later + 1
 		elseif db.hidden[rec.product] then
 			left.hidden = left.hidden + 1
 		else

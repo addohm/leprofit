@@ -10,7 +10,8 @@ local DEFAULTS = {
 	undercut = 0,            -- how far under the price you post, percent
 	staleDays = 3,           -- flag items whose auction price is this many days old or more
 	showLosses = false,      -- also list crafts at 0 or negative profit, and ones that can't be priced
-	showUpTo = {},           -- profession -> the Show slider: 0 known only, 5-300 up to that skill, 305 all
+	hideUnlearned = false,   -- list only the recipes this character knows
+	showAll = false,         -- also list the recipes needing more skill than you have (greyed out)
 	showMarket = false,      -- the Avg 14d column (Auctionator's 14-day average, or TSM's market value)
 	showTrend = false,       -- the Trend column (Auctionator's history)
 	showSeen = false,        -- the Seen column: days listed of the last 14
@@ -29,7 +30,7 @@ local DEFAULTS = {
 ns.DEFAULTS = DEFAULTS
 
 -- The settings the Options tab's Defaults button puts back.
-ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showMarket", "showTrend", "showSeen", "showListed", "showLosses", "showUnknown", "professionButton" }
+ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showMarket", "showTrend", "showSeen", "showListed", "showLosses", "hideUnlearned", "showAll", "showUnknown", "professionButton" }
 
 local ACCOUNT_DEFAULTS = {
 	vendorPrices = {}, -- itemID -> copper for one, recorded at vendors
@@ -59,23 +60,6 @@ end
 
 function ns.ResetOptions()
 	for _, k in ipairs(ns.OPTION_KEYS) do ns.db[k] = DEFAULTS[k] end
-	wipe(ns.db.showUpTo)
-	ns.db.knownOnly = nil
-end
-
--- The Show slider, per profession: which recipes the Crafts list includes. SHOW_KNOWN lists only
--- the ones you know; a skill (5 to 300) adds trainer and pattern recipes needing that skill or less;
--- SHOW_ALL lists everything. Before the slider there was a Known only box (knownOnly): it sets
--- where the slider starts.
-ns.SHOW_KNOWN, ns.SHOW_ALL, ns.SHOW_STEP = 0, 305, 5
-function ns.ShowUpTo(prof)
-	local v = ns.db.showUpTo[prof]
-	if v == nil then v = ns.db.knownOnly and ns.SHOW_KNOWN or ns.SHOW_ALL end
-	return v
-end
-function ns.SetShowUpTo(prof, v)
-	v = math.floor(v / ns.SHOW_STEP + 0.5) * ns.SHOW_STEP
-	ns.db.showUpTo[prof] = math.max(ns.SHOW_KNOWN, math.min(ns.SHOW_ALL, v))
 end
 
 -- Profession modules ---------------------------------------------------------------------------
@@ -141,6 +125,9 @@ events:SetScript("OnEvent", function(_, event, arg)
 		LeprofitCharDB = CopyDefaults(type(LeprofitCharDB) == "table" and LeprofitCharDB or {}, DEFAULTS)
 		LeprofitDB = CopyDefaults(type(LeprofitDB) == "table" and LeprofitDB or {}, ACCOUNT_DEFAULTS)
 		ns.db, ns.adb = LeprofitCharDB, LeprofitDB
+		-- Earlier builds: the Known only box is Hide unlearned now; the Show slider is gone.
+		if ns.db.knownOnly then ns.db.hideUnlearned = true end
+		ns.db.knownOnly, ns.db.showUpTo = nil, nil
 	elseif event == "PLAYER_LOGIN" then
 		ns.Minimap.Init()
 		ns.ProfessionButton.Init()

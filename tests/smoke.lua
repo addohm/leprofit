@@ -268,33 +268,41 @@ eq(rows[1].rec.name, "Copper Chain Belt", "marked doesn't sell")
 eq(left.hidden, 1)
 ns.db.hidden[990002] = nil
 eq(ns.Profit.Rows("Blacksmithing")[1].rec.name, "Test Sharpened Thing", "unhidden")
--- The Show slider: Known lists only what you know; a skill adds what you could learn by then.
+-- Recipes you haven't learned: listed (greyed out) when you have the skill for them; Show all adds
+-- the ones needing more; Hide unlearned leaves only the ones you know.
 ns.db.showLosses = true
-eq(ns.ShowUpTo("Blacksmithing"), ns.SHOW_ALL, "everything by default")
-ns.SetShowUpTo("Blacksmithing", ns.SHOW_KNOWN)
-rows, left = ns.Profit.Rows("Blacksmithing")
-for _, r in ipairs(rows) do eq(r.rec.source.kind, "known", "known only: " .. r.rec.name) end
-eq(#rows, 3, "the three recipes the window showed")
-ok(left.unlearned > 50, "the rest counted: " .. left.unlearned)
-ns.SetShowUpTo("Blacksmithing", 31) -- steps of 5: 30
-eq(ns.ShowUpTo("Blacksmithing"), 30, "the slider moves in steps of 5")
 rows, left = ns.Profit.Rows("Blacksmithing")
 local learnable = 0
 for _, r in ipairs(rows) do
 	if r.rec.source.kind ~= "known" then
 		learnable = learnable + 1
-		ok(r.rec.source.skill and r.rec.source.skill <= 30, "learnable by 30: " .. r.rec.name)
+		ok(r.rec.source.skill and r.rec.source.skill <= 40, "learnable at your skill (40): " .. r.rec.name)
 	end
 end
-ok(learnable >= 5, "trainer recipes up to skill 30 join the known ones: " .. learnable)
-ok(left.unlearned > 50, "the rest still counted")
-eq(ns.ShowUpTo("Mining"), ns.SHOW_ALL, "each profession has its own")
--- The old Known only box decides where the slider starts.
-ns.db.showUpTo.Blacksmithing, ns.db.knownOnly = nil, true
-eq(ns.ShowUpTo("Blacksmithing"), ns.SHOW_KNOWN, "Known only becomes Known")
-ns.ResetOptions()
-eq(ns.ShowUpTo("Blacksmithing"), ns.SHOW_ALL, "Defaults: All")
+ok(learnable >= 5, "the trainer recipes you could learn now are listed: " .. learnable)
+ok(left.later > 50, "the ones needing more skill are counted: " .. left.later)
+ns.db.showAll = true
+rows, left = ns.Profit.Rows("Blacksmithing")
+eq(left.later, 0, "Show all lists them")
+local above = 0
+for _, r in ipairs(rows) do
+	if r.rec.source.skill and r.rec.source.skill > 40 and r.rec.source.kind ~= "known" then above = above + 1 end
+end
+ok(above > 50, "recipes needing more skill: " .. above)
+ns.db.hideUnlearned = true
+rows, left = ns.Profit.Rows("Blacksmithing")
+for _, r in ipairs(rows) do eq(r.rec.source.kind, "known", "hide unlearned: " .. r.rec.name) end
+eq(#rows, 3, "the three recipes the window showed")
+ok(left.unlearned > 50, "the rest counted: " .. left.unlearned)
+-- The old Known only box becomes Hide unlearned, and the slider's setting goes.
+ns.db.hideUnlearned, ns.db.knownOnly, ns.db.showUpTo = false, true, { Blacksmithing = 150 }
+WM.Fire("ADDON_LOADED", "Leprofit")
+eq(ns.db.hideUnlearned, true, "Known only becomes Hide unlearned")
 eq(ns.db.knownOnly, nil)
+eq(ns.db.showUpTo, nil)
+ns.ResetOptions()
+eq(ns.db.hideUnlearned, false, "Defaults: off")
+eq(ns.db.showAll, false)
 ns.db.showLosses = false
 
 -- Sorting: by any column, either way round; rows without a value go last.
@@ -435,24 +443,20 @@ Radio(root, "Blacksmithing"):setSelected()
 eq(ns.db.profession, "Blacksmithing")
 eq(WM.opened[1], 164, "picking one you have opens its window")
 
--- The Show slider on the Crafts tab: its label, dragging it, and each profession's own place.
-local show = ns.Window.CurrentPanel().show
-ns.Window.Refresh()
-eq(show.slider.labelText[2], "All", "All to start")
-WM.SlideTo(show.slider, 150)
-eq(ns.ShowUpTo("Blacksmithing"), 150, "dragging sets Blacksmithing's")
-WM.RunTimers()
-eq(show.slider.labelText[2], "Up to 150 (you: 40)", "with your skill beside it")
-Radio(root, "Tailoring"):setSelected()
-eq(show.slider.value, ns.SHOW_ALL, "Tailoring keeps its own")
-eq(show.slider.labelText[2], "All")
-Radio(root, "Blacksmithing"):setSelected()
-eq(show.slider.value, 150, "and Blacksmithing its")
-WM.SlideTo(show.slider, 0)
-WM.RunTimers()
-eq(show.slider.labelText[2], "Known")
-ns.SetShowUpTo("Blacksmithing", ns.SHOW_ALL)
-ns.Window.Refresh()
+-- The top bar's Hide unlearned and Show all; Show all is greyed while Hide unlearned is on.
+local crafts = ns.Window.CurrentPanel()
+crafts.hideUnlearned:SetChecked(true)
+crafts.hideUnlearned:Click()
+eq(ns.db.hideUnlearned, true, "Hide unlearned")
+crafts.hideUnlearned:SetChecked(false)
+crafts.hideUnlearned:Click()
+crafts.showAll:SetChecked(true)
+crafts.showAll:Click()
+eq(ns.db.showAll, true, "Show all")
+crafts.showAll:SetChecked(false)
+crafts.showAll:Click()
+eq(ns.db.hideUnlearned, false)
+eq(ns.db.showAll, false)
 local function Drawn(text)
 	for _, f in ipairs(WM.frames) do
 		if f.shown and type(f.name) == "table" and type(f.name.text) == "string" and f.name.text:find(text, 1, true) then return f end
@@ -479,6 +483,10 @@ ns.db.showLosses = true
 ns.Window.Refresh()
 local maceRow = Drawn("Copper Mace")
 ok(maceRow, "a recipe you'd learn, shown with the losses")
+eq(maceRow.unlearned, true, "greyed out: not learned")
+eq(maceRow.icon.desaturated, true, "a grey icon")
+eq(maceRow.line.alpha, 0.55, "faded numbers")
+eq(beltRow.icon.desaturated, false, "a recipe you know isn't")
 maceRow.scripts.OnEnter(maceRow)
 ok(TipHas("Trainer 50c (skill 15)"), "its tooltip says where to learn it")
 ns.db.showLosses = false
@@ -714,13 +722,12 @@ ok(Printed("crafted with Rough Sharpening Stone"), "a crafted material says how"
 -- Recipes not read yet: Show at Known explains instead of saying nothing makes a profit.
 local saved = ns.db.recipes.Blacksmithing
 ns.db.recipes.Blacksmithing = {}
-ns.SetShowUpTo("Blacksmithing", ns.SHOW_KNOWN)
+ns.db.hideUnlearned = true
 ns.DataChanged()
 ns.Window.Show("crafts")
 ns.Window.Refresh()
 eq(ns.Recorder.KnownCount("Blacksmithing"), 0)
-ns.db.recipes.Blacksmithing = saved
-ns.SetShowUpTo("Blacksmithing", ns.SHOW_ALL)
+ns.db.recipes.Blacksmithing, ns.db.hideUnlearned = saved, false
 ns.DataChanged()
 ns.Window.Hide()
 

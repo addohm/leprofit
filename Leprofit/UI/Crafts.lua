@@ -200,7 +200,7 @@ local function RowTooltip(owner, row, prof)
 		Pair(ns.Prices.MarketName(), ns.Money(row.market))
 	end
 	local learn = LearnLine(row, prof)
-	if learn then tip:AddLine(learn, 1, 1, 1, true) end
+	if learn then tip:AddLine("Not learned yet. " .. learn, 1, 1, 1, true) end
 	for _, w in ipairs(Warnings(row)) do tip:AddLine(w, 1, 0.6, 0.2, true) end
 	tip:AddLine("Click for its materials. Shift-click to link it.", 0.6, 0.6, 0.6, true)
 	tip:Show()
@@ -481,52 +481,29 @@ function ns.BuildProfessionMenu(_, root)
 	end
 end
 
--- The Show slider: Known at the left, All at the right, skill levels between (Blizzard's slider
--- with steppers, from the game's own Settings). Remembered per profession.
-local function ShowText(value)
-	local prof = ns.CurrentProfession()
-	if value <= ns.SHOW_KNOWN then return "Known" end
-	if value >= ns.SHOW_ALL then return "All" end
-	local skill = prof and ns.Skill(prof)
-	return ("Up to %d%s"):format(value, skill and (" (you: " .. skill .. ")") or "")
-end
-
-local function ShowSlider(parent)
-	local row = CreateFrame("Frame", nil, parent)
-	row:SetSize(150, 26)
-	local slider = CreateFrame("Frame", nil, row, "MinimalSliderWithSteppersTemplate")
-	slider:SetAllPoints()
-	local labels = MinimalSliderWithSteppersMixin.Label
-	local syncing = false
-	slider:Init(ns.SHOW_ALL, ns.SHOW_KNOWN, ns.SHOW_ALL, (ns.SHOW_ALL - ns.SHOW_KNOWN) / ns.SHOW_STEP, {
-		[labels.Left] = function() return "Show" end,
-		[labels.Right] = ShowText,
-	})
-	slider:RegisterCallback(MinimalSliderWithSteppersMixin.Event.OnValueChanged, function(_, value)
-		if syncing then return end
-		local prof = ns.CurrentProfession()
-		if not prof then return end
-		ns.SetShowUpTo(prof, value)
-		ns.Refresh()
-	end, row)
-	row:SetScript("OnEnter", function(self)
+-- A checkbox with its label in the top bar; the label greys when the box is disabled.
+local function TopCheck(parent, label, tooltip, onClick)
+	local cb = CreateFrame("CheckButton", nil, parent, "UICheckButtonTemplate")
+	cb:SetSize(26, 26)
+	cb.label = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+	cb.label:SetPoint("LEFT", cb, "RIGHT", 2, 0)
+	cb.label:SetText(label)
+	cb:SetScript("OnClick", function(self)
+		onClick(self:GetChecked() and true or false)
+		ns.Window.Refresh()
+	end)
+	cb:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-		GameTooltip:AddLine("Show")
-		GameTooltip:AddLine("Known: only the recipes you know. A skill: also the trainer and pattern recipes you could learn by then, to see what's worth learning. All: everything.", 1, 1, 1, true)
-		GameTooltip:AddLine("Each profession remembers its own.", 0.7, 0.7, 0.7, true)
+		GameTooltip:AddLine(label)
+		GameTooltip:AddLine(tooltip, 1, 1, 1, true)
 		GameTooltip:Show()
 	end)
-	row:SetScript("OnLeave", GameTooltip_Hide)
-	-- The profession shown can change: put the slider where that one was left.
-	row.Sync = function()
-		local value = ns.ShowUpTo(ns.CurrentProfession())
-		syncing = true
-		slider:SetValue(value)
-		slider:FormatValue(value)
-		syncing = false
+	cb:SetScript("OnLeave", GameTooltip_Hide)
+	cb.SetUsable = function(self, usable)
+		self:SetEnabled(usable)
+		if usable then self.label:SetTextColor(1, 1, 1) else self.label:SetTextColor(0.5, 0.5, 0.5) end
 	end
-	row.slider = slider
-	return row
+	return cb
 end
 
 local function Picker(parent)
@@ -563,8 +540,14 @@ local function Build(p)
 	lossesLabel:SetText("Show losses")
 	panel.losses = losses
 
-	panel.show = ShowSlider(panel)
-	panel.show:SetPoint("LEFT", lossesLabel, "RIGHT", 46, 0)
+	panel.hideUnlearned = TopCheck(panel, "Hide unlearned",
+		"List only the recipes this character knows. Otherwise the ones you could learn now are listed too, greyed out, with what learning them costs in their tooltip.",
+		function(v) ns.db.hideUnlearned = v end)
+	panel.hideUnlearned:SetPoint("LEFT", lossesLabel, "RIGHT", 12, 0)
+	panel.showAll = TopCheck(panel, "Show all",
+		"Also list the recipes that need more skill than you have, greyed out.",
+		function(v) ns.db.showAll = v end)
+	panel.showAll:SetPoint("LEFT", panel.hideUnlearned.label, "RIGHT", 12, 0)
 
 	local header = CreateFrame("Frame", nil, panel)
 	header:SetPoint("TOPLEFT", 0, -32)
@@ -615,11 +598,8 @@ end
 
 local function LeftOutText(left)
 	local parts = {}
-	if left.unlearned > 0 then
-		local upTo = ns.ShowUpTo(ns.CurrentProfession())
-		parts[#parts + 1] = upTo == ns.SHOW_KNOWN and (left.unlearned .. " you don't know")
-			or (left.unlearned .. " you'd learn past skill " .. upTo)
-	end
+	if left.unlearned > 0 then parts[#parts + 1] = left.unlearned .. " you haven't learned" end
+	if left.later > 0 then parts[#parts + 1] = left.later .. " needing more skill" end
 	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss" end
 	if left.unpriced > 0 then parts[#parts + 1] = left.unpriced .. " without a price" end
 	if left.hidden > 0 then parts[#parts + 1] = left.hidden .. " marked doesn't sell" end
@@ -631,7 +611,9 @@ end
 local function Refresh()
 	picker.Sync()
 	panel.losses:SetChecked(ns.db.showLosses)
-	panel.show.Sync()
+	panel.hideUnlearned:SetChecked(ns.db.hideUnlearned)
+	panel.showAll:SetChecked(ns.db.showAll)
+	panel.showAll:SetUsable(not ns.db.hideUnlearned)
 	PlaceColumns(panel.header)
 	HeadingTexts(panel.header)
 	local hasAuction = ns.Prices.HasAuctionator() or ns.Prices.HasTSM()
@@ -659,7 +641,12 @@ local function Refresh()
 		b.product, b.row = row.product, row
 		b.icon:SetTexture(ns.ItemIcon(row.product))
 		local yield = row.yield ~= 1 and (GREY .. " x" .. row.yield .. "|r") or ""
-		b.name:SetText(ns.ItemNameColored(row.product) .. yield)
+		-- Recipes you haven't learned are greyed out: grey name, grey icon, faded numbers.
+		local learned = row.rec.source.kind == "known"
+		b.icon:SetDesaturated(not learned)
+		b.name:SetText((learned and ns.ItemNameColored(row.product) or (GREY .. ns.ItemName(row.product) .. "|r")) .. yield)
+		b.line:SetAlpha(learned and 1 or 0.55)
+		b.unlearned = not learned
 		for _, col in ipairs(COLUMNS) do b[col.key]:SetText(CellText(col.key, row)) end
 		PlaceColumns(b, b.name, b)
 		b.sel:SetShown(row.product == selected)
@@ -671,17 +658,18 @@ local function Refresh()
 
 	-- Recipes you know are read from the profession window: until then none count as known.
 	local unread = ns.Skill(prof) and ns.Recorder.KnownCount(prof) == 0
-	local upTo = ns.ShowUpTo(prof)
+	local db = ns.db
 	if #list == 0 then
 		local text
-		if upTo == ns.SHOW_KNOWN and not ns.Skill(prof) then
-			text = "This character doesn't have " .. prof .. ". Slide Show to the right to see what it could learn."
-		elseif upTo == ns.SHOW_KNOWN and unread then
+		if not ns.Skill(prof) and (db.hideUnlearned or not db.showAll) then
+			text = "This character doesn't have " .. prof .. "." .. (db.hideUnlearned and " Untick Hide unlearned and tick" or " Tick")
+				.. " Show all to see what it could learn."
+		elseif db.hideUnlearned and unread then
 			text = ("Leprofit hasn't read your %s recipes yet: open your %s window."):format(prof, prof)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
-		elseif upTo < ns.SHOW_ALL then
-			text = "Nothing here makes a profit at these prices. Slide Show to the right, or tick Show losses."
+		elseif db.hideUnlearned or not db.showAll then
+			text = "Nothing here makes a profit at these prices. Tick Show losses, or Show all."
 		else
 			text = "Nothing makes a profit at these prices. Tick Show losses to see everything."
 		end

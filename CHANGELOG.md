@@ -14,8 +14,8 @@ All notable changes to leprofit. The format follows
     of buying and crafting), with notes on where to learn each recipe and
     how many crafts pay it back, and a materials panel for n crafts. Losses,
     "doesn't sell" items and recipes with no known source are hidden by
-    default; the Show slider (per profession) lists the recipes you know,
-    also those you could learn up to a skill level, or all.
+    default. Recipes you could learn now are listed greyed out; Show all adds
+    those needing more skill; Hide unlearned lists only the ones you know.
   - Doesn't sell asks before hiding an item, and Options lists the hidden
     items with Unhide and Unhide all.
   - Opening Leprofit opens your profession window too, so it reads your

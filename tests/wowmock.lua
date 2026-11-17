@@ -72,22 +72,16 @@ local function NewFrame(kind, name, parent)
 	function f:SetScript(event, fn) self.scripts[event] = fn end
 	function f:GetScript(event) return self.scripts[event] end
 	function f:RegisterEvent(e) self.events[e] = true end
-	function f:CreateTexture() return Permissive({}) end
+	function f:CreateTexture()
+		local tex = Permissive({})
+		function tex:SetDesaturated(v) self.desaturated = v and true or false end
+		return tex
+	end
+	function f:SetAlpha(a) self.alpha = a end
 	function f:CreateFontString() return FontString() end
 	function f:Click(button) if self.scripts.OnClick then self.scripts.OnClick(self, button or "LeftButton") end end
 	-- Blizzard's menu system: a DropdownButton keeps the function that builds its menu.
 	function f:SetupMenu(fn) self.menuGenerator = fn end
-	-- Blizzard's slider with steppers: its value, label formatters and callbacks.
-	function f:Init(value, _, _, _, formatters) self.value, self.formatters = value, formatters end
-	function f:SetValue(v) self.value = v end
-	function f:FormatValue(v)
-		self.labelText = {}
-		for id, fn in pairs(self.formatters or {}) do self.labelText[id] = fn(v) end
-	end
-	function f:RegisterCallback(event, fn, owner)
-		self.callbacks = self.callbacks or {}
-		self.callbacks[event] = { fn, owner }
-	end
 	table.insert(M.frames, f)
 	if name then _G[name] = f end
 	return Permissive(f)
@@ -109,17 +103,6 @@ UISpecialFrames = {}
 SlashCmdList = {}
 ITEM_QUALITY_COLORS = { [2] = { hex = "|cff1eff00" } }
 Enum = {}
-MinimalSliderWithSteppersMixin = {
-	Label = { Left = 1, Right = 2, Top = 3, Min = 4, Max = 5 },
-	Event = { OnValueChanged = "OnValueChanged" },
-}
--- Dragging a slider: the value changes and its OnValueChanged callback runs.
-function M.SlideTo(slider, value)
-	slider.value = value
-	local cb = slider.callbacks and slider.callbacks.OnValueChanged
-	if cb then cb[1](cb[2], value) end
-	slider:FormatValue(value)
-end
 
 function M.Fire(event, ...)
 	for _, f in ipairs(M.frames) do

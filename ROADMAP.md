@@ -49,9 +49,9 @@ Modelled on the source addon (a levelling planner), but for profit.
 - **Selling:** crafts at 0 or negative profit are hidden (a setting shows
   them). Items with no auction listing seen for some days are flagged, and
   you can mark an item as "doesn't sell" to hide it (after a confirmation;
-  Options lists hidden items to unhide). A Show slider (per profession)
-  lists the recipes you know, those you could learn up to a skill level,
-  or all.
+  Options lists hidden items to unhide). Recipes you could learn now are
+  listed greyed out; Show all adds those needing more skill; Hide unlearned
+  lists only the known (the owner's pick, after trying a skill slider).
 - **Recipe data:** the source addon's built-in data, split into the modules, plus
   what you record playing. No in-game sharing, no share website.
 - **Modules:** a core addon (pricing, window, settings) plus one addon per
