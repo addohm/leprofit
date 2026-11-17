@@ -109,13 +109,15 @@ function Profit.Evaluate(prof, rec, memo)
 end
 
 -- The rows the Crafts tab lists for a profession, most profitable first, and how many were left out:
--- { unlearned = n (Known only), unknown = n (no known source), hidden = n, unpriced = n (a material
+-- { unlearned = n (beyond the Show slider), unknown = n (no known source), hidden = n, unpriced = n (a material
 -- or the item has no price), losses = n (0 or less) }.
 function Profit.Rows(prof)
 	local db, memo = ns.db, {}
 	local rows, left = {}, { unlearned = 0, unknown = 0, hidden = 0, unpriced = 0, losses = 0 }
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
-		if db.knownOnly and rec.source.kind ~= "known" then
+		local upTo = ns.ShowUpTo(prof)
+		local need = rec.source.skill
+		if rec.source.kind ~= "known" and upTo < ns.SHOW_ALL and (upTo == ns.SHOW_KNOWN or not need or need > upTo) then
 			left.unlearned = left.unlearned + 1
 		elseif rec.source.kind == "unknown" and not db.showUnknown then
 			left.unknown = left.unknown + 1

@@ -95,8 +95,6 @@ local function Build(panel)
 	} }))
 
 	Add(UI.OptionHeading(panel, "The Crafts list"))
-	get, set = Setting("knownOnly")
-	Add(UI.OptionCheck(panel, "Show only recipes this character knows", get, set))
 	get, set = Setting("showLosses")
 	Add(UI.OptionCheck(panel, "Show crafts at a loss or without a price", get, set))
 	get, set = Setting("showUnknown")

@@ -268,14 +268,34 @@ eq(rows[1].rec.name, "Copper Chain Belt", "marked doesn't sell")
 eq(left.hidden, 1)
 ns.db.hidden[990002] = nil
 eq(ns.Profit.Rows("Blacksmithing")[1].rec.name, "Test Sharpened Thing", "unhidden")
--- Known only: the recipes you'd have to learn are left out, and counted.
+-- The Show slider: Known lists only what you know; a skill adds what you could learn by then.
 ns.db.showLosses = true
-ns.db.knownOnly = true
+eq(ns.ShowUpTo("Blacksmithing"), ns.SHOW_ALL, "everything by default")
+ns.SetShowUpTo("Blacksmithing", ns.SHOW_KNOWN)
 rows, left = ns.Profit.Rows("Blacksmithing")
 for _, r in ipairs(rows) do eq(r.rec.source.kind, "known", "known only: " .. r.rec.name) end
 eq(#rows, 3, "the three recipes the window showed")
 ok(left.unlearned > 50, "the rest counted: " .. left.unlearned)
-ns.db.knownOnly, ns.db.showLosses = false, false
+ns.SetShowUpTo("Blacksmithing", 31) -- steps of 5: 30
+eq(ns.ShowUpTo("Blacksmithing"), 30, "the slider moves in steps of 5")
+rows, left = ns.Profit.Rows("Blacksmithing")
+local learnable = 0
+for _, r in ipairs(rows) do
+	if r.rec.source.kind ~= "known" then
+		learnable = learnable + 1
+		ok(r.rec.source.skill and r.rec.source.skill <= 30, "learnable by 30: " .. r.rec.name)
+	end
+end
+ok(learnable >= 5, "trainer recipes up to skill 30 join the known ones: " .. learnable)
+ok(left.unlearned > 50, "the rest still counted")
+eq(ns.ShowUpTo("Mining"), ns.SHOW_ALL, "each profession has its own")
+-- The old Known only box decides where the slider starts.
+ns.db.showUpTo.Blacksmithing, ns.db.knownOnly = nil, true
+eq(ns.ShowUpTo("Blacksmithing"), ns.SHOW_KNOWN, "Known only becomes Known")
+ns.ResetOptions()
+eq(ns.ShowUpTo("Blacksmithing"), ns.SHOW_ALL, "Defaults: All")
+eq(ns.db.knownOnly, nil)
+ns.db.showLosses = false
 
 -- Sorting: by any column, either way round; rows without a value go last.
 ns.db.showLosses = true
@@ -414,6 +434,25 @@ ok(Radio(picked, "Tailoring").isSelected(), "and it's selected now")
 Radio(root, "Blacksmithing"):setSelected()
 eq(ns.db.profession, "Blacksmithing")
 eq(WM.opened[1], 164, "picking one you have opens its window")
+
+-- The Show slider on the Crafts tab: its label, dragging it, and each profession's own place.
+local show = ns.Window.CurrentPanel().show
+ns.Window.Refresh()
+eq(show.slider.labelText[2], "All", "All to start")
+WM.SlideTo(show.slider, 150)
+eq(ns.ShowUpTo("Blacksmithing"), 150, "dragging sets Blacksmithing's")
+WM.RunTimers()
+eq(show.slider.labelText[2], "Up to 150 (you: 40)", "with your skill beside it")
+Radio(root, "Tailoring"):setSelected()
+eq(show.slider.value, ns.SHOW_ALL, "Tailoring keeps its own")
+eq(show.slider.labelText[2], "All")
+Radio(root, "Blacksmithing"):setSelected()
+eq(show.slider.value, 150, "and Blacksmithing its")
+WM.SlideTo(show.slider, 0)
+WM.RunTimers()
+eq(show.slider.labelText[2], "Known")
+ns.SetShowUpTo("Blacksmithing", ns.SHOW_ALL)
+ns.Window.Refresh()
 local function Drawn(text)
 	for _, f in ipairs(WM.frames) do
 		if f.shown and type(f.name) == "table" and type(f.name.text) == "string" and f.name.text:find(text, 1, true) then return f end
@@ -672,15 +711,16 @@ WM.auctionator[2835] = 100 -- Rough Stone, so the stones can be crafted
 SlashCmdList.LEPROFIT("why Test Sharpened")
 ok(Printed("crafted with Rough Sharpening Stone"), "a crafted material says how")
 
--- Recipes not read yet: Known only explains instead of saying nothing makes a profit.
+-- Recipes not read yet: Show at Known explains instead of saying nothing makes a profit.
 local saved = ns.db.recipes.Blacksmithing
 ns.db.recipes.Blacksmithing = {}
-ns.db.knownOnly = true
+ns.SetShowUpTo("Blacksmithing", ns.SHOW_KNOWN)
 ns.DataChanged()
 ns.Window.Show("crafts")
 ns.Window.Refresh()
 eq(ns.Recorder.KnownCount("Blacksmithing"), 0)
-ns.db.recipes.Blacksmithing, ns.db.knownOnly = saved, false
+ns.db.recipes.Blacksmithing = saved
+ns.SetShowUpTo("Blacksmithing", ns.SHOW_ALL)
 ns.DataChanged()
 ns.Window.Hide()
 

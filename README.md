@@ -58,10 +58,14 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   pattern, its price, the skill it needs, and how many crafts pay it back), and anything to be wary
   of: a material with no price, an item that binds on pickup or that a vendor pays more for, an
   auction price several days old.
-- Crafts at 0 or negative profit are hidden; tick **Show losses** to see them. Tick **Known only**
-  to list just the recipes this character knows. The line above the materials panel says how many
-  crafts were left out and why: you don't know them, at a loss, without a price (a material or the
-  item has none), marked doesn't sell, or no known trainer or vendor.
+- Crafts at 0 or negative profit are hidden; tick **Show losses** to see them.
+- The **Show** slider picks which recipes are listed: **Known** (only the ones this character
+  knows), a skill level such as **Up to 175 (you: 120)** (also the trainer and pattern recipes you
+  could learn by then, to see whether one is worth learning: its tooltip says how many crafts pay
+  it back), or **All**. Each profession remembers its own.
+- The line above the materials panel says how many crafts were left out and why: past the Show
+  slider, at a loss, without a price (a material or the item has none), marked doesn't sell, or no
+  known trainer or vendor. Where prices come from is at its right.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
   material's need, what you hold, what to buy, its price for one (**Each**) and its cost for the
   number of **Crafts** you set. After each name, where its price is from: auction, vendor, craft it,
@@ -102,7 +106,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - Profit from the lowest buyout or the 14-day average (where there's no average, the lowest buyout
   is used); the Avg 14d, Trend, Seen and Listed columns; the auction house cut; your undercut; how
   old an auction price is before it's flagged.
-- Show only the recipes this character knows; crafts at a loss or without a price; and recipes
+- Show crafts at a loss or without a price, and recipes
   nobody has recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody
   can learn; hidden by default because there are hundreds).
 - The minimap button and the profession window button.

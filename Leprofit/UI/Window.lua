@@ -6,7 +6,7 @@ local Window = {}
 ns.Window = Window
 
 local WIDTH, HEIGHT = 680, 600
-local MIN_W, MIN_H, MAX_W, MAX_H = 600, 460, 1400, 1200
+local MIN_W, MIN_H, MAX_W, MAX_H = 660, 460, 1400, 1200 -- 660: the Crafts tab's top bar
 local TABS_Y = -36
 local TAB_HEIGHT = 24
 local GOLD = { 1, 0.82, 0 }
