@@ -11,21 +11,24 @@ local MAX_DEPTH = 3 -- materials made from materials made from materials, and no
 
 local EffectivePrice
 
--- The cheapest way to make one of an item with a recipe you know: { rec, cost } or nil.
+-- The cheapest way to make one of an item with a recipe you know, in any of your professions with
+-- a module (smelting a bar for Blacksmithing, say): { rec, prof, cost } or nil.
 local function CraftOption(prof, itemID, depth, memo)
 	if depth >= MAX_DEPTH then return nil end
 	local best
-	for _, rec in ipairs(ns.Recipes.Makers(prof, itemID) or {}) do
-		local cost = 0
-		for _, r in ipairs(rec.reagents) do
-			local p = r[1] ~= itemID and EffectivePrice(prof, r[1], depth + 1, memo)
-			if not p then cost = nil break end
-			cost = cost + p * r[2]
-		end
-		if cost then
-			local each = cost / math.max(rec.yield or 1, 1)
-			if not best or each < best.cost or (each == best.cost and rec.name < best.rec.name) then
-				best = { rec = rec, cost = each }
+	for _, maker in ipairs(ns.professionOrder) do
+		for _, rec in ipairs(ns.Recipes.Makers(maker, itemID) or {}) do
+			local cost = 0
+			for _, r in ipairs(rec.reagents) do
+				local p = r[1] ~= itemID and EffectivePrice(prof, r[1], depth + 1, memo)
+				if not p then cost = nil break end
+				cost = cost + p * r[2]
+			end
+			if cost then
+				local each = cost / math.max(rec.yield or 1, 1)
+				if not best or each < best.cost or (each == best.cost and rec.name < best.rec.name) then
+					best = { rec = rec, prof = maker, cost = each }
+				end
 			end
 		end
 	end
@@ -208,7 +211,9 @@ function Profit.Explain(prof, rec)
 	local known = rec.source.kind == "known" and "you know it" or "you don't know it"
 	Add(("%s (%s, %s)"):format(ns.ItemNameColored(rec.product), prof, known))
 	for _, m in ipairs(row.materials) do
-		local how = m.how == "craft" and ("crafted with " .. m.option.rec.name) or SOURCES[m.how] or "no price"
+		local how = m.how == "craft"
+			and ("crafted with " .. m.option.rec.name .. (m.option.prof ~= prof and (" (" .. m.option.prof .. ")") or ""))
+			or SOURCES[m.how] or "no price"
 		Add(("  %d x %s: %s each (%s)%s"):format(m.count, ns.ItemName(m.itemID), M(m.price), how,
 			m.price and (" = " .. M(m.price * m.count)) or ""))
 	end

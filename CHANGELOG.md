@@ -50,6 +50,11 @@ All notable changes to leprofit. The format follows
   - The other seven modules from the source addon's data: Alchemy (200 recipes),
     Cooking (164), Enchanting (85 that make an item), Engineering (272),
     First Aid (41), Leatherworking (595) and Tailoring (471).
+  - The Mining module (smelting): recipes read from your smelting window;
+    bars against their ore.
+  - Make-vs-buy across your professions: a material can be crafted in any
+    of this character's enabled professions (bars smelted for
+    Blacksmithing), and `/leprofit why` names the profession.
   - Tools: the Windows install script, the release zip script, the module
     data generator, and tests with a fake client.
 

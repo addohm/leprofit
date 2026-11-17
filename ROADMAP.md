@@ -13,6 +13,10 @@ change.
 - The Shopping tab and Send to Auctionator (2026-11-16).
 - The other seven modules (2026-11-16): Alchemy, Cooking, Enchanting,
   Engineering, First Aid, Leatherworking, Tailoring.
+- Mining (smelting), read from your smelting window, and make-vs-buy across
+  your professions: bars at their ore's price for Blacksmithing
+  (2026-11-17). TESTING.md split into what a Blacksmith/Miner can check and
+  what needs each other profession.
 - Forever checks (2026-11-16):
   - The auction house cut isn't published and the game's AH API doesn't
     report it, so 5% stays a setting. The minimum deposit is 1 copper since
@@ -52,7 +56,8 @@ Modelled on the source addon (a levelling planner), but for profit.
 - **Modules:** a core addon (pricing, window, settings) plus one addon per
   profession, ticked per character in the AddOns list: Alchemy,
   Blacksmithing, Cooking, Enchanting, Engineering, First Aid, Leatherworking,
-  Tailoring. Each character sees only its own professions.
+  Mining (smelting), Tailoring. Each character sees only its own
+  professions.
 - **Window:** its own window, in leboof's style (dark panel, gold border, flat
   tabs). Tabs: Crafts (ranked list; click a row for its materials, a craft
   count and Add to list), Shopping (planned crafts, combined materials
@@ -74,5 +79,4 @@ Modelled on the source addon (a levelling planner), but for profit.
 
 - Record your own sales from the "Auction successful" mails: real sales, not listings.
 - Count materials on your other characters (the source addon's Alts.lua).
-- Make-vs-buy across professions (smelting bars for Blacksmithing).
 - Profit lines in item tooltips.

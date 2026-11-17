@@ -28,8 +28,10 @@ eq(ns.CurrentProfession(), ns.professionOrder[1], "the first module shown at fir
 
 -- Every module: registered, recipes that make something from something, no recipe in two
 -- professions, and a skill line for opening its window.
-local PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Tailoring" }
-eq(#ns.professionOrder, #PROFESSIONS, "all eight modules")
+-- Mining has no data (the source addon never recorded smelting): its recipes come from your window.
+local PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Mining", "Tailoring" }
+local NO_DATA = { Mining = true }
+eq(#ns.professionOrder, #PROFESSIONS, "all nine modules")
 local owner, shared = {}, 0
 for i, name in ipairs(PROFESSIONS) do
 	eq(ns.professionOrder[i], name, "in alphabetical order")
@@ -41,8 +43,12 @@ for i, name in ipairs(PROFESSIONS) do
 		if owner[id] then shared = shared + 1 end
 		owner[id] = name
 	end
-	ok(n > 20, name .. " has recipes: " .. n)
-	ok(#ns.Recipes.List(name) > 0, name .. " lists them")
+	if NO_DATA[name] then
+		eq(n, 0, name .. " ships no recipes")
+	else
+		ok(n > 20, name .. " has recipes: " .. n)
+		ok(#ns.Recipes.List(name) > 0, name .. " lists them")
+	end
 	WM.skills[name] = 1
 	WM.opened = {}
 	ok(ns.Recorder.OpenWindow(name), name .. " can open its window")
@@ -207,6 +213,47 @@ eq(row.cost, 300, "3 stones at 1 Rough Stone each")
 eq(row.yield, 3)
 eq(row.profit, 3 * 1900 - 300, "three items after the cut, less the stones")
 
+-- Smelting: the smelting window (the game may call it Smelting) gives Mining's recipes, and a bar
+-- you can smelt costs its ore in Blacksmithing's sums when that's cheaper.
+WM.profession = "Smelting"
+eq(ns.Recorder.OpenProfession(true), "Mining", "the smelting window is Mining's")
+WM.skills.Mining = 30
+WM.recipes = {
+	{ id = 2657, name = "Smelt Copper", learned = true, product = 2840, reagents = { { 2770, 1 } } },
+	{ id = 3304, name = "Smelt Tin", learned = false, product = 3576, reagents = { { 2771, 1 } } },
+}
+ns.Recorder.Record()
+eq(ns.db.recipes.Mining[2657].learned, true, "Smelt Copper recorded under Mining")
+eq(ns.db.recipes.Blacksmithing[2657], nil, "and not under Blacksmithing")
+local smeltCopper
+for _, r in ipairs(ns.Recipes.List("Mining")) do if r.name == "Smelt Copper" then smeltCopper = r end end
+ok(smeltCopper, "Mining lists it")
+WM.items[2770] = { name = "Copper Ore" }
+WM.auctionator[2770] = 400
+row = ns.Profit.Evaluate("Mining", smeltCopper)
+eq(row.cost, 400, "a bar from one ore")
+eq(row.profit, 950 - 400, "the bar after the cut, less the ore")
+belt = Find("Copper Chain Belt")
+row = ns.Profit.Evaluate("Blacksmithing", belt)
+eq(row.materials[1].how, "craft", "Blacksmithing smelts its bars")
+eq(row.materials[1].option.prof, "Mining", "with Mining")
+eq(row.cost, 2400, "6 bars at their ore's price")
+WM.auctionator[2770] = 2000
+eq(ns.Profit.Evaluate("Blacksmithing", belt).materials[1].how, "auction", "buys them when that's cheaper")
+WM.auctionator[2770] = 400
+WM.printed = {}
+SlashCmdList.LEPROFIT("why Copper Chain Belt")
+local saidSmelt = false
+for _, line in ipairs(WM.printed) do
+	if line:find("crafted with Smelt Copper (Mining)", 1, true) then saidSmelt = true end
+end
+ok(saidSmelt, "why names the smelting")
+WM.auctionator[2770] = nil
+-- A stale smelting list read as Blacksmithing isn't recorded there.
+WM.profession = "Blacksmithing"
+ns.Recorder.Record()
+eq(ns.db.recipes.Blacksmithing[2657], nil, "smelting stays with Mining")
+
 -- The list: most profitable first; losses, hidden items and unknown sources left out.
 local rows, left = ns.Profit.Rows("Blacksmithing")
 ok(#rows >= 2, "profitable crafts listed: " .. #rows)
@@ -320,7 +367,7 @@ local after = 0
 for _ in pairs(ns.db.recipes.Blacksmithing) do after = after + 1 end
 eq(after, before, "another profession's list isn't recorded")
 -- Detectors that disagree: nothing is recorded.
-WM.profession = "Mining"
+WM.profession = "Jewelcrafting"
 eq(ns.Recorder.OpenProfession(true), nil, "not a module's profession")
 
 -- Learning a recipe marks it known straight away.

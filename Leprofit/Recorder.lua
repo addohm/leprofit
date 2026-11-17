@@ -37,8 +37,10 @@ function Recorder.OpenProfession(strict)
 		local name = Usable(detect())
 		if name then
 			local match
-			for prof in pairs(ns.professions) do
-				if name:find(prof, 1, true) then match = prof end
+			for prof, def in pairs(ns.professions) do
+				for _, w in ipairs(def.windowNames) do
+					if name:find(w, 1, true) then match = prof end
+				end
 			end
 			if strict and found and match ~= found then return nil end
 			if strict and not match then return nil end
@@ -106,7 +108,7 @@ end
 -- The game's skill line for each profession, for opening its window.
 local SKILL_LINES = {
 	Alchemy = 171, Blacksmithing = 164, Cooking = 185, Enchanting = 333, Engineering = 202,
-	["First Aid"] = 129, Leatherworking = 165, Tailoring = 197,
+	["First Aid"] = 129, Leatherworking = 165, Mining = 186, Tailoring = 197,
 }
 
 -- Opens your profession window on `prof` (Leprofit reads your recipes from it), unless it's
@@ -155,6 +157,13 @@ function Recorder.Record()
 		if OtherProfession(r.id, prof) then foreign = foreign + 1 end
 	end
 	if foreign >= 5 and foreign * 2 >= #list then return end
+	-- Smelting recipes belong to Mining: a stale smelting list read as another profession (too short
+	-- for the check above to catch) is left alone, as the source addon does.
+	if prof ~= "Mining" then
+		for i = #list, 1, -1 do
+			if list[i].name:find("^Smelt ") then table.remove(list, i) end
+		end
+	end
 
 	ns.db.recipes[prof] = ns.db.recipes[prof] or {}
 	local store, changed = ns.db.recipes[prof], false

@@ -7,7 +7,7 @@ the trainer or pattern costs and how many crafts pay it back. It's for crafters 
 what's worth making and selling.
 
 Leprofit is a core addon plus one module per profession: Alchemy, Blacksmithing, Cooking,
-Enchanting, Engineering, First Aid, Leatherworking and Tailoring. 0.1.0 hasn't been released yet;
+Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 0.1.0 hasn't been released yet;
 [TESTING.md](TESTING.md) is what's left to check in game. Source:
 [addohm/leprofit](https://github.com/addohm/leprofit).
 
@@ -76,7 +76,9 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   comes back when the item sells. If a vendor pays more, or the item binds on pickup, the vendor's
   price is used.
 - Each material costs the cheaper of buying it (a vendor's price if one is recorded, else the
-  auction house) and crafting it with a recipe you know. Materials you already hold count at their
+  auction house) and crafting it with a recipe you know, in any of this character's professions
+  with a module ticked: a Blacksmith who also mines gets bars at their ore's price when smelting is
+  cheaper. Materials you already hold count at their
   price too: using one you could sell costs you that one. The materials panel shows the gold you'd
   actually spend on what you don't have.
 - Leprofit records vendor prices for materials, and the patterns vendors sell, when you open a
@@ -118,7 +120,9 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 | `/leprofit reset` | Put the window back in the middle at its normal size |
 | `/leprofit help` | The commands and the build |
 
-Enchanting lists only what makes an item (rods, oils, wands): enchants on gear can't be posted. A
+Enchanting lists only what makes an item (rods, oils, wands): enchants on gear can't be posted.
+Mining ships no recipes (the source addon never recorded smelting): open your smelting window and
+Leprofit reads them, then lists each bar against its ore. A
 few of Forever's camp and home items (Camp Chair, Fishing Hut...) are listed by several
 professions' windows, so they show under each.
 

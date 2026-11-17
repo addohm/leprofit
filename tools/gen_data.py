@@ -24,6 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "the source addon" / "CommunityData.lua"
 
 # Profession name -> icon. Add a profession here and run the script to make its module's data.
+# Mining isn't here: the source addon has no smelting data, so Leprofit_Mining/Data.lua is written by hand.
 PROFESSIONS = {
     "Alchemy": "Interface\\Icons\\Trade_Alchemy",
     "Blacksmithing": "Interface\\Icons\\Trade_BlackSmithing",
