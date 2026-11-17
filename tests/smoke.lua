@@ -389,6 +389,31 @@ ok(ns.Window.IsShown(), "/leprofit opens the window")
 eq(#WM.opened, 1, "and the profession window")
 eq(WM.opened[1], 164, "Blacksmithing's")
 ok(ns.Window.CurrentPanel(), "a page is shown")
+-- The profession dropdown: every ticked module, the one shown selected; picking one switches.
+local dropdown = ns.Window.CurrentPanel().picker.dropdown
+eq(dropdown.menuGenerator, ns.BuildProfessionMenu, "the dropdown's menu")
+local root = WM.MenuRoot()
+ns.BuildProfessionMenu(dropdown, root)
+eq(#root.radios, #ns.professionOrder, "one entry per module")
+ok(root.radios[1].text:find("Trade_Alchemy", 1, true) and root.radios[1].text:find("Alchemy$"), "with its icon")
+for _, r in ipairs(root.radios) do
+	eq(r.isSelected(), r.text:find("Blacksmithing$") ~= nil, "only the profession shown is selected: " .. r.text)
+end
+local function Radio(r, name)
+	for _, radio in ipairs(r.radios) do
+		if radio.text:find(name .. "$") then return radio end
+	end
+end
+WM.opened = {}
+Radio(root, "Tailoring"):setSelected()
+eq(ns.db.profession, "Tailoring", "picking switches")
+eq(#WM.opened, 0, "no window for a profession this character doesn't have")
+local picked = WM.MenuRoot()
+ns.BuildProfessionMenu(dropdown, picked)
+ok(Radio(picked, "Tailoring").isSelected(), "and it's selected now")
+Radio(root, "Blacksmithing"):setSelected()
+eq(ns.db.profession, "Blacksmithing")
+eq(WM.opened[1], 164, "picking one you have opens its window")
 local function Drawn(text)
 	for _, f in ipairs(WM.frames) do
 		if f.shown and type(f.name) == "table" and type(f.name.text) == "string" and f.name.text:find(text, 1, true) then return f end

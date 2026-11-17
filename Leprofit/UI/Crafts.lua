@@ -1,4 +1,4 @@
--- Leprofit: the Crafts tab. A profession picker, the crafts that make gold (most profitable first;
+-- Leprofit: the Crafts tab. A profession dropdown, the crafts that make gold (most profitable first;
 -- each column sorts), with Auctionator's history in optional columns, and for the one picked its
 -- materials: what you hold, what to buy, and what that costs for the number of crafts you set.
 local _, ns = ...
@@ -460,43 +460,39 @@ end
 
 -- The page ------------------------------------------------------------------------------------
 
--- The profession shown: arrows on each side of its name, which steps to the next one.
+-- The profession shown: a dropdown (Blizzard's menu system, like leboof's checklist) listing the
+-- modules ticked for this character, each with its icon. Picking one also opens its window.
+local function ProfessionText(name)
+	local icon = ns.professions[name] and ns.professions[name].icon
+	return icon and ("|T" .. icon .. ":16:16|t " .. name) or name
+end
+
+local function PickProfession(name)
+	selected = nil
+	ns.SetProfession(name)
+	ns.Recorder.OpenWindow(name)
+	ns.Window.Refresh()
+end
+
+function ns.BuildProfessionMenu(_, root)
+	for _, name in ipairs(ns.professionOrder) do
+		root:CreateRadio(ProfessionText(name), function() return ns.CurrentProfession() == name end,
+			function() PickProfession(name) end)
+	end
+end
+
 local function Picker(parent)
 	local row = CreateFrame("Frame", nil, parent)
 	row:SetHeight(28)
-	local function Step(dir)
-		local order = ns.professionOrder
-		if #order == 0 then return end
-		local idx = 1
-		for i, name in ipairs(order) do
-			if name == ns.CurrentProfession() then idx = i end
-		end
-		selected = nil
-		ns.SetProfession(order[(idx - 1 + dir) % #order + 1])
-		ns.Recorder.OpenWindow(ns.CurrentProfession())
-		ns.Window.Refresh()
-	end
-	local function Arrow(dir, x)
-		local b = CreateFrame("Button", nil, row)
-		b:SetSize(26, 26)
-		b:SetPoint("LEFT", x, 0)
-		local base = dir < 0 and "Interface\\Buttons\\UI-SpellbookIcon-PrevPage-" or "Interface\\Buttons\\UI-SpellbookIcon-NextPage-"
-		b:SetNormalTexture(base .. "Up")
-		b:SetPushedTexture(base .. "Down")
-		b:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
-		b:SetScript("OnClick", function() Step(dir) end)
-		return b
-	end
-	Arrow(-1, 0)
-	local box = CreateFrame("Button", nil, row, "UIPanelButtonTemplate")
-	box:SetSize(150, 24)
-	box:SetPoint("LEFT", 30, 0)
-	box:SetScript("OnClick", function() Step(1) end)
-	Arrow(1, 184)
-	row.right = 212
-	row.Sync = function()
-		box:SetText(ns.CurrentProfession() or "|cff999999no modules|r")
-	end
+	local dropdown = CreateFrame("DropdownButton", nil, row, "WowStyle1DropdownTemplate")
+	dropdown:SetWidth(190)
+	dropdown:SetPoint("LEFT", 2, 0)
+	dropdown:SetDefaultText("|cff999999No modules|r")
+	dropdown:SetupMenu(ns.BuildProfessionMenu)
+	row.dropdown = dropdown
+	row.right = 196
+	-- The profession can change elsewhere (the profession window's button): show the one in use.
+	row.Sync = function() dropdown:GenerateMenu() end
 	return row
 end
 
@@ -505,6 +501,7 @@ local function Build(p)
 	picker = Picker(panel)
 	picker:SetPoint("TOPLEFT", 0, 2)
 	picker:SetPoint("RIGHT", panel, "RIGHT")
+	panel.picker = picker
 
 	local losses = CreateFrame("CheckButton", nil, panel, "UICheckButtonTemplate")
 	losses:SetSize(26, 26)

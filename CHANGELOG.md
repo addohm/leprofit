@@ -50,6 +50,8 @@ All notable changes to leprofit. The format follows
   - The other seven modules from the source addon's data: Alchemy (200 recipes),
     Cooking (164), Enchanting (85 that make an item), Engineering (272),
     First Aid (41), Leatherworking (595) and Tailoring (471).
+  - The profession is picked from a dropdown (Blizzard's menu, as in
+    leboof) instead of arrows.
   - The Mining module (smelting): recipes read from your smelting window;
     bars against their ore.
   - Make-vs-buy across your professions: a material can be crafted in any

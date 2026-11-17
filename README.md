@@ -32,7 +32,7 @@ it's already open, you don't have that profession, or you're in combat: Leprofit
 you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
-- The arrows at the top pick the profession.
+- The dropdown at the top picks the profession: it lists the modules ticked for this character.
 - Each row is a craft: the item, then **Cost** (the materials for one craft), **Buyout** (the lowest
   buyout for one item) and **Profit** (per craft, after the cut). A recipe that makes several (x3
   after its name) sells them all, so its Cost and Buyout don't add up to its Profit. Hover over a

@@ -75,6 +75,8 @@ local function NewFrame(kind, name, parent)
 	function f:CreateTexture() return Permissive({}) end
 	function f:CreateFontString() return FontString() end
 	function f:Click(button) if self.scripts.OnClick then self.scripts.OnClick(self, button or "LeftButton") end end
+	-- Blizzard's menu system: a DropdownButton keeps the function that builds its menu.
+	function f:SetupMenu(fn) self.menuGenerator = fn end
 	table.insert(M.frames, f)
 	if name then _G[name] = f end
 	return Permissive(f)
@@ -263,6 +265,15 @@ function M.SetTSM(prices)
 			return M.tsm[source] and M.tsm[source][id]
 		end,
 	} or nil
+end
+
+-- A menu's root, as SetupMenu's function gets it: records the radio buttons added.
+function M.MenuRoot()
+	local root = { radios = {} }
+	function root:CreateRadio(text, isSelected, setSelected)
+		table.insert(self.radios, { text = text, isSelected = isSelected, setSelected = setSelected })
+	end
+	return root
 end
 
 return M

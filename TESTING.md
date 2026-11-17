@@ -15,7 +15,8 @@ so most of it is covered by the first part.
       build, and packs the zip on the desktop.
 - [ ] They all show in the AddOns list; ticking only Leprofit gives "No profession modules are
       enabled" in the window.
-- [ ] The arrows step through only the modules ticked for this character.
+- [ ] The profession dropdown lists only the modules ticked for this character, with their icons;
+      the one shown is ticked, and it follows the profession window's button.
 
 **Blacksmithing** (on the Blacksmith, Leprofit - Blacksmithing ticked)
 - [ ] Opening Leprofit opens your Blacksmithing window (not when it's already open, or in combat);
@@ -25,7 +26,7 @@ so most of it is covered by the first part.
       "(craft it)" in the materials panel.
 
 **Mining** (Leprofit - Mining ticked)
-- [ ] On the Miner, opening Leprofit (or the arrows) opens the smelting window; `/leprofit status`
+- [ ] On the Miner, opening Leprofit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
       then counts the smelting recipes you know, and Mining's Crafts list shows bars against ore.
 - [ ] On a character with both (Mining and Blacksmithing ticked): Blacksmithing's materials panel
       shows "(craft it)" on bars that are cheaper to smelt, and `/leprofit why` says
