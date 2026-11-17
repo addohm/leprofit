@@ -78,12 +78,26 @@ def lua_number(n):
     return str(int(n)) if n.is_integer() else repr(n)
 
 
-def seller(entry):
+def seller(entry, vendors):
+    """A pattern seller: name, place and faction, and where they stand (map and x, y from 0 to 1).
+    The vendor table's faction is the NPC's own (Alliance, Horde or Neutral); a pattern record's is
+    only the faction of the player who recorded it, so the vendor table wins."""
     out = {}
     for key in ("vendor", "zone", "subZone", "faction"):
         if entry[key] is not None:
             out[key] = entry[key]
+    v = vendors[out["vendor"]] if out.get("vendor") and vendors else None
+    if is_table(v):
+        for key in ("zone", "subZone", "faction"):
+            if v[key] is not None:
+                out[key] = v[key]
+        if v.mapID and v.x is not None and v.y is not None:
+            out["mapID"], out["x"], out["y"] = int(v.mapID), round(float(v.x), 4), round(float(v.y), 4)
     return out if out.get("vendor") else None
+
+
+def lua_value(v):
+    return lua_number(v) if isinstance(v, (int, float)) else lua_string(v)
 
 
 def profession_data(community, name):
@@ -114,7 +128,7 @@ def profession_data(community, name):
             continue
         sellers, seen = [], set()
         for entry in [m, m.other] + values(m.sellers):
-            s = seller(entry) if is_table(entry) else None
+            s = seller(entry, community.vendors) if is_table(entry) else None
             if s and s["vendor"] not in seen:
                 seen.add(s["vendor"])
                 sellers.append(s)
@@ -153,7 +167,7 @@ def write_module(name, icon, recipes, training, patterns, vendor_prices, item_na
         t = training[recipe]
         skill = f", skill = {lua_number(t['skill'])}" if t["skill"] is not None else ""
         out.append(f"\t\t[{lua_string(recipe)}] = {{ cost = {lua_number(t['cost'])}{skill} }},")
-    out += ["\t},", "\t-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction } } }",
+    out += ["\t},", "\t-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }",
             "\tpatterns = {"]
     for recipe in sorted(patterns):
         p = patterns[recipe]
@@ -162,7 +176,7 @@ def write_module(name, icon, recipes, training, patterns, vendor_prices, item_na
             fields.append(f"price = {lua_number(p['price'])}")
         if p["skill"] is not None:
             fields.append(f"skill = {lua_number(p['skill'])}")
-        sellers = ", ".join("{ " + ", ".join(f"{k} = {lua_string(v)}" for k, v in s.items()) + " }"
+        sellers = ", ".join("{ " + ", ".join(f"{k} = {lua_value(v)}" for k, v in s.items()) + " }"
                             for s in p["sellers"])
         fields.append(f"sellers = {{ {sellers} }}")
         out.append(f"\t\t[{lua_string(recipe)}] = {{ {', '.join(fields)} }},")

@@ -20,7 +20,9 @@ local function Sellers(recorded, pattern)
 	local function Add(s)
 		if s and s.vendor and not seen[s.vendor] then
 			seen[s.vendor] = true
-			list[#list + 1] = { vendor = s.vendor, zone = s.zone, subZone = s.subZone, faction = s.faction }
+			list[#list + 1] = {
+				vendor = s.vendor, zone = s.zone, subZone = s.subZone, faction = s.faction, mapID = s.mapID, x = s.x, y = s.y,
+			}
 		end
 	end
 	Add(recorded)
@@ -32,6 +34,20 @@ local function Sellers(recorded, pattern)
 		return a.order < b.order
 	end)
 	return list
+end
+
+-- A seller and where they stand, e.g. "Vayn Moongaze in Nightclaw Cavern, Zephras Isle at 63.8, 36.1",
+-- with "(Alliance only)" or "(Horde only)" when the vendor serves one faction.
+function Recipes.SellerText(s)
+	if not s then return nil end
+	local place = {}
+	if s.subZone and s.subZone ~= s.zone then place[#place + 1] = s.subZone end
+	if s.zone then place[#place + 1] = s.zone end
+	local text = s.vendor
+	if #place > 0 then text = text .. " in " .. table.concat(place, ", ") end
+	if s.x and s.y then text = text .. (" at %.1f, %.1f"):format(s.x * 100, s.y * 100) end
+	if s.faction == "Alliance" or s.faction == "Horde" then text = text .. " (" .. s.faction .. " only)" end
+	return text
 end
 
 -- Where to learn a recipe: a trainer (its cost and the skill it needs), a pattern from a vendor

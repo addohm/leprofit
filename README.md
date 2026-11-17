@@ -61,7 +61,9 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - Crafts at 0 or negative profit are hidden; tick **Show losses** to see them.
 - The list shows the recipes you know, and **greyed out** the trainer and pattern recipes you could
   learn now (your skill is enough). Hover over a greyed one for what learning it costs and how many
-  crafts pay that back: is it worth learning? **Show all** adds the ones needing more skill than
+  crafts pay that back: is it worth learning? A pattern names its seller and where they stand,
+  e.g. "from Vayn Moongaze in Nightclaw Cavern, Zephras Isle at 63.8, 36.0", with "(Alliance
+  only)" or "(Horde only)" when the vendor serves one faction. **Show all** adds the ones needing more skill than
   you have, greyed too. **Hide unlearned** leaves only the recipes you know.
 - The line above the materials panel says how many crafts were left out and why: not learned (with
   Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, or no

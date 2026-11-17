@@ -349,6 +349,13 @@ local chain = Find("Azure Skyforged Chain")
 eq(chain.source.kind, "pattern")
 eq(chain.source.cost, 950)
 eq(chain.source.sellers[1].vendor, "Vayn Moongaze")
+-- Where the seller stands, and their faction when they serve only one.
+eq(ns.Recipes.SellerText(chain.source.sellers[1]), "Vayn Moongaze in Nightclaw Cavern, Zephras Isle at 63.8, 36.0",
+	"the place and coordinates; a neutral vendor needs no faction")
+eq(ns.Recipes.SellerText({ vendor = "A", zone = "Z", subZone = "S", faction = "Horde", x = 0.5, y = 0.25 }),
+	"A in S, Z at 50.0, 25.0 (Horde only)", "a faction's own vendor says so")
+eq(ns.Recipes.SellerText({ vendor = "B", zone = "Z", subZone = "Z", faction = "Alliance" }),
+	"B in Z (Alliance only)", "no coordinates, and no subzone the same as the zone")
 WM.items[277019] = { name = "Azure Skyforged Chain" }
 WM.auctionator[277019] = 6632 -- 6300 after the cut: 300 profit on 6000 of bars
 row = ns.Profit.Evaluate("Blacksmithing", chain)
@@ -357,6 +364,7 @@ eq(row.payback, 4, "950 over 300 a craft")
 
 -- A vendor: material prices and patterns are recorded.
 WM.vendorName = "Smith Argus"
+WM.npcFaction = "Alliance"
 WM.merchant = {
 	{ itemID = 3466, name = "Strong Flux", price = 4000, stack = 2 },
 	{ itemID = 9999, name = "Not A Material", price = 100 },
@@ -371,6 +379,8 @@ eq(ns.adb.vendorPrices[2840], nil, "limited stock isn't a vendor price")
 local pattern = ns.adb.patterns.Blacksmithing["Azure Skyforged Chain"]
 eq(pattern.price, 900, "the pattern recorded")
 eq(pattern.vendor, "Smith Argus")
+eq(pattern.faction, "Alliance", "the vendor's own faction")
+eq(pattern.x, 0.642, "and where they stand")
 chain = Find("Azure Skyforged Chain")
 eq(chain.source.cost, 900, "your price wins")
 eq(chain.source.sellers[1].vendor, "Smith Argus", "your seller first")

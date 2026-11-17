@@ -250,7 +250,7 @@ function Profit.Explain(prof, rec)
 		Add(("  Learn it from a trainer for %s%s"):format(M(src.cost), src.skill and (", skill " .. src.skill) or ""))
 	elseif src.kind == "pattern" then
 		local s = src.sellers and src.sellers[1]
-		Add(("  The pattern costs %s%s"):format(M(src.cost), s and (" from " .. s.vendor) or ""))
+		Add(("  The pattern costs %s%s"):format(M(src.cost), s and (" from " .. ns.Recipes.SellerText(s)) or ""))
 	elseif src.kind == "unknown" then
 		Add("  Where to learn it isn't recorded")
 	end

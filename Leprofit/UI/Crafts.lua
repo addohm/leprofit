@@ -148,7 +148,7 @@ local function LearnLine(row, prof)
 		text = "Trainer " .. ns.Money(src.cost) .. SkillText(src.skill)
 	elseif src.kind == "pattern" then
 		local s = src.sellers and src.sellers[1]
-		text = "Pattern " .. ns.Money(src.cost) .. (s and (" from " .. s.vendor) or "") .. SkillText(src.skill)
+		text = "Pattern " .. ns.Money(src.cost) .. SkillText(src.skill) .. (s and (" from " .. ns.Recipes.SellerText(s)) or "")
 	elseif src.kind == "unknown" then
 		text = "Where to learn it isn't recorded"
 	else
@@ -415,11 +415,10 @@ local function LearnText(row, prof)
 	end
 	if src.kind == "pattern" then
 		local s = src.sellers and src.sellers[1]
-		local where = s and (" from %s (%s%s%s)"):format(s.vendor, s.zone or "?", s.subZone and (", " .. s.subZone) or "",
-			(s.faction and s.faction ~= UnitFactionGroup("player") and s.faction ~= "Neutral") and (", " .. s.faction) or "") or ""
-		local others = src.sellers and #src.sellers > 1 and (" %d other sellers."):format(#src.sellers - 1) or ""
-		return ("The pattern costs %s%s%s.%s%s"):format(ns.Money(src.cost), where,
-			src.skill and (", skill " .. src.skill) or "", payback, others)
+		local where = s and (" from " .. ns.Recipes.SellerText(s)) or ""
+		local others = src.sellers and #src.sellers > 1 and (" %d other seller%s."):format(#src.sellers - 1, #src.sellers > 2 and "s" or "") or ""
+		return ("The pattern costs %s%s%s.%s%s"):format(ns.Money(src.cost),
+			src.skill and (" (skill " .. src.skill .. ")") or "", where, payback, others)
 	end
 	return "Where to learn it isn't recorded: a drop, a quest, or not in Forever."
 end

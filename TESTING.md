@@ -47,6 +47,9 @@ so most of it is covered by the first part.
       arrow or =); the item names make room; each heading sorts.
 - [ ] Profit from > 14-day average changes the profit where there's history.
 - [ ] A recipe you don't know shows its trainer cost or pattern, and "pays back in N crafts".
+- [ ] A pattern names its seller with subzone, zone and coordinates (check one against the map),
+      and "(Alliance only)"/"(Horde only)" for a faction's vendor; buying a pattern at a vendor
+      records that vendor's place and faction.
 - [ ] Opening a vendor that sells a material (Weak Flux, Coal...) prints "recorded N material
       prices"; a pattern vendor prints "recorded Plans: ...".
 - [ ] `/leprofit why <item>` by name, part of a name, and a shift-clicked link; the sum matches the

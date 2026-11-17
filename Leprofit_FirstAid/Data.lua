@@ -62,12 +62,12 @@ Leprofit.RegisterProfession({
 		["Wool Bandage"] = { cost = 250, skill = 80 },
 		["Woolen Tourniquet"] = { cost = 1200, skill = 120 },
 	},
-	-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction } } }
+	-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }
 	patterns = {
-		["Heavy Silk Bandage"] = { itemID = 16112, price = 2200, skill = 180, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde" }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance" } } },
-		["Mageweave Bandage"] = { itemID = 16113, price = 5000, skill = 210, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde" }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance" } } },
+		["Heavy Silk Bandage"] = { itemID = 16112, price = 2200, skill = 180, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance", mapID = 1417, x = 0.2703, y = 0.588 } } },
+		["Mageweave Bandage"] = { itemID = 16113, price = 5000, skill = 210, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance", mapID = 1417, x = 0.2703, y = 0.588 } } },
 		["Major Healing Potion"] = { itemID = 255729, price = 80000, skill = 275, sellers = { { vendor = "Pexmit", zone = "Mount Hyjal", subZone = "Felblood Scar", faction = "Alliance" } } },
-		["Powerful Anti-Venom"] = { itemID = 19442, price = 100000, skill = 300, sellers = { { vendor = "Argent Quartermaster Hasana", zone = "Tirisfal Glades", subZone = "The Bulwark", faction = "Horde" }, { vendor = "Argent Quartermaster Lightspark", zone = "Western Plaguelands", subZone = "Chillwind Camp", faction = "Alliance" } } },
+		["Powerful Anti-Venom"] = { itemID = 19442, price = 100000, skill = 300, sellers = { { vendor = "Argent Quartermaster Hasana", zone = "Tirisfal Glades", subZone = "The Bulwark", faction = "Horde", mapID = 1420, x = 0.832, y = 0.6819 }, { vendor = "Argent Quartermaster Lightspark", zone = "Western Plaguelands", subZone = "Chillwind Camp", faction = "Alliance", mapID = 1422, x = 0.4288, y = 0.8379 } } },
 	},
 	-- itemID = copper: what vendors charge for one
 	vendorPrices = {

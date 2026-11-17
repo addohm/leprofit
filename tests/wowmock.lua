@@ -149,13 +149,17 @@ function IsModifiedClick(action) return M.modifier ~= nil and M.modifier == acti
 function HandleModifiedItemClick(link) table.insert(M.linked, link) return true end
 function InCombatLockdown() return false end
 function GetCursorPosition() return 0, 0 end
-function UnitFactionGroup() return M.faction end
+function UnitFactionGroup(unit) return unit == "npc" and M.npcFaction or M.faction end
+function UnitReaction() return M.npcReaction end
 function UnitName(unit) return unit == "npc" and M.vendorName or "Tester" end
 function GetZoneText() return "Stormwind City" end
 function GetSubZoneText() return "Trade District" end
 C_Map = {
 	GetBestMapForUnit = function() return 84 end,
 	GetMapInfo = function() return { name = "Stormwind City" } end,
+	GetPlayerMapPosition = function()
+		return { GetXY = function() return 0.642, 0.581 end }
+	end,
 }
 C_AddOns = { GetAddOnMetadata = function(_, key) return key == "Version" and "0.1.0" or nil end }
 C_CurrencyInfo = {

@@ -237,10 +237,23 @@ local function MerchantItem(i)
 	return itemID, ns.Plain(name), price, stack, available, extended
 end
 
+-- Where you're standing (at a vendor: where the vendor is): zone, subzone, map and x, y (0 to 1).
 local function Where()
 	local mapID = C_Map and Try(C_Map.GetBestMapForUnit, "player")
 	local map = mapID and Try(C_Map.GetMapInfo, mapID)
-	return map and map.name or ns.Plain(Try(GetZoneText)), ns.Plain(Try(GetSubZoneText))
+	local pos = mapID and Try(C_Map.GetPlayerMapPosition, mapID, "player")
+	local x, y
+	if pos and pos.GetXY then x, y = pos:GetXY() end
+	return map and map.name or ns.Plain(Try(GetZoneText)), ns.Plain(Try(GetSubZoneText)), mapID, x, y
+end
+
+-- The vendor's own faction: Alliance, Horde, or Neutral (friendly to both, in goblin towns).
+-- From the source addon's Shopping.lua.
+local function NPCFaction()
+	local faction = ns.Plain(Try(UnitFactionGroup, "npc"))
+	if faction == "Alliance" or faction == "Horde" then return faction end
+	if Try(UnitReaction, "npc", "player") == 4 then return "Neutral" end
+	return faction
 end
 
 function Recorder.ScanMerchant()
@@ -257,10 +270,10 @@ function Recorder.ScanMerchant()
 				ns.adb.patterns[prof] = ns.adb.patterns[prof] or {}
 				local old = ns.adb.patterns[prof][recipe]
 				if not old or old.price ~= price or old.vendor ~= vendor then
-					local zone, subZone = Where()
+					local zone, subZone, mapID, x, y = Where()
 					ns.adb.patterns[prof][recipe] = {
 						itemID = itemID, price = price, vendor = vendor, zone = zone, subZone = subZone,
-						faction = Try(UnitFactionGroup, "player"),
+						faction = NPCFaction(), mapID = mapID, x = x, y = y,
 					}
 					changed = true
 					ns.Print(("recorded %s from %s: %s"):format(name, vendor or "this vendor", ns.Money(price)))

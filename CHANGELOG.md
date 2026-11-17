@@ -51,6 +51,9 @@ All notable changes to leprofit. The format follows
   - The other seven modules from the source addon's data: Alchemy (200 recipes),
     Cooking (164), Enchanting (85 that make an item), Engineering (272),
     First Aid (41), Leatherworking (595) and Tailoring (471).
+  - Pattern sellers say where they stand (subzone, zone, coordinates) and,
+    when they serve one faction, which: in the row tooltip, the materials
+    panel and `/leprofit why`. The data now takes each vendor's own faction.
   - The profession is picked from a dropdown (Blizzard's menu, as in
     leboof) instead of arrows.
   - The Mining module (smelting): recipes read from your smelting window;
