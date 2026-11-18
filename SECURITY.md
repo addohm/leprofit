@@ -8,7 +8,7 @@ vulnerability.
 ## Secrets
 
 None: the addons and the tools use no secrets, and the addons send nothing to other players or
-anywhere else (no addon messages, unlike the source addon). Never commit secrets all the same.
+anywhere else (no addon messages). Never commit secrets all the same.
 
 ## Access
 

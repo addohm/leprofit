@@ -31,15 +31,12 @@ change.
 
 ## Design (agreed 2026-11-16)
 
-Modelled on the source addon (a levelling planner), but for profit.
-
 - **Profit per craft** = auction price x (1 - cut) - materials. The cut is 5%
   by default, undercut 0; both are settings. The deposit is left out.
 - **Prices:** profit from the lowest buyout (a setting switches to market
   value); the list sorts by any column, Profit by default. Auctionator, then TSM. Optional columns
   from Auctionator's price history (internal, guarded): 14-day average (TSM's market value if
-  installed), trend, days seen of 14, listed at the last scan. Vendor prices for materials as in
-  the source addon.
+  installed), trend, days seen of 14, listed at the last scan. Vendor prices for materials.
 - **Materials** cost the cheaper of buying and crafting them. Materials you
   own count at their market price; a second figure shows the gold you'd
   actually spend after what you hold.
@@ -52,7 +49,7 @@ Modelled on the source addon (a levelling planner), but for profit.
   Options lists hidden items to unhide). Recipes you could learn now are
   listed greyed out; Show all adds those needing more skill; Hide unlearned
   lists only the known (the owner's pick, after trying a skill slider).
-- **Recipe data:** the source addon's built-in data, split into the modules, plus
+- **Recipe data:** built-in data, split into the modules, plus
   what you record playing. No in-game sharing, no share website.
 - **Modules:** a core addon (pricing, window, settings) plus one addon per
   profession, ticked per character in the AddOns list: Alchemy,
@@ -79,5 +76,5 @@ Modelled on the source addon (a levelling planner), but for profit.
 ## Ideas
 
 - Record your own sales from the "Auction successful" mails: real sales, not listings.
-- Count materials on your other characters (the source addon's Alts.lua).
+- Count materials on your other characters.
 - Profit lines in item tooltips.

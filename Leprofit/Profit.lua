@@ -1,6 +1,6 @@
 -- Leprofit: what each craft makes. Profit per craft = what the items sell for after the auction
 -- house cut (and your undercut) - what the materials cost. Each material costs the cheaper of
--- buying it and crafting it with a recipe you know (the source addon's EffectivePrice and CraftOption).
+-- buying it and crafting it with a recipe you know.
 -- Materials you hold count at their price too: using one you could sell costs you that one.
 local _, ns = ...
 

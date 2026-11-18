@@ -1,4 +1,4 @@
--- Leprofit: one profession's recipes, from its module's data (the source addon's players) and what this
+-- Leprofit: one profession's recipes, from its module's data and what this
 -- character's profession window showed (Recorder.lua), with where to learn the ones you don't know.
 local _, ns = ...
 
@@ -71,7 +71,7 @@ end
 
 -- Forever lists a second, never-learnable copy of some recipes under the same name. Keep one per
 -- name: the one you know, then one with a known source, then one your window showed, then the
--- earlier grey (the source addon's OnePerName).
+-- earlier grey.
 local function Better(a, b)
 	if (a.learned and true) ~= (b.learned and true) then return a.learned and true end
 	local ka, kb = a.source.kind ~= "unknown", b.source.kind ~= "unknown"

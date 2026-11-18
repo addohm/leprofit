@@ -123,7 +123,7 @@ local function Build(panel)
 		ns.Window.Refresh()
 	end)
 	footer = UI.OptionText(panel, function()
-		return "Settings are saved for this character. " .. ns.Version()
+		return "Settings are saved for this character."
 	end, 30)
 end
 

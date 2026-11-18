@@ -14,7 +14,7 @@ end
 local Try = ns.Try
 
 -- A string the addon may look at, or nil. Forever hides some names from addons ("secret values",
--- an NPC's name for example), and comparing one is an error. From the source addon's ns.Plain.
+-- an NPC's name for example), and comparing one is an error.
 function ns.Plain(v)
 	if type(v) ~= "string" then return nil end
 	local isSecret = rawget(_G, "issecretvalue")

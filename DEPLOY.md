@@ -52,8 +52,8 @@ script needs CRLF line endings to run reliably; `.gitattributes` makes git check
 
 ## Refreshing a module's data
 
-The recipe, trainer and pattern data comes from the source addon's `CommunityData.lua`. To refresh it,
-unzip a newer the source addon into the repo (the `.source/` folder is git-ignored), run
+The recipe, trainer and pattern data comes from a source data file kept out of git (CLAUDE.md
+says where). To refresh it, replace that file with a newer one, run
 `.venv/bin/python tools/gen_data.py`, run the tests, and commit the new `Data.lua` files.
 
 ## Rolling back

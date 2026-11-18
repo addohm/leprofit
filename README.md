@@ -128,27 +128,26 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 | `/leprofit help` | The commands and the build |
 
 Enchanting lists only what makes an item (rods, oils, wands): enchants on gear can't be posted.
-Mining ships no recipes (the source addon never recorded smelting): open your smelting window and
+Mining ships no recipes (the built-in data has no smelting): open your smelting window and
 Leprofit reads them, then lists each bar against its ore. A
 few of Forever's camp and home items (Camp Chair, Fishing Hut...) are listed by several
 professions' windows, so they show under each.
 
-English game clients only, like the source addon: profession and pattern names are matched in English.
+English game clients only: profession and pattern names are matched in English.
 
 ## Where the data comes from
 
-Each module's recipes (what each makes and from what), trainer costs and pattern sellers come from
-the source addon's shared data (the source addon), recorded by its
-players and used with its author's permission. What your own profession window and vendors show
-is added on top. Nothing is sent to other players.
+Each module has its recipes (what each makes and from what), trainer costs and pattern sellers
+built in. What your own profession window and vendors show is added on top. Nothing is sent to
+other players.
 
 ## Development
 
 - Tests: `python3 -m venv .venv && .venv/bin/pip install lupa` once, then
   `.venv/bin/python tests/run_tests.py`. They load the core and every module into a fake client
   (`tests/wowmock.lua`) and run `tests/smoke.lua`.
-- Module data: `tools/gen_data.py` writes `Leprofit_<Profession>/Data.lua` from the source addon's
-  `CommunityData.lua` (unzip the source addon into the repo first; it's git-ignored).
+- Module data: `tools/gen_data.py` writes `Leprofit_<Profession>/Data.lua` from the source data
+  ([DEPLOY.md](DEPLOY.md)).
 - Installing and releasing: [DEPLOY.md](DEPLOY.md).
 
 ## Docs

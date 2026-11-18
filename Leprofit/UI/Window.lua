@@ -134,7 +134,7 @@ local function Build()
 	frame:Hide()
 	tinsert(UISpecialFrames, "LeprofitFrame") -- Escape closes the window
 
-	-- Title bar: icon, name, build and close.
+	-- Title bar: icon, name and close. The version and build are in chat (/leprofit help).
 	local icon = frame:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(18, 18)
 	icon:SetPoint("TOPLEFT", 14, -10)
@@ -142,9 +142,6 @@ local function Build()
 	local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	title:SetPoint("LEFT", icon, "RIGHT", 6, 0)
 	title:SetText("Leprofit")
-	local version = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
-	version:SetPoint("LEFT", title, "RIGHT", 8, 0)
-	version:SetText(ns.Version())
 
 	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", -2, -2)

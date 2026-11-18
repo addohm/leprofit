@@ -1,6 +1,6 @@
 -- Leprofit: prices. Auction prices come from Auctionator or TradeSkillMaster on this computer (their
--- own scans); vendor prices from what you or the source addon's players recorded at vendors.
--- From the source addon's GetPrice, with the vendor price falling through to the auction when unknown.
+-- own scans); vendor prices from what you recorded at vendors or the module's data. A vendor price
+-- wins; without one, the auction price.
 local ADDON, ns = ...
 
 local Prices = {}
@@ -120,8 +120,8 @@ function Prices.Age(itemID)
 	return type(age) == "number" and age or nil
 end
 
--- What a vendor charges for one, if anyone has recorded it: you (Recorder.lua), the source addon's
--- players (the module's data), or Auctionator, which records the same thing at every vendor you
+-- What a vendor charges for one, if anyone has recorded it: you (Recorder.lua), the module's data,
+-- or Auctionator, which records the same thing at every vendor you
 -- open (items in endless supply, the price for one).
 function Prices.Vendor(itemID)
 	local price = ns.adb and ns.adb.vendorPrices[itemID]

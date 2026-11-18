@@ -1,7 +1,7 @@
 -- Leprofit: the shopping list. Crafts you plan (added from the Crafts tab's materials panel, saved
 -- per character in ns.db.plan) and every material they need, combined: what you hold counts once,
 -- and materials are bought as they are (the owner's pick: no crafting them first). Send to
--- Auctionator makes one "Leprofit" list from it, as the source addon's Shopping.lua does.
+-- Auctionator makes one "Leprofit" list from it.
 local ADDON, ns = ...
 
 local Shopping = {}

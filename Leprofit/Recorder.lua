@@ -1,6 +1,5 @@
 -- Leprofit: what the game shows you. The profession window gives the recipes you know (and what
--- each makes, from what); vendors give material prices and the patterns they sell. Detection and
--- the guards against stale lists are the source addon's (its Recorder.lua and ReadMerchantItem).
+-- each makes, from what); vendors give material prices and the patterns they sell.
 local _, ns = ...
 local Try = ns.Try
 
@@ -158,7 +157,7 @@ function Recorder.Record()
 	end
 	if foreign >= 5 and foreign * 2 >= #list then return end
 	-- Smelting recipes belong to Mining: a stale smelting list read as another profession (too short
-	-- for the check above to catch) is left alone, as the source addon does.
+	-- for the check above to catch) is left alone.
 	if prof ~= "Mining" then
 		for i = #list, 1, -1 do
 			if list[i].name:find("^Smelt ") then table.remove(list, i) end
@@ -248,7 +247,6 @@ local function Where()
 end
 
 -- The vendor's own faction: Alliance, Horde, or Neutral (friendly to both, in goblin towns).
--- From the source addon's Shopping.lua.
 local function NPCFaction()
 	local faction = ns.Plain(Try(UnitFactionGroup, "npc"))
 	if faction == "Alliance" or faction == "Horde" then return faction end

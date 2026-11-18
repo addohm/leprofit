@@ -28,7 +28,7 @@ eq(ns.CurrentProfession(), ns.professionOrder[1], "the first module shown at fir
 
 -- Every module: registered, recipes that make something from something, no recipe in two
 -- professions, and a skill line for opening its window.
--- Mining has no data (the source addon never recorded smelting): its recipes come from your window.
+-- Mining has no data (the built-in data has no smelting): its recipes come from your window.
 local PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Mining", "Tailoring" }
 local NO_DATA = { Mining = true }
 eq(#ns.professionOrder, #PROFESSIONS, "all nine modules")
