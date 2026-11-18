@@ -2,7 +2,7 @@
 -- (LeprofitCharDB, ns.db); what you record at vendors is shared by your characters (LeprofitDB, ns.adb).
 local ADDON, ns = ...
 
-ns.ICON = "Interface\\Icons\\INV_Misc_Coin_01"
+ns.ICON = "Interface\\AddOns\\Leprofit\\Media\\Icon" -- art/make_logo.py
 
 local DEFAULTS = {
 	rankBy = "buyout",       -- rank by "buyout" (the lowest buyout) or "market" (TSM's market value)

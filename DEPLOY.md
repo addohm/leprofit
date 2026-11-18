@@ -29,7 +29,9 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
    they match), move the CHANGELOG's Unreleased entries under the new version, and commit. Then
    `python3 tools/make_release.py` writes `release/Leprofit-<version>.zip` with every addon folder
    from the last commit (it refuses if they have uncommitted changes); commit the zip, tag
-   (`git tag v0.1.0`) and push with `--tags`.
+   (`git tag v0.9.0-beta`) and push with `--tags`. Each release also needs `LISTING.md`'s release
+   notes and, if the icon changed, `python3 art/make_logo.py` (it redraws `Leprofit/Media/Icon.tga`
+   too).
 
 ## The install script
 

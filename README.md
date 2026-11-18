@@ -7,7 +7,7 @@ the trainer or pattern costs and how many crafts pay it back. It's for crafters 
 what's worth making and selling.
 
 Leprofit is a core addon plus one module per profession: Alchemy, Blacksmithing, Cooking,
-Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 0.1.0 hasn't been released yet;
+Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 0.9.0-beta is the first release, a beta:
 [TESTING.md](TESTING.md) is what's left to check in game. Source:
 [addohm/leprofit](https://github.com/addohm/leprofit).
 
@@ -153,6 +153,7 @@ other players.
 ## Docs
 
 - [CHANGELOG.md](CHANGELOG.md): what changed in each version
+- [LISTING.md](LISTING.md): the CurseForge and Wago page text, images and release notes
 - [DEPLOY.md](DEPLOY.md): how it's installed and released
 - [TESTING.md](TESTING.md): what to check in game
 - [SECURITY.md](SECURITY.md): secrets, access, reporting problems

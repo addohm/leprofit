@@ -2,8 +2,8 @@
 ## Title: Leprofit
 ## Notes: Which crafts make gold: the auction price after the cut, less what the materials cost, most profitable first. Enable a Leprofit profession module for each of your professions.
 ## Author: addohm
-## Version: 0.1.0
-## IconTexture: Interface\Icons\INV_Misc_Coin_01
+## Version: 0.9.0-beta
+## IconTexture: Interface\AddOns\Leprofit\Media\Icon
 ## SavedVariables: LeprofitDB
 ## SavedVariablesPerCharacter: LeprofitCharDB
 ## OptionalDeps: Auctionator, TradeSkillMaster

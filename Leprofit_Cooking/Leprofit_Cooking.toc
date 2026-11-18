@@ -2,7 +2,7 @@
 ## Title: Leprofit - Cooking
 ## Notes: Cooking for Leprofit: its recipes, trainer costs and patterns. Needs Leprofit.
 ## Author: addohm
-## Version: 0.1.0
+## Version: 0.9.0-beta
 ## IconTexture: Interface\Icons\INV_Misc_Food_15
 ## Dependencies: Leprofit
 

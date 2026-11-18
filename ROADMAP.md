@@ -7,6 +7,8 @@ change.
 
 - Standard docs (2026-11-16).
 - Design agreed (2026-11-16, below).
+- 0.9.0-beta released (2026-11-18): the release kit (icon and banner art,
+  LISTING.md, the zip and the v0.9.0-beta tag).
 - 0.1.0 built (2026-11-16): the core with the Crafts and Options tabs and
   the Blacksmithing module, install/release/data tools and tests. Not yet
   tried in game (TESTING.md).
@@ -70,8 +72,9 @@ change.
 
 ## Next
 
-1. Try 0.1.0 in game (TESTING.md) and fix what it finds.
-2. The release kit: icon and banner art, LISTING.md.
+1. Try 0.9.0-beta in game (TESTING.md), especially the professions only other characters have,
+   and fix what it finds.
+2. Publish it: where releases go is still open (DEPLOY.md).
 
 ## Ideas
 
