@@ -37,7 +37,22 @@ if not exist "%WOW%\" (
 
 git -C "%REPO%" pull --ff-only
 if errorlevel 1 (
-  echo git pull failed, so nothing was copied.
+  rem The usual reason: the history on GitHub was rewritten, so this copy can't simply move
+  rem forward. If this copy's last commit isn't in GitHub's history any more, say how to fix it.
+  git -C "%REPO%" fetch origin --tags --force >nul 2>&1
+  rem merge-base exits 1 when this copy's commit isn't in GitHub's history, 128 when it can't tell.
+  git -C "%REPO%" merge-base --is-ancestor HEAD "@{u}" >nul 2>&1
+  if errorlevel 128 (
+    echo git pull failed, so nothing was copied.
+  ) else if errorlevel 1 (
+    echo This copy and GitHub have different histories, usually because GitHub's was rewritten.
+    echo To move this copy onto GitHub's, run these two commands, then this script again.
+    echo They throw away commits and edits made in this copy that aren't on GitHub.
+    echo   git -C "%REPO%" fetch origin --tags --force
+    echo   git -C "%REPO%" reset --hard origin/main
+  ) else (
+    echo git pull failed, so nothing was copied.
+  )
   set "RESULT=1"
   goto done
 )

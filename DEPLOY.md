@@ -40,7 +40,10 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
 `tools\install_forever.cmd` does, in order:
 
 - `git pull --ff-only` (it only gets what's pushed, so push first). The pull can update the
-  script itself, so it runs from a copy in `%TEMP%`.
+  script itself, so it runs from a copy in `%TEMP%`. If the pull fails because GitHub's history was
+  rewritten (this copy's last commit isn't in it any more), it says so and prints the two commands
+  that move the copy onto GitHub's: `git fetch origin --tags --force` and
+  `git reset --hard origin/main` (they throw away commits and edits made only in the copy).
 - Mirrors `Leprofit\` and each `Leprofit_*\` folder into `<WOW>\Interface\AddOns\` (`robocopy /MIR`),
   creating them on the first run. If `WOW` itself doesn't exist it stops, since the path is
   probably wrong. A module removed from the repo stays installed: delete its folder by hand.

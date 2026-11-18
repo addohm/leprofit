@@ -15,6 +15,8 @@ so most of it is covered by the first part.
       AddOns list shows Leprofit's coin-and-arrow icon.
 - [ ] `tools\install_forever.cmd` installs `Leprofit` and all nine `Leprofit_*` modules, stamps the
       build, and packs the zip on the desktop.
+- [ ] After a history rewrite on GitHub, the install script says the histories differ and prints
+      the fetch and reset commands; after running them, it installs.
 - [ ] They all show in the AddOns list; ticking only Leprofit gives "No profession modules are
       enabled" in the window.
 - [ ] The profession dropdown lists only the modules ticked for this character, with their icons;

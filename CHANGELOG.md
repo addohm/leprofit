@@ -10,6 +10,8 @@ All notable changes to leprofit. The format follows
 
 - Licensed under the GNU GPLv3 (`LICENSE`); the repository is public, and the listing asks
   players with other professions to help test.
+- The install script explains a failed update when GitHub's history was rewritten, and prints
+  the two commands that fix the copy.
 
 ## [0.9.0-beta] - 2026-11-18
 
