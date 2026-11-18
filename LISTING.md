@@ -1,7 +1,7 @@
 # Leprofit: CurseForge and Wago listing
 
-Copy-paste material for the project pages. Placeholders are in [brackets]. Keep the feature list
-in step with README.md.
+Copy-paste material for the project pages: it's published on both CurseForge and Wago. Keep the
+feature list in step with README.md.
 
 ---
 
@@ -14,9 +14,9 @@ in step with README.md.
 | Game version | WoW: Forever (Interface 16001) |
 | Author | addohm |
 | Release type | Beta (0.9.0-beta) |
-| License | [choose: All Rights Reserved, MIT, ...] |
-| Source | [https://github.com/addohm/leprofit, if the repo is public] |
-| Issues | [https://github.com/addohm/leprofit/issues, if public] |
+| License | GNU GPLv3 (`LICENSE`) |
+| Source | https://github.com/addohm/leprofit |
+| Issues | https://github.com/addohm/leprofit/issues |
 | Upload | `release/Leprofit-0.9.0-beta.zip` (the core and all nine profession modules) |
 
 **Images**
@@ -95,11 +95,15 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 
 - **Needs Auctionator** (or TSM) for auction prices: scan the auction house and the list fills
   in. TradeSkillMaster doesn't seem to run on Forever yet; Auctionator does.
-- **This is a beta.** Blacksmithing and Mining have been tried in game; the other professions'
-  lists work on any character, but reading their windows is new. `/leprofit why` shows where every
-  number comes from, which helps with reports.
+- **This is a beta, and testers are welcome.** Blacksmithing and Mining have been tried in game;
+  the other professions' lists work on any character, but reading their profession windows is new.
+  If you have Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking or Tailoring,
+  please try it and report what you find on the
+  [issues page](https://github.com/addohm/leprofit/issues): what you did, what you expected, and
+  the output of `/leprofit why <item>` and `/leprofit help` (it shows the version).
 - **Listings aren't sales:** the price history shows what was listed, not what sold.
 - Settings are per character. English game clients only. Nothing is sent to other players.
+- Open source under the GNU GPLv3: [github.com/addohm/leprofit](https://github.com/addohm/leprofit).
 
 ---
 

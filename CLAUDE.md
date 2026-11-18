@@ -7,7 +7,7 @@ Orientation for Claude working on leprofit. Read this first.
 A WoW: Forever addon (Lua, interface 16001) that ranks the crafts that make
 gold. A core addon plus one module per profession. The agreed design is in
 ROADMAP.md. 0.9.0-beta (core + nine modules) is released, partly tested in game. The
-remote is `addohm/leprofit` on GitHub.
+remote is `addohm/leprofit` on GitHub, public, GPLv3; releases go to CurseForge and Wago.
 
 Discuss each feature with the owner before building it.
 
@@ -46,7 +46,7 @@ Discuss each feature with the owner before building it.
 - `art/`: `make_logo.py` draws the icons, the banner and `Leprofit/Media/Icon.tga`
   (the in-game icon); the PNGs it makes
 - `release/`: the release zips, one per version
-- The standard docs, and this file.
+- The standard docs, `LICENSE` (GNU GPLv3), and this file.
 - `.source/` (git-ignored): the source data `tools/gen_data.py` reads. Where it
   comes from isn't written in the repo.
 

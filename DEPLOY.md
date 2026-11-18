@@ -4,7 +4,8 @@ Leprofit is a World of Warcraft addon: a core (`Leprofit/`) and one folder per p
 (`Leprofit_Alchemy/`, `Leprofit_Blacksmithing/`... `Leprofit_FirstAid/`... `Leprofit_Tailoring/`). It runs inside the game client (WoW: Forever, Interface 16001), and
 there's no server.
 
-TODO: where should public releases go (CurseForge, Wago, GitHub Releases, or nowhere yet)?
+Releases are published on both CurseForge and Wago (always both), from `release/` with the text
+and images in `LISTING.md`. The source is public on GitHub under the GNU GPLv3.
 
 ## First-time setup
 
@@ -29,7 +30,8 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
    they match), move the CHANGELOG's Unreleased entries under the new version, and commit. Then
    `python3 tools/make_release.py` writes `release/Leprofit-<version>.zip` with every addon folder
    from the last commit (it refuses if they have uncommitted changes); commit the zip, tag
-   (`git tag v0.9.0-beta`) and push with `--tags`. Each release also needs `LISTING.md`'s release
+   (`git tag v0.9.0-beta`) and push with `--tags`. Upload the zip to CurseForge and to Wago, each with
+   `LISTING.md`'s release notes; the summary, description, categories and images are there too. Each release also needs `LISTING.md`'s release
    notes and, if the icon changed, `python3 art/make_logo.py` (it redraws `Leprofit/Media/Icon.tga`
    too).
 

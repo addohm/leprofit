@@ -150,6 +150,18 @@ other players.
   ([DEPLOY.md](DEPLOY.md)).
 - Installing and releasing: [DEPLOY.md](DEPLOY.md).
 
+## Problems, ideas and testing
+
+This is a beta. Bug reports and test reports are welcome on the
+[issues page](https://github.com/addohm/leprofit/issues), especially from players with the
+professions that haven't been tried in game yet (all but Blacksmithing and Mining): say what you
+did and what you expected, and paste `/leprofit why <item>` and `/leprofit help` (the version).
+[TESTING.md](TESTING.md) lists what to check. Security problems: see [SECURITY.md](SECURITY.md).
+
+## License
+
+GNU General Public License v3.0: see [LICENSE](LICENSE).
+
 ## Docs
 
 - [CHANGELOG.md](CHANGELOG.md): what changed in each version

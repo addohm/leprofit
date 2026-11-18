@@ -6,6 +6,11 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Licensed under the GNU GPLv3 (`LICENSE`); the repository is public, and the listing asks
+  players with other professions to help test.
+
 ## [0.9.0-beta] - 2026-11-18
 
 The first release: a beta. Blacksmithing and Mining have been tried in game; the other
