@@ -108,18 +108,33 @@ function Profit.Evaluate(prof, rec, memo)
 	return row
 end
 
--- The rows the Crafts tab lists for a profession, most profitable first, and how many were left out:
--- { unlearned = n (Hide unlearned), unknown = n (no known source), later = n (needing more skill
+-- The rows the Crafts tab lists for a profession (those matching the search, when there is one),
+-- each with its prof, sorted, and how many were left out: { nomatch = n (the search), unlearned = n (Hide unlearned), unknown = n (no known source), later = n (needing more skill
 -- than you have, without Show all), hidden = n, unpriced = n (a material or the item has no price),
 -- losses = n (0 or less) }. Recipes you'd learn are listed (greyed) when you have the skill.
-function Profit.Rows(prof)
+-- The search: the item, the recipe, or any of its materials has the text in its name (query is
+-- lower case).
+local function Matches(rec, query)
+	if ns.ItemName(rec.product):lower():find(query, 1, true) or rec.name:lower():find(query, 1, true) then
+		return true
+	end
+	for _, r in ipairs(rec.reagents) do
+		if ns.ItemName(r[1]):lower():find(query, 1, true) then return true end
+	end
+	return false
+end
+Profit.Matches = Matches -- (tests)
+
+function Profit.Rows(prof, query)
 	local db, memo = ns.db, {}
-	local rows, left = {}, { unlearned = 0, unknown = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	local rows, left = {}, { nomatch = 0, unlearned = 0, unknown = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
 		local known = rec.source.kind == "known"
 		local need = rec.source.skill
-		if not known and db.hideUnlearned then
+		if query and not Matches(rec, query) then
+			left.nomatch = left.nomatch + 1
+		elseif not known and db.hideUnlearned then
 			left.unlearned = left.unlearned + 1
 		elseif rec.source.kind == "unknown" and not db.showUnknown then
 			left.unknown = left.unknown + 1
@@ -129,6 +144,7 @@ function Profit.Rows(prof)
 			left.hidden = left.hidden + 1
 		else
 			local row = Profit.Evaluate(prof, rec, memo)
+			row.prof = prof
 			if not row.profit and not db.showLosses then
 				left.unpriced = left.unpriced + 1
 			elseif row.profit and row.profit <= 0 and not db.showLosses then
@@ -140,6 +156,28 @@ function Profit.Rows(prof)
 	end
 	Profit.Sort(rows)
 	return rows, left
+end
+
+-- Every ticked profession's rows together ("All professions" in the dropdown), sorted as one list.
+-- A recipe several professions list (Forever's camp and home items) appears once.
+function Profit.RowsAll(query)
+	local rows, left, seen = {}, nil, {}
+	for _, prof in ipairs(ns.professionOrder) do
+		local r, l = Profit.Rows(prof, query)
+		for _, row in ipairs(r) do
+			if not seen[row.rec.id] then
+				seen[row.rec.id] = true
+				rows[#rows + 1] = row
+			end
+		end
+		if not left then
+			left = l
+		else
+			for k, v in pairs(l) do left[k] = left[k] + v end
+		end
+	end
+	Profit.Sort(rows)
+	return rows, left or { nomatch = 0, unlearned = 0, unknown = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 end
 
 -- What each Crafts column sorts by.

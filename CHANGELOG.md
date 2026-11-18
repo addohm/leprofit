@@ -10,6 +10,8 @@ All notable changes to leprofit. The format follows
 
 - Licensed under the GNU GPLv3 (`LICENSE`); the repository is public, and the listing asks
   players with other professions to help test.
+- Search on the Crafts tab: item, recipe and material names, as you type, in the profession
+  shown or in all of them with the dropdown's new All professions.
 - The install script explains a failed update when GitHub's history was rewritten, and prints
   the two commands that fix the copy.
 

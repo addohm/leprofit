@@ -62,7 +62,9 @@ change.
   tabs). Tabs: Crafts (ranked list; click a row for its materials, a craft
   count and Add to list), Shopping (planned crafts, combined materials
   bought as they are, Clear, Send to Auctionator as one "Leprofit" list
-  without vendor materials), Options.
+  without vendor materials), Options. A search box on the Crafts tab
+  matches item, recipe and material names; the dropdown's All professions
+  lists every ticked module together.
 - **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
   button on the profession window. Opening it opens your profession window
   too, every time (the owner's pick), so your known recipes are read.

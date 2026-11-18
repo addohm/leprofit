@@ -47,7 +47,11 @@ local function NewFrame(kind, name, parent)
 		self.shown = true
 		if not was and self.scripts.OnShow then self.scripts.OnShow(self) end
 	end
-	function f:Hide() self.shown = false end
+	function f:Hide()
+		local was = self.shown
+		self.shown = false
+		if was and self.scripts.OnHide then self.scripts.OnHide(self) end
+	end
 	function f:SetShown(v) if v then self:Show() else self:Hide() end end
 	function f:IsShown() return self.shown end
 	function f:SetSize(w, h) self.w, self.h = w, h end
@@ -70,6 +74,10 @@ local function NewFrame(kind, name, parent)
 	function f:SetFrameLevel(l) self.level = l end
 	function f:SetParent(p) self.parent = p end
 	function f:SetScript(event, fn) self.scripts[event] = fn end
+	function f:HookScript(event, fn)
+		local old = self.scripts[event]
+		self.scripts[event] = old and function(...) old(...) fn(...) end or fn
+	end
 	function f:GetScript(event) return self.scripts[event] end
 	function f:RegisterEvent(e) self.events[e] = true end
 	function f:CreateTexture()

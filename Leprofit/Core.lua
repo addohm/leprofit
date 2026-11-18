@@ -88,15 +88,21 @@ function Leprofit.RegisterProfession(def)
 	ns.DataChanged()
 end
 
--- The profession the window shows: the last one picked, else the first module.
+-- The profession the window shows: the last one picked, else the first module. nil while the
+-- dropdown shows every profession (ns.ALL).
+ns.ALL = "all"
+function ns.ShowingAll()
+	return ns.db and ns.db.profession == ns.ALL and #ns.professionOrder > 0 or false
+end
 function ns.CurrentProfession()
 	local name = ns.db and ns.db.profession
+	if name == ns.ALL and #ns.professionOrder > 0 then return nil end
 	if name and ns.professions[name] then return name end
 	return ns.professionOrder[1]
 end
 
 function ns.SetProfession(name)
-	if ns.professions[name] then
+	if ns.professions[name] or name == ns.ALL then
 		ns.db.profession = name
 		ns.Refresh()
 	end

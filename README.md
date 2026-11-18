@@ -32,7 +32,14 @@ it's already open, you don't have that profession, or you're in combat: Leprofit
 you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
-- The dropdown at the top picks the profession: it lists the modules ticked for this character.
+- The dropdown at the top picks the profession: it lists the modules ticked for this character,
+  and **All professions** lists every one of them together (each row's tooltip names its
+  profession).
+- The **search** box filters the list as you type: it matches the item's name, the recipe's name
+  and the names of its materials, so "copper bar" finds every craft that uses Copper Bars. It
+  searches the profession shown, or all of them with All professions picked. Escape or the x
+  clears it, and closing the window does too. The other filters still apply, and the "Not listed"
+  line counts what didn't match.
 - Each row is a craft: the item, then **Cost** (the materials for one craft), **Buyout** (the lowest
   buyout for one item) and **Profit** (per craft, after the cut). A recipe that makes several (x3
   after its name) sells them all, so its Cost and Buyout don't add up to its Profit. Hover over a

@@ -432,8 +432,9 @@ local dropdown = ns.Window.CurrentPanel().picker.dropdown
 eq(dropdown.menuGenerator, ns.BuildProfessionMenu, "the dropdown's menu")
 local root = WM.MenuRoot()
 ns.BuildProfessionMenu(dropdown, root)
-eq(#root.radios, #ns.professionOrder, "one entry per module")
-ok(root.radios[1].text:find("Trade_Alchemy", 1, true) and root.radios[1].text:find("Alchemy$"), "with its icon")
+eq(#root.radios, #ns.professionOrder + 1, "All professions, then one entry per module")
+eq(root.radios[1].text, "All professions")
+ok(root.radios[2].text:find("Trade_Alchemy", 1, true) and root.radios[2].text:find("Alchemy$"), "with its icon")
 for _, r in ipairs(root.radios) do
 	eq(r.isSelected(), r.text:find("Blacksmithing$") ~= nil, "only the profession shown is selected: " .. r.text)
 end
@@ -452,6 +453,7 @@ ok(Radio(picked, "Tailoring").isSelected(), "and it's selected now")
 Radio(root, "Blacksmithing"):setSelected()
 eq(ns.db.profession, "Blacksmithing")
 eq(WM.opened[1], 164, "picking one you have opens its window")
+
 
 -- The top bar's Hide unlearned and Show all; Show all is greyed while Hide unlearned is on.
 local crafts = ns.Window.CurrentPanel()
@@ -539,6 +541,46 @@ eq(beltRow.seen.shown, false, "off again")
 eq(beltRow.cost.text, "60s", "the Cost column: 6 Copper Bars at 10s")
 eq(beltRow.cost.points[1][4], -(2 * 96 + 4), "Cost left of Buyout and Profit")
 eq(beltRow.profit.points[1][4], -4, "Profit at the right edge")
+
+-- The search: item, recipe and material names, in the profession shown or all of them.
+ns.db.showLosses = true
+rows, left = ns.Profit.Rows("Blacksmithing", "copper bar")
+ok(#rows > 0, "crafts using Copper Bars: " .. #rows)
+for _, r in ipairs(rows) do ok(ns.Profit.Matches(r.rec, "copper bar"), "matches: " .. r.rec.name) end
+ok(left.nomatch > 0, "the rest don't match: " .. left.nomatch)
+eq(rows[1].prof, "Blacksmithing", "each row knows its profession")
+local found = {}
+for _, r in ipairs(ns.Profit.RowsAll("copper bar")) do found[r.prof] = true end
+ok(found.Blacksmithing and found.Mining, "all professions: Blacksmithing's and Mining's (Smelt Copper makes Copper Bars)")
+-- In the window: All professions, then type.
+WM.opened = {}
+Radio(root, "All professions"):setSelected()
+eq(ns.ShowingAll(), true, "All professions")
+eq(ns.CurrentProfession(), nil)
+eq(#WM.opened, 0, "no profession window to open for all of them")
+local box = ns.Window.CurrentPanel().search
+box:SetText("smelt copper")
+box.scripts.OnTextChanged(box, true)
+WM.RunTimers()
+local smeltRow = Drawn("Copper Bar")
+ok(smeltRow, "Mining's Smelt Copper is listed")
+eq(smeltRow.row.prof, "Mining")
+ok(not Drawn("Copper Chain Belt"), "and not what doesn't match")
+smeltRow.scripts.OnEnter(smeltRow)
+ok(TipHas("Leprofit: Mining"), "the tooltip names the profession")
+box.scripts.OnEscapePressed(box)
+eq(box.text, "", "Escape clears it")
+box.scripts.OnTextChanged(box, true)
+WM.RunTimers()
+ok(Drawn("Copper Chain Belt"), "everything again")
+box:SetText("chain belt")
+box.scripts.OnTextChanged(box, true)
+ns.Window.Hide()
+eq(box.text, "", "closing the window clears the search")
+ns.Window.Show("crafts")
+Radio(root, "Blacksmithing"):setSelected()
+ns.db.showLosses = false
+WM.opened = {}
 
 -- The headings sort the list: click one, then again to reverse; an arrow marks it.
 local header = ns.Window.CurrentPanel().header

@@ -19,6 +19,10 @@ so most of it is covered by the first part.
       the fetch and reset commands; after running them, it installs.
 - [ ] They all show in the AddOns list; ticking only Leprofit gives "No profession modules are
       enabled" in the window.
+- [ ] The search box (with its grey hint and x): typing filters as you go, by item, recipe and
+      material names; Escape and the x clear it; closing the window clears it; with All
+      professions picked it searches every ticked module, and a row's tooltip names its
+      profession.
 - [ ] The profession dropdown lists only the modules ticked for this character, with their icons;
       the one shown is ticked, and it follows the profession window's button.
 

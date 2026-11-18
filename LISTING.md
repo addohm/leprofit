@@ -65,6 +65,8 @@ too, greyed out, with what learning them costs and how many crafts pay that back
   costs, for as many crafts as you like. Hide items that never sell (it asks first).
 - **Price history** from your Auctionator scans, as optional columns: a 14-day average, the
   trend (up, down or level), how many days it was listed, and how many are up now.
+- **Search** item, recipe and material names as you type ("copper bar" finds everything made from
+  Copper Bars), in one profession or all of them at once.
 - **Shift-click** a craft or a material to link it in chat or the auction house search.
 
 #### Shopping

@@ -15,7 +15,8 @@ local SOURCE_TAGS = {
 	none = ORANGE .. " (no price)|r",
 }
 
-local panel, scroll, inner, emptyText, leftText, picker, sourcesText
+local panel, scroll, inner, emptyText, leftText, picker, sourcesText, searchBox
+local search = "" -- the search box's text; cleared when the window closes
 local detail
 local rows = {}
 local selected -- the product of the recipe picked
@@ -180,7 +181,7 @@ local function RowTooltip(owner, row, prof)
 	tip:SetOwner(owner, "ANCHOR_RIGHT")
 	tip:SetItemByID(row.product)
 	tip:AddLine(" ")
-	tip:AddLine("Leprofit")
+	tip:AddLine("Leprofit: " .. prof)
 	local function Pair(label, value) tip:AddDoubleLine(label, value, 1, 0.82, 0, 1, 1, 1) end
 	Pair("Cost (one craft)", row.cost and ns.Money(row.cost) or (ORANGE .. "?|r"))
 	if row.value then
@@ -239,7 +240,7 @@ local function GetRow(i)
 		ns.Window.Refresh()
 	end)
 	b:SetScript("OnEnter", function(self)
-		if self.row then RowTooltip(self, self.row, ns.CurrentProfession()) end
+		if self.row then RowTooltip(self, self.row, self.row.prof) end
 	end)
 	b:SetScript("OnLeave", GameTooltip_Hide)
 	rows[i] = b
@@ -326,7 +327,7 @@ local function BuildDetail()
 		local row = detail.row
 		if not row then return end
 		local n = math.max(1, ns.db.crafts or 1)
-		local total = ns.Shopping.Add(ns.CurrentProfession(), row.rec, n)
+		local total = ns.Shopping.Add(row.prof, row.rec, n)
 		ns.Print(("added %d x %s to the shopping list (%d planned)."):format(n, ns.ItemNameColored(row.product), total))
 	end)
 	detail.add:SetScript("OnEnter", function(self)
@@ -469,11 +470,15 @@ end
 local function PickProfession(name)
 	selected = nil
 	ns.SetProfession(name)
-	ns.Recorder.OpenWindow(name)
+	if name ~= ns.ALL then ns.Recorder.OpenWindow(name) end
 	ns.Window.Refresh()
 end
 
 function ns.BuildProfessionMenu(_, root)
+	-- All professions: every ticked module's crafts in one list, to search them all at once.
+	if #ns.professionOrder > 1 then
+		root:CreateRadio("All professions", function() return ns.ShowingAll() end, function() PickProfession(ns.ALL) end)
+	end
 	for _, name in ipairs(ns.professionOrder) do
 		root:CreateRadio(ProfessionText(name), function() return ns.CurrentProfession() == name end,
 			function() PickProfession(name) end)
@@ -549,7 +554,32 @@ local function Build(p)
 	panel.showAll:SetPoint("LEFT", panel.hideUnlearned.label, "RIGHT", 12, 0)
 
 	local header = CreateFrame("Frame", nil, panel)
-	header:SetPoint("TOPLEFT", 0, -32)
+	-- The search: item, recipe and material names, as you type.
+	searchBox = CreateFrame("EditBox", nil, panel, "SearchBoxTemplate")
+	searchBox:SetSize(260, 20)
+	searchBox:SetPoint("TOPLEFT", 8, -30)
+	searchBox:SetAutoFocus(false)
+	local hint = searchBox.Instructions -- the template's grey placeholder text
+	if type(hint) == "table" and hint.SetText then hint:SetText("Search items and materials") end
+	searchBox:HookScript("OnTextChanged", function(self)
+		search = strtrim(self:GetText() or "")
+		ns.Refresh()
+	end)
+	searchBox:HookScript("OnEscapePressed", function(self)
+		self:SetText("")
+		self:ClearFocus()
+	end)
+	panel.search = searchBox
+	-- Closing the window clears the search, so it never opens on a mysteriously short list.
+	local window = ns.Window.Frame()
+	if window then
+		window:HookScript("OnHide", function()
+			search = ""
+			searchBox:SetText("")
+		end)
+	end
+
+	header:SetPoint("TOPLEFT", 0, -56)
 	header:SetPoint("RIGHT", panel, "RIGHT", -24, 0)
 	header:SetHeight(16)
 	header.buttons = {}
@@ -564,13 +594,13 @@ local function Build(p)
 	end
 	panel.header = header
 	local rule = panel:CreateTexture(nil, "BORDER")
-	rule:SetPoint("TOPLEFT", 0, -50)
-	rule:SetPoint("TOPRIGHT", 0, -50)
+	rule:SetPoint("TOPLEFT", 0, -74)
+	rule:SetPoint("TOPRIGHT", 0, -74)
 	rule:SetHeight(1)
 	rule:SetColorTexture(0.6, 0.45, 0.15, 0.6)
 
 	scroll = CreateFrame("ScrollFrame", nil, panel, "UIPanelScrollFrameTemplate")
-	scroll:SetPoint("TOPLEFT", 0, -54)
+	scroll:SetPoint("TOPLEFT", 0, -78)
 	scroll:SetPoint("BOTTOMRIGHT", -24, DETAIL_H + 22)
 	inner = CreateFrame("Frame", nil, scroll)
 	inner:SetSize(500, 1)
@@ -597,6 +627,7 @@ end
 
 local function LeftOutText(left)
 	local parts = {}
+	if left.nomatch > 0 then parts[#parts + 1] = left.nomatch .. " don't match the search" end
 	if left.unlearned > 0 then parts[#parts + 1] = left.unlearned .. " you haven't learned" end
 	if left.later > 0 then parts[#parts + 1] = left.later .. " needing more skill" end
 	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss" end
@@ -618,8 +649,9 @@ local function Refresh()
 	local hasAuction = ns.Prices.HasAuctionator() or ns.Prices.HasTSM()
 	sourcesText:SetText((hasAuction and "Prices: " or ORANGE) .. ns.Prices.SourcesText() .. (hasAuction and "" or "|r"))
 
+	local all = ns.ShowingAll()
 	local prof = ns.CurrentProfession()
-	if not prof then
+	if not prof and not all then
 		for _, b in ipairs(rows) do b:Hide() end
 		emptyText:SetText("No profession modules are enabled for this character. In the AddOns list (at character select, or Esc > AddOns), tick the Leprofit module for each of this character's professions (Leprofit - Tailoring, for example), then /reload.")
 		emptyText:Show()
@@ -628,7 +660,9 @@ local function Refresh()
 		return
 	end
 
-	local list, left = ns.Profit.Rows(prof)
+	local query = search ~= "" and search:lower() or nil
+	local list, left
+	if all then list, left = ns.Profit.RowsAll(query) else list, left = ns.Profit.Rows(prof, query) end
 	local y, picked = 0, nil
 	for i, row in ipairs(list) do
 		local b = GetRow(i)
@@ -656,14 +690,16 @@ local function Refresh()
 	inner:SetHeight(math.max(1, y))
 
 	-- Recipes you know are read from the profession window: until then none count as known.
-	local unread = ns.Skill(prof) and ns.Recorder.KnownCount(prof) == 0
+	local unread = prof and ns.Skill(prof) and ns.Recorder.KnownCount(prof) == 0
 	local db = ns.db
 	if #list == 0 then
 		local text
-		if not ns.Skill(prof) and (db.hideUnlearned or not db.showAll) then
+		if query then
+			text = ("Nothing matches \"%s\"%s."):format(search, all and "" or (" in " .. prof .. ". Pick All professions in the dropdown to search them all"))
+		elseif prof and not ns.Skill(prof) and (db.hideUnlearned or not db.showAll) then
 			text = "This character doesn't have " .. prof .. "." .. (db.hideUnlearned and " Untick Hide unlearned and tick" or " Tick")
 				.. " Show all to see what it could learn."
-		elseif db.hideUnlearned and unread then
+		elseif prof and db.hideUnlearned and unread then
 			text = ("Leprofit hasn't read your %s recipes yet: open your %s window."):format(prof, prof)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
@@ -687,7 +723,7 @@ local function Refresh()
 		selected = picked and picked.product
 		if rows[1] and picked then rows[1].sel:Show() end
 	end
-	ShowDetail(picked, prof)
+	ShowDetail(picked, picked and picked.prof)
 end
 
 ns.Window.AddPage({ id = "crafts", label = "Crafts", build = Build, refresh = Refresh })
