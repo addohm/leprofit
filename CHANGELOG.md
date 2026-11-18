@@ -51,6 +51,7 @@ All notable changes to leprofit. The format follows
     Cooking (164), Enchanting (85 that make an item), Engineering (272),
     First Aid (41), Leatherworking (595) and Tailoring (471).
   - The window no longer shows the version and build; `/leprofit help` does.
+  - The data tool reads its source from the git-ignored `.source/` folder.
   - Pattern sellers say where they stand (subzone, zone, coordinates) and,
     when they serve one faction, which: in the row tooltip, the materials
     panel and `/leprofit why`. The data now takes each vendor's own faction.

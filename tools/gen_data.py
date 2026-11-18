@@ -1,16 +1,15 @@
-"""Generate each profession module's Data.lua from the source addon's CommunityData.lua.
+"""Generate each profession module's Data.lua from the source data.
 
 Run it with no arguments: .venv/bin/python tools/gen_data.py
 
-the source addon's data was recorded by its players and is used with its author's permission. It
-lives in the git-ignored .source/ folder; unzip a newer the source addon there to refresh it.
-CommunityData.lua is Lua, so it's run in an empty environment (no os, io or other libraries):
-it only builds a table.
+The source data is .source/CommunityData.lua, which is git-ignored and never committed; replace it
+with a newer copy to refresh the modules. It's Lua, so it's run in an empty environment (no os, io
+or other libraries): it only builds a table.
 
 For each profession in PROFESSIONS this writes Leprofit_<Profession>/Data.lua, which registers
 the profession with the core addon: its recipes (what each makes, how many, from what), what
-trainers charge for the recipes they teach, the patterns sold by vendors and who sells them, the
-vendor prices of its materials, and the item names it mentions.
+trainers charge for the recipes they teach, the patterns sold by vendors and who sells them (with
+where they stand), the vendor prices of its materials, and the item names it mentions.
 """
 import pathlib
 import sys
@@ -21,7 +20,7 @@ except ImportError:
     sys.exit("lupa is not installed: python3 -m venv .venv && .venv/bin/pip install lupa")
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SOURCE = ROOT / "the source addon" / "CommunityData.lua"
+SOURCE = ROOT / ".source" / "CommunityData.lua"
 
 # Profession name -> icon. Add a profession here and run the script to make its module's data.
 # Mining isn't here: the source data has no smelting, so Leprofit_Mining/Data.lua is written by hand.
@@ -44,14 +43,14 @@ def module_folder(name):
 
 def load_community():
     if not SOURCE.exists():
-        sys.exit(f"Can't find {SOURCE.relative_to(ROOT)}: unzip the source addon into the repo first.")
+        sys.exit(f"Can't find {SOURCE.relative_to(ROOT)}: put the source data there first.")
     lua = lua51.LuaRuntime(unpack_returned_tuples=True)
     load = lua.eval("""function(src)
         local f, err = loadstring(src, '@CommunityData.lua')
         if not f then error(err) end
         setfenv(f, {})
         local ns = {}
-        f('the source addon', ns)
+        f('Source', ns)
         return ns.COMMUNITY
     end""")
     return load(SOURCE.read_text(encoding="utf-8"))

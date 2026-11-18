@@ -9,8 +9,7 @@ gold. A core addon plus one module per profession. The agreed design is in
 ROADMAP.md. 0.1.0 (core + nine modules) is built, partly tested in game. The
 remote is `addohm/leprofit` on GitHub.
 
-Discuss each feature with the owner before building it. the source addon (below)
-is the reference: check how it handles an area before writing that area.
+Discuss each feature with the owner before building it.
 
 ## Layout
 
@@ -44,8 +43,8 @@ is the reference: check how it handles an area before writing that area.
   install), `make_release.py` (release zip)
 - `TESTING.md`: the in-game checklist
 - The standard docs, and this file.
-- `source.zip`, `.source/` (gitignored): its author's Profession
-  Planner 1.2.0, a Forever profession-levelling addon, kept as reference.
+- `.source/` (git-ignored): the source data `tools/gen_data.py` reads. Where it
+  comes from isn't written in the repo.
 
 ## Workflow
 
@@ -66,7 +65,7 @@ is the reference: check how it handles an area before writing that area.
 ## Conventions
 
 - Lua for WoW: Forever (Classic content, modern client, Midnight addon
-  limits: guard secret values as the source addon's `ns.Plain` does).
+  limits: guard secret values with `ns.Plain`).
 - The UI follows leboof's look (`addohm/leboof`, `Leboof/UI/`).
 - Settings are per character.
 - When the Crafts list gets dense, put per-craft detail in the row tooltip;
@@ -89,6 +88,6 @@ is the reference: check how it handles an area before writing that area.
 ## Don't
 
 - Commit secrets (`.env`, keys, tokens).
-- Commit the source addon itself; it stays gitignored. Its licence is all rights
-  reserved, but its author has given the owner permission to copy and
-  reference its code as needed.
+- Commit the source data (`.source/`), or name where it comes from in anything
+  committed: code, data, docs or commit messages.
+- Show the version or build in the addon's window: chat only (`/leprofit help`).

@@ -1,5 +1,4 @@
-# the source addon reference addon (not ours; see CLAUDE.md)
-/source.zip
+# The source data tools/gen_data.py reads (never committed)
 /.source/
 
 # Python tooling and scratch downloads
