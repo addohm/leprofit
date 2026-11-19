@@ -169,7 +169,7 @@ C_Map = {
 		return { GetXY = function() return 0.642, 0.581 end }
 	end,
 }
-C_AddOns = { GetAddOnMetadata = function(_, key) return key == "Version" and "0.9.0-beta" or nil end }
+C_AddOns = { GetAddOnMetadata = function(_, key) return key == "Version" and "1.0.0" or nil end }
 C_CurrencyInfo = {
 	GetCoinTextureString = function(c)
 		local g, s, k = math.floor(c / 10000), math.floor(c / 100) % 100, c % 100

@@ -7,6 +7,7 @@ change.
 
 - Standard docs (2026-11-16).
 - Design agreed (2026-11-16, below).
+- 1.0.0 released (2026-11-19): out of beta, with search and All professions.
 - 0.9.0-beta released (2026-11-18): the release kit (icon and banner art,
   LISTING.md, the zip and the v0.9.0-beta tag).
 - 0.1.0 built (2026-11-16): the core with the Crafts and Options tabs and
@@ -74,9 +75,8 @@ change.
 
 ## Next
 
-1. Try 0.9.0-beta in game (TESTING.md), especially the professions only other characters have,
-   and fix what it finds.
-2. Publish it: where releases go is still open (DEPLOY.md).
+1. Fix what players report, especially from the professions only other characters have
+   (TESTING.md).
 
 ## Ideas
 

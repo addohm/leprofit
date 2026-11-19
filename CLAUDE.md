@@ -6,7 +6,7 @@ Orientation for Claude working on leprofit. Read this first.
 
 A WoW: Forever addon (Lua, interface 16001) that ranks the crafts that make
 gold. A core addon plus one module per profession. The agreed design is in
-ROADMAP.md. 0.9.0-beta (core + nine modules) is released, partly tested in game. The
+ROADMAP.md. 1.0.0 (core + nine modules) is released; Blacksmithing and Mining are tested in game. The
 remote is `addohm/leprofit` on GitHub, public, GPLv3; releases go to CurseForge and Wago.
 
 Discuss each feature with the owner before building it.

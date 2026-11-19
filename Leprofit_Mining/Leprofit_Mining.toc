@@ -2,7 +2,7 @@
 ## Title: Leprofit - Mining
 ## Notes: Smelting for Leprofit: bars against ore, and bars at their ore's price in your other professions' sums. Needs Leprofit.
 ## Author: addohm
-## Version: 0.9.0-beta
+## Version: 1.0.0
 ## IconTexture: Interface\Icons\Trade_Mining
 ## Dependencies: Leprofit
 

@@ -6,6 +6,11 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-19
+
+Out of beta. Blacksmithing and Mining have been tried in game; the other professions work on any
+character, and reports from players who have them are welcome.
+
 ### Added
 
 - Licensed under the GNU GPLv3 (`LICENSE`); the repository is public, and the listing asks

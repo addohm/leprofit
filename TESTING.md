@@ -8,10 +8,10 @@ The owner's characters so far are a Blacksmith and a Miner, so the list is split
 check, and what waits for a character with each other profession. Nearly everything is shared code,
 so most of it is covered by the first part.
 
-## 0.9.0-beta: on a Blacksmith or a Miner
+## 1.0.0: on a Blacksmith or a Miner
 
 **Install**
-- [ ] The release zip (`release/Leprofit-0.9.0-beta.zip`) unzips into AddOns as ten folders, and the
+- [ ] The release zip (`release/Leprofit-1.0.0.zip`) unzips into AddOns as ten folders, and the
       AddOns list shows Leprofit's coin-and-arrow icon.
 - [ ] `tools\install_forever.cmd` installs `Leprofit` and all nine `Leprofit_*` modules, stamps the
       build, and packs the zip on the desktop.
@@ -101,7 +101,7 @@ so most of it is covered by the first part.
       entry works.
 - [ ] No Lua errors (`/console scriptErrors 1`).
 
-## 0.9.0-beta: needs a character with the profession
+## 1.0.0: needs a character with the profession
 
 For each of Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking and Tailoring, on a
 character that has it, with its module ticked:

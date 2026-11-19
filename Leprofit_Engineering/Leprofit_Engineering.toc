@@ -2,7 +2,7 @@
 ## Title: Leprofit - Engineering
 ## Notes: Engineering for Leprofit: its recipes, trainer costs and patterns. Needs Leprofit.
 ## Author: addohm
-## Version: 0.9.0-beta
+## Version: 1.0.0
 ## IconTexture: Interface\Icons\Trade_Engineering
 ## Dependencies: Leprofit
 
