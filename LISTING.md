@@ -78,7 +78,8 @@ too, greyed out, with what learning them costs and how many crafts pay that back
 
 #### Professions
 
-One module per profession: tick only the ones each character has, so each loads only its own data.
+One module per profession, loaded by itself for the professions each character has, so each
+character loads only its own data; pick any other in the dropdown to see what it could make.
 Alchemy, Blacksmithing, Cooking, Enchanting (rods, oils and wands), Engineering, First Aid,
 Leatherworking, Mining (smelting: bars against ore) and Tailoring. Recipes, trainer costs and
 pattern sellers are built in; what your own profession window and vendors show is added on top.

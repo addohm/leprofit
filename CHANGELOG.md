@@ -6,6 +6,13 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Profession modules load on demand: no ticking in the AddOns list. Each character loads the
+  modules for its own professions at login, and learning a profession loads its module. The
+  profession dropdown lists every installed module; picking one a character hasn't got loads it.
+  A module turned off for a character in the AddOns list stays off.
+
 ## [1.0.0] - 2026-11-19
 
 Out of beta. Blacksmithing and Mining have been tried in game; the other professions work on any

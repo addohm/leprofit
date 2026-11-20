@@ -15,8 +15,9 @@ On the Windows test PC:
    GitHub login if the repo is private).
 2. Open `tools\install_forever.cmd` and check `WOW` at the top: it's the client folder, by default
    `C:\Program Files (x86)\World of Warcraft\_forever_`, the live game.
-3. Run `tools\install_forever.cmd` from a terminal, then start the game. At character select, under
-   AddOns, tick Leprofit and the modules for that character's professions.
+3. Run `tools\install_forever.cmd` from a terminal, then start the game. Leprofit and its modules are
+   on by default; Leprofit loads each character's profession modules itself (they're
+   LoadOnDemand).
 
 To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not the repo root) into
 `<WoW>\_forever_\Interface\AddOns\`.
@@ -79,8 +80,9 @@ patterns you record are shared by your characters, in `WTF/Account/<account>/Sav
 
 - **Nothing on `/leprofit`:** the addon isn't loaded. Check the AddOns list; if it says out of date,
   the client's Interface number isn't 16001.
-- **"No profession modules are enabled":** tick Leprofit - <profession> for this character in the
-  AddOns list, then restart or /reload.
+- **"No Leprofit profession modules are installed":** the `Leprofit_*` folders are missing from
+  AddOns, or all turned off for this character in the AddOns list. `/leprofit status` lists the
+  modules that are there but not loaded.
 - **No crafts listed:** `/leprofit status` says which price addons it found. Without Auctionator or
   TSM there are no auction prices; with them, scan the auction house. "Show losses" lists everything.
 - **Lua errors:** `/console scriptErrors 1` shows them; report them with the `/leprofit help` build.

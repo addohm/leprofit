@@ -12,6 +12,7 @@
 Build.lua
 Core.lua
 Util.lua
+Modules.lua
 Prices.lua
 Recipes.lua
 Profit.lua

@@ -50,6 +50,10 @@ def addon_chunks(name):
         fail(f"{name}.toc is version {v.group(1)}, the core is {version}")
     if name != CORE and not re.search(r"^## Dependencies:\s*Leprofit\s*$", text, re.M):
         fail(f"{name}.toc doesn't depend on Leprofit")
+    if name != CORE and not re.search(r"^## LoadOnDemand:\s*1\s*$", text, re.M):
+        fail(f"{name}.toc isn't LoadOnDemand: 1 (Leprofit loads its modules itself)")
+    if name != CORE and not re.search(r"^## X-Leprofit-Profession:\s*\S", text, re.M):
+        fail(f"{name}.toc doesn't say which profession it's for (## X-Leprofit-Profession)")
     toc = [line.strip().replace("\\", "/") for line in text.splitlines()
            if line.strip().endswith(".lua") and not line.startswith("#")]
     on_disk = sorted(str(p.relative_to(folder)) for p in folder.rglob("*.lua"))
@@ -91,9 +95,22 @@ if not failed:
     run(CORE, core, ns)
     fire = lua.globals().WM.Fire
     fire("ADDON_LOADED", CORE)
+    # The modules are LoadOnDemand: the fake client lists them, and runs one only when Leprofit
+    # asks C_AddOns.LoadAddOn for it, as the game does.
+    def loader(m, chunks):
+        def load():
+            run(m, chunks, lua.table())
+            fire("ADDON_LOADED", m)
+        return load
+    listed = []
     for m, chunks in modules:
-        run(m, chunks, lua.table())
-        fire("ADDON_LOADED", m)
+        meta = {}
+        for line in (ROOT / m / f"{m}.toc").read_text(encoding="utf-8").splitlines():
+            if line.startswith("## ") and ":" in line:
+                key, value = line[3:].split(":", 1)
+                meta[key.strip()] = value.strip()
+        listed.append(lua.table_from({"name": m, "meta": lua.table_from(meta), "load": loader(m, chunks)}))
+    lua.globals().WM.addonList = lua.table_from(listed)
     fire("PLAYER_LOGIN")
     after = set(names().values())
     for g in sorted(after - before - ALLOWED_GLOBALS):

@@ -55,7 +55,8 @@ change.
 - **Recipe data:** built-in data, split into the modules, plus
   what you record playing. No in-game sharing, no share website.
 - **Modules:** a core addon (pricing, window, settings) plus one addon per
-  profession, ticked per character in the AddOns list: Alchemy,
+  profession, loaded on demand for the professions each character has (the
+  dropdown loads any other): Alchemy,
   Blacksmithing, Cooking, Enchanting, Engineering, First Aid, Leatherworking,
   Mining (smelting), Tailoring. Each character sees only its own
   professions.

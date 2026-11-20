@@ -169,7 +169,38 @@ C_Map = {
 		return { GetXY = function() return 0.642, 0.581 end }
 	end,
 }
-C_AddOns = { GetAddOnMetadata = function(_, key) return key == "Version" and "1.0.0" or nil end }
+-- The AddOns list: WM.addonList (set by run_tests.py) holds the profession modules, each with its
+-- .toc fields (meta) and a load function; WM.disabled[name] turns one off for this character.
+M.addonList, M.disabled, M.loadedAddOns = {}, {}, {}
+local function FindAddOn(name)
+	for _, a in ipairs(M.addonList) do
+		if a.name == name then return a end
+	end
+end
+C_AddOns = {
+	GetAddOnMetadata = function(name, key)
+		local a = FindAddOn(name)
+		if a then return a.meta[key] end
+		return key == "Version" and "1.0.0" or nil
+	end,
+	GetNumAddOns = function() return #M.addonList end,
+	GetAddOnInfo = function(i)
+		local a = type(i) == "number" and M.addonList[i] or FindAddOn(i)
+		if not a then return nil end
+		local off = M.disabled[a.name]
+		return a.name, a.meta.Title, a.meta.Notes, not off, off and "DISABLED" or "DEMAND_LOADED"
+	end,
+	LoadAddOn = function(name)
+		local a = FindAddOn(name)
+		if not a or M.disabled[name] then return false, "DISABLED" end
+		if not a.loaded then
+			a.loaded = true
+			table.insert(M.loadedAddOns, name)
+			a.load()
+		end
+		return true
+	end,
+}
 C_CurrencyInfo = {
 	GetCoinTextureString = function(c)
 		local g, s, k = math.floor(c / 10000), math.floor(c / 100) % 100, c % 100

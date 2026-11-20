@@ -5,5 +5,7 @@
 ## Version: 1.0.0
 ## IconTexture: Interface\Icons\Trade_Mining
 ## Dependencies: Leprofit
+## LoadOnDemand: 1
+## X-Leprofit-Profession: Mining
 
 Data.lua

@@ -5,5 +5,7 @@
 ## Version: 1.0.0
 ## IconTexture: Interface\Icons\INV_Misc_Food_15
 ## Dependencies: Leprofit
+## LoadOnDemand: 1
+## X-Leprofit-Profession: Cooking
 
 Data.lua

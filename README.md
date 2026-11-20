@@ -16,9 +16,9 @@ Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailor
 1. Copy the `Leprofit` folder and the `Leprofit_*` module folders into
    `World of Warcraft\_forever_\Interface\AddOns\`, or run `tools\install_forever.cmd` from a clone
    ([DEPLOY.md](DEPLOY.md)).
-2. In the AddOns list at character select, tick **Leprofit** and the profession modules this
-   character has (**Leprofit - Tailoring**, **Leprofit - Enchanting**...). Modules are ticked per
-   character, so each character loads only its own professions' data.
+2. That's it for the modules: they're on by default, and Leprofit loads the ones for each
+   character's professions by itself, so each character loads only its own professions' data. To
+   keep a module off for a character, untick it in the AddOns list at character select.
 3. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
    from their scans.
 4. Open Leprofit: it opens your profession window too, and reads the recipes you know from it.
@@ -32,9 +32,9 @@ it's already open, you don't have that profession, or you're in combat: Leprofit
 you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
-- The dropdown at the top picks the profession: it lists the modules ticked for this character,
-  and **All professions** lists every one of them together (each row's tooltip names its
-  profession).
+- The dropdown at the top picks the profession: it lists every profession module installed.
+  Picking one this character hasn't got (to see what it could make) loads it there and then.
+  **All professions** lists the loaded ones together (each row's tooltip names its profession).
 - The **search** box filters the list as you type: it matches the item's name, the recipe's name
   and the names of its materials, so "copper bar" finds every craft that uses Copper Bars. It
   searches the profession shown, or all of them with All professions picked. Escape or the x
@@ -89,8 +89,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   comes back when the item sells. If a vendor pays more, or the item binds on pickup, the vendor's
   price is used.
 - Each material costs the cheaper of buying it (a vendor's price if one is recorded, else the
-  auction house) and crafting it with a recipe you know, in any of this character's professions
-  with a module ticked: a Blacksmith who also mines gets bars at their ore's price when smelting is
+  auction house) and crafting it with a recipe you know, in any of this character's professions: a Blacksmith who also mines gets bars at their ore's price when smelting is
   cheaper. Materials you already hold count at their
   price too: using one you could sell costs you that one. The materials panel shows the gold you'd
   actually spend on what you don't have.

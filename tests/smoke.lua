@@ -22,6 +22,27 @@ local function Defaults()
 	ns.DataChanged()
 end
 
+-- Modules load on demand: a character with no professions loads none at login; learning one, or
+-- picking one in the dropdown, loads its module; one turned off in the AddOns list stays off.
+eq(#ns.professionOrder, 0, "no modules loaded at login for a character without professions")
+eq(#ns.Modules.Choices(), 9, "all nine can load")
+WM.skills.Blacksmithing = 1
+WM.Fire("SKILL_LINES_CHANGED")
+eq(ns.professionOrder[1], "Blacksmithing", "learning Blacksmithing loads its module")
+eq(#ns.professionOrder, 1, "and only that one")
+WM.skills.Blacksmithing = nil
+ns.SetProfession("Cooking")
+ok(ns.professions.Cooking, "picking Cooking in the dropdown loads it")
+eq(ns.CurrentProfession(), "Cooking")
+WM.disabled.Leprofit_Tailoring = true
+eq(ns.Modules.Load("Tailoring"), false, "a module turned off for this character stays off")
+eq(#ns.Modules.Choices(), 8, "and isn't offered")
+WM.disabled.Leprofit_Tailoring = nil
+ok(ns.Modules.Icon("Tailoring"):find("Trade_Tailoring", 1, true), "an unloaded module's icon comes from its .toc")
+for _, prof in ipairs(ns.Modules.Choices()) do ns.Modules.Load(prof) end
+eq(#ns.professionOrder, 9, "every module loaded for the rest of the tests")
+ns.db.profession = nil
+
 -- The module registered, and its recipes are listed one per name.
 ok(ns.professions.Blacksmithing, "Blacksmithing is registered")
 eq(ns.CurrentProfession(), ns.professionOrder[1], "the first module shown at first")

@@ -17,31 +17,33 @@ so most of it is covered by the first part.
       build, and packs the zip on the desktop.
 - [ ] After a history rewrite on GitHub, the install script says the histories differ and prints
       the fetch and reset commands; after running them, it installs.
-- [ ] They all show in the AddOns list; ticking only Leprofit gives "No profession modules are
-      enabled" in the window.
+- [ ] They all show in the AddOns list, on, with no ticking needed. A character logs in with only
+      its own professions' modules loaded (`/leprofit status` lists the others as not loaded);
+      learning a profession loads its module; picking one in the dropdown loads it; unticking a
+      module for a character keeps it off.
 - [ ] The search box (with its grey hint and x): typing filters as you go, by item, recipe and
       material names; Escape and the x clear it; closing the window clears it; with All
       professions picked it searches every ticked module, and a row's tooltip names its
       profession.
-- [ ] The profession dropdown lists only the modules ticked for this character, with their icons;
+- [ ] The profession dropdown lists every installed module (minus ones turned off), with icons;
       the one shown is ticked, and it follows the profession window's button.
 
-**Blacksmithing** (on the Blacksmith, Leprofit - Blacksmithing ticked)
+**Blacksmithing** (on the Blacksmith)
 - [ ] Opening Leprofit opens your Blacksmithing window (not when it's already open, or in combat);
       `/leprofit status` then says how many recipes you know.
 - [ ] Learning a recipe at the trainer lists it as known without opening the profession window.
 - [ ] A material you can craft cheaper than buy (a sharpening or grinding stone) shows
       "(craft it)" in the materials panel.
 
-**Mining** (Leprofit - Mining ticked)
+**Mining**
 - [ ] On the Miner, opening Leprofit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
       then counts the smelting recipes you know, and Mining's Crafts list shows bars against ore.
-- [ ] On a character with both (Mining and Blacksmithing ticked): Blacksmithing's materials panel
+- [ ] On a character with both Mining and Blacksmithing: Blacksmithing's materials panel
       shows "(craft it)" on bars that are cheaper to smelt, and `/leprofit why` says
       "crafted with Smelt ... (Mining)". If the Blacksmith and the Miner are different characters,
       Blacksmithing buys its bars.
 
-**Other professions' lists** (tick, say, Leprofit - Tailoring on the Blacksmith)
+**Other professions' lists** (pick, say, Tailoring in the dropdown on the Blacksmith)
 - [ ] Without the profession, its list still shows what you could learn (trainer and pattern
       costs, payback), with prices, tooltips, Shopping and `/leprofit why`, all with Show all ticked;
       without it the empty list explains that this character doesn't have the profession. Opening Leprofit on it doesn't try to open a window.
@@ -104,7 +106,7 @@ so most of it is covered by the first part.
 ## 1.0.0: needs a character with the profession
 
 For each of Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking and Tailoring, on a
-character that has it, with its module ticked:
+character that has it:
 - [ ] Opening Leprofit opens that profession's window; `/leprofit status` counts its known recipes;
       Hide unlearned lists them.
 - [ ] Recipes that make several (Engineering's ammo, some Cooking) show x2 and so on, and their

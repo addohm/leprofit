@@ -17,6 +17,9 @@ Discuss each feature with the owner before building it.
   - `Core.lua`: settings (per character, `LeprofitCharDB` as `ns.db`; vendor
     records account-wide, `LeprofitDB` as `ns.adb`), the module registry
     (`Leprofit.RegisterProfession`), events, slash commands
+  - `Modules.lua`: the profession modules, LoadOnDemand: finds them in the
+    AddOns list, loads the ones for this character's professions, the rest
+    when picked
   - `Util.lua`: safe calls, `ns.Plain` (secret values), money text, item
     names/icons/sale info, counts, skill
   - `Prices.lua`: Auctionator and TSM prices, vendor prices, and Auctionator's
@@ -79,7 +82,8 @@ Discuss each feature with the owner before building it.
   for, and comments explain why, in plain words (leboof's style).
 - Every module's `.toc` version matches the core's (the tests check).
 - A new profession module: make `Leprofit_<Profession>/` (no spaces:
-  `Leprofit_FirstAid`) with a `.toc` like Blacksmithing's, add it to
+  `Leprofit_FirstAid`) with a `.toc` like Blacksmithing's (`LoadOnDemand: 1` and
+  `X-Leprofit-Profession: <Profession>`; the tests check both), add it to
   `PROFESSIONS` in `tools/gen_data.py`, run it, add it to the tests' list,
   run them, and update README, TESTING and the install notes.
 - A few recipe IDs are in several professions' data (Forever's camp and home

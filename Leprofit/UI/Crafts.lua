@@ -463,7 +463,7 @@ end
 -- The profession shown: a dropdown (Blizzard's menu system, like leboof's checklist) listing the
 -- modules ticked for this character, each with its icon. Picking one also opens its window.
 local function ProfessionText(name)
-	local icon = ns.professions[name] and ns.professions[name].icon
+	local icon = ns.Modules.Icon(name)
 	return icon and ("|T" .. icon .. ":16:16|t " .. name) or name
 end
 
@@ -479,7 +479,8 @@ function ns.BuildProfessionMenu(_, root)
 	if #ns.professionOrder > 1 then
 		root:CreateRadio("All professions", function() return ns.ShowingAll() end, function() PickProfession(ns.ALL) end)
 	end
-	for _, name in ipairs(ns.professionOrder) do
+	-- Every module that can load, not just the loaded ones: picking one loads it.
+	for _, name in ipairs(ns.Modules.Choices()) do
 		root:CreateRadio(ProfessionText(name), function() return ns.CurrentProfession() == name end,
 			function() PickProfession(name) end)
 	end
@@ -653,7 +654,9 @@ local function Refresh()
 	local prof = ns.CurrentProfession()
 	if not prof and not all then
 		for _, b in ipairs(rows) do b:Hide() end
-		emptyText:SetText("No profession modules are enabled for this character. In the AddOns list (at character select, or Esc > AddOns), tick the Leprofit module for each of this character's professions (Leprofit - Tailoring, for example), then /reload.")
+		emptyText:SetText(#ns.Modules.Choices() == 0
+			and "No Leprofit profession modules are installed, or they're all turned off in the AddOns list. Install the Leprofit_ folders with Leprofit (they're in the same download)."
+			or "This character has none of the professions Leprofit covers yet. Pick one in the dropdown above to see what it could make.")
 		emptyText:Show()
 		leftText:SetText("")
 		detail:Hide()

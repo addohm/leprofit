@@ -64,8 +64,8 @@ end
 
 -- Profession modules ---------------------------------------------------------------------------
 
--- Each Leprofit_<Profession> addon registers its data here when it loads. Only modules enabled for
--- this character load, so these are the professions this character wants.
+-- Each Leprofit_<Profession> addon registers its data here when it loads. Modules load on demand
+-- (Modules.lua): these are the ones loaded so far.
 ns.professions, ns.professionOrder = {}, {}
 ns.dataVersion = 0 -- bumped whenever recipes, patterns or prices recorded here change
 
@@ -102,6 +102,7 @@ function ns.CurrentProfession()
 end
 
 function ns.SetProfession(name)
+	if name ~= ns.ALL and not ns.professions[name] then ns.Modules.Load(name) end
 	if ns.professions[name] or name == ns.ALL then
 		ns.db.profession = name
 		ns.Refresh()
@@ -135,6 +136,7 @@ events:SetScript("OnEvent", function(_, event, arg)
 		if ns.db.knownOnly then ns.db.hideUnlearned = true end
 		ns.db.knownOnly, ns.db.showUpTo = nil, nil
 	elseif event == "PLAYER_LOGIN" then
+		ns.Modules.LoadKnown()
 		ns.Minimap.Init()
 		ns.ProfessionButton.Init()
 	else
@@ -148,8 +150,16 @@ end)
 local function Status()
 	ns.Print(ns.Version())
 	ns.Print("Prices: " .. ns.Prices.SourcesText())
-	if #ns.professionOrder == 0 then
-		ns.Print("No profession modules are enabled. Enable Leprofit - <profession> in the AddOns list.")
+	local choices = ns.Modules.Choices()
+	if #choices == 0 then
+		ns.Print("No Leprofit profession modules are installed, or they're all turned off in the AddOns list.")
+	end
+	local waiting = {}
+	for _, prof in ipairs(choices) do
+		if not ns.professions[prof] then waiting[#waiting + 1] = prof end
+	end
+	if #waiting > 0 then
+		ns.Print("Not loaded (this character hasn't got them; picking one in the dropdown loads it): " .. table.concat(waiting, ", "))
 	end
 	for _, name in ipairs(ns.professionOrder) do
 		local known = 0
