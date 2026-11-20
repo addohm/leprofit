@@ -1,4 +1,4 @@
--- Leprofit: small helpers shared by the other files: safe calls, money text, item names, icons,
+-- leProfit: small helpers shared by the other files: safe calls, money text, item names, icons,
 -- what an item sells to a vendor for, whether it binds on pickup, and how many you hold.
 local _, ns = ...
 

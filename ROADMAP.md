@@ -7,7 +7,7 @@ change.
 
 - Standard docs (2026-11-16).
 - Design agreed (2026-11-16, below).
-- One addon (2026-11-20): the nine profession modules merged into Leprofit, after a
+- One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
 - 1.0.0 released (2026-11-19): out of beta, with search and All professions.
 - 0.9.0-beta released (2026-11-18): the release kit (icon and banner art,
@@ -63,7 +63,7 @@ change.
 - **Window:** its own window, in leboof's style (dark panel, gold border, flat
   tabs). Tabs: Crafts (ranked list; click a row for its materials, a craft
   count and Add to list), Shopping (planned crafts, combined materials
-  bought as they are, Clear, Send to Auctionator as one "Leprofit" list
+  bought as they are, Clear, Send to Auctionator as one "leProfit" list
   without vendor materials), Options. A search box on the Crafts tab
   matches item, recipe and material names; the dropdown's All professions
   lists every profession together.

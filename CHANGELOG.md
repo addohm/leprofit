@@ -8,7 +8,13 @@ All notable changes to leprofit. The format follows
 
 ### Changed
 
-- One addon: every profession's data is built into Leprofit, so there are no separate
+- Renamed to **leProfit**: the folder, title, chat prefix, saved settings (`leProfitCharDB`,
+  `leProfitDB`), frames, the Auctionator shopping list and the zips. Your settings and recorded
+  vendor prices carry over from `LeprofitCharDB` and `LeprofitDB` at the first login. The
+  install script removes an installed `Leprofit` folder first, since Windows would otherwise keep
+  the old spelling; installing by hand, delete it yourself. `/leprofit` is unchanged. An old
+  "Leprofit" list in Auctionator can be deleted.
+- One addon: every profession's data is built into leProfit, so there are no separate
   `Leprofit_<Profession>` modules to install or tick. Coming from 1.0, delete the old
   `Leprofit_<Profession>` folders (they're ignored if left; the install script removes them). The
   profession dropdown lists all nine professions and starts on one the character has;

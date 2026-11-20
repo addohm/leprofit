@@ -1,4 +1,4 @@
--- Leprofit: prices. Auction prices come from Auctionator or TradeSkillMaster on this computer (their
+-- leProfit: prices. Auction prices come from Auctionator or TradeSkillMaster on this computer (their
 -- own scans); vendor prices from what you recorded at vendors or the module's data. A vendor price
 -- wins; without one, the auction price.
 local ADDON, ns = ...

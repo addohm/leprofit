@@ -1,4 +1,4 @@
--- Leprofit: building blocks for the window's pages, from leboof (the same style as Nothing Wasted's).
+-- leProfit: building blocks for the window's pages, from leboof (the same style as Nothing Wasted's).
 -- Rows are laid out like the game's Settings: the label on the left, the control on the right.
 -- Each row has :Sync() to show the current value. Place rows top to bottom with UI.Stack.
 local _, ns = ...

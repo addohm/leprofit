@@ -1,8 +1,8 @@
--- Leprofit: settings, the profession modules, events and slash commands. Settings are per character
--- (LeprofitCharDB, ns.db); what you record at vendors is shared by your characters (LeprofitDB, ns.adb).
+-- leProfit: settings, the profession modules, events and slash commands. Settings are per character
+-- (leProfitCharDB, ns.db); what you record at vendors is shared by your characters (leProfitDB, ns.adb).
 local ADDON, ns = ...
 
-ns.ICON = "Interface\\AddOns\\Leprofit\\Media\\Icon" -- art/make_logo.py
+ns.ICON = "Interface\\AddOns\\leProfit\\Media\\Icon" -- art/make_logo.py
 
 local DEFAULTS = {
 	rankBy = "buyout",       -- rank by "buyout" (the lowest buyout) or "market" (TSM's market value)
@@ -19,7 +19,7 @@ local DEFAULTS = {
 	sortBy = "profit",       -- the Crafts list's order: "item", "cost", "buyout", "market" or "profit"
 	sortDesc = true,         -- highest (or Z) first
 	showUnknown = false,     -- also list recipes nobody has recorded a trainer or vendor for
-	professionButton = true, -- a Leprofit button on the profession window
+	professionButton = true, -- a leProfit button on the profession window
 	hidden = {},             -- itemID -> true: marked "doesn't sell", never listed (Options unhides them)
 	plan = {},               -- the shopping list: { { prof, id (recipe), count } } (Shopping.lua)
 	recipes = {},            -- profession -> recipeID -> what the profession window showed (Recorder.lua)
@@ -50,7 +50,7 @@ local function CopyDefaults(dst, src)
 end
 
 function ns.Print(msg)
-	print("|cffffd100Leprofit|r: " .. msg)
+	print("|cffffd100leProfit|r: " .. msg)
 end
 
 function ns.Version()
@@ -134,9 +134,15 @@ events:RegisterEvent("BAG_UPDATE_DELAYED")
 events:RegisterEvent("AUCTION_HOUSE_CLOSED")
 events:SetScript("OnEvent", function(_, event, arg)
 	if event == "ADDON_LOADED" and arg == ADDON then
-		LeprofitCharDB = CopyDefaults(type(LeprofitCharDB) == "table" and LeprofitCharDB or {}, DEFAULTS)
-		LeprofitDB = CopyDefaults(type(LeprofitDB) == "table" and LeprofitDB or {}, ACCOUNT_DEFAULTS)
-		ns.db, ns.adb = LeprofitCharDB, LeprofitDB
+		-- Before the rename to leProfit (1.1.0) the settings were LeprofitCharDB and LeprofitDB (the
+		-- TOC still loads them): carry them over once.
+		local oldChar, oldAccount = rawget(_G, "LeprofitCharDB"), rawget(_G, "LeprofitDB")
+		if leProfitCharDB == nil and type(oldChar) == "table" then leProfitCharDB = oldChar end
+		if leProfitDB == nil and type(oldAccount) == "table" then leProfitDB = oldAccount end
+		LeprofitCharDB, LeprofitDB = nil, nil
+		leProfitCharDB = CopyDefaults(type(leProfitCharDB) == "table" and leProfitCharDB or {}, DEFAULTS)
+		leProfitDB = CopyDefaults(type(leProfitDB) == "table" and leProfitDB or {}, ACCOUNT_DEFAULTS)
+		ns.db, ns.adb = leProfitCharDB, leProfitDB
 		-- Earlier builds: the Known only box is Hide unlearned now; the Show slider is gone.
 		if ns.db.knownOnly then ns.db.hideUnlearned = true end
 		ns.db.knownOnly, ns.db.showUpTo = nil, nil

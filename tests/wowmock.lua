@@ -1,4 +1,4 @@
--- A small fake WoW client for Leprofit's tests: frames that accept any method call, events, timers,
+-- A small fake WoW client for leProfit's tests: frames that accept any method call, events, timers,
 -- items, a profession window, a vendor, and Auctionator's and TSM's price APIs. Tests set the data
 -- through WM (items, prices, the recipes shown, the vendor's stock) and fire events with WM.Fire.
 local M = {
@@ -263,14 +263,14 @@ Auctionator = { Constants = { SCAN_DAY_0 = 0 }, Database = {
 	end,
 }, API = { v1 = {
 	GetAuctionPriceByItemID = function(caller, id)
-		assert(caller == "Leprofit", "Auctionator needs the caller's name")
+		assert(caller == "leProfit", "Auctionator needs the caller's name")
 		return M.auctionator[id]
 	end,
 	GetAuctionAgeByItemID = function(_, id) return M.ages[id] end,
 	GetVendorPriceByItemID = function(_, id) return M.auctionatorVendor[id] end,
 	ConvertToSearchString = function(_, term) return ('"%s";;;;;;;;;;;;;%d'):format(term.searchString, term.quantity) end,
 	CreateShoppingList = function(caller, name, terms)
-		assert(caller == "Leprofit")
+		assert(caller == "leProfit")
 		M.lists[name] = terms
 	end,
 } } }

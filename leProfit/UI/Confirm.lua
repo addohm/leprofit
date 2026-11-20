@@ -1,5 +1,5 @@
--- Leprofit: a confirmation over the window, in its style: a question, an accept button and Cancel.
--- The window behind is dimmed and takes no clicks until you answer. It's Leprofit's own rather than
+-- leProfit: a confirmation over the window, in its style: a question, an accept button and Cancel.
+-- The window behind is dimmed and takes no clicks until you answer. It's leProfit's own rather than
 -- the game's StaticPopup, because addon code showing the game's popups can stop Blizzard's own
 -- protected popups working until a /reload.
 local _, ns = ...
@@ -7,7 +7,7 @@ local _, ns = ...
 local dialog
 
 local function Build(window)
-	dialog = CreateFrame("Frame", "LeprofitConfirm", window)
+	dialog = CreateFrame("Frame", "leProfitConfirm", window)
 	dialog:SetAllPoints(window)
 	dialog:SetFrameStrata("DIALOG")
 	dialog:EnableMouse(true) -- the dimmed window takes no clicks
@@ -16,7 +16,7 @@ local function Build(window)
 	dim:SetPoint("BOTTOMRIGHT", -4, 4)
 	dim:SetColorTexture(0, 0, 0, 0.55)
 	dialog:Hide()
-	tinsert(UISpecialFrames, "LeprofitConfirm") -- Escape cancels
+	tinsert(UISpecialFrames, "leProfitConfirm") -- Escape cancels
 
 	local box = CreateFrame("Frame", nil, dialog, "BackdropTemplate")
 	box:SetSize(380, 140)

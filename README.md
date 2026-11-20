@@ -6,27 +6,28 @@ the cut, less what the materials cost. That includes recipes you'd have to learn
 the trainer or pattern costs and how many crafts pay it back. It's for crafters who want to know
 what's worth making and selling.
 
-Leprofit is one addon covering every crafting profession: Alchemy, Blacksmithing, Cooking,
+leProfit is one addon covering every crafting profession: Alchemy, Blacksmithing, Cooking,
 Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 1.0.0 is the current release;
 [TESTING.md](TESTING.md) is what's left to check in game. Source:
 [addohm/leprofit](https://github.com/addohm/leprofit).
 
 ## Getting started
 
-1. Copy the `Leprofit` folder into `World of Warcraft\_forever_\Interface\AddOns\`, or run
-   `tools\install_forever.cmd` from a clone ([DEPLOY.md](DEPLOY.md)). Coming from Leprofit 1.0?
-   Its separate `Leprofit_<Profession>` folders are built in now: delete them (they're ignored if
-   left).
+1. Copy the `leProfit` folder into `World of Warcraft\_forever_\Interface\AddOns\`, or run
+   `tools\install_forever.cmd` from a clone ([DEPLOY.md](DEPLOY.md)). Coming from 1.0, when it
+   was called Leprofit? Delete its `Leprofit` folder first (Windows would keep the old name), and
+   its separate `Leprofit_<Profession>` folders: they're built in now (and ignored if left). Your
+   settings carry over.
 2. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
    from their scans.
-3. Open Leprofit: it opens your profession window too, and reads the recipes you know from it.
+3. Open leProfit: it opens your profession window too, and reads the recipes you know from it.
 
 ## Usage
 
 Open the window with `/leprofit`, the minimap button (right-click for Options), the addon menu by
 the minimap, or the coin button on the profession window, which opens it on that profession.
-Opening Leprofit (or picking another profession in it) also opens your profession window, unless
-it's already open, you don't have that profession, or you're in combat: Leprofit reads the recipes
+Opening leProfit (or picking another profession in it) also opens your profession window, unless
+it's already open, you don't have that profession, or you're in combat: leProfit reads the recipes
 you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
@@ -58,7 +59,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   The order is saved per character.
 - Shift-click a row to put the item's link in chat or a search box (the auction house's, or
   Auctionator's); ctrl-click shows it in the dressing room.
-- Each row is one line; hover over it for the detail. Under the game's item tooltip, Leprofit adds
+- Each row is one line; hover over it for the detail. Under the game's item tooltip, leProfit adds
   the cost, what it sells for after the cut, the profit, the lowest buyout, Auctionator's history
   (14-day average, trend, days seen, how many listed), where to learn the recipe (trainer or
   pattern, its price, the skill it needs, and how many crafts pay it back), and anything to be wary
@@ -92,7 +93,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   cheaper. Materials you already hold count at their
   price too: using one you could sell costs you that one. The materials panel shows the gold you'd
   actually spend on what you don't have.
-- Leprofit records vendor prices for materials, and the patterns vendors sell, when you open a
+- leProfit records vendor prices for materials, and the patterns vendors sell, when you open a
   vendor. Auctionator's own record of vendor prices counts too.
 - `/leprofit why <item>` prints the whole sum for one craft in chat: each material, its price and
   where it's from, the buyout, 14-day average and vendor price, Auctionator's history (days seen,
@@ -105,7 +106,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   buy, the price of one and the cost. Materials are bought as they are, not crafted first. Vendor
   materials are tagged (vendor); ones with no price, (no price).
 - The gold to spend, **Clear** (after asking), and **Send to Auctionator**: it makes Auctionator's
-  "Leprofit" shopping list from what's left to buy (exact names and how many), replacing the last
+  "leProfit" shopping list from what's left to buy (exact names and how many), replacing the last
   one. Vendor materials are left out and named in chat. At the auction house, open Auctionator's
   Shopping tab and pick the list.
 
@@ -134,7 +135,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 
 Enchanting lists only what makes an item (rods, oils, wands): enchants on gear can't be posted.
 Mining ships no recipes (the built-in data has no smelting): open your smelting window and
-Leprofit reads them, then lists each bar against its ore. A
+leProfit reads them, then lists each bar against its ore. A
 few of Forever's camp and home items (Camp Chair, Fishing Hut...) are listed by several
 professions' windows, so they show under each.
 
@@ -151,7 +152,7 @@ other players.
 - Tests: `python3 -m venv .venv && .venv/bin/pip install lupa` once, then
   `.venv/bin/python tests/run_tests.py`. They load the addon into a fake client
   (`tests/wowmock.lua`) and run `tests/smoke.lua`.
-- Profession data: `tools/gen_data.py` writes `Leprofit/Data/<Profession>.lua` from the source
+- Profession data: `tools/gen_data.py` writes `leProfit/Data/<Profession>.lua` from the source
   data ([DEPLOY.md](DEPLOY.md)); Mining's is written by hand.
 - Installing and releasing: [DEPLOY.md](DEPLOY.md).
 

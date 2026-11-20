@@ -1,4 +1,4 @@
-"""Leprofit's checks: Lua 5.1 syntax, each addon's TOC file list, globals, and the scenarios in
+"""leProfit's checks: Lua 5.1 syntax, each addon's TOC file list, globals, and the scenarios in
 smoke.lua against the fake client in wowmock.lua.
 
 Run: .venv/bin/python tests/run_tests.py   (needs lupa: python3 -m venv .venv && .venv/bin/pip install lupa)
@@ -14,9 +14,9 @@ except ImportError:
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TESTS = ROOT / "tests"
-CORE = "Leprofit"
-ALLOWED_GLOBALS = {"Leprofit", "LeprofitDB", "LeprofitCharDB", "LeprofitFrame", "LeprofitMinimapButton",
-                   "LeprofitConfirm", "SLASH_LEPROFIT1", "Leprofit_OnAddonCompartmentClick"}
+CORE = "leProfit"
+ALLOWED_GLOBALS = {"Leprofit", "leProfitDB", "leProfitCharDB", "leProfitFrame", "leProfitMinimapButton",
+                   "leProfitConfirm", "SLASH_LEPROFIT1", "leProfit_OnAddonCompartmentClick"}
 
 OPTIONAL_GLOBALS = {"GetTradeSkillLine", "GetMerchantItemInfo", "GetProfessions", "GetProfessionInfo",
                     "GetCoinTextureString", "GetItemCount", "GetItemInfo", "issecretvalue", "TSM_API"}
@@ -83,6 +83,9 @@ if not failed:
                 fail(f"loading {addon}/{f}: {e}")
 
     run(CORE, core, ns)
+    # Settings saved before the rename to leProfit, which the game loads before ADDON_LOADED: they
+    # should move to the new names (smoke.lua checks), leaving no old global behind.
+    lua.execute('LeprofitCharDB = { carried = "character" } LeprofitDB = { carried = "account" }')
     fire = lua.globals().WM.Fire
     fire("ADDON_LOADED", CORE)
     fire("PLAYER_LOGIN")

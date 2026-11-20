@@ -1,4 +1,4 @@
-# Leprofit: CurseForge and Wago listing
+# leProfit: CurseForge and Wago listing
 
 Copy-paste material for the project pages: it's published on both CurseForge and Wago. Keep the
 feature list in step with README.md.
@@ -9,7 +9,7 @@ feature list in step with README.md.
 
 | Field | Value |
 | --- | --- |
-| Name | Leprofit |
+| Name | leProfit |
 | Slug | `leprofit` |
 | Game version | WoW: Forever (Interface 16001) |
 | Author | addohm |
@@ -17,7 +17,7 @@ feature list in step with README.md.
 | License | GNU GPLv3 (`LICENSE`) |
 | Source | https://github.com/addohm/leprofit |
 | Issues | https://github.com/addohm/leprofit/issues |
-| Upload | `release/Leprofit-<version>.zip` (one `Leprofit` folder) |
+| Upload | `release/leProfit-<version>.zip` (one `leProfit` folder) |
 
 **Images**
 - Avatar: `art/leprofit-icon-400.png`
@@ -42,11 +42,11 @@ feature list in step with README.md.
 
 *(Paste as Markdown. Both sites accept it.)*
 
-### Leprofit
+### leProfit
 
 **Which crafts make gold, most profitable first. Built for WoW: Forever.**
 
-Leprofit lists every craft in your professions with what it costs to make, what it sells for,
+leProfit lists every craft in your professions with what it costs to make, what it sells for,
 and the profit: the auction price after the house's cut, less the materials. Each material costs
 whichever is cheaper, buying it or crafting it yourself. Recipes you could learn now are listed
 too, greyed out, with what learning them costs and how many crafts pay that back.
@@ -116,7 +116,7 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
    "pays back in N crafts".
 3. The history columns turned on (Avg 14d, Trend, Seen, Listed), sorted by Seen.
 4. The Shopping tab with two planned crafts and their combined materials.
-5. Auctionator's Shopping tab with the "Leprofit" list after Send to Auctionator.
+5. Auctionator's Shopping tab with the "leProfit" list after Send to Auctionator.
 6. `/leprofit why <item>` output in chat.
 
 ---

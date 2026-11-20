@@ -1,4 +1,4 @@
--- Leprofit: what the game shows you. The profession window gives the recipes you know (and what
+-- leProfit: what the game shows you. The profession window gives the recipes you know (and what
 -- each makes, from what); vendors give material prices and the patterns they sell.
 local _, ns = ...
 local Try = ns.Try
@@ -110,7 +110,7 @@ local SKILL_LINES = {
 	["First Aid"] = 129, Leatherworking = 165, Mining = 186, Tailoring = 197,
 }
 
--- Opens your profession window on `prof` (Leprofit reads your recipes from it), unless it's
+-- Opens your profession window on `prof` (leProfit reads your recipes from it), unless it's
 -- already open on it, you don't have the profession, or you're in combat. True if it opened.
 function Recorder.OpenWindow(prof)
 	if not prof or InCombatLockdown() then return false end

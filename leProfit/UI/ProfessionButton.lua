@@ -1,4 +1,4 @@
--- Leprofit: a small button on the profession window, left of its close button, that opens Leprofit
+-- leProfit: a small button on the profession window, left of its close button, that opens leProfit
 -- on the profession the window shows. Forever's profession window (ProfessionsFrame, loaded when
 -- first opened) has nothing else there; TradeSkillFrame is the older one.
 local _, ns = ...
@@ -29,7 +29,7 @@ local function Create(host)
 	end)
 	b:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-		GameTooltip:AddLine("Leprofit")
+		GameTooltip:AddLine("leProfit")
 		GameTooltip:AddLine("The crafts that make gold.", 1, 1, 1)
 		GameTooltip:Show()
 	end)

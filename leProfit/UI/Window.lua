@@ -1,4 +1,4 @@
--- Leprofit: the window, from leboof's (the same style as Nothing Wasted's): tabs across the top, a
+-- leProfit: the window, from leboof's (the same style as Nothing Wasted's): tabs across the top, a
 -- Defaults button for the page shown, a resize grip. Pages register with Window.AddPage.
 local _, ns = ...
 
@@ -100,7 +100,7 @@ local function AddResizeGrip()
 end
 
 local function Build()
-	frame = CreateFrame("Frame", "LeprofitFrame", UIParent, "BackdropTemplate")
+	frame = CreateFrame("Frame", "leProfitFrame", UIParent, "BackdropTemplate")
 	local size = ns.db.window.size
 	if size then
 		frame:SetSize(math.max(MIN_W, math.min(MAX_W, size[1])), math.max(MIN_H, math.min(MAX_H, size[2])))
@@ -132,7 +132,7 @@ local function Build()
 		frame:SetPoint("CENTER")
 	end
 	frame:Hide()
-	tinsert(UISpecialFrames, "LeprofitFrame") -- Escape closes the window
+	tinsert(UISpecialFrames, "leProfitFrame") -- Escape closes the window
 
 	-- Title bar: icon, name and close. The version and build are in chat (/leprofit help).
 	local icon = frame:CreateTexture(nil, "ARTWORK")
@@ -141,7 +141,7 @@ local function Build()
 	icon:SetTexture(ns.ICON)
 	local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	title:SetPoint("LEFT", icon, "RIGHT", 6, 0)
-	title:SetText("Leprofit")
+	title:SetText("leProfit")
 
 	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", -2, -2)
@@ -199,7 +199,7 @@ function Window.CurrentPanel()
 	return current and pages[current] and pages[current].panel
 end
 
--- Opening the window also opens your profession window on the profession shown, so Leprofit
+-- Opening the window also opens your profession window on the profession shown, so leProfit
 -- reads the recipes you know (the owner's pick: every time).
 function Window.Show(page)
 	if not frame then Build() end

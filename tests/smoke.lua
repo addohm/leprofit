@@ -1,4 +1,4 @@
--- Leprofit's scenarios, run by run_tests.py against the fake client (WM) with the real
+-- leProfit's scenarios, run by run_tests.py against the fake client (WM) with the real
 -- Blacksmithing data loaded. Item IDs are the game's: 2840 Copper Bar, 2851 Copper Chain Belt,
 -- 2835 Rough Stone, 2862 Rough Sharpening Stone, 3466 Strong Flux, 277019 Azure Skyforged Chain.
 local function eq(a, b, msg)
@@ -21,6 +21,20 @@ local function Defaults()
 	WM.SetTSM(nil)
 	ns.DataChanged()
 end
+
+-- Settings saved before the rename to leProfit (run_tests.py loads some, as the game would) carry
+-- over to the new names, and the old ones are cleared.
+eq(ns.db, leProfitCharDB, "the settings are leProfitCharDB")
+eq(ns.db.carried, "character", "the character's old settings carried over")
+eq(ns.adb.carried, "account", "the account's old records carried over")
+eq(rawget(_G, "LeprofitCharDB"), nil, "the old per-character settings cleared")
+eq(rawget(_G, "LeprofitDB"), nil, "the old account records cleared")
+-- Once moved, a stray old copy doesn't replace them.
+LeprofitCharDB = { carried = "stale" }
+WM.Fire("ADDON_LOADED", "leProfit")
+eq(ns.db.carried, "character", "the new settings stay")
+eq(rawget(_G, "LeprofitCharDB"), nil, "the stray copy cleared")
+ns.db.carried, ns.adb.carried = nil, nil
 
 -- Every profession is built in. Old Leprofit 1.0 module folders, if they're still installed,
 -- call Leprofit.RegisterProfession: that's ignored.
@@ -306,7 +320,7 @@ eq(#rows, 3, "the three recipes the window showed")
 ok(left.unlearned > 50, "the rest counted: " .. left.unlearned)
 -- The old Known only box becomes Hide unlearned, and the slider's setting goes.
 ns.db.hideUnlearned, ns.db.knownOnly, ns.db.showUpTo = false, true, { Blacksmithing = 150 }
-WM.Fire("ADDON_LOADED", "Leprofit")
+WM.Fire("ADDON_LOADED", "leProfit")
 eq(ns.db.hideUnlearned, true, "Known only becomes Hide unlearned")
 eq(ns.db.knownOnly, nil)
 eq(ns.db.showUpTo, nil)
@@ -577,7 +591,7 @@ ok(smeltRow, "Mining's Smelt Copper is listed")
 eq(smeltRow.row.prof, "Mining")
 ok(not Drawn("Copper Chain Belt"), "and not what doesn't match")
 smeltRow.scripts.OnEnter(smeltRow)
-ok(TipHas("Leprofit: Mining"), "the tooltip names the profession")
+ok(TipHas("leProfit: Mining"), "the tooltip names the profession")
 box.scripts.OnEscapePressed(box)
 eq(box.text, "", "Escape clears it")
 box.scripts.OnTextChanged(box, true)
@@ -699,7 +713,7 @@ eq(mats[2].vendor, true, "Rough Stone from a vendor")
 eq(total, 26080, "the gold to spend")
 WM.printed = {}
 eq(ns.Shopping.SendToAuctionator(), 1, "one item to Auctionator")
-local list = WM.lists.Leprofit
+local list = WM.lists.leProfit
 eq(#list, 1)
 ok(list[1]:find('"Copper Bar"', 1, true) and list[1]:find("26$"), "Copper Bar, 26 of them: " .. list[1])
 ok(Said("Left out because a vendor sells them: Rough Stone"), "the vendor item is named instead")
@@ -801,7 +815,7 @@ ns.Window.Show("crafts")
 ns.Window.Refresh()
 ns.professionOrder = order
 
--- The profession window's button opens Leprofit on that profession.
+-- The profession window's button opens leProfit on that profession.
 WM.profession = "Blacksmithing"
 local host = WM.NewFrame("Frame", "ProfessionsFrame")
 host.CloseButton = WM.NewFrame("Button", nil, host)
@@ -824,10 +838,10 @@ ns.ProfessionButton.Apply()
 ok(not button:IsShown(), "the option hides it")
 
 -- The minimap button.
-LeprofitMinimapButton:Click("RightButton")
+leProfitMinimapButton:Click("RightButton")
 SlashCmdList.LEPROFIT("minimap")
 ok(ns.db.minimap.hide, "/leprofit minimap hides the button")
-Leprofit_OnAddonCompartmentClick(nil, "LeftButton")
+leProfit_OnAddonCompartmentClick(nil, "LeftButton")
 
 -- run_tests.py checks the scenarios got this far.
 WM.done = true

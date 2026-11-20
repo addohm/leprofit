@@ -1,4 +1,4 @@
--- Leprofit: the Options tab. How profit is worked out (which price, the cut, the undercut), what the
+-- leProfit: the Options tab. How profit is worked out (which price, the cut, the undercut), what the
 -- Crafts list leaves out, the buttons, and the items marked "doesn't sell", each with an Unhide
 -- button. Everything here is saved for this character.
 local _, ns = ...

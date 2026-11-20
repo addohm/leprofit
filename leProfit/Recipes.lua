@@ -1,4 +1,4 @@
--- Leprofit: one profession's recipes, from its module's data and what this
+-- leProfit: one profession's recipes, from its module's data and what this
 -- character's profession window showed (Recorder.lua), with where to learn the ones you don't know.
 local _, ns = ...
 

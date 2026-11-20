@@ -1,4 +1,4 @@
--- Leprofit: the Crafts tab. A profession dropdown, the crafts that make gold (most profitable first;
+-- leProfit: the Crafts tab. A profession dropdown, the crafts that make gold (most profitable first;
 -- each column sorts), with Auctionator's history in optional columns, and for the one picked its
 -- materials: what you hold, what to buy, and what that costs for the number of crafts you set.
 local _, ns = ...
@@ -174,14 +174,14 @@ local function Warnings(row)
 	return list
 end
 
--- The row's tooltip: the game's item tooltip, then Leprofit's sum, the auction history, where to
+-- The row's tooltip: the game's item tooltip, then leProfit's sum, the auction history, where to
 -- learn the recipe and any warnings. The list's columns are a summary; this is the detail.
 local function RowTooltip(owner, row, prof)
 	local tip = GameTooltip
 	tip:SetOwner(owner, "ANCHOR_RIGHT")
 	tip:SetItemByID(row.product)
 	tip:AddLine(" ")
-	tip:AddLine("Leprofit: " .. prof)
+	tip:AddLine("leProfit: " .. prof)
 	local function Pair(label, value) tip:AddDoubleLine(label, value, 1, 0.82, 0, 1, 1, 1) end
 	Pair("Cost (one craft)", row.cost and ns.Money(row.cost) or (ORANGE .. "?|r"))
 	if row.value then
@@ -653,7 +653,7 @@ local function Refresh()
 	local prof = ns.CurrentProfession()
 	if not prof and not all then
 		for _, b in ipairs(rows) do b:Hide() end
-		emptyText:SetText("No profession data loaded: Leprofit's Data files are missing. Reinstall Leprofit.")
+		emptyText:SetText("No profession data loaded: leProfit's Data files are missing. Reinstall leProfit.")
 		emptyText:Show()
 		leftText:SetText("")
 		detail:Hide()
@@ -700,7 +700,7 @@ local function Refresh()
 			text = "This character doesn't have " .. prof .. "." .. (db.hideUnlearned and " Untick Hide unlearned and tick" or " Tick")
 				.. " Show all to see what it could learn."
 		elseif prof and db.hideUnlearned and unread then
-			text = ("Leprofit hasn't read your %s recipes yet: open your %s window."):format(prof, prof)
+			text = ("leProfit hasn't read your %s recipes yet: open your %s window."):format(prof, prof)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
 		elseif db.hideUnlearned or not db.showAll then
@@ -715,7 +715,7 @@ local function Refresh()
 	end
 	local leftOut = LeftOutText(left)
 	if unread then
-		leftOut = ORANGE .. ("Open your %s window so Leprofit knows your recipes.|r "):format(prof) .. leftOut
+		leftOut = ORANGE .. ("Open your %s window so leProfit knows your recipes.|r "):format(prof) .. leftOut
 	end
 	leftText:SetText(leftOut)
 	if not picked then

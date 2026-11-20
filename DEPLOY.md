@@ -1,7 +1,7 @@
 # Deploying leprofit
 
-Leprofit is a World of Warcraft addon in one folder (`Leprofit/`), every profession's data built in
-(`Leprofit/Data/`). It runs inside the game client (WoW: Forever, Interface 16001), and there's no
+leProfit is a World of Warcraft addon in one folder (`leProfit/`), every profession's data built in
+(`leProfit/Data/`). It runs inside the game client (WoW: Forever, Interface 16001), and there's no
 server.
 
 Releases are published on both CurseForge and Wago (always both), from `release/` with the text
@@ -15,23 +15,34 @@ On the Windows test PC:
    GitHub login if the repo is private).
 2. Open `tools\install_forever.cmd` and check `WOW` at the top: it's the client folder, by default
    `C:\Program Files (x86)\World of Warcraft\_forever_`, the live game.
-3. Run `tools\install_forever.cmd` from a terminal, then start the game. Check that Leprofit is
+3. Run `tools\install_forever.cmd` from a terminal, then start the game. Check that leProfit is
    enabled under AddOns at character select.
 
-To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not the repo root) into
+To install by hand instead, copy the `leProfit` folder (not the repo root) into
 `<WoW>\_forever_\Interface\AddOns\`.
+
+## Renamed to leProfit
+
+Builds before 1.1.0 were called Leprofit. The install script removes an installed `Leprofit`
+folder before copying (Windows ignores letter case, so it would otherwise keep the old spelling,
+which is the addon's name in game). Settings carry over by themselves: the saved files are the
+same, and leProfit moves `LeprofitCharDB` and `LeprofitDB` into `leProfitCharDB` and
+`leProfitDB` at the first login. If you install by hand, delete the old `Leprofit` folder first.
+
+The first run of the install script after pulling the rename still runs the old script (it runs
+from a copy made before the pull), so it installs into the old `Leprofit` folder: run it again.
 
 ## Shipping a change
 
 1. Run the tests: `.venv/bin/python tests/run_tests.py`.
 2. Commit and push.
 3. On Windows, run `tools\install_forever.cmd`, then `/reload` (or restart the game if it says so).
-4. For a release: bump `## Version` in `Leprofit/Leprofit.toc`, move the CHANGELOG's Unreleased entries under the new version, and commit. Then
-   `python3 tools/make_release.py` writes `release/Leprofit-<version>.zip` with the `Leprofit`
+4. For a release: bump `## Version` in `leProfit/leProfit.toc`, move the CHANGELOG's Unreleased entries under the new version, and commit. Then
+   `python3 tools/make_release.py` writes `release/leProfit-<version>.zip` with the `leProfit`
    folder from the last commit (it refuses if it has uncommitted changes); commit the zip, tag
    (`git tag v1.0.0`) and push with `--tags`. Upload the zip to CurseForge and to Wago, each with
    `LISTING.md`'s release notes; the summary, description, categories and images are there too. Each release also needs `LISTING.md`'s release
-   notes and, if the icon changed, `python3 art/make_logo.py` (it redraws `Leprofit/Media/Icon.tga`
+   notes and, if the icon changed, `python3 art/make_logo.py` (it redraws `leProfit/Media/Icon.tga`
    too).
 
 ## The install script
@@ -43,13 +54,14 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
   rewritten (this copy's last commit isn't in it any more), it says so and prints the two commands
   that move the copy onto GitHub's: `git fetch origin --tags --force` and
   `git reset --hard origin/main` (they throw away commits and edits made only in the copy).
-- Mirrors `Leprofit\` into `<WOW>\Interface\AddOns\Leprofit` (`robocopy /MIR`), creating it on
+- Removes an installed folder spelled any other way (`Leprofit`, before 1.1.0), then mirrors
+  `leProfit\` into `<WOW>\Interface\AddOns\leProfit` (`robocopy /MIR`), creating it on
   the first run. If `WOW` itself doesn't exist it stops, since the path is probably wrong.
 - Deletes old `Leprofit_<Profession>` folders from AddOns: Leprofit 1.0's separate modules, whose
-  data is built into Leprofit now.
-- Writes the commit into the installed `Leprofit\Build.lua`, so `/leprofit help` shows
+  data is built into leProfit now.
+- Writes the commit into the installed `leProfit\Build.lua`, so `/leprofit help` shows
   `v<version> build <commit>`. "-dirty" means the copy included uncommitted changes.
-- Packs `Leprofit-<version>.zip` on the desktop: `git archive` of the committed addon folders,
+- Packs `leProfit-<version>.zip` on the desktop: `git archive` of the committed addon folders,
   without the build stamp.
 - Says whether `/reload` is enough. WoW reads an addon's file list only when the game starts, so
   when a `.toc` changed you must restart the game.
@@ -61,20 +73,20 @@ script needs CRLF line endings to run reliably; `.gitattributes` makes git check
 
 The recipe, trainer and pattern data comes from the source data file in the git-ignored `.source/`
 folder. To refresh it, replace that file with a newer one, run
-`.venv/bin/python tools/gen_data.py`, run the tests, and commit the new `Leprofit/Data/*.lua`
+`.venv/bin/python tools/gen_data.py`, run the tests, and commit the new `leProfit/Data/*.lua`
 files. Mining's file is written by hand (the source data has no smelting).
 
 ## Rolling back
 
-Install an older version: `git checkout <tag> -- Leprofit "Leprofit_*"` in the clone, copy the
-folders over the installed ones, then `git checkout main -- Leprofit "Leprofit_*"`
-to return.
+Install an older version: `git checkout <tag>` in the clone, delete the installed `leProfit`
+folder, and copy the tag's addon folders into AddOns (before 1.1.0 they're `Leprofit` and, for
+1.0, the `Leprofit_*` modules), then `git checkout main` to return.
 
 ## Configuration
 
 There are no secrets or environment settings. In-game settings are per character, in
-`WTF/Account/<account>/<realm>/<character>/SavedVariables/Leprofit.lua`. Vendor prices and
-patterns you record are shared by your characters, in `WTF/Account/<account>/SavedVariables/Leprofit.lua`.
+`WTF/Account/<account>/<realm>/<character>/SavedVariables/leProfit.lua`. Vendor prices and
+patterns you record are shared by your characters, in `WTF/Account/<account>/SavedVariables/leProfit.lua`.
 
 ## Troubleshooting
 

@@ -1,13 +1,13 @@
 ## Interface: 16001
-## Title: Leprofit
+## Title: leProfit
 ## Notes: Which crafts make gold: the auction price after the cut, less what the materials cost, most profitable first, for every crafting profession.
 ## Author: addohm
 ## Version: 1.0.0
-## IconTexture: Interface\AddOns\Leprofit\Media\Icon
-## SavedVariables: LeprofitDB
-## SavedVariablesPerCharacter: LeprofitCharDB
+## IconTexture: Interface\AddOns\leProfit\Media\Icon
+## SavedVariables: leProfitDB, LeprofitDB
+## SavedVariablesPerCharacter: leProfitCharDB, LeprofitCharDB
 ## OptionalDeps: Auctionator, TradeSkillMaster
-## AddonCompartmentFunc: Leprofit_OnAddonCompartmentClick
+## AddonCompartmentFunc: leProfit_OnAddonCompartmentClick
 
 Build.lua
 Core.lua

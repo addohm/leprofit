@@ -1,5 +1,5 @@
-"""Draws the Leprofit icon into art/ (512, 400, 256 and 128 px PNGs; 400 is the CurseForge and Wago
-avatar), the in-game icon Leprofit/Media/Icon.tga (128 px; the game reads TGA with power-of-two
+"""Draws the leProfit icon into art/ (512, 400, 256 and 128 px PNGs; 400 is the CurseForge and Wago
+avatar), the in-game icon leProfit/Media/Icon.tga (128 px; the game reads TGA with power-of-two
 sizes; the .toc's IconTexture, the window, the minimap button and the profession window's button
 use it), and the listing banner art/leprofit-banner.png (1600x500: the icon, the name, the tagline
 and a sample of the Crafts list).
@@ -18,7 +18,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ART = ROOT / "art"
-GAME_ICON = ROOT / "Leprofit" / "Media" / "Icon.tga"
+GAME_ICON = ROOT / "leProfit" / "Media" / "Icon.tga"
 S = 2048  # draw big, downsample for smooth edges
 
 GREEN_TOP = (30, 104, 66)
@@ -114,7 +114,7 @@ def banner(icon):
     title = ImageFont.truetype(BOLD, 140)
     tag = ImageFont.truetype(SEMI, 44)
     row = ImageFont.truetype(SEMI, 30)
-    d.text((500, 52), "Leprofit", font=title, fill=GOLD_TOP)
+    d.text((500, 52), "leProfit", font=title, fill=GOLD_TOP)
     d.line([(506, 228), (1530, 228)], fill=GOLD_BOT + (255,), width=3)
     d.text((506, 244), TAGLINE, font=tag, fill=(222, 240, 228))
     # The sample rows, with the columns right-aligned like the addon's.
@@ -128,7 +128,7 @@ def banner(icon):
         y += 46
     img.convert("RGB").save(ART / "leprofit-banner.png")
     # Checks without looking at it: the text fits, the rows sit inside the canvas.
-    tb = d.textbbox((500, 52), "Leprofit", font=title)
+    tb = d.textbbox((500, 52), "leProfit", font=title)
     tg = d.textbbox((506, 244), TAGLINE, font=tag)
     print("title", tb, "tagline", tg, "fits:", tg[2] < W - 40 and tb[3] < 228, "rows end at y", y)
 

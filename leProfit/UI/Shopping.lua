@@ -1,4 +1,4 @@
--- Leprofit: the Shopping tab. The crafts you planned (count and Remove for each), every material
+-- leProfit: the Shopping tab. The crafts you planned (count and Remove for each), every material
 -- they need combined (need, have, buy, each, cost), the gold to spend, Clear, and Send to
 -- Auctionator. Crafts are added from the Crafts tab's materials panel.
 local _, ns = ...

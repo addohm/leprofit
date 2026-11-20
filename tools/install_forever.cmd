@@ -1,7 +1,7 @@
 @echo off
-rem Update this repo from GitHub, copy Leprofit into the WoW: Forever client, and pack
-rem Leprofit-<version>.zip on the desktop.
-rem Run it from a terminal (from any folder), then restart the client, or /reload if Leprofit was
+rem Update this repo from GitHub, copy leProfit into the WoW: Forever client, and pack
+rem leProfit-<version>.zip on the desktop.
+rem Run it from a terminal (from any folder), then restart the client, or /reload if leProfit was
 rem already loaded. It only pulls what's on GitHub: push your commits first.
 setlocal
 
@@ -24,8 +24,8 @@ set "RESULT=0"
 set "RESTART=0"
 set "LIST="
 
-if not exist "%REPO%\Leprofit\Leprofit.toc" (
-  echo Can't find the addon in "%REPO%\Leprofit". Is this script in the repo's tools folder?
+if not exist "%REPO%\leProfit\leProfit.toc" (
+  echo Can't find the addon in "%REPO%\leProfit". Is this script in the repo's tools folder?
   set "RESULT=1"
   goto done
 )
@@ -57,41 +57,51 @@ if errorlevel 1 (
   goto done
 )
 
-call :install Leprofit
+rem Builds before 1.1.0 were installed as "Leprofit". Windows ignores letter case, so copying over
+rem that folder would keep its old spelling, which is the addon's name in game: remove it first.
+rem findstr /i finds every spelling; "if" compares with case, so only the wrong ones go.
+for /f "delims=" %%d in ('dir /b /ad "%ADDONS%" 2^>nul ^| findstr /x /i /c:"leProfit"') do (
+  if not "%%d"=="leProfit" (
+    echo Removing the old "%%d" folder: leProfit replaces it.
+    rmdir /s /q "%ADDONS%\%%d"
+  )
+)
+
+call :install leProfit
 if "%RESULT%"=="1" goto done
 
 rem Leprofit 1.0 came with a separate Leprofit_<Profession> addon per profession; their data is
-rem built into Leprofit now. Remove old copies of them from AddOns.
+rem built into leProfit now. Remove old copies of them from AddOns.
 for /d %%A in ("%ADDONS%\Leprofit_*") do (
-  echo Removing the old module "%%~nxA": its data is built into Leprofit now.
+  echo Removing the old module "%%~nxA": its data is built into leProfit now.
   rmdir /s /q "%%~fA"
 )
 
 rem Stamp the installed core with the commit, so /leprofit help shows which build is running.
 rem "-dirty" means the copy includes changes that aren't committed.
 for /f %%h in ('git -C "%REPO%" rev-parse --short HEAD') do set "BUILD=%%h"
-for /f %%s in ('git -C "%REPO%" status --porcelain -- Leprofit') do set "BUILD=%BUILD%-dirty"
-> "%ADDONS%\Leprofit\Build.lua" (
+for /f %%s in ('git -C "%REPO%" status --porcelain -- leProfit') do set "BUILD=%BUILD%-dirty"
+> "%ADDONS%\leProfit\Build.lua" (
   echo local _, ns = ...
   echo ns.build = "%BUILD%"
 )
 echo Installed build %BUILD%:%LIST%
 
-rem Also pack the committed addons as Leprofit-<version>.zip on the desktop, ready to share or
+rem Also pack the committed addons as leProfit-<version>.zip on the desktop, ready to share or
 rem upload. git archive takes only committed files (without the build stamp above). The version
-rem is ## Version in Leprofit.toc. The desktop comes from Windows, since OneDrive can move it.
+rem is ## Version in leProfit.toc. The desktop comes from Windows, since OneDrive can move it.
 set "VERSION="
-for /f "tokens=3" %%v in ('findstr /b /c:"## Version:" "%REPO%\Leprofit\Leprofit.toc"') do set "VERSION=%%v"
+for /f "tokens=3" %%v in ('findstr /b /c:"## Version:" "%REPO%\leProfit\leProfit.toc"') do set "VERSION=%%v"
 set "DESKTOP=%USERPROFILE%\Desktop"
 for /f "usebackq delims=" %%d in (`powershell -NoProfile -Command "[Environment]::GetFolderPath('Desktop')"`) do set "DESKTOP=%%d"
 if "%VERSION%"=="" (
-  echo No ## Version in Leprofit.toc, so no zip was made.
+  echo No ## Version in leProfit.toc, so no zip was made.
 ) else (
-  git -C "%REPO%" archive --format=zip --output="%DESKTOP%\Leprofit-%VERSION%.zip" HEAD %LIST%
+  git -C "%REPO%" archive --format=zip --output="%DESKTOP%\leProfit-%VERSION%.zip" HEAD %LIST%
   if errorlevel 1 (
-    echo Couldn't write "%DESKTOP%\Leprofit-%VERSION%.zip".
+    echo Couldn't write "%DESKTOP%\leProfit-%VERSION%.zip".
   ) else (
-    echo Packed "%DESKTOP%\Leprofit-%VERSION%.zip" from the last commit.
+    echo Packed "%DESKTOP%\leProfit-%VERSION%.zip" from the last commit.
   )
 )
 if "%RESTART%"=="1" (

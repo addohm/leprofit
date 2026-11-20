@@ -4,8 +4,8 @@ Orientation for Claude working on leprofit. Read this first.
 
 ## What this is
 
-A WoW: Forever addon (Lua, interface 16001) that ranks the crafts that make
-gold. One addon with every profession's data built in. The agreed design is in
+leProfit: a WoW: Forever addon (Lua, interface 16001) that ranks the crafts
+that make gold. It was Leprofit until 2026-11-20. One addon with every profession's data built in. The agreed design is in
 ROADMAP.md. 1.0.0 is released (as a core and nine modules; merged into one addon since); Blacksmithing and Mining are tested in game. The
 remote is `addohm/leprofit` on GitHub, public, GPLv3; releases go to CurseForge and Wago.
 
@@ -13,9 +13,9 @@ Discuss each feature with the owner before building it.
 
 ## Layout
 
-- `Leprofit/`: the core addon.
-  - `Core.lua`: settings (per character, `LeprofitCharDB` as `ns.db`; vendor
-    records account-wide, `LeprofitDB` as `ns.adb`), the profession registry
+- `leProfit/`: the addon.
+  - `Core.lua`: settings (per character, `leProfitCharDB` as `ns.db`; vendor
+    records account-wide, `leProfitDB` as `ns.adb`), the profession registry
     (`ns.RegisterProfession`; the global `Leprofit.RegisterProfession` ignores 1.0's old
     module folders), events, slash commands
   - `Util.lua`: safe calls, `ns.Plain` (secret values), money text, item
@@ -44,7 +44,7 @@ Discuss each feature with the owner before building it.
   install), `make_release.py` (release zip)
 - `TESTING.md`: the in-game checklist
 - `LISTING.md`: the CurseForge and Wago page text and release notes
-- `art/`: `make_logo.py` draws the icons, the banner and `Leprofit/Media/Icon.tga`
+- `art/`: `make_logo.py` draws the icons, the banner and `leProfit/Media/Icon.tga`
   (the in-game icon); the PNGs it makes
 - `release/`: the release zips, one per version
 - The standard docs, `LICENSE` (GNU GPLv3), and this file.
@@ -73,13 +73,18 @@ Discuss each feature with the owner before building it.
   limits: guard secret values with `ns.Plain`).
 - The UI follows leboof's look (`addohm/leboof`, `Leboof/UI/`).
 - Settings are per character.
+- The name is written leProfit: in game, in the docs, and in the folder, TOC,
+  globals and zips. The repo, the listing slug and `/leprofit` stay lowercase.
+  Old spellings are kept only for upgrades: the no-op `Leprofit` global (1.0's
+  modules), `LeprofitCharDB`/`LeprofitDB` (moved over once at login) and the
+  `Leprofit_<Profession>` folders the install script deletes.
 - When the Crafts list gets dense, put per-craft detail in the row tooltip;
   add a column only for things worth sorting or scanning by (the owner's
   rule).
 - Tabs for indentation; a comment at the top of each file says what it's
   for, and comments explain why, in plain words (leboof's style).
 - A new profession: add it to `PROFESSIONS` in `tools/gen_data.py`, run it,
-  list `Data\<Profession>.lua` in `Leprofit.toc` (the tests check every file
+  list `Data\<Profession>.lua` in `leProfit.toc` (the tests check every file
   is listed), add it to the tests' list, run them, and update README and
   TESTING.
 - Don't bring back separate profession addons: the data is small (2.7 MB in

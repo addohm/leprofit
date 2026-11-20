@@ -1,13 +1,13 @@
--- Leprofit: the shopping list. Crafts you plan (added from the Crafts tab's materials panel, saved
+-- leProfit: the shopping list. Crafts you plan (added from the Crafts tab's materials panel, saved
 -- per character in ns.db.plan) and every material they need, combined: what you hold counts once,
 -- and materials are bought as they are (the owner's pick: no crafting them first). Send to
--- Auctionator makes one "Leprofit" list from it.
+-- Auctionator makes one "leProfit" list from it.
 local ADDON, ns = ...
 
 local Shopping = {}
 ns.Shopping = Shopping
 
-Shopping.LIST_NAME = "Leprofit"
+Shopping.LIST_NAME = "leProfit"
 
 local function FindRecipe(prof, id)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
@@ -112,7 +112,7 @@ local function SearchString(api, name, quantity)
 	return '"' .. name .. '"'
 end
 
--- Makes (or remakes) the "Leprofit" list in Auctionator from what's left to buy, leaving out what
+-- Makes (or remakes) the "leProfit" list in Auctionator from what's left to buy, leaving out what
 -- vendors sell and items whose names haven't loaded yet. Returns how many items went in, or nil.
 function Shopping.SendToAuctionator()
 	local api = AuctionatorAPI()

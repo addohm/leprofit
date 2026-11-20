@@ -11,12 +11,16 @@ so most of it is covered by the first part.
 ## 1.0.0: on a Blacksmith or a Miner
 
 **Install**
-- [ ] The release zip unzips into AddOns as one `Leprofit` folder, and the AddOns list shows its
+- [ ] The release zip unzips into AddOns as one `leProfit` folder, and the AddOns list shows its
       coin-and-arrow icon.
-- [ ] `tools\install_forever.cmd` installs `Leprofit`, deletes old `Leprofit_<Profession>` folders
+- [ ] `tools\install_forever.cmd` installs `leProfit`, deletes old `Leprofit_<Profession>` folders
       (saying so), stamps the build, and packs the zip on the desktop.
 - [ ] After a history rewrite on GitHub, the install script says the histories differ and prints
       the fetch and reset commands; after running them, it installs.
+- [ ] Over a Leprofit install (1.0 or earlier builds): the install script removes the `Leprofit`
+      folder (saying so) and installs `leProfit` (the first run after pulling still uses the old
+      script, so run it twice); the AddOns list and the window read leProfit; settings, hidden
+      items, the shopping list and recorded vendor prices are all still there.
 - [ ] With old `Leprofit_<Profession>` folders still installed (a hand update), no Lua errors:
       they're ignored.
 - [ ] `/leprofit status` lists this character's professions in full and names the rest as built in;
@@ -29,14 +33,14 @@ so most of it is covered by the first part.
       the one shown is ticked, and it follows the profession window's button.
 
 **Blacksmithing** (on the Blacksmith)
-- [ ] Opening Leprofit opens your Blacksmithing window (not when it's already open, or in combat);
+- [ ] Opening leProfit opens your Blacksmithing window (not when it's already open, or in combat);
       `/leprofit status` then says how many recipes you know.
 - [ ] Learning a recipe at the trainer lists it as known without opening the profession window.
 - [ ] A material you can craft cheaper than buy (a sharpening or grinding stone) shows
       "(craft it)" in the materials panel.
 
 **Mining**
-- [ ] On the Miner, opening Leprofit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
+- [ ] On the Miner, opening leProfit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
       then counts the smelting recipes you know, and Mining's Crafts list shows bars against ore.
 - [ ] On a character with both Mining and Blacksmithing: Blacksmithing's materials panel
       shows "(craft it)" on bars that are cheaper to smelt, and `/leprofit why` says
@@ -46,7 +50,7 @@ so most of it is covered by the first part.
 **Other professions' lists** (pick, say, Tailoring in the dropdown on the Blacksmith)
 - [ ] Without the profession, its list still shows what you could learn (trainer and pattern
       costs, payback), with prices, tooltips, Shopping and `/leprofit why`, all with Show all ticked;
-      without it the empty list explains that this character doesn't have the profession. Opening Leprofit on it doesn't try to open a window.
+      without it the empty list explains that this character doesn't have the profession. Opening leProfit on it doesn't try to open a window.
 - [ ] Enchanting lists rods, oils and wands, no enchants.
 
 **Prices**
@@ -74,7 +78,7 @@ so most of it is covered by the first part.
       last; the order is still there after /reload. Options says "Profit from", not "Rank by".
 - [ ] Rows (one line each) and the materials panel fit at the normal size; resizing works; Escape
       closes.
-- [ ] Hovering a row: the item's tooltip, then Leprofit's lines (cost, sells for, profit, buyout,
+- [ ] Hovering a row: the item's tooltip, then leProfit's lines (cost, sells for, profit, buyout,
       history, where to learn it, warnings in orange).
 - [ ] Shift-click a row and a material with the chat box open, then with the auction house (or
       Auctionator) search box focused: the link goes in. Ctrl-click opens the dressing room.
@@ -92,12 +96,12 @@ so most of it is covered by the first part.
 - [ ] Add to list adds the Crafts box's count; again adds more; the chat line says how many.
 - [ ] The Shopping tab: planned crafts with counts (typing a new one, 0 removes), Remove; the
       materials combined with what you hold counted once; (vendor) and (no price) tags; the total.
-- [ ] Clear asks first. Send to Auctionator makes the "Leprofit" list in Auctionator's Shopping tab
+- [ ] Clear asks first. Send to Auctionator makes the "leProfit" list in Auctionator's Shopping tab
       with the right quantities, replaces it when sent again, and names the vendor materials in chat.
 
 **The rest of the window**
 - [ ] Options: each setting changes the list; Defaults puts them back; they're per character.
-- [ ] The coin button on the profession window sits left of its close button and opens Leprofit on
+- [ ] The coin button on the profession window sits left of its close button and opens leProfit on
       that profession; the option hides it.
 - [ ] The minimap button: left-click Crafts, right-click Options, drag to move; the addon menu
       entry works.
@@ -107,7 +111,7 @@ so most of it is covered by the first part.
 
 For each of Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking and Tailoring, on a
 character that has it:
-- [ ] Opening Leprofit opens that profession's window; `/leprofit status` counts its known recipes;
+- [ ] Opening leProfit opens that profession's window; `/leprofit status` counts its known recipes;
       Hide unlearned lists them.
 - [ ] Recipes that make several (Engineering's ammo, some Cooking) show x2 and so on, and their
       profit counts every item.

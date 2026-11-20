@@ -1,4 +1,4 @@
--- Leprofit: a draggable minimap button (no libraries, from leboof), and the game's addon compartment
+-- leProfit: a draggable minimap button (no libraries, from leboof), and the game's addon compartment
 -- entry. Left-click opens the window on the Crafts tab; right-click on Options.
 local _, ns = ...
 
@@ -27,7 +27,7 @@ local function OnClick(mouseButton)
 end
 
 local function Build()
-	button = CreateFrame("Button", "LeprofitMinimapButton", Minimap)
+	button = CreateFrame("Button", "leProfitMinimapButton", Minimap)
 	button:SetSize(31, 31)
 	button:SetFrameStrata("MEDIUM")
 	button:SetFrameLevel(8)
@@ -56,7 +56,7 @@ local function Build()
 	button:SetScript("OnDragStop", function(self) self:SetScript("OnUpdate", nil) end)
 	button:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-		GameTooltip:AddLine("Leprofit")
+		GameTooltip:AddLine("leProfit")
 		GameTooltip:AddLine("Click for the crafts that make gold.", 1, 1, 1)
 		GameTooltip:AddLine("Right-click for options.", 1, 1, 1)
 		GameTooltip:AddLine("Drag to move this button.", 0.7, 0.7, 0.7)
@@ -66,7 +66,7 @@ local function Build()
 end
 
 -- The game's addon menu by the minimap (AddonCompartmentFunc in the .toc).
-function Leprofit_OnAddonCompartmentClick(_, mouseButton)
+function leProfit_OnAddonCompartmentClick(_, mouseButton)
 	OnClick(mouseButton)
 end
 
