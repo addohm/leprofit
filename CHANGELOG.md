@@ -8,10 +8,11 @@ All notable changes to leprofit. The format follows
 
 ### Changed
 
-- Profession modules load on demand: no ticking in the AddOns list. Each character loads the
-  modules for its own professions at login, and learning a profession loads its module. The
-  profession dropdown lists every installed module; picking one a character hasn't got loads it.
-  A module turned off for a character in the AddOns list stays off.
+- One addon: every profession's data is built into Leprofit, so there are no separate
+  `Leprofit_<Profession>` modules to install or tick. Coming from 1.0, delete the old
+  `Leprofit_<Profession>` folders (they're ignored if left; the install script removes them). The
+  profession dropdown lists all nine professions and starts on one the character has;
+  `/leprofit status` lists this character's professions.
 
 ## [1.0.0] - 2026-11-19
 

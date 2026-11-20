@@ -1,8 +1,8 @@
 # Deploying leprofit
 
-Leprofit is a World of Warcraft addon: a core (`Leprofit/`) and one folder per profession module
-(`Leprofit_Alchemy/`, `Leprofit_Blacksmithing/`... `Leprofit_FirstAid/`... `Leprofit_Tailoring/`). It runs inside the game client (WoW: Forever, Interface 16001), and
-there's no server.
+Leprofit is a World of Warcraft addon in one folder (`Leprofit/`), every profession's data built in
+(`Leprofit/Data/`). It runs inside the game client (WoW: Forever, Interface 16001), and there's no
+server.
 
 Releases are published on both CurseForge and Wago (always both), from `release/` with the text
 and images in `LISTING.md`. The source is public on GitHub under the GNU GPLv3.
@@ -15,9 +15,8 @@ On the Windows test PC:
    GitHub login if the repo is private).
 2. Open `tools\install_forever.cmd` and check `WOW` at the top: it's the client folder, by default
    `C:\Program Files (x86)\World of Warcraft\_forever_`, the live game.
-3. Run `tools\install_forever.cmd` from a terminal, then start the game. Leprofit and its modules are
-   on by default; Leprofit loads each character's profession modules itself (they're
-   LoadOnDemand).
+3. Run `tools\install_forever.cmd` from a terminal, then start the game. Check that Leprofit is
+   enabled under AddOns at character select.
 
 To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not the repo root) into
 `<WoW>\_forever_\Interface\AddOns\`.
@@ -27,10 +26,9 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
 1. Run the tests: `.venv/bin/python tests/run_tests.py`.
 2. Commit and push.
 3. On Windows, run `tools\install_forever.cmd`, then `/reload` (or restart the game if it says so).
-4. For a release: bump `## Version` in every `.toc` (the core's and each module's; the tests check
-   they match), move the CHANGELOG's Unreleased entries under the new version, and commit. Then
-   `python3 tools/make_release.py` writes `release/Leprofit-<version>.zip` with every addon folder
-   from the last commit (it refuses if they have uncommitted changes); commit the zip, tag
+4. For a release: bump `## Version` in `Leprofit/Leprofit.toc`, move the CHANGELOG's Unreleased entries under the new version, and commit. Then
+   `python3 tools/make_release.py` writes `release/Leprofit-<version>.zip` with the `Leprofit`
+   folder from the last commit (it refuses if it has uncommitted changes); commit the zip, tag
    (`git tag v1.0.0`) and push with `--tags`. Upload the zip to CurseForge and to Wago, each with
    `LISTING.md`'s release notes; the summary, description, categories and images are there too. Each release also needs `LISTING.md`'s release
    notes and, if the icon changed, `python3 art/make_logo.py` (it redraws `Leprofit/Media/Icon.tga`
@@ -45,9 +43,10 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
   rewritten (this copy's last commit isn't in it any more), it says so and prints the two commands
   that move the copy onto GitHub's: `git fetch origin --tags --force` and
   `git reset --hard origin/main` (they throw away commits and edits made only in the copy).
-- Mirrors `Leprofit\` and each `Leprofit_*\` folder into `<WOW>\Interface\AddOns\` (`robocopy /MIR`),
-  creating them on the first run. If `WOW` itself doesn't exist it stops, since the path is
-  probably wrong. A module removed from the repo stays installed: delete its folder by hand.
+- Mirrors `Leprofit\` into `<WOW>\Interface\AddOns\Leprofit` (`robocopy /MIR`), creating it on
+  the first run. If `WOW` itself doesn't exist it stops, since the path is probably wrong.
+- Deletes old `Leprofit_<Profession>` folders from AddOns: Leprofit 1.0's separate modules, whose
+  data is built into Leprofit now.
 - Writes the commit into the installed `Leprofit\Build.lua`, so `/leprofit help` shows
   `v<version> build <commit>`. "-dirty" means the copy included uncommitted changes.
 - Packs `Leprofit-<version>.zip` on the desktop: `git archive` of the committed addon folders,
@@ -58,11 +57,12 @@ To install by hand instead, copy `Leprofit` and the `Leprofit_*` folders (not th
 If creating or copying fails, the WoW folder may need the script to run as administrator. The
 script needs CRLF line endings to run reliably; `.gitattributes` makes git check it out that way.
 
-## Refreshing a module's data
+## Refreshing the profession data
 
 The recipe, trainer and pattern data comes from the source data file in the git-ignored `.source/`
 folder. To refresh it, replace that file with a newer one, run
-`.venv/bin/python tools/gen_data.py`, run the tests, and commit the new `Data.lua` files.
+`.venv/bin/python tools/gen_data.py`, run the tests, and commit the new `Leprofit/Data/*.lua`
+files. Mining's file is written by hand (the source data has no smelting).
 
 ## Rolling back
 
@@ -80,9 +80,8 @@ patterns you record are shared by your characters, in `WTF/Account/<account>/Sav
 
 - **Nothing on `/leprofit`:** the addon isn't loaded. Check the AddOns list; if it says out of date,
   the client's Interface number isn't 16001.
-- **"No Leprofit profession modules are installed":** the `Leprofit_*` folders are missing from
-  AddOns, or all turned off for this character in the AddOns list. `/leprofit status` lists the
-  modules that are there but not loaded.
+- **Old `Leprofit_<Profession>` folders in AddOns:** left from Leprofit 1.0. They're ignored;
+  delete them (the install script does).
 - **No crafts listed:** `/leprofit status` says which price addons it found. Without Auctionator or
   TSM there are no auction prices; with them, scan the auction house. "Show losses" lists everything.
 - **Lua errors:** `/console scriptErrors 1` shows them; report them with the `/leprofit help` build.

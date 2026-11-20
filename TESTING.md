@@ -11,21 +11,21 @@ so most of it is covered by the first part.
 ## 1.0.0: on a Blacksmith or a Miner
 
 **Install**
-- [ ] The release zip (`release/Leprofit-1.0.0.zip`) unzips into AddOns as ten folders, and the
-      AddOns list shows Leprofit's coin-and-arrow icon.
-- [ ] `tools\install_forever.cmd` installs `Leprofit` and all nine `Leprofit_*` modules, stamps the
-      build, and packs the zip on the desktop.
+- [ ] The release zip unzips into AddOns as one `Leprofit` folder, and the AddOns list shows its
+      coin-and-arrow icon.
+- [ ] `tools\install_forever.cmd` installs `Leprofit`, deletes old `Leprofit_<Profession>` folders
+      (saying so), stamps the build, and packs the zip on the desktop.
 - [ ] After a history rewrite on GitHub, the install script says the histories differ and prints
       the fetch and reset commands; after running them, it installs.
-- [ ] They all show in the AddOns list, on, with no ticking needed. A character logs in with only
-      its own professions' modules loaded (`/leprofit status` lists the others as not loaded);
-      learning a profession loads its module; picking one in the dropdown loads it; unticking a
-      module for a character keeps it off.
+- [ ] With old `Leprofit_<Profession>` folders still installed (a hand update), no Lua errors:
+      they're ignored.
+- [ ] `/leprofit status` lists this character's professions in full and names the rest as built in;
+      the window opens on one of this character's professions.
 - [ ] The search box (with its grey hint and x): typing filters as you go, by item, recipe and
       material names; Escape and the x clear it; closing the window clears it; with All
-      professions picked it searches every ticked module, and a row's tooltip names its
+      professions picked it searches every profession, and a row's tooltip names its
       profession.
-- [ ] The profession dropdown lists every installed module (minus ones turned off), with icons;
+- [ ] The profession dropdown lists all nine professions, with icons;
       the one shown is ticked, and it follows the profession window's button.
 
 **Blacksmithing** (on the Blacksmith)

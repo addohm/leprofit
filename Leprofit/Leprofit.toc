@@ -1,6 +1,6 @@
 ## Interface: 16001
 ## Title: Leprofit
-## Notes: Which crafts make gold: the auction price after the cut, less what the materials cost, most profitable first. Enable a Leprofit profession module for each of your professions.
+## Notes: Which crafts make gold: the auction price after the cut, less what the materials cost, most profitable first, for every crafting profession.
 ## Author: addohm
 ## Version: 1.0.0
 ## IconTexture: Interface\AddOns\Leprofit\Media\Icon
@@ -12,7 +12,15 @@
 Build.lua
 Core.lua
 Util.lua
-Modules.lua
+Data\Alchemy.lua
+Data\Blacksmithing.lua
+Data\Cooking.lua
+Data\Enchanting.lua
+Data\Engineering.lua
+Data\FirstAid.lua
+Data\Leatherworking.lua
+Data\Mining.lua
+Data\Tailoring.lua
 Prices.lua
 Recipes.lua
 Profit.lua

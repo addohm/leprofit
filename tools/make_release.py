@@ -1,10 +1,8 @@
-"""Builds release/Leprofit-<version>.zip from the committed addon files: the core and every
-profession module.
+"""Builds release/Leprofit-<version>.zip from the committed addon files.
 
-The version comes from ## Version in Leprofit/Leprofit.toc, and every module's .toc must say the
-same. Only files tracked by git under Leprofit/ and Leprofit_*/ go in, so the zip matches what's
-committed (Build.lua is the empty one: releases carry no build stamp). The zip holds the addon
-folders at its top level, as players unzip it into AddOns.
+The version comes from ## Version in Leprofit/Leprofit.toc. Only files tracked by git under
+Leprofit/ go in, so the zip matches what's committed (Build.lua is the empty one: releases carry no
+build stamp). The zip holds the Leprofit folder at its top level, as players unzip it into AddOns.
 Run from anywhere: python3 tools/make_release.py
 """
 import pathlib

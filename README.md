@@ -6,22 +6,20 @@ the cut, less what the materials cost. That includes recipes you'd have to learn
 the trainer or pattern costs and how many crafts pay it back. It's for crafters who want to know
 what's worth making and selling.
 
-Leprofit is a core addon plus one module per profession: Alchemy, Blacksmithing, Cooking,
+Leprofit is one addon covering every crafting profession: Alchemy, Blacksmithing, Cooking,
 Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 1.0.0 is the current release;
 [TESTING.md](TESTING.md) is what's left to check in game. Source:
 [addohm/leprofit](https://github.com/addohm/leprofit).
 
 ## Getting started
 
-1. Copy the `Leprofit` folder and the `Leprofit_*` module folders into
-   `World of Warcraft\_forever_\Interface\AddOns\`, or run `tools\install_forever.cmd` from a clone
-   ([DEPLOY.md](DEPLOY.md)).
-2. That's it for the modules: they're on by default, and Leprofit loads the ones for each
-   character's professions by itself, so each character loads only its own professions' data. To
-   keep a module off for a character, untick it in the AddOns list at character select.
-3. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
+1. Copy the `Leprofit` folder into `World of Warcraft\_forever_\Interface\AddOns\`, or run
+   `tools\install_forever.cmd` from a clone ([DEPLOY.md](DEPLOY.md)). Coming from Leprofit 1.0?
+   Its separate `Leprofit_<Profession>` folders are built in now: delete them (they're ignored if
+   left).
+2. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
    from their scans.
-4. Open Leprofit: it opens your profession window too, and reads the recipes you know from it.
+3. Open Leprofit: it opens your profession window too, and reads the recipes you know from it.
 
 ## Usage
 
@@ -32,9 +30,10 @@ it's already open, you don't have that profession, or you're in combat: Leprofit
 you know from it. Recipes you learn at a trainer count as known straight away.
 
 **Crafts tab**
-- The dropdown at the top picks the profession: it lists every profession module installed.
-  Picking one this character hasn't got (to see what it could make) loads it there and then.
-  **All professions** lists the loaded ones together (each row's tooltip names its profession).
+- The dropdown at the top picks the profession: every crafting profession is there, so you can
+  look at one this character hasn't got to see what it could make. It starts on one this
+  character has. **All professions** lists them all together (each row's tooltip names its
+  profession).
 - The **search** box filters the list as you type: it matches the item's name, the recipe's name
   and the names of its materials, so "copper bar" finds every craft that uses Copper Bars. It
   searches the profession shown, or all of them with All professions picked. Escape or the x
@@ -127,7 +126,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 | Command | What it does |
 |---|---|
 | `/leprofit` | Open or close the window |
-| `/leprofit status` | Price sources, modules, and recipes known |
+| `/leprofit status` | Price sources, and this character's professions and recipes known |
 | `/leprofit why <item>` | The whole sum for one craft (name, part of it, or a shift-clicked link) |
 | `/leprofit minimap` | Show or hide the minimap button |
 | `/leprofit reset` | Put the window back in the middle at its normal size |
@@ -143,17 +142,17 @@ English game clients only: profession and pattern names are matched in English.
 
 ## Where the data comes from
 
-Each module has its recipes (what each makes and from what), trainer costs and pattern sellers
-built in. What your own profession window and vendors show is added on top. Nothing is sent to
+Every profession's recipes (what each makes and from what), trainer costs and pattern sellers
+are built in. What your own profession window and vendors show is added on top. Nothing is sent to
 other players.
 
 ## Development
 
 - Tests: `python3 -m venv .venv && .venv/bin/pip install lupa` once, then
-  `.venv/bin/python tests/run_tests.py`. They load the core and every module into a fake client
+  `.venv/bin/python tests/run_tests.py`. They load the addon into a fake client
   (`tests/wowmock.lua`) and run `tests/smoke.lua`.
-- Module data: `tools/gen_data.py` writes `Leprofit_<Profession>/Data.lua` from the source data
-  ([DEPLOY.md](DEPLOY.md)).
+- Profession data: `tools/gen_data.py` writes `Leprofit/Data/<Profession>.lua` from the source
+  data ([DEPLOY.md](DEPLOY.md)); Mining's is written by hand.
 - Installing and releasing: [DEPLOY.md](DEPLOY.md).
 
 ## Problems, ideas and testing

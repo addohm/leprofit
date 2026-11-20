@@ -1,6 +1,6 @@
 @echo off
-rem Update this repo from GitHub, copy Leprofit and every profession module (the Leprofit_* folders)
-rem into the WoW: Forever client, and pack Leprofit-<version>.zip on the desktop.
+rem Update this repo from GitHub, copy Leprofit into the WoW: Forever client, and pack
+rem Leprofit-<version>.zip on the desktop.
 rem Run it from a terminal (from any folder), then restart the client, or /reload if Leprofit was
 rem already loaded. It only pulls what's on GitHub: push your commits first.
 setlocal
@@ -57,18 +57,20 @@ if errorlevel 1 (
   goto done
 )
 
-rem The core first, then each profession module.
 call :install Leprofit
 if "%RESULT%"=="1" goto done
-for /d %%A in ("%REPO%\Leprofit_*") do (
-  call :install "%%~nxA"
+
+rem Leprofit 1.0 came with a separate Leprofit_<Profession> addon per profession; their data is
+rem built into Leprofit now. Remove old copies of them from AddOns.
+for /d %%A in ("%ADDONS%\Leprofit_*") do (
+  echo Removing the old module "%%~nxA": its data is built into Leprofit now.
+  rmdir /s /q "%%~fA"
 )
-if "%RESULT%"=="1" goto done
 
 rem Stamp the installed core with the commit, so /leprofit help shows which build is running.
 rem "-dirty" means the copy includes changes that aren't committed.
 for /f %%h in ('git -C "%REPO%" rev-parse --short HEAD') do set "BUILD=%%h"
-for /f %%s in ('git -C "%REPO%" status --porcelain -- Leprofit "Leprofit_*"') do set "BUILD=%BUILD%-dirty"
+for /f %%s in ('git -C "%REPO%" status --porcelain -- Leprofit') do set "BUILD=%BUILD%-dirty"
 > "%ADDONS%\Leprofit\Build.lua" (
   echo local _, ns = ...
   echo ns.build = "%BUILD%"

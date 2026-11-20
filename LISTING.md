@@ -17,7 +17,7 @@ feature list in step with README.md.
 | License | GNU GPLv3 (`LICENSE`) |
 | Source | https://github.com/addohm/leprofit |
 | Issues | https://github.com/addohm/leprofit/issues |
-| Upload | `release/Leprofit-1.0.0.zip` (the core and all nine profession modules) |
+| Upload | `release/Leprofit-<version>.zip` (one `Leprofit` folder) |
 
 **Images**
 - Avatar: `art/leprofit-icon-400.png`
@@ -78,9 +78,8 @@ too, greyed out, with what learning them costs and how many crafts pay that back
 
 #### Professions
 
-One module per profession, loaded by itself for the professions each character has, so each
-character loads only its own data; pick any other in the dropdown to see what it could make.
-Alchemy, Blacksmithing, Cooking, Enchanting (rods, oils and wands), Engineering, First Aid,
+One addon, every crafting profession built in; pick any in the dropdown, even one this character
+hasn't got, to see what it could make. Alchemy, Blacksmithing, Cooking, Enchanting (rods, oils and wands), Engineering, First Aid,
 Leatherworking, Mining (smelting: bars against ore) and Tailoring. Recipes, trainer costs and
 pattern sellers are built in; what your own profession window and vendors show is added on top.
 A Blacksmith who also mines gets bars at their ore's price when smelting is cheaper.
@@ -91,7 +90,7 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 | --- | --- |
 | `/leprofit` | Open or close the window (also the minimap button, the addon menu, and a button on the profession window) |
 | `/leprofit why <item>` | The whole sum for one craft, in chat (type the name or shift-click it) |
-| `/leprofit status` | Price sources, modules, and recipes known |
+| `/leprofit status` | Price sources, your professions and recipes known |
 | `/leprofit help` | All commands |
 
 #### Good to know

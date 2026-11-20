@@ -7,6 +7,8 @@ change.
 
 - Standard docs (2026-11-16).
 - Design agreed (2026-11-16, below).
+- One addon (2026-11-20): the nine profession modules merged into Leprofit, after a
+  load-on-demand version that was never released.
 - 1.0.0 released (2026-11-19): out of beta, with search and All professions.
 - 0.9.0-beta released (2026-11-18): the release kit (icon and banner art,
   LISTING.md, the zip and the v0.9.0-beta tag).
@@ -52,21 +54,19 @@ change.
   Options lists hidden items to unhide). Recipes you could learn now are
   listed greyed out; Show all adds those needing more skill; Hide unlearned
   lists only the known (the owner's pick, after trying a skill slider).
-- **Recipe data:** built-in data, split into the modules, plus
+- **Recipe data:** built-in data, one file per profession, plus
   what you record playing. No in-game sharing, no share website.
-- **Modules:** a core addon (pricing, window, settings) plus one addon per
-  profession, loaded on demand for the professions each character has (the
-  dropdown loads any other): Alchemy,
-  Blacksmithing, Cooking, Enchanting, Engineering, First Aid, Leatherworking,
-  Mining (smelting), Tailoring. Each character sees only its own
-  professions.
+- **One addon:** every profession's data built in (it was a core plus one
+  addon per profession until 2026-11-20: the data is only 2.7 MB, so the
+  modules weren't worth their trouble). The dropdown lists all nine, starting
+  on one the character has.
 - **Window:** its own window, in leboof's style (dark panel, gold border, flat
   tabs). Tabs: Crafts (ranked list; click a row for its materials, a craft
   count and Add to list), Shopping (planned crafts, combined materials
   bought as they are, Clear, Send to Auctionator as one "Leprofit" list
   without vendor materials), Options. A search box on the Crafts tab
   matches item, recipe and material names; the dropdown's All professions
-  lists every ticked module together.
+  lists every profession together.
 - **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
   button on the profession window. Opening it opens your profession window
   too, every time (the owner's pick), so your known recipes are read.

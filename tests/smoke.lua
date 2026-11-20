@@ -22,26 +22,11 @@ local function Defaults()
 	ns.DataChanged()
 end
 
--- Modules load on demand: a character with no professions loads none at login; learning one, or
--- picking one in the dropdown, loads its module; one turned off in the AddOns list stays off.
-eq(#ns.professionOrder, 0, "no modules loaded at login for a character without professions")
-eq(#ns.Modules.Choices(), 9, "all nine can load")
-WM.skills.Blacksmithing = 1
-WM.Fire("SKILL_LINES_CHANGED")
-eq(ns.professionOrder[1], "Blacksmithing", "learning Blacksmithing loads its module")
-eq(#ns.professionOrder, 1, "and only that one")
-WM.skills.Blacksmithing = nil
-ns.SetProfession("Cooking")
-ok(ns.professions.Cooking, "picking Cooking in the dropdown loads it")
-eq(ns.CurrentProfession(), "Cooking")
-WM.disabled.Leprofit_Tailoring = true
-eq(ns.Modules.Load("Tailoring"), false, "a module turned off for this character stays off")
-eq(#ns.Modules.Choices(), 8, "and isn't offered")
-WM.disabled.Leprofit_Tailoring = nil
-ok(ns.Modules.Icon("Tailoring"):find("Trade_Tailoring", 1, true), "an unloaded module's icon comes from its .toc")
-for _, prof in ipairs(ns.Modules.Choices()) do ns.Modules.Load(prof) end
-eq(#ns.professionOrder, 9, "every module loaded for the rest of the tests")
-ns.db.profession = nil
+-- Every profession is built in. Old Leprofit 1.0 module folders, if they're still installed,
+-- call Leprofit.RegisterProfession: that's ignored.
+eq(#ns.professionOrder, 9, "nine professions built in")
+Leprofit.RegisterProfession({ name = "Old module", recipes = {} })
+eq(ns.professions["Old module"], nil, "an old module is ignored")
 
 -- The module registered, and its recipes are listed one per name.
 ok(ns.professions.Blacksmithing, "Blacksmithing is registered")
@@ -52,7 +37,7 @@ eq(ns.CurrentProfession(), ns.professionOrder[1], "the first module shown at fir
 -- Mining has no data (the built-in data has no smelting): its recipes come from your window.
 local PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Mining", "Tailoring" }
 local NO_DATA = { Mining = true }
-eq(#ns.professionOrder, #PROFESSIONS, "all nine modules")
+eq(#ns.professionOrder, #PROFESSIONS, "all nine professions")
 local owner, shared = {}, 0
 for i, name in ipairs(PROFESSIONS) do
 	eq(ns.professionOrder[i], name, "in alphabetical order")
@@ -216,6 +201,10 @@ WM.recipes = {
 WM.Fire("TRADE_SKILL_SHOW")
 WM.RunTimers()
 eq(ns.db.recipes.Blacksmithing[2660].learned, true, "Rough Sharpening Stone recorded as known")
+local savedProf = ns.db.profession
+ns.db.profession = nil
+eq(ns.CurrentProfession(), "Blacksmithing", "with nothing picked, the first profession this character has")
+ns.db.profession = savedProf
 eq(ns.db.recipes.Blacksmithing[990001].yield, 3, "makes 2 to 4: 3 on average")
 belt = Find("Copper Chain Belt")
 eq(belt.source.kind, "known", "you know it now")
@@ -409,8 +398,8 @@ eq(#chain.source.sellers, 2)
 ok(#WM.printed >= 2, "the pattern and the prices are announced")
 
 -- A stale list right after switching windows: the window says Blacksmithing but lists another
--- profession's recipes. Leprofit.RegisterProfession adds a second module for the test.
-Leprofit.RegisterProfession({ name = "Testcraft", recipes = {
+-- profession's recipes. ns.RegisterProfession adds a made-up profession for the test.
+ns.RegisterProfession({ name = "Testcraft", recipes = {
 	[880001] = { name = "A", product = 1, reagents = { { 2, 1 } } }, [880002] = { name = "B", product = 1, reagents = { { 2, 1 } } },
 	[880003] = { name = "C", product = 1, reagents = { { 2, 1 } } }, [880004] = { name = "D", product = 1, reagents = { { 2, 1 } } },
 	[880005] = { name = "E", product = 1, reagents = { { 2, 1 } } },
@@ -804,7 +793,7 @@ ns.db.recipes.Blacksmithing, ns.db.hideUnlearned = saved, false
 ns.DataChanged()
 ns.Window.Hide()
 
--- No modules: the window explains what to enable.
+-- No professions at all (the data files missing): the window says so.
 local order = ns.professionOrder
 ns.professionOrder = {}
 ns.db.profession = nil

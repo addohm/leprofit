@@ -62,10 +62,9 @@ function ns.ResetOptions()
 	for _, k in ipairs(ns.OPTION_KEYS) do ns.db[k] = DEFAULTS[k] end
 end
 
--- Profession modules ---------------------------------------------------------------------------
+-- Professions ----------------------------------------------------------------------------------
 
--- Each Leprofit_<Profession> addon registers its data here when it loads. Modules load on demand
--- (Modules.lua): these are the ones loaded so far.
+-- Each profession's data file (Data/<Profession>.lua) registers it here as the addon loads.
 ns.professions, ns.professionOrder = {}, {}
 ns.dataVersion = 0 -- bumped whenever recipes, patterns or prices recorded here change
 
@@ -74,8 +73,7 @@ function ns.DataChanged()
 	ns.Refresh()
 end
 
-Leprofit = {}
-function Leprofit.RegisterProfession(def)
+function ns.RegisterProfession(def)
 	if type(def) ~= "table" or type(def.name) ~= "string" then return end
 	def.recipes, def.training, def.patterns = def.recipes or {}, def.training or {}, def.patterns or {}
 	def.vendorPrices, def.itemNames = def.vendorPrices or {}, def.itemNames or {}
@@ -88,8 +86,13 @@ function Leprofit.RegisterProfession(def)
 	ns.DataChanged()
 end
 
--- The profession the window shows: the last one picked, else the first module. nil while the
--- dropdown shows every profession (ns.ALL).
+-- Leprofit 1.0 came with a separate Leprofit_<Profession> addon per profession. Their data is
+-- built in now; if old copies are still in AddOns, they call this when they load, and it ignores
+-- them. Their folders can be deleted.
+Leprofit = { RegisterProfession = function() end }
+
+-- The profession the window shows: the last one picked, else the first this character has, else
+-- the first. nil while the dropdown shows every profession (ns.ALL).
 ns.ALL = "all"
 function ns.ShowingAll()
 	return ns.db and ns.db.profession == ns.ALL and #ns.professionOrder > 0 or false
@@ -98,11 +101,13 @@ function ns.CurrentProfession()
 	local name = ns.db and ns.db.profession
 	if name == ns.ALL and #ns.professionOrder > 0 then return nil end
 	if name and ns.professions[name] then return name end
+	for _, prof in ipairs(ns.professionOrder) do
+		if ns.Skill(prof) then return prof end
+	end
 	return ns.professionOrder[1]
 end
 
 function ns.SetProfession(name)
-	if name ~= ns.ALL and not ns.professions[name] then ns.Modules.Load(name) end
 	if ns.professions[name] or name == ns.ALL then
 		ns.db.profession = name
 		ns.Refresh()
@@ -136,7 +141,6 @@ events:SetScript("OnEvent", function(_, event, arg)
 		if ns.db.knownOnly then ns.db.hideUnlearned = true end
 		ns.db.knownOnly, ns.db.showUpTo = nil, nil
 	elseif event == "PLAYER_LOGIN" then
-		ns.Modules.LoadKnown()
 		ns.Minimap.Init()
 		ns.ProfessionButton.Init()
 	else
@@ -150,27 +154,23 @@ end)
 local function Status()
 	ns.Print(ns.Version())
 	ns.Print("Prices: " .. ns.Prices.SourcesText())
-	local choices = ns.Modules.Choices()
-	if #choices == 0 then
-		ns.Print("No Leprofit profession modules are installed, or they're all turned off in the AddOns list.")
-	end
-	local waiting = {}
-	for _, prof in ipairs(choices) do
-		if not ns.professions[prof] then waiting[#waiting + 1] = prof end
-	end
-	if #waiting > 0 then
-		ns.Print("Not loaded (this character hasn't got them; picking one in the dropdown loads it): " .. table.concat(waiting, ", "))
-	end
+	-- This character's professions in full; the others just by name.
+	local others = {}
 	for _, name in ipairs(ns.professionOrder) do
 		local known = 0
 		for _, rec in pairs(ns.db.recipes[name] or {}) do
 			if rec.learned then known = known + 1 end
 		end
-		local count = 0
-		for _ in pairs(ns.professions[name].recipes) do count = count + 1 end
-		ns.Print(("%s: %d recipes in the data, %d known by this character%s"):format(name, count, known,
-			known == 0 and " (open your profession window once to read them)" or ""))
+		if ns.Skill(name) or known > 0 then
+			local count = 0
+			for _ in pairs(ns.professions[name].recipes) do count = count + 1 end
+			ns.Print(("%s (skill %s): %d recipes in the data, %d known by this character%s"):format(name,
+				ns.Skill(name) or "?", count, known, known == 0 and " (open your profession window once to read them)" or ""))
+		else
+			others[#others + 1] = name
+		end
 	end
+	if #others > 0 then ns.Print("Also built in (pick one in the dropdown): " .. table.concat(others, ", ")) end
 end
 
 local function Help()
