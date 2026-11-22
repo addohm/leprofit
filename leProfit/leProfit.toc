@@ -6,7 +6,7 @@
 ## IconTexture: Interface\AddOns\leProfit\Media\Icon
 ## SavedVariables: leProfitDB, LeprofitDB
 ## SavedVariablesPerCharacter: leProfitCharDB, LeprofitCharDB
-## OptionalDeps: Auctionator, TradeSkillMaster
+## OptionalDeps: Auctionator, TradeSkillMaster, QuestieDB
 ## AddonCompartmentFunc: leProfit_OnAddonCompartmentClick
 
 Build.lua
@@ -22,6 +22,7 @@ Data\Leatherworking.lua
 Data\Mining.lua
 Data\Tailoring.lua
 Prices.lua
+Questie.lua
 Recipes.lua
 Profit.lua
 Shopping.lua

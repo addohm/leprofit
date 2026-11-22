@@ -62,7 +62,9 @@ change.
   Recipes from tradeable patterns no vendor sells are listed, priced at the
   auction house; Show all also lists patterns that bind and unknown sources;
   only the other side's recipes are never listed. Tooltips say where to get
-  every pattern (the owner's rule, 2026-11-22).
+  every pattern (the owner's rule, 2026-11-22). QuestieDB, when installed,
+  answers first, asked in game; the built-in data is the fallback. Next: the
+  Questie team's view on bundling a fallback from QuestieDB (request drafted).
 - **Recipe data:** built-in data, one file per profession, plus
   what you record playing. No in-game sharing, no share website. Since
   2026-11-22 it's generated from Forever's game data and Efficient Games'

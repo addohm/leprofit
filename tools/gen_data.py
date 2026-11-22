@@ -21,8 +21,9 @@ Where each part comes from:
   can't be bought); where to get it from Efficient Games' loot, quest and vendor data; the
   reputation it needs from the game data.
 - Which side can get a pattern, when only one can: a one-side reputation (the game data's
-  Faction table), or every known source that side's (its vendors' faction, its quests' races).
-  leProfit leaves the other side's out.
+  Faction table), or every known source that side's (its vendors' own faction, from Efficient
+  Games or leProfit's recordings; its quests' races). leProfit leaves the other side's out, and
+  asks QuestieDB first when it's installed (leProfit/Questie.lua).
 - Recipes that come with the profession (the game data's AcquireMethod 1).
 - Vendor prices of materials: tools/learned.json, then Efficient Games' vendors (endless supply).
 - Item names: the game data (ItemSparse); tools/learned.json for the few it doesn't have.
@@ -60,11 +61,6 @@ STANDINGS = ["Hated", "Hostile", "Unfriendly", "Neutral", "Friendly", "Honored",
 ALLIANCE_RACES, HORDE_RACES = 0x4D, 0xB2  # Human, Dwarf, Night Elf, Gnome / Orc, Undead, Tauren, Troll
 MOST_DROPS, MOST_QUESTS = 5, 5            # sources kept per pattern
 MERCHANTS_FAVOR = 3402  # the trade factions' currency: each side's camp sells the same rewards
-# Towns whose vendors serve both sides. 1.0's data sometimes gave a vendor there the faction of the
-# player who recorded it; vendors Efficient Games knows get their own faction from its data instead.
-NEUTRAL_PLACES = {"Booty Bay", "The Old Port Authority", "Gadgetzan", "Steamwheedle Port", "Ratchet", "Everlook",
-                  "Cenarion Hold", "Valor's Rest", "Light's Hope Chapel", "Nighthaven", "Yojamba Isle",
-                  "Thorium Point", "Ravenholdt Manor", "Powderfuse Port"}
 
 
 def side_of_races(mask):
@@ -429,14 +425,13 @@ def profession(name, game, players, learned):
             training[rec["name"]] = players.trainers[sid]
 
     def faction_fixed(s):
-        """A seller from learned.json with its faction checked: Efficient Games' for the NPC, or
-        Neutral in a neutral town."""
+        """A seller from learned.json with its own faction: Efficient Games' record of the NPC, else
+        what leProfit recorded at it (1.0's factions were dropped: they were often the faction of
+        the player who saw the vendor). Unknown stays unknown."""
         s = dict(s)
         side = players.npc_side.get(s.get("vendor"))
         if side:
             s["faction"] = side
-        elif s.get("subZone") in NEUTRAL_PLACES:
-            s["faction"] = "Neutral"
         return s
 
     patterns = {}
@@ -574,11 +569,13 @@ def write(name, build, recipes, training, patterns, other, free, vendor_prices, 
             "\t--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor",
             "\t--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked",
             "\t--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it;",
-            "\t--   otherCamp = the side whose trade camp sells it too, though players haven't recorded it there",
+            "\t--   camp = a trade camp sells it for Merchant's Favor (both sides' camps do); otherCamp = the side",
+            "\t--   whose camp players haven't recorded selling it yet",
             "\totherPatterns = {"]
     for recipe in sorted(other):
         p = other[recipe]
         entry = {"itemID": p["itemID"], "skill": p["skill"], "bound": p["bound"], "side": p["side"], "rep": p["rep"],
+                 "camp": any(s.get("camp") for s in p["sellers"]) or None,
                  "sellers": sellers_of(p), "otherCamp": p["otherCamp"], "quests": p["quests"], "drops": p["drops"]}
         out.append(f"\t\t[{lua_string(recipe)}] = {lua_value(entry)},")
     out += ["\t},", "\t-- recipes that come with the profession", "\tfree = {"]

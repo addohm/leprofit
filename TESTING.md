@@ -96,6 +96,11 @@ so most of it is covered by the first part.
 - [ ] On an Alliance character, Cloudy Skyforged plans (Earthen Ring) and Engineering's Red
       Firework (sold only in Orgrimmar) never show, even with Show all, and "Not listed" counts
       them as "only the other side can get"; on a Horde one, Azure Skyforged (Kirin Tor) don't.
+- [ ] With Questie (and so QuestieDB) installed: `/leprofit status` says "QuestieDB found"; a
+      pattern's tooltip lists QuestieDB's vendors with places ("Sold by Kania in Silithus at ..."),
+      quests, and drops ("Drops from 40 creatures (a world drop), such as ..."); Red Firework
+      stays hidden on the Alliance; no Lua errors. Without it, status says it isn't installed and
+      tooltips use the built-in lines.
 - [ ] Veteran's Boots shows for both sides; on the Alliance its tooltip adds "Also sold at the
       Alliance trade camp (not recorded yet)". Wizard Oil (Kania, Cenarion Hold) shows for both.
 

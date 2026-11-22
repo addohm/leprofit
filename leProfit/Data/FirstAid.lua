@@ -70,16 +70,17 @@ ns.RegisterProfession({
 	--   sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }: patterns vendors sell for gold;
 	--   bound = binds when picked up; side = the only side that can get it
 	patterns = {
-		["Heavy Silk Bandage"] = { itemID = 16112, price = 2200, skill = 180, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance", mapID = 1417, x = 0.2703, y = 0.588 } } },
-		["Mageweave Bandage"] = { itemID = 16113, price = 5000, skill = 210, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance", mapID = 1417, x = 0.2703, y = 0.588 } } },
-		["Major Healing Potion"] = { itemID = 255729, price = 80000, skill = 275, side = "Alliance", sellers = { { vendor = "Pexmit", zone = "Mount Hyjal", subZone = "Felblood Scar", faction = "Alliance" } } },
-		["Powerful Anti-Venom"] = { itemID = 19442, price = 100000, skill = 300, bound = true, rep = { faction = "Argent Dawn", standing = "Honored" }, sellers = { { vendor = "Argent Quartermaster Hasana", zone = "Tirisfal Glades", subZone = "The Bulwark", faction = "Horde", mapID = 1420, x = 0.832, y = 0.6819 }, { vendor = "Argent Quartermaster Lightspark", zone = "Western Plaguelands", subZone = "Chillwind Camp", faction = "Alliance", mapID = 1422, x = 0.4288, y = 0.8379 } } },
+		["Heavy Silk Bandage"] = { itemID = 16112, price = 2200, skill = 180, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", mapID = 1417, x = 0.2703, y = 0.588 } } },
+		["Mageweave Bandage"] = { itemID = 16113, price = 5000, skill = 210, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", mapID = 1417, x = 0.2703, y = 0.588 } } },
+		["Major Healing Potion"] = { itemID = 255729, price = 80000, skill = 275, sellers = { { vendor = "Pexmit", zone = "Mount Hyjal", subZone = "Felblood Scar" } } },
+		["Powerful Anti-Venom"] = { itemID = 19442, price = 100000, skill = 300, bound = true, rep = { faction = "Argent Dawn", standing = "Honored" }, sellers = { { vendor = "Argent Quartermaster Hasana", zone = "Tirisfal Glades", subZone = "The Bulwark", mapID = 1420, x = 0.832, y = 0.6819 }, { vendor = "Argent Quartermaster Lightspark", zone = "Western Plaguelands", subZone = "Chillwind Camp", mapID = 1422, x = 0.4288, y = 0.8379 } } },
 	},
 	-- recipe name = { itemID, skill, bound, side, rep, sellers = { { ..., cost } },
 	--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor
 	--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked
 	--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it;
-	--   otherCamp = the side whose trade camp sells it too, though players haven't recorded it there
+	--   camp = a trade camp sells it for Merchant's Favor (both sides' camps do); otherCamp = the side
+	--   whose camp players haven't recorded selling it yet
 	otherPatterns = {
 		["Clever Poultice"] = { itemID = 255724, skill = 140, bound = false },
 		["Crystal Infused Bandage"] = { itemID = 23689, quests = { { title = "<UNUSED>Infused Bandages" } } },

@@ -162,6 +162,7 @@ end)
 local function Status()
 	ns.Print(ns.Version())
 	ns.Print("Prices: " .. ns.Prices.SourcesText())
+	ns.Print(ns.Questie.StatusText())
 	-- This character's professions in full; the others just by name.
 	local others = {}
 	for _, name in ipairs(ns.professionOrder) do

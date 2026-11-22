@@ -18,7 +18,25 @@ local M = {
 	trainer = {},     -- the trainer's list: { name, kind ("available", "used", "header"...), cost, skill, line }
 	skills = {},      -- profession -> rank
 	faction = "Alliance",
+	areas = { [1377] = "Silithus", [1637] = "Orgrimmar", [1519] = "Stormwind City" }, -- AreaTable ID -> name
 }
+
+-- A fake QuestieDB (LibQuestieDB's public API): WM.InstallQuestieDB(data) makes the global, where
+-- data = { contract, Item = { [id] = { field = value } }, Npc = ..., Quest = ..., Object = ... }.
+-- Unknown ids read as nil, as QuestieDB's do.
+function M.InstallQuestieDB(data)
+	local lib = {
+		contractVersion = data.contract or 4, minSupportedContract = 1,
+		Enum = { factionRaceMasks = { Alliance = 77 + 2 ^ 32, Horde = 178 + 2 ^ 33 } },
+	}
+	function lib.RequireContract(v) return v >= lib.minSupportedContract and v <= lib.contractVersion end
+	for _, kind in ipairs({ "Item", "Npc", "Quest", "Object" }) do
+		local rows = data[kind] or {}
+		lib[kind] = { Get = function(id, key) return rows[id] and rows[id][key] end }
+	end
+	LibQuestieDB = lib
+end
+function M.RemoveQuestieDB() LibQuestieDB = nil end
 
 local function Permissive(t)
 	return setmetatable(t, { __index = function(_, k)
@@ -164,6 +182,7 @@ function UnitName(unit) return unit == "npc" and M.vendorName or "Tester" end
 function GetZoneText() return "Stormwind City" end
 function GetSubZoneText() return "Trade District" end
 C_Map = {
+	GetAreaInfo = function(areaID) return M.areas[areaID] end,
 	GetBestMapForUnit = function() return 84 end,
 	GetMapInfo = function() return { name = "Stormwind City" } end,
 	GetPlayerMapPosition = function()

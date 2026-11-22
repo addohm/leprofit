@@ -478,10 +478,11 @@ local firework = FindIn("Engineering", "Red Firework")
 eq(firework.source.kind, "pattern")
 eq(firework.source.side, "Horde", "sold only in Orgrimmar")
 eq(ns.Profit.OtherSideOnly(firework.source), true, "so not for this Alliance character")
--- A vendor in a neutral town serves both, whatever faction 1.0's data gave it.
+-- A vendor nobody has recorded the faction of has none: 1.0's (often the recording player's) are
+-- gone. So Kania's Wizard Oil is anyone's.
 local wizardOil = FindIn("Enchanting", "Wizard Oil")
-eq(wizardOil.source.side, nil, "Kania in Cenarion Hold sells to both sides")
-eq(wizardOil.source.sellers[1].faction, "Neutral")
+eq(wizardOil.source.side, nil, "Kania's side isn't known, so it isn't hidden")
+eq(wizardOil.source.sellers[1].faction, nil)
 local cloudy = Find("Cloudy Skyforged Helm")
 eq(cloudy.source.side, "Horde", "Earthen Ring's plans are the Horde's")
 eq(ns.Profit.OtherSideOnly(cloudy.source), true, "not for this Alliance character")
@@ -531,6 +532,65 @@ ok(Listed("Cloudy Skyforged Helm") and not Listed("Azure Skyforged Helm"), "and 
 ok(ListedIn("Engineering", "Red Firework"), "the Horde sees Red Firework")
 WM.skills.Engineering = nil
 WM.faction = "Alliance"
+
+-- QuestieDB, when installed, says where a pattern comes from and for whom; the built-in data
+-- answers when it isn't, or knows nothing of the item.
+eq(ns.Questie.Available(), false, "no QuestieDB")
+ok(ns.Questie.StatusText():find("isn't installed", 1, true), "status says so")
+WM.InstallQuestieDB({ contract = 2 })
+ns.Questie.Forget()
+eq(ns.Questie.Available(), false, "too old a QuestieDB is ignored")
+ok(ns.Questie.StatusText():find("too old", 1, true))
+WM.InstallQuestieDB({
+	Item = {
+		[20755] = { vendors = { 15419 } },                     -- Formula: Wizard Oil, from Kania
+		[18647] = { vendors = { 3413 } },                      -- Schematic: Red Firework, from Sovik
+		[3871] = { npcDrops = { 11, 12, 13, 14, 15 } },        -- Plans: Golden Scale Shoulders, a world drop
+		[19776] = { questRewards = { 9001 } },                 -- Plans: Bloodsoul Breastplate
+		[251355] = { vendors = { 777 } },                      -- Plans: Veteran's Boots, Gor'mak only
+		[276976] = { vendors = { 15419 } },                    -- Plans: Cloudy Skyforged Helm (Earthen Ring)
+	},
+	Npc = {
+		[15419] = { name = "Kania", friendlyToFaction = "AH", spawns = { [1377] = { { 51.97, 39.7 } } } },
+		[3413] = { name = "Sovik", friendlyToFaction = "H", spawns = { [1637] = { { 75.6, 25.1 } } } },
+		[777] = { name = "Gor'mak", friendlyToFaction = "H" },
+		[11] = { name = "Ogre A" }, [12] = { name = "Ogre B" }, [13] = { name = "Ogre C" },
+		[14] = { name = "Ogre D" }, [15] = { name = "Ogre E" },
+	},
+	Quest = { [9001] = { name = "Zandalar's Plea", requiredRaces = 77 + 2 ^ 32, zoneOrSort = 1519 } },
+})
+ns.Questie.Forget()
+ns.DataChanged()
+eq(ns.Questie.Available(), true, "QuestieDB found")
+ok(ns.Questie.StatusText():find("QuestieDB found", 1, true))
+eq(ns.Questie.HasAnyBit(77 + 2 ^ 32, 2 ^ 32), true, "race masks past 32 bits")
+eq(ns.Questie.HasAnyBit(77, 178), false)
+wizardOil = FindIn("Enchanting", "Wizard Oil")
+eq(ns.Recipes.WhereLines(wizardOil.source)[1], "Sold by Kania in Silithus at 52.0, 39.7", "QuestieDB's seller and place")
+eq(wizardOil.source.side, nil, "friendly to both")
+firework = FindIn("Engineering", "Red Firework")
+eq(firework.source.side, "Horde", "Sovik serves the Horde only")
+eq(ns.Recipes.WhereLines(firework.source)[1], "Sold by Sovik in Orgrimmar at 75.6, 25.1 (Horde only)")
+shoulders = Find("Golden Scale Shoulders")
+eq(ns.Recipes.WhereLines(shoulders.source)[1], "Drops from 5 creatures (a world drop), such as Ogre A, Ogre B, Ogre C")
+eq(shoulders.source.side, nil, "a drop is anyone's")
+blood = Find("Bloodsoul Breastplate")
+local bloodLines = ns.Recipes.WhereLines(blood.source)
+eq(bloodLines[1], "Needs Zandalar Tribe reputation: Revered", "the reputation from the game data first")
+eq(bloodLines[2], "Reward from the quest Zandalar's Plea in Stormwind City (Alliance only)", "a quest for Alliance races")
+eq(blood.source.side, "Alliance", "so the Alliance's only")
+WM.faction = "Horde"
+eq(ns.Profit.OtherSideOnly(blood.source), true, "not for the Horde")
+WM.faction = "Alliance"
+boots = Find("Veteran's Boots")
+eq(boots.source.side, nil, "a trade camp's plans stay both sides', whatever one camp's vendor says")
+cloudy = Find("Cloudy Skyforged Helm")
+eq(cloudy.source.side, "Horde", "a one-side reputation decides, whatever the vendor")
+WM.RemoveQuestieDB()
+ns.Questie.Forget()
+ns.DataChanged()
+eq(Find("Bloodsoul Breastplate").source.side, nil, "without QuestieDB, the built-in data again")
+
 WM.skills.Blacksmithing = 40
 ns.db.showAll, ns.db.showLosses = saved[1], saved[2]
 WM.auctionator[3871] = nil

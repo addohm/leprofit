@@ -20,10 +20,15 @@ All notable changes to leprofit. The format follows
   player-recorded loot, quests and vendors, and the game data's reputation requirements.
 - Recipes only the other side can get are never listed, and the "Not listed" line counts them:
   a one-side reputation (Kirin Tor, Earthen Ring), quests only for the other side's races, or a
-  pattern only the other side's vendors sell (Red Firework, sold only in Orgrimmar). Vendors in
-  neutral towns (Booty Bay, Gadgetzan, Everlook, Cenarion Hold...) serve both sides, and the trade
-  camps' Merchant's Favor plans count for both, with a note when only one camp's quartermaster
-  has been recorded.
+  pattern only the other side's vendors sell (Red Firework, sold only in Orgrimmar). A vendor's
+  side comes only from a record of the vendor itself (QuestieDB, Efficient Games, or what you
+  recorded); 1.0's vendor factions are dropped, since they were often the faction of the player
+  who saw the vendor. The trade camps' Merchant's Favor plans count for both sides, with a note
+  when only one camp's quartermaster has been recorded.
+- With **QuestieDB** installed (Questie's database on Forever), leProfit asks it in game where
+  each pattern comes from (vendors and which sides they serve, quests and the races they're for,
+  creatures, objects and containers that drop it) and uses that before the built-in data. It's
+  optional, like Auctionator; `/leprofit status` says whether it's found.
 - Trainer costs players recorded (Efficient Games) fill in what the built-in data lacks: Mining's
   smelting, for one.
 - `tools\update_data.cmd` (or `python3 tools/update_data.py`): refresh the built-in data on your

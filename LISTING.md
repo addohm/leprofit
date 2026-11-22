@@ -101,6 +101,8 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 
 - **Needs Auctionator** (or TSM) for auction prices: scan the auction house and the list fills
   in. TradeSkillMaster doesn't seem to run on Forever yet; Auctionator does.
+- **Better with QuestieDB** (Questie installs it): tooltips then say where every pattern comes
+  from and which side can get it, from its database. Optional.
 - **Reports welcome, especially from other professions.** Blacksmithing and Mining have been
   tried most in game; the other professions' lists work on any character. If you have Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking or Tailoring,
   please try it and report what you find on the

@@ -20,7 +20,9 @@ Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailor
    settings carry over.
 2. Install **Auctionator** (or TradeSkillMaster) and scan the auction house: auction prices come
    from their scans.
-3. Open leProfit: it opens your profession window too, and reads the recipes you know from it.
+3. Optional: **QuestieDB** (Questie installs it on Forever). With it, tooltips say where every
+   pattern comes from, and which side can get it, from its database.
+4. Open leProfit: it opens your profession window too, and reads the recipes you know from it.
 
 ## Usage
 
@@ -79,11 +81,15 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   bought: **Show all** lists those recipes too. A profession's starter recipes "come with the
   profession".
 - A pattern's tooltip says where to get it: the reputation it needs, who sells it (for gold or
-  tokens, with where they stand), the quests that reward it, and what drops it, with how often
-  players saw it drop (as a percentage once enough loot is recorded). Recipes only the other side
-  can get are never listed: a one-side reputation, quests only for the other side, or a pattern
-  only the other side's vendors sell. Vendors in neutral towns serve both sides, and the trade
-  camps' Merchant's Favor plans count for both (each side's camp sells them).
+  tokens, with where they stand), the quests that reward it, and what drops it. With QuestieDB
+  installed, leProfit asks it, in game, for each pattern, as it asks Auctionator for prices;
+  without it, or for an item QuestieDB doesn't know, the built-in data answers (with how often
+  players saw a drop, as a percentage once enough loot is recorded).
+- Recipes only the other side can get are never listed: a one-side reputation, quests only for
+  the other side, or a pattern only the other side's vendors sell. A vendor's side comes from
+  QuestieDB, or from Efficient Games' or your own record of it; a vendor nobody has recorded
+  counts for both sides. The trade camps' Merchant's Favor plans count for both (each side's camp
+  sells them).
 - The line above the materials panel says how many crafts were left out and why: not learned (with
   Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, from
   patterns that bind, with no known source (Show all lists those two), or only for the other side. Where prices come from is at its right.

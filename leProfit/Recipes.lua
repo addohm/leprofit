@@ -47,6 +47,15 @@ function Recipes.WhereLines(src, most)
 		lines[#lines + 1] = ("Needs %s reputation: %s%s"):format(src.rep.faction, src.rep.standing,
 			src.rep.side and (" (" .. src.rep.side .. " only)") or "")
 	end
+	if src.questie then
+		-- QuestieDB's answer, after a seller you recorded yourself (it has the price).
+		local mine = src.recorded and src.recorded.vendor
+		if mine then lines[#lines + 1] = "Sold by " .. Recipes.SellerText(src.sellers[1]) end
+		for _, line in ipairs(src.questie.lines) do
+			if not (mine and line:find("Sold by " .. mine, 1, true) == 1) then lines[#lines + 1] = line end
+		end
+		return Recipes.Trim(lines, most)
+	end
 	for _, s in ipairs(src.sellers or {}) do
 		lines[#lines + 1] = (s.cost and (s.cost .. " from ") or "Sold by ") .. Recipes.SellerText(s)
 	end
@@ -66,6 +75,11 @@ function Recipes.WhereLines(src, most)
 		lines[#lines + 1] = ("%s %s%s%s"):format(DROP_VERB[d.how] or "From", d.from,
 			(d.zone and d.zone ~= d.from) and (" in " .. d.zone) or "", odds)
 	end
+	return Recipes.Trim(lines, most)
+end
+
+-- At most `most` lines, the last saying how many more.
+function Recipes.Trim(lines, most)
 	if most and #lines > most then
 		local more = #lines - most + 1
 		for i = #lines, most, -1 do lines[i] = nil end
@@ -93,6 +107,16 @@ end
 -- the reputation it needs); a pattern no vendor sells for gold ("other": a drop, quest or
 -- reputation reward or a token vendor, with where to get it; Profit.lua prices it at the auction
 -- house unless it binds); or nobody knows. `side` is set when only one side can get it.
+-- QuestieDB, when installed, says where a pattern comes from and for whom (Questie.lua); the
+-- built-in data answers otherwise. A one-side reputation always decides the side, and the trade
+-- camps' Merchant's Favor plans are both sides' whatever one camp's vendor says.
+local function SideOf(rep, camp, questie, builtIn)
+	if rep and rep.side then return rep.side end
+	if camp then return nil end
+	if questie then return questie.side end
+	return builtIn
+end
+
 local function Source(def, prof, name)
 	if def.free[name] then return { kind = "free", cost = 0, skill = 1 } end
 	local t = (ns.adb.training[prof] and ns.adb.training[prof][name]) or def.training[name]
@@ -100,22 +124,28 @@ local function Source(def, prof, name)
 	local recorded = ns.adb.patterns[prof] and ns.adb.patterns[prof][name]
 	local pattern = def.patterns[name]
 	if recorded or pattern then
+		local itemID = (recorded and recorded.itemID) or pattern.itemID
+		local questie = ns.Questie.Sources(itemID)
 		return {
 			kind = "pattern",
-			itemID = (recorded and recorded.itemID) or pattern.itemID,
+			itemID = itemID,
 			cost = (recorded and recorded.price) or pattern.price,
 			skill = pattern and pattern.skill,
 			sellers = Sellers(recorded, pattern),
+			recorded = recorded,
 			rep = pattern and pattern.rep,
-			-- one you recorded at a vendor you could get to
-			side = not recorded and pattern and pattern.side or nil,
+			questie = questie,
+			-- one you recorded is at a vendor you could get to
+			side = not recorded and SideOf(pattern and pattern.rep, false, questie, pattern and pattern.side) or nil,
 		}
 	end
 	local o = def.otherPatterns[name]
 	if o then
+		local questie = ns.Questie.Sources(o.itemID)
 		return {
-			kind = "other", itemID = o.itemID, skill = o.skill, bound = o.bound, side = o.side, rep = o.rep,
+			kind = "other", itemID = o.itemID, skill = o.skill, bound = o.bound, rep = o.rep,
 			sellers = Sellers(nil, o), otherCamp = o.otherCamp, quests = o.quests, drops = o.drops,
+			questie = questie, side = SideOf(o.rep, o.camp, questie, o.side),
 		}
 	end
 	return { kind = "unknown" }

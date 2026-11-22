@@ -93,9 +93,11 @@ By hand:
    reputation it needs, token vendors, quests and drops) and the starter recipes (`free`). A
    pattern's `side` is set when only one side can get it: a one-side reputation (from the game's
    Faction table), or every known source that side's (its vendors' faction, its quests' races).
-   A vendor's faction comes from Efficient Games' NPC data when it knows the vendor (1.0's data
-   sometimes gave the recording player's); vendors in `NEUTRAL_PLACES` are neutral; Merchant's
-   Favor vendors count for both sides, and `otherCamp` names the camp nobody has recorded yet.
+   A vendor's faction comes from Efficient Games' NPC data, else from what leProfit recorded at
+   it (`learned.json` sellers); 1.0's factions were dropped, as they were often the recording
+   player's. A vendor nobody has recorded has none. Merchant's Favor vendors count for both
+   sides (`camp`), and `otherCamp` names the camp nobody has recorded yet. In game, QuestieDB's
+   answer (when installed) comes before all of this; a one-side reputation still decides.
 3. Run the tests, then commit `leProfit/Data/` (and `tools/learned.json` if it changed).
 
 `tools/learned.json` holds what the game data doesn't: trainer costs and the skill each needs,
