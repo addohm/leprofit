@@ -148,16 +148,15 @@ local function LearnLine(row, prof)
 	if src.kind == "trainer" then
 		text = "Trainer " .. ns.Money(src.cost) .. SkillText(src.skill)
 	elseif src.kind == "pattern" then
-		local s = src.sellers and src.sellers[1]
-		text = "Pattern " .. ns.Money(src.cost) .. SkillText(src.skill) .. (s and (" from " .. ns.Recipes.SellerText(s)) or "")
+		text = "Pattern " .. ns.Money(src.cost) .. SkillText(src.skill) .. ":"
 	elseif src.kind == "free" then
 		text = "Comes with the profession"
-	elseif src.kind == "drop" then
+	elseif src.kind == "other" then
 		if ns.Profit.Bound(src) then
-			text = ns.ItemName(src.itemID) .. SkillText(src.skill) .. ": binds when picked up (a drop, quest or reputation reward)"
+			text = ns.ItemName(src.itemID) .. SkillText(src.skill) .. ", binds when picked up:"
 		else
 			text = ns.ItemName(src.itemID) .. " " .. (row.learnCost and ns.Money(row.learnCost) or "(no auction price yet)")
-				.. SkillText(src.skill) .. " at the auction house"
+				.. SkillText(src.skill) .. " at the auction house, or:"
 		end
 	elseif src.kind == "unknown" then
 		text = "Where to learn it isn't known"
@@ -210,7 +209,15 @@ local function RowTooltip(owner, row, prof)
 		Pair(ns.Prices.MarketName(), ns.Money(row.market))
 	end
 	local learn = LearnLine(row, prof)
-	if learn then tip:AddLine("Not learned yet. " .. learn, 1, 1, 1, true) end
+	if learn then
+		tip:AddLine("Not learned yet. " .. learn, 1, 1, 1, true)
+		local src = row.rec.source
+		if src.kind == "pattern" or src.kind == "other" then
+			local where = ns.Recipes.WhereLines(src, 6)
+			if #where == 0 then where = { "Where to get it isn't recorded yet" } end
+			for _, line in ipairs(where) do tip:AddLine("  " .. line, 0.85, 0.85, 0.85, true) end
+		end
+	end
 	for _, w in ipairs(Warnings(row)) do tip:AddLine(w, 1, 0.6, 0.2, true) end
 	tip:AddLine("Click for its materials. Shift-click to link it.", 0.6, 0.6, 0.6, true)
 	tip:Show()
@@ -423,22 +430,21 @@ local function LearnText(row, prof)
 		return ("Learn it from a %s trainer for %s%s.%s"):format(prof, ns.Money(src.cost),
 			src.skill and (" at skill " .. src.skill) or "", payback)
 	end
+	local where = (src.kind == "pattern" or src.kind == "other") and ns.Recipes.WhereLines(src) or {}
+	local more = #where > 1 and (" %d more in the tooltip."):format(#where - 1) or ""
 	if src.kind == "pattern" then
-		local s = src.sellers and src.sellers[1]
-		local where = s and (" from " .. ns.Recipes.SellerText(s)) or ""
-		local others = src.sellers and #src.sellers > 1 and (" %d other seller%s."):format(#src.sellers - 1, #src.sellers > 2 and "s" or "") or ""
-		return ("The pattern costs %s%s%s.%s%s"):format(ns.Money(src.cost),
-			src.skill and (" (skill " .. src.skill .. ")") or "", where, payback, others)
+		return ("The pattern costs %s%s.%s %s.%s"):format(ns.Money(src.cost), src.skill and (" (skill " .. src.skill .. ")") or "",
+			payback, where[1] or "No seller recorded", more)
 	end
 	if src.kind == "free" then return "It comes with the profession." end
-	if src.kind == "drop" then
+	if src.kind == "other" then
 		local skill = src.skill and (" (skill " .. src.skill .. ")") or ""
+		local first = (where[1] or "Where to get it isn't recorded yet") .. "." .. more
 		if ns.Profit.Bound(src) then
-			return ("Learn it from %s%s, which binds when picked up: a drop, quest or reputation reward."):format(
-				ns.ItemName(src.itemID), skill)
+			return ("Learn it from %s%s, which binds when picked up. %s"):format(ns.ItemName(src.itemID), skill, first)
 		end
-		return ("Learn it from %s%s: %s at the auction house.%s"):format(ns.ItemName(src.itemID), skill,
-			row.learnCost and ns.Money(row.learnCost) or "no price seen yet (scan for it)", payback)
+		return ("Learn it from %s%s: %s at the auction house.%s %s"):format(ns.ItemName(src.itemID), skill,
+			row.learnCost and ns.Money(row.learnCost) or "no price seen yet (scan for it)", payback, first)
 	end
 	return "Where to learn it isn't known: a quest, perhaps, or not in Forever."
 end
@@ -568,7 +574,7 @@ local function Build(p)
 		function(v) ns.db.hideUnlearned = v end)
 	panel.hideUnlearned:SetPoint("LEFT", lossesLabel, "RIGHT", 12, 0)
 	panel.showAll = TopCheck(panel, "Show all",
-		"Also list the recipes that need more skill than you have, greyed out.",
+		"Also list, greyed out, the recipes that need more skill than you have, those from patterns that bind when picked up, and those nobody knows a source for. Recipes only the other side can get are never listed.",
 		function(v) ns.db.showAll = v end)
 	panel.showAll:SetPoint("LEFT", panel.hideUnlearned.label, "RIGHT", 12, 0)
 
@@ -652,8 +658,9 @@ local function LeftOutText(left)
 	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss" end
 	if left.unpriced > 0 then parts[#parts + 1] = left.unpriced .. " without a price" end
 	if left.hidden > 0 then parts[#parts + 1] = left.hidden .. " marked doesn't sell" end
-	if left.bound > 0 then parts[#parts + 1] = left.bound .. " from patterns that bind (drops, quests, reputation)" end
+	if left.bound > 0 then parts[#parts + 1] = left.bound .. " from patterns that bind" end
 	if left.unknown > 0 then parts[#parts + 1] = left.unknown .. " with no known source" end
+	if left.otherSide > 0 then parts[#parts + 1] = left.otherSide .. " only the other side can get" end
 	if #parts == 0 then return "" end
 	return "Not listed: " .. table.concat(parts, ", ") .. "."
 end

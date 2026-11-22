@@ -22,6 +22,7 @@ local function Sellers(recorded, pattern)
 			seen[s.vendor] = true
 			list[#list + 1] = {
 				vendor = s.vendor, zone = s.zone, subZone = s.subZone, faction = s.faction, mapID = s.mapID, x = s.x, y = s.y,
+				cost = s.cost, -- a token vendor's price, as text ("30 Merchant's Favor")
 			}
 		end
 	end
@@ -34,6 +35,40 @@ local function Sellers(recorded, pattern)
 		return a.order < b.order
 	end)
 	return list
+end
+
+-- Where to get a pattern, as lines: the reputation it needs, who sells it (for gold or tokens),
+-- the quests that reward it, what drops it (with how often, of the loot players recorded). At most
+-- `most` lines, the last saying how many more.
+local DROP_VERB = { drop = "Drops from", object = "Found in", container = "Found in", fishing = "Fished up in" }
+function Recipes.WhereLines(src, most)
+	local lines = {}
+	if src.rep then
+		lines[#lines + 1] = ("Needs %s reputation: %s%s"):format(src.rep.faction, src.rep.standing,
+			src.rep.side and (" (" .. src.rep.side .. " only)") or "")
+	end
+	for _, s in ipairs(src.sellers or {}) do
+		lines[#lines + 1] = (s.cost and (s.cost .. " from ") or "Sold by ") .. Recipes.SellerText(s)
+	end
+	for _, q in ipairs(src.quests or {}) do
+		lines[#lines + 1] = ("Reward from the quest %s%s%s"):format(q.title, q.zone and (" in " .. q.zone) or "",
+			q.side and (" (" .. q.side .. " only)") or "")
+	end
+	for _, d in ipairs(src.drops or {}) do
+		local odds = ""
+		if d.of then
+			odds = d.of >= 20 and (" (%d%%)"):format(math.floor(d.drops / d.of * 100 + 0.5))
+				or (" (%d of %d recorded)"):format(d.drops, d.of)
+		end
+		lines[#lines + 1] = ("%s %s%s%s"):format(DROP_VERB[d.how] or "From", d.from,
+			(d.zone and d.zone ~= d.from) and (" in " .. d.zone) or "", odds)
+	end
+	if most and #lines > most then
+		local more = #lines - most + 1
+		for i = #lines, most, -1 do lines[i] = nil end
+		lines[most] = ("and %d more"):format(more)
+	end
+	return lines
 end
 
 -- A seller and where they stand, e.g. "Vayn Moongaze in Nightclaw Cavern, Zephras Isle at 63.8, 36.1",
@@ -51,9 +86,10 @@ function Recipes.SellerText(s)
 end
 
 -- Where to learn a recipe: it comes with the profession; a trainer (its cost and the skill it
--- needs; what you recorded at one first); a pattern from a vendor (price, skill, sellers); a
--- pattern no vendor sells ("drop": a drop, quest or reputation reward; Profit.lua prices it at the
--- auction house unless it binds); or nobody knows.
+-- needs; what you recorded at one first); a pattern a vendor sells for gold (price, skill, sellers,
+-- the reputation it needs); a pattern no vendor sells for gold ("other": a drop, quest or
+-- reputation reward or a token vendor, with where to get it; Profit.lua prices it at the auction
+-- house unless it binds); or nobody knows. `side` is set when only one side can get it.
 local function Source(def, prof, name)
 	if def.free[name] then return { kind = "free", cost = 0, skill = 1 } end
 	local t = (ns.adb.training[prof] and ns.adb.training[prof][name]) or def.training[name]
@@ -67,10 +103,18 @@ local function Source(def, prof, name)
 			cost = (recorded and recorded.price) or pattern.price,
 			skill = pattern and pattern.skill,
 			sellers = Sellers(recorded, pattern),
+			rep = pattern and pattern.rep,
+			-- one you recorded at a vendor you could get to
+			side = not recorded and pattern and pattern.side or nil,
 		}
 	end
-	local drop = def.otherPatterns[name]
-	if drop then return { kind = "drop", itemID = drop.itemID, skill = drop.skill, bound = drop.bound } end
+	local o = def.otherPatterns[name]
+	if o then
+		return {
+			kind = "other", itemID = o.itemID, skill = o.skill, bound = o.bound, side = o.side, rep = o.rep,
+			sellers = Sellers(nil, o), quests = o.quests, drops = o.drops,
+		}
+	end
 	return { kind = "unknown" }
 end
 

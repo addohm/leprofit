@@ -98,14 +98,9 @@ local function Build(panel)
 	get, set = Setting("hideUnlearned")
 	Add(UI.OptionCheck(panel, "Hide unlearned: only the recipes this character knows", get, set))
 	get, set = Setting("showAll")
-	Add(UI.OptionCheck(panel, "Show all: also recipes needing more skill than you have", get, set))
+	Add(UI.OptionCheck(panel, "Show all: also recipes needing more skill, from patterns that bind, or with no known source", get, set))
 	get, set = Setting("showLosses")
 	Add(UI.OptionCheck(panel, "Show crafts at a loss or without a price", get, set))
-	get, set = Setting("showUnknown")
-	Add(UI.OptionCheck(panel, "Show recipes from patterns that bind, or with no known source", get, set, {
-		"Recipes you can't buy your way into",
-		"Patterns that bind when picked up (raid and dungeon drops, quest and reputation rewards), and recipes nobody knows a source for. Hidden by default so they don't crowd the list. Patterns you can buy at the auction house are always listed.",
-	}))
 
 	Add(UI.OptionHeading(panel, "Buttons"))
 	Add(UI.OptionCheck(panel, "Minimap button", function() return not ns.db.minimap.hide end,

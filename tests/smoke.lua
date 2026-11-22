@@ -349,10 +349,11 @@ local all = ns.Profit.Rows("Blacksmithing")
 ok(#all > #rows, "losses shown")
 eq(all[#all].profit, nil, "the unpriced last")
 ns.db.showLosses = false
-ns.db.showUnknown = true
+ns.db.showAll = true
 local _, left2 = ns.Profit.Rows("Blacksmithing")
-eq(left2.unknown, 0, "unknown sources shown")
-ns.db.showUnknown = false
+eq(left2.unknown, 0, "Show all lists unknown sources")
+eq(left2.bound, 0, "and patterns that bind")
+ns.db.showAll = false
 
 -- Shopping for n crafts: what you hold is subtracted.
 WM.items[2840].count = 10
@@ -438,26 +439,39 @@ wipe(ns.adb.training)
 WM.trainer = {}
 ns.DataChanged()
 
--- Recipes that come with the profession; patterns no vendor sells, bought at the auction house when
--- they can be traded and left out (counted) when they bind.
+-- Recipes that come with the profession; patterns no vendor sells for gold, bought at the auction
+-- house when they can be traded; where each can be had.
 local rod = Find("Copper Rod")
 eq(rod.source.kind, "free", "Copper Rod comes with Blacksmithing")
 eq(ns.Profit.LearnCost(rod.source), 0, "for nothing")
 local shoulders = Find("Golden Scale Shoulders")
-eq(shoulders.source.kind, "drop", "Golden Scale Shoulders is learned from plans")
+eq(shoulders.source.kind, "other", "Golden Scale Shoulders is learned from plans no vendor sells")
 eq(shoulders.source.bound, false, "that can be traded")
 eq(shoulders.source.skill, 150)
 eq(ns.Profit.LearnCost(shoulders.source), nil, "no auction price yet")
 WM.auctionator[3871] = 2500
 eq(ns.Profit.LearnCost(shoulders.source), 2500, "the plans' auction price")
+eq(ns.Recipes.WhereLines(shoulders.source)[1], "Drops from Razorfen Battleguard in The Barrens (1 of 4 recorded)",
+	"where they drop, and how often players saw it")
 local said = table.concat(ns.Profit.Explain("Blacksmithing", shoulders), "\n")
-ok(said:find("at the auction house", 1, true), "why says where to buy them: " .. said)
+ok(said:find("at the auction house", 1, true) and said:find("Razorfen Battleguard", 1, true), "why says both: " .. said)
 local blood = Find("Bloodsoul Breastplate")
-eq(blood.source.kind, "drop")
+eq(blood.source.kind, "other")
 eq(ns.Profit.Bound(blood.source), true, "Bloodsoul Breastplate's plans bind")
 eq(ns.Profit.LearnCost(blood.source), nil, "so they can't be bought")
+eq(ns.Recipes.WhereLines(blood.source)[1], "Needs Zandalar Tribe reputation: Revered")
 said = table.concat(ns.Profit.Explain("Blacksmithing", blood), "\n")
-ok(said:find("binds when picked up", 1, true), "why says so")
+ok(said:find("binds when picked up", 1, true) and said:find("Zandalar Tribe", 1, true), "why says where: " .. said)
+local boots = Find("Veteran's Boots")
+eq(ns.Recipes.WhereLines(boots.source)[1], "30 Merchant's Favor from Gor'mak in The Barrens at 49.8, 29.7 (Horde only)",
+	"a token vendor, its price and side")
+eq(ns.Profit.OtherSideOnly(boots.source), false, "one side's vendor doesn't make it that side's only")
+local cloudy = Find("Cloudy Skyforged Helm")
+eq(cloudy.source.side, "Horde", "Earthen Ring's plans are the Horde's")
+eq(ns.Profit.OtherSideOnly(cloudy.source), true, "not for this Alliance character")
+local azure = Find("Azure Skyforged Helm")
+eq(azure.source.side, "Alliance", "Kirin Tor's are the Alliance's")
+eq(ns.Profit.OtherSideOnly(azure.source), false)
 -- Plans the game data doesn't describe: the game says, once it has loaded the item.
 local defender = Find("Obsidian Defender")
 eq(defender.source.bound, nil)
@@ -467,22 +481,33 @@ eq(ns.Profit.Bound(defender.source), false, "the game says they trade")
 WM.items[234228].bindType = 1
 eq(ns.Profit.Bound(defender.source), true, "or that they bind")
 WM.items[234228] = nil
--- In the list: tradeable plans are listed, binding ones counted, unless the option shows them.
-local saved = { ns.db.showAll, ns.db.showLosses, ns.db.showUnknown }
-ns.db.showAll, ns.db.showLosses, ns.db.showUnknown = true, true, false
+-- In the list: tradeable plans are listed; binding ones with Show all; the other side's never.
+local saved = { ns.db.showAll, ns.db.showLosses }
 local function Listed(name)
 	for _, r in ipairs((ns.Profit.Rows("Blacksmithing"))) do
 		if r.rec.name == name then return r end
 	end
 end
+ns.db.showAll, ns.db.showLosses = false, true
+WM.skills.Blacksmithing = 300
+ok(Listed("Golden Scale Shoulders"), "tradeable plans are listed at your skill")
+ok(not Listed("Bloodsoul Breastplate"), "binding plans aren't, without Show all")
+local _, counted = ns.Profit.Rows("Blacksmithing")
+ok(counted.bound > 200, "they're counted: " .. counted.bound)
+ns.db.showAll = true
 local shouldersRow = Listed("Golden Scale Shoulders")
-ok(shouldersRow, "tradeable plans are listed")
-eq(shouldersRow.learnCost, 2500, "with what they cost")
-ok(not Listed("Bloodsoul Breastplate"), "binding plans aren't")
-ok(select(2, ns.Profit.Rows("Blacksmithing")).bound > 200, "they're counted")
-ns.db.showUnknown = true
-ok(Listed("Bloodsoul Breastplate"), "the option lists them")
-ns.db.showAll, ns.db.showLosses, ns.db.showUnknown = saved[1], saved[2], saved[3]
+eq(shouldersRow.learnCost, 2500, "with what the plans cost")
+ok(Listed("Bloodsoul Breastplate"), "Show all lists binding plans")
+ok(Listed("Veteran's Boots"), "and token vendors' plans")
+ok(not Listed("Cloudy Skyforged Helm"), "but never the other side's")
+ok(Listed("Azure Skyforged Helm"), "your side's are")
+_, counted = ns.Profit.Rows("Blacksmithing")
+ok(counted.otherSide >= 2, "the other side's are counted: " .. counted.otherSide)
+WM.faction = "Horde"
+ok(Listed("Cloudy Skyforged Helm") and not Listed("Azure Skyforged Helm"), "and the other way round for the Horde")
+WM.faction = "Alliance"
+WM.skills.Blacksmithing = 40
+ns.db.showAll, ns.db.showLosses = saved[1], saved[2]
 WM.auctionator[3871] = nil
 
 -- A stale list right after switching windows: the window says Blacksmithing but lists another
@@ -686,6 +711,7 @@ local plansRow = Drawn("Golden Scale Shoulders")
 ok(plansRow, "Golden Scale Shoulders is listed")
 plansRow.scripts.OnEnter(plansRow)
 ok(TipHas("Plans: Golden Scale Shoulders " .. ns.Money(2500)) and TipHas("at the auction house"), "its tooltip says where to buy the plans")
+ok(TipHas("Drops from Razorfen Battleguard in The Barrens"), "and where they drop")
 ns.db.showAll = false
 WM.auctionator[3871] = nil
 ns.Window.Hide()

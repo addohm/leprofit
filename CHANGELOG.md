@@ -8,16 +8,24 @@ All notable changes to leprofit. The format follows
 
 ### Added
 
-- Recipes learned from a pattern no vendor sells are listed when the pattern can be traded:
-  learning one costs the pattern's auction price, and the payback counts from it (about 640 across
-  the professions, 105 of them Blacksmithing's). Patterns that bind when picked up are counted
-  apart ("from patterns that bind") and listed with the option, which now reads "Show recipes
-  from patterns that bind, or with no known source". Each profession's starter recipes show as
-  coming with the profession.
+- Recipes learned from a pattern no vendor sells for gold are listed when the pattern can be
+  traded: learning one costs the pattern's auction price, and the payback counts from it (about
+  640 across the professions, 105 of them Blacksmithing's). Patterns that bind when picked up are
+  listed with **Show all**, which now lists everything you could get: more skill, patterns that
+  bind, and recipes with no known source (the separate Options box is gone). Each profession's
+  starter recipes show as coming with the profession.
+- Tooltips, the materials panel and `/leprofit why` say where to get a pattern: the reputation
+  it needs, the vendors who sell it (for gold, or tokens such as Merchant's Favor), the quests
+  that reward it, and what drops it, with how often players saw it drop. From Efficient Games'
+  player-recorded loot, quests and vendors, and the game data's reputation requirements.
+- Recipes only the other side can get (a one-side reputation such as Kirin Tor or Earthen Ring,
+  or quests only for the other side's races) are never listed; the "Not listed" line counts them.
+- Trainer costs players recorded (Efficient Games) fill in what the built-in data lacks: Mining's
+  smelting, for one.
 - `tools\update_data.cmd` (or `python3 tools/update_data.py`): refresh the built-in data on your
   own PC, asking before each step. It gets the latest, downloads Forever's newest game data and the
-  players' vendor data, adds what leProfit recorded in your game, rebuilds, runs the tests, and
-  can commit, push and install. Needs Python 3 and git.
+  players' data (only what changed since the last run), adds what leProfit recorded in your game,
+  rebuilds, runs the tests, and can commit, push and install. Needs Python 3 and git.
 - Opening a profession trainer records what it charges for each recipe it lists, and the skill
   each needs, for all your characters; those costs replace the built-in ones. The game data has no
   trainers, so this is how new recipes' costs get known.

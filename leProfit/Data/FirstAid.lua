@@ -52,10 +52,13 @@ ns.RegisterProfession({
 	-- recipe name = { cost (copper), skill (required) }: what trainers charge
 	training = {
 		["Anti-Venom"] = { cost = 250, skill = 80 },
+		["Camp Chair"] = { cost = 100, skill = 20 },
 		["First Aid Kit"] = { cost = 100, skill = 20 },
+		["Fish Bowl"] = { cost = 100, skill = 20 },
 		["Healing Potion"] = { cost = 800, skill = 110 },
 		["Heavy Linen Bandage"] = { cost = 100, skill = 40 },
 		["Heavy Wool Bandage"] = { cost = 1000, skill = 115 },
+		["Incense Candle"] = { cost = 100, skill = 20 },
 		["Lesser Healing Potion"] = { cost = 150, skill = 55 },
 		["Minor Healing Potion"] = { cost = 100, skill = 1 },
 		["Silk Bandage"] = { cost = 5000, skill = 150 },
@@ -63,30 +66,34 @@ ns.RegisterProfession({
 		["Wool Bandage"] = { cost = 250, skill = 80 },
 		["Woolen Tourniquet"] = { cost = 1200, skill = 120 },
 	},
-	-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }
+	-- recipe name = { itemID, price, skill, bound, side, rep = { faction, standing, side },
+	--   sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }: patterns vendors sell for gold;
+	--   bound = binds when picked up; side = the only side that can get it
 	patterns = {
 		["Heavy Silk Bandage"] = { itemID = 16112, price = 2200, skill = 180, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance", mapID = 1417, x = 0.2703, y = 0.588 } } },
 		["Mageweave Bandage"] = { itemID = 16113, price = 5000, skill = 210, sellers = { { vendor = "Balai Lok'Wein", zone = "Dustwallow Marsh", subZone = "Brackenwall Village", faction = "Horde", mapID = 1445, x = 0.365, y = 0.3044 }, { vendor = "Deneb Walker", zone = "Arathi Highlands", subZone = "Stromgarde Keep", faction = "Alliance", mapID = 1417, x = 0.2703, y = 0.588 } } },
 		["Major Healing Potion"] = { itemID = 255729, price = 80000, skill = 275, sellers = { { vendor = "Pexmit", zone = "Mount Hyjal", subZone = "Felblood Scar", faction = "Alliance" } } },
-		["Powerful Anti-Venom"] = { itemID = 19442, price = 100000, skill = 300, sellers = { { vendor = "Argent Quartermaster Hasana", zone = "Tirisfal Glades", subZone = "The Bulwark", faction = "Horde", mapID = 1420, x = 0.832, y = 0.6819 }, { vendor = "Argent Quartermaster Lightspark", zone = "Western Plaguelands", subZone = "Chillwind Camp", faction = "Alliance", mapID = 1422, x = 0.4288, y = 0.8379 } } },
+		["Powerful Anti-Venom"] = { itemID = 19442, price = 100000, skill = 300, bound = true, rep = { faction = "Argent Dawn", standing = "Honored" }, sellers = { { vendor = "Argent Quartermaster Hasana", zone = "Tirisfal Glades", subZone = "The Bulwark", faction = "Horde", mapID = 1420, x = 0.832, y = 0.6819 }, { vendor = "Argent Quartermaster Lightspark", zone = "Western Plaguelands", subZone = "Chillwind Camp", faction = "Alliance", mapID = 1422, x = 0.4288, y = 0.8379 } } },
 	},
-	-- recipe name = { itemID, skill, bound }: patterns no vendor sells (drops, quest and reputation
-	-- rewards); bound = binds when picked up, so it can't be bought; absent when the data doesn't say
+	-- recipe name = { itemID, skill, bound, side, rep, sellers = { { ..., cost } },
+	--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor
+	--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked
+	--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it
 	otherPatterns = {
 		["Clever Poultice"] = { itemID = 255724, skill = 140, bound = false },
-		["Crystal Infused Bandage"] = { itemID = 23689 },
+		["Crystal Infused Bandage"] = { itemID = 23689, quests = { { title = "<UNUSED>Infused Bandages" } } },
 		["Dense Runecloth Bandage"] = { itemID = 232434, skill = 300, bound = false },
 		["Field Guide"] = { itemID = 273098, skill = 140, bound = false },
 		["Fishing Hut"] = { itemID = 273119, skill = 300, bound = false },
 		["Fishing Rack"] = { itemID = 273141, skill = 140, bound = false },
-		["Greater Healing Potion"] = { itemID = 255723, skill = 155, bound = false },
+		["Greater Healing Potion"] = { itemID = 255723, skill = 155, bound = false, drops = { { how = "drop", from = "Syndicate Mercenary", zone = "Arathi Highlands", drops = 1, of = 12 } } },
 		["Greenhouse"] = { itemID = 273106, skill = 140, bound = false },
 		["Leather Tourniquet"] = { itemID = 255726, skill = 200, bound = false },
 		["Plague Doctor's Laboratory"] = { itemID = 273118, skill = 300, bound = false },
-		["Potent Anti-Venom"] = { itemID = 255728, skill = 215, bound = false },
-		["Powerful Poultice"] = { itemID = 255731, skill = 280, bound = false },
+		["Potent Anti-Venom"] = { itemID = 255728, skill = 215, bound = false, drops = { { how = "drop", from = "Lost One Muckdweller", zone = "Swamp of Sorrows", drops = 1, of = 3 } } },
+		["Powerful Poultice"] = { itemID = 255731, skill = 280, bound = false, quests = { { title = "Transmuted Tincture", zone = "Azshara" } } },
 		["Seed Hybridizer"] = { itemID = 273120, skill = 300, bound = false },
-		["Strong Anti-Venom"] = { itemID = 6454, skill = 130, bound = false },
+		["Strong Anti-Venom"] = { itemID = 6454, skill = 130, bound = false, drops = { { how = "drop", from = "Syndicate Watchman", zone = "Hillsbrad Foothills", drops = 1, of = 8 } } },
 		["Superior Healing Potion"] = { itemID = 255725, skill = 215, bound = false },
 		["Superior Poultice"] = { itemID = 255727, skill = 210, bound = false },
 		["Surgical Tourniquet"] = { itemID = 255730, skill = 265, bound = false },

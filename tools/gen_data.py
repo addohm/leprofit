@@ -10,13 +10,19 @@ Where each part comes from:
   average, for recipes that make a few), and the skill at which it turns grey. Plus
   tools/learned.json's extraRecipes: Forever's camp and home items, which the game files under
   gathering skills, listed with the crafting professions that use their materials.
-- Trainer costs and the skill each needs: tools/learned.json. Trainers aren't in the game data;
-  leProfit records them when you open a trainer, and tools/update_data.py adds those.
+- Trainer costs and the skill each needs: tools/learned.json, then Efficient Games' trainers.
+  Trainers aren't in the game data; leProfit records them when you open a trainer, and
+  tools/update_data.py adds those to learned.json.
 - Patterns sold by vendors: the recipe each teaches and the skill it needs from the game data
   (ItemXItemEffect, ItemSparse); who sells it, for how much and where from tools/learned.json
   (with what you recorded in game) and from Efficient Games' player-recorded vendors.
-- Patterns no vendor sells (drops, quest and reputation rewards): the pattern item from the game
-  data, the skill it needs, and whether it binds when picked up (so it can't be bought).
+- Patterns no vendor sells for gold (drops, quest and reputation rewards, token vendors): the
+  pattern item from the game data, the skill it needs, and whether it binds when picked up (so it
+  can't be bought); where to get it from Efficient Games' loot, quest and vendor data; the
+  reputation it needs from the game data.
+- Which side can get a pattern, when only one can: a one-side reputation (the game data's
+  Faction table), or, for a pattern that binds, sources that are all one side's (the quest's
+  races, the vendor's faction). leProfit leaves the other side's out.
 - Recipes that come with the profession (the game data's AcquireMethod 1).
 - Vendor prices of materials: tools/learned.json, then Efficient Games' vendors (endless supply).
 - Item names: the game data (ItemSparse); tools/learned.json for the few it doesn't have.
@@ -49,6 +55,23 @@ PROFESSIONS = {
     "Mining": (186, "Interface\\Icons\\Trade_Mining", ["Mining", "Smelting"]),
     "Tailoring": (197, "Interface\\Icons\\Trade_Tailoring", None),
 }
+
+STANDINGS = ["Hated", "Hostile", "Unfriendly", "Neutral", "Friendly", "Honored", "Revered", "Exalted"]
+ALLIANCE_RACES, HORDE_RACES = 0x4D, 0xB2  # Human, Dwarf, Night Elf, Gnome / Orc, Undead, Tauren, Troll
+MOST_DROPS, MOST_QUESTS = 5, 5            # sources kept per pattern
+
+
+def side_of_races(mask):
+    """"Alliance" or "Horde" when a race mask holds only that side's races, else None."""
+    m = mask & 0xFF
+    a, h = m & ALLIANCE_RACES, m & HORDE_RACES
+    return "Alliance" if a and not h else "Horde" if h and not a else None
+
+
+def money(copper):
+    g, s, c = copper // 10000, copper // 100 % 100, copper % 100
+    return " ".join(f"{n}{u}" for n, u in ((g, "g"), (s, "s"), (c, "c")) if n) or "0c"
+
 
 # Vendor discount by standing with the vendor's faction (4 Neutral ... 8 Exalted): players record
 # what they paid, so the full price is worked back from it.
@@ -136,7 +159,18 @@ def lua_number(n):
 
 
 def lua_value(v):
-    return lua_number(v) if isinstance(v, (int, float)) else lua_string(v)
+    """A value as Lua: numbers, strings, true/false, and dicts and lists as one-line tables (None
+    and empty entries left out)."""
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, (int, float)):
+        return lua_number(v)
+    if isinstance(v, dict):
+        fields = [f"{k} = {lua_value(x)}" for k, x in v.items() if x is not None and x != [] and x != {}]
+        return "{ " + ", ".join(fields) + " }" if fields else "{}"
+    if isinstance(v, (list, tuple)):
+        return "{ " + ", ".join(lua_value(x) for x in v) + " }" if v else "{}"
+    return lua_string(v)
 
 
 def data_file(name):
@@ -179,6 +213,29 @@ class Game:
                 self.teaches.setdefault(int(r["ItemID"]), set()).add(int(e["SpellID"]))
                 self.taught_by.setdefault(int(e["SpellID"]), set()).add(int(r["ItemID"]))
         self.map_names = {int(r["ID"]): r["Name_lang"] for r in table("UiMap")}
+        self.areas = {int(r["ID"]): r["AreaName_lang"] for r in table("AreaTable")}
+        # A faction only one side can earn: the other side's races start at Hated and can't move.
+        self.factions = {}
+        for r in table("Faction"):
+            locked = 0
+            for i in range(4):
+                if int(r.get(f"ReputationBase_{i}") or 0) <= -42000:
+                    locked |= int(r.get(f"ReputationRaceMasks{i}_0") or 0)
+            shut = side_of_races(locked)
+            self.factions[int(r["ID"])] = (r["Name_lang"], {"Horde": "Alliance", "Alliance": "Horde"}.get(shut))
+
+    def reputation(self, item):
+        """The reputation an item needs: { faction, standing, side (when only one side can earn it) }."""
+        r = self.items.get(item)
+        fid = int(r["MinFactionID"] or 0) if r else 0
+        if not fid or fid not in self.factions:
+            return None
+        name, side = self.factions[fid]
+        standing = int(r["MinReputation"] or 0)
+        out = {"faction": name, "standing": STANDINGS[standing] if 0 <= standing < len(STANDINGS) else str(standing)}
+        if side:
+            out["side"] = side
+        return out
 
     def recipe(self, spell, fallback=None):
         """A recipe's name, product, yield, grey and materials, or the fallback's if the game has none."""
@@ -203,33 +260,129 @@ class Game:
 
 
 class Players:
-    """Efficient Games' player-recorded vendors: what each sells, for how much, and where."""
+    """Efficient Games' player-recorded data: who sells what (for gold or tokens) and where, what
+    trainers charge, what drops from what, and which quests reward what."""
 
     def __init__(self, game):
         vendors, npcs = eg("vendors", "vendors"), eg("npcs", "npcs")
+        creatures, objects = eg("creatures", "creatures"), eg("object_details.enUS", "objects")
         self.builds = len(glob.glob(str(SOURCE / "eg" / "vendors_*.json")))
-        self.sellers = {}  # item -> [(seller, price)]
+        self.sellers = {}  # item -> [(seller, copper)], for gold
+        self.tokens = {}   # item -> [seller with a "cost" text], for tokens or currency
         self.prices = {}   # item -> copper for one, in endless supply
-        for vid, v in vendors.items():
-            seller = {"vendor": v.get("name")}
-            if not seller["vendor"]:
-                continue
-            pos = (v.get("positions") or [{}])[0]
+
+        def where(seller, positions):
+            pos = (positions or [{}])[0]
             if game.map_names.get(pos.get("uiMap")):
                 seller["zone"] = game.map_names[pos["uiMap"]]
+            if pos.get("uiMap") and pos.get("mapX") is not None and pos.get("mapY") is not None:
+                seller["mapID"], seller["x"], seller["y"] = int(pos["uiMap"]), round(pos["mapX"], 4), round(pos["mapY"], 4)
+            return seller
+
+        for vid, v in vendors.items():
+            if not v.get("name"):
+                continue
+            seller = {"vendor": v["name"]}
             side = (npcs.get(vid) or {}).get("side")
             if side in ("Alliance", "Horde"):
                 seller["faction"] = side
-            if pos.get("uiMap") and pos.get("mapX") is not None and pos.get("mapY") is not None:
-                seller["mapID"], seller["x"], seller["y"] = int(pos["uiMap"]), round(pos["mapX"], 4), round(pos["mapY"], 4)
+            where(seller, v.get("positions"))
             for e in (v.get("entries") or {}).values():
                 item, price = e.get("itemId"), full_price(e.get("costs"))
-                if not item or not price or e.get("costItems"):
+                if not item:
+                    continue
+                if e.get("costItems"):
+                    parts = [money(price)] if price else []
+                    parts += [f"{c.get('amount', 1)} {c.get('name') or 'tokens'}" for c in e["costItems"]]
+                    self.tokens.setdefault(item, []).append(dict(seller, cost=" and ".join(parts)))
+                    continue
+                if not price:
                     continue
                 self.sellers.setdefault(item, []).append((seller, price))
                 if not e.get("limited"):
                     each = price / max(1, e.get("stack") or 1)
                     self.prices[item] = min(self.prices.get(item, each), each)
+
+        self.trainers = {}  # spell -> { cost, skill }
+        for t in eg("trainers", "trainers").values():
+            for sid, s in (t.get("services") or {}).items():
+                cost = full_price(s.get("costs"))
+                if cost or s.get("costs"):
+                    entry = {"cost": cost}
+                    if int(s.get("skillRank") or 0) > 0:
+                        entry["skill"] = int(s["skillRank"])
+                    self.trainers[int(sid)] = entry
+
+        # Loot: per item, per source (a creature, an object, a container, a fishing spot), the
+        # drops and the loot windows opened, added up over every build and way of looting.
+        loot = {}
+        for path in sorted(glob.glob(str(SOURCE / "eg" / "loot_*.json"))):
+            with open(path, encoding="utf-8") as f:
+                for key, s in json.load(f).get("sources", {}).items():
+                    base = key.split("|")[0]
+                    for item, e in (s.get("items") or {}).items():
+                        d = loot.setdefault(int(item), {}).setdefault(base, {"drops": 0, "windows": 0, "positions": None})
+                        d["drops"] += int(e.get("drops") or 0)
+                        d["windows"] += int(s.get("windows") or 0)
+                        d["positions"] = d["positions"] or s.get("positions")
+        self.drops = {}  # item -> [{ how, from, zone, drops, of (loot windows) }], likeliest first
+        for item, sources in loot.items():
+            out = []
+            for base, d in sources.items():
+                kind, _, ident = base.partition(":")
+                ident = int(ident) if ident.isdigit() else None
+                if kind == "npc":
+                    name = (npcs.get(str(ident)) or {}).get("name") or (creatures.get(str(ident)) or {}).get("name")
+                    how = "drop"
+                elif kind == "object":
+                    name, how = (objects.get(str(ident)) or {}).get("name"), "object"
+                elif kind == "item":
+                    name, how = game.item_name(ident), "container"
+                elif kind == "fishing":
+                    name, how = game.map_names.get(ident), "fishing"
+                else:
+                    continue
+                if not name:
+                    continue
+                e = {"how": how, "from": name}
+                zone = where({}, d["positions"]).get("zone")
+                if zone and how != "fishing":
+                    e["zone"] = zone
+                if d["windows"]:
+                    e["drops"], e["of"] = min(d["drops"], d["windows"]), d["windows"]
+                out.append(e)
+            out.sort(key=lambda e: (-(e.get("drops", 0) / max(1, e.get("of", 1))), -e.get("of", 0), e["from"]))
+            if out:
+                self.drops[item] = out[:MOST_DROPS]
+
+        self.quests = {}  # item -> [{ title, zone, side }]
+        for q in eg("quests.enUS", "quests").values():
+            r = q.get("rewards") or {}
+            mask = q.get("raceMask")
+            side = side_of_races(int(mask, 16)) if isinstance(mask, str) and re.fullmatch(r"[0-9a-fA-F]+", mask) else None
+            for x in (r.get("items") or []) + (r.get("choices") or []):
+                if not x.get("itemId") or not q.get("title"):
+                    continue
+                e = {"title": q["title"]}
+                if game.areas.get(q.get("zoneAreaId")):
+                    e["zone"] = game.areas[q["zoneAreaId"]]
+                if side:
+                    e["side"] = side
+                lst = self.quests.setdefault(int(x["itemId"]), [])
+                if e not in lst and len(lst) < MOST_QUESTS:
+                    lst.append(e)
+
+
+def only_side(rep, bound, sellers, quests, drops):
+    """The one side that can get a pattern, or None. A one-side reputation decides it; else, for a
+    pattern that binds (or may), quests for one side's races when there's no other way to get it.
+    A vendor's faction doesn't: players may only have recorded one side's vendor for it."""
+    if rep and rep.get("side"):
+        return rep["side"]
+    if bound is False or sellers or drops or not quests:
+        return None
+    sides = {q.get("side") for q in quests}
+    return sides.pop() if len(sides) == 1 and None not in sides else None
 
 
 def profession(name, game, players, learned):
@@ -250,6 +403,9 @@ def profession(name, game, players, learned):
     used = set(materials)
 
     training = {k: v for k, v in learned["training"].get(name, {}).items() if k in names and "cost" in v}
+    for sid, rec in sorted(recipes.items()):
+        if rec["name"] not in training and sid in players.trainers:
+            training[rec["name"]] = players.trainers[sid]
 
     patterns = {}
     for recipe, p in learned["patterns"].get(name, {}).items():
@@ -276,6 +432,9 @@ def profession(name, game, players, learned):
 
     for p in patterns.values():
         p["skill"] = skill(p["itemID"])
+        p["bound"] = game.binds(p["itemID"])
+        p["rep"] = game.reputation(p["itemID"])
+        p["side"] = only_side(p["rep"], p["bound"], p["sellers"], [], [])
         used.add(p["itemID"])
 
     # Recipes that come with the profession, and patterns no vendor sells: one per recipe name, a
@@ -295,6 +454,13 @@ def profession(name, game, players, learned):
             p = {"itemID": item, "skill": skill(item), "bound": game.binds(item)}
             if name not in other or order[p["bound"]] < order[other[name]["bound"]]:
                 other[name] = p
+    for p in other.values():
+        item = p["itemID"]
+        p["rep"] = game.reputation(item)
+        p["sellers"] = sorted(players.tokens.get(item, []), key=lambda s: s["vendor"])
+        p["quests"] = players.quests.get(item, [])
+        p["drops"] = players.drops.get(item, [])
+        p["side"] = only_side(p["rep"], p["bound"], p["sellers"], p["quests"], p["drops"])
     used.update(p["itemID"] for p in other.values())
 
     vendor_prices = {}
@@ -318,9 +484,13 @@ def old_names(path):
     if not path.exists():
         return set(), set(), set()
     text = path.read_text(encoding="utf-8")
-    recipes = set(re.findall(r'^\t\t\[\d+\] = \{ name = "((?:[^"\\]|\\.)*)"', text, re.M))
-    training = set(re.findall(r'^\t\t\["((?:[^"\\]|\\.)*)"\] = \{ cost = ', text, re.M))
-    patterns = set(re.findall(r'^\t\t\["((?:[^"\\]|\\.)*)"\] = \{ itemID = ', text, re.M))
+
+    def section(name):
+        m = re.search(rf"^\t{name} = {{\n(.*?)^\t}},", text, re.M | re.S)
+        return m.group(1) if m else ""
+    recipes = set(re.findall(r'^\t\t\[\d+\] = \{ name = "((?:[^"\\]|\\.)*)"', section("recipes"), re.M))
+    training = set(re.findall(r'^\t\t\["((?:[^"\\]|\\.)*)"\] = ', section("training"), re.M))
+    patterns = set(re.findall(r'^\t\t\["((?:[^"\\]|\\.)*)"\] = ', section("patterns"), re.M))
     unescape = lambda s: s.replace('\\"', '"').replace("\\\\", "\\")
     return {unescape(n) for n in recipes}, {unescape(n) for n in training}, {unescape(n) for n in patterns}
 
@@ -353,31 +523,27 @@ def write(name, build, recipes, training, patterns, other, free, vendor_prices, 
         t = training[recipe]
         skill = f", skill = {lua_number(t['skill'])}" if t.get("skill") is not None else ""
         out.append(f"\t\t[{lua_string(recipe)}] = {{ cost = {lua_number(t['cost'])}{skill} }},")
-    out += ["\t},", "\t-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }",
+    seller_keys = ("vendor", "zone", "subZone", "faction", "mapID", "x", "y", "cost")
+    sellers_of = lambda p: [{k: s.get(k) for k in seller_keys} for s in p["sellers"]]
+    out += ["\t},", "\t-- recipe name = { itemID, price, skill, bound, side, rep = { faction, standing, side },",
+            "\t--   sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }: patterns vendors sell for gold;",
+            "\t--   bound = binds when picked up; side = the only side that can get it",
             "\tpatterns = {"]
     for recipe in sorted(patterns):
         p = patterns[recipe]
-        fields = [f"itemID = {p['itemID']}"]
-        if p["price"] is not None:
-            fields.append(f"price = {lua_number(p['price'])}")
-        if p["skill"] is not None:
-            fields.append(f"skill = {lua_number(p['skill'])}")
-        sellers = ", ".join("{ " + ", ".join(f"{k} = {lua_value(s[k])}" for k in
-                                             ("vendor", "zone", "subZone", "faction", "mapID", "x", "y") if s.get(k) is not None) + " }"
-                            for s in p["sellers"])
-        fields.append(f"sellers = {{ {sellers} }}")
-        out.append(f"\t\t[{lua_string(recipe)}] = {{ {', '.join(fields)} }},")
-    out += ["\t},", "\t-- recipe name = { itemID, skill, bound }: patterns no vendor sells (drops, quest and reputation",
-            "\t-- rewards); bound = binds when picked up, so it can't be bought; absent when the data doesn't say",
+        entry = {"itemID": p["itemID"], "price": p["price"], "skill": p["skill"], "bound": p["bound"] or None,
+                 "side": p["side"], "rep": p["rep"], "sellers": sellers_of(p) or {}}
+        out.append(f"\t\t[{lua_string(recipe)}] = {lua_value(entry)},")
+    out += ["\t},", "\t-- recipe name = { itemID, skill, bound, side, rep, sellers = { { ..., cost } },",
+            "\t--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor",
+            "\t--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked",
+            "\t--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it",
             "\totherPatterns = {"]
     for recipe in sorted(other):
         p = other[recipe]
-        fields = [f"itemID = {p['itemID']}"]
-        if p["skill"] is not None:
-            fields.append(f"skill = {p['skill']}")
-        if p["bound"] is not None:
-            fields.append(f"bound = {'true' if p['bound'] else 'false'}")
-        out.append(f"\t\t[{lua_string(recipe)}] = {{ {', '.join(fields)} }},")
+        entry = {"itemID": p["itemID"], "skill": p["skill"], "bound": p["bound"], "side": p["side"], "rep": p["rep"],
+                 "sellers": sellers_of(p), "quests": p["quests"], "drops": p["drops"]}
+        out.append(f"\t\t[{lua_string(recipe)}] = {lua_value(entry)},")
     out += ["\t},", "\t-- recipes that come with the profession", "\tfree = {"]
     for recipe in sorted(free):
         out.append(f"\t\t[{lua_string(recipe)}] = true,")

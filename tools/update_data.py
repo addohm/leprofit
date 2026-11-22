@@ -5,8 +5,8 @@ Double-click tools\\update_data.cmd (Windows), or run: python3 tools/update_data
 It asks before each change. In order, it:
 
 1. Gets the latest leProfit from GitHub (git pull), so you build on what's there.
-2. Downloads Forever's newest game data and the player-recorded vendor data
-   (tools/fetch_sources.py).
+2. Downloads Forever's newest game data and the player-recorded data: vendors, trainers, loot and
+   quests (tools/fetch_sources.py; only what changed since the last run).
 3. Adds what leProfit recorded in your game to tools/learned.json: trainer costs, patterns and
    who sells them, vendor prices. They're in WTF\\Account\\<account>\\SavedVariables\\leProfit.lua,
    which the game writes when you log out or /reload.
@@ -372,9 +372,10 @@ def get_latest(choice):
 
 def download():
     import fetch_sources
-    step("Download Forever's game data and the players' vendor data",
-         "From wago.tools (the game's data tables, for one client build) and Efficient Games",
-         "(vendors players recorded; CC BY 4.0). About 20 MB, into the .source folder.")
+    step("Download Forever's game data and the players' data",
+         "From wago.tools (the game's data tables, for one client build) and Efficient Games (what",
+         "players recorded: vendors, trainers, loot, quests; CC BY 4.0), into the .source folder.",
+         "About 70 MB the first time; after that only what changed.")
     try:
         newest = fetch_sources.newest_build()
     except Exception as e:

@@ -86,11 +86,16 @@ so most of it is covered by the first part.
 - [ ] The materials panel's Each column and (auction)/(vendor)/(craft it)/(no price) tags.
 - [ ] "Not listed" counts losses and "without a price" apart, and "from patterns that bind" apart
       from "with no known source" (only a handful).
-- [ ] A recipe from a world-drop pattern (Golden Scale Shoulders, with Show all): its tooltip says
+- [ ] A recipe from a world-drop pattern (Golden Scale Shoulders): its tooltip says
       "Plans: ... at the auction house" with the price after an Auctionator scan has seen the
-      plans ("no auction price yet" before), and the payback; `/leprofit why` says the same.
-- [ ] Bloodsoul Breastplate (plans that bind) is left out, and listed with the Options box; a
-      starter recipe (Copper Rod) says "Comes with the profession".
+      plans ("no auction price yet" before), the payback, and "Drops from ..."; `/leprofit why`
+      says the same.
+- [ ] Bloodsoul Breastplate (plans that bind) is left out, and listed with Show all, its tooltip
+      saying "Needs Zandalar Tribe reputation: Revered"; Veteran's Boots names Gor'mak and "30
+      Merchant's Favor"; a starter recipe (Copper Rod) says "Comes with the profession".
+- [ ] On an Alliance character, Cloudy Skyforged plans (Earthen Ring) never show, even with Show
+      all, and "Not listed" counts them as "only the other side can get"; on a Horde one, Azure
+      Skyforged (Kirin Tor) don't.
 
 **The Crafts list**
 - [ ] Columns read Cost, Buyout, Profit (the history columns before Profit when on); Cost matches

@@ -70,8 +70,8 @@ local function SaleValue(buyout, market, vendor, bop)
 end
 Profit.SaleValue = SaleValue -- (tests)
 
--- A pattern no vendor sells ("drop") can be bought at the auction house unless it binds when picked
--- up. The data says which for most; for the rest the game does once it has loaded the item (until
+-- A pattern no vendor sells for gold ("other") can be bought at the auction house unless it binds
+-- when picked up. The data says which for most; for the rest the game does once it has loaded the item (until
 -- then it counts as bound; the list redraws when the item loads).
 function Profit.Bound(src)
 	if src.bound ~= nil then return src.bound end
@@ -82,11 +82,17 @@ end
 -- What learning a recipe costs: the trainer's or vendor's price, nothing for one that comes with
 -- the profession, the auction price of a pattern you can buy there (nil until a scan has seen it).
 function Profit.LearnCost(src)
-	if src.kind == "drop" then
+	if src.kind == "other" then
 		if Profit.Bound(src) then return nil end
 		return ns.Prices.Buyout(src.itemID) or ns.Prices.Market(src.itemID)
 	end
 	return src.cost
+end
+
+-- True when only the other side can get the recipe: a reputation or quests for one side only.
+function Profit.OtherSideOnly(src)
+	if not src.side then return false end
+	return src.side ~= ns.Plain(ns.Try(UnitFactionGroup, "player"))
 end
 
 -- Everything about one recipe's craft. Returns a row:
@@ -130,7 +136,8 @@ end
 
 -- The rows the Crafts tab lists for a profession (those matching the search, when there is one),
 -- each with its prof, sorted, and how many were left out: { nomatch = n (the search), unlearned = n (Hide unlearned),
--- unknown = n (no known source), bound = n (from a pattern that binds), later = n (needing more skill
+-- otherSide = n (only the other side can get them: never listed), unknown = n (no known source),
+-- bound = n (from a pattern that binds; Show all lists those and the unknown), later = n (needing more skill
 -- than you have, without Show all), hidden = n, unpriced = n (a material or the item has no price),
 -- losses = n (0 or less) }. Recipes you'd learn are listed (greyed) when you have the skill.
 -- The search: the item, the recipe, or any of its materials has the text in its name (query is
@@ -148,7 +155,7 @@ Profit.Matches = Matches -- (tests)
 
 function Profit.Rows(prof, query)
 	local db, memo = ns.db, {}
-	local rows, left = {}, { nomatch = 0, unlearned = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	local rows, left = {}, { nomatch = 0, unlearned = 0, otherSide = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
 		local known = rec.source.kind == "known"
@@ -157,9 +164,11 @@ function Profit.Rows(prof, query)
 			left.nomatch = left.nomatch + 1
 		elseif not known and db.hideUnlearned then
 			left.unlearned = left.unlearned + 1
-		elseif rec.source.kind == "unknown" and not db.showUnknown then
+		elseif not known and Profit.OtherSideOnly(rec.source) then
+			left.otherSide = left.otherSide + 1
+		elseif rec.source.kind == "unknown" and not db.showAll then
 			left.unknown = left.unknown + 1
-		elseif rec.source.kind == "drop" and not db.showUnknown and Profit.Bound(rec.source) then
+		elseif rec.source.kind == "other" and not db.showAll and Profit.Bound(rec.source) then
 			left.bound = left.bound + 1
 		elseif not known and not db.showAll and not (need and skill and need <= skill) then
 			left.later = left.later + 1
@@ -200,7 +209,7 @@ function Profit.RowsAll(query)
 		end
 	end
 	Profit.Sort(rows)
-	return rows, left or { nomatch = 0, unlearned = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	return rows, left or { nomatch = 0, unlearned = 0, otherSide = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 end
 
 -- What each Crafts column sorts by.
@@ -310,18 +319,21 @@ function Profit.Explain(prof, rec)
 	if src.kind == "trainer" then
 		Add(("  Learn it from a trainer for %s%s"):format(M(src.cost), src.skill and (", skill " .. src.skill) or ""))
 	elseif src.kind == "pattern" then
-		local s = src.sellers and src.sellers[1]
-		Add(("  The pattern costs %s%s"):format(M(src.cost), s and (" from " .. ns.Recipes.SellerText(s)) or ""))
+		Add(("  The pattern costs %s%s"):format(M(src.cost), src.skill and (", skill " .. src.skill) or ""))
+		for _, line in ipairs(ns.Recipes.WhereLines(src)) do Add("    " .. line) end
 	elseif src.kind == "free" then
 		Add("  It comes with the profession")
-	elseif src.kind == "drop" then
+	elseif src.kind == "other" then
 		local skill = src.skill and (", skill " .. src.skill) or ""
 		if Profit.Bound(src) then
-			Add(("  Learn it from %s, which binds when picked up (a drop, quest or reputation reward)%s"):format(ns.ItemName(src.itemID), skill))
+			Add(("  Learn it from %s%s, which binds when picked up:"):format(ns.ItemName(src.itemID), skill))
 		else
-			Add(("  Learn it from %s: %s at the auction house%s"):format(ns.ItemName(src.itemID),
-				row.learnCost and M(row.learnCost) or "no price seen yet", skill))
+			Add(("  Learn it from %s%s: %s at the auction house, or:"):format(ns.ItemName(src.itemID), skill,
+				row.learnCost and M(row.learnCost) or "no price seen yet"))
 		end
+		local where = ns.Recipes.WhereLines(src)
+		if #where == 0 then where = { "where to get it isn't recorded yet" } end
+		for _, line in ipairs(where) do Add("    " .. line) end
 	elseif src.kind == "unknown" then
 		Add("  Where to learn it isn't known")
 	end

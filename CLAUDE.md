@@ -27,10 +27,12 @@ Discuss each feature with the owner before building it.
     or Smelting)
   - `Recipes.lua`: a profession's recipes (its data + what the window
     showed), one per name, and where to learn each: `source.kind` = known,
-    free (comes with the profession), trainer, pattern (a vendor's), drop (a
-    pattern no vendor sells: `Profit.Bound` says if it binds, the game
-    deciding when the data doesn't; `Profit.LearnCost` prices a tradeable one
-    at the auction house) or unknown
+    free (comes with the profession), trainer, pattern (a vendor's, for gold),
+    other (a pattern no vendor sells for gold: `Profit.Bound` says if it
+    binds, the game deciding when the data doesn't; `Profit.LearnCost` prices
+    a tradeable one at the auction house) or unknown. Patterns carry where to
+    get them (`Recipes.WhereLines`: rep, sellers, quests, drops) and `side`
+    when only one side can get them (`Profit.OtherSideOnly`: never listed)
   - `Profit.lua`: the sums: make-vs-buy, sale value after the cut, profit,
     payback, flags, the filtered and sorted rows, shopping for n crafts
   - `Shopping.lua`: the shopping list (ns.db.plan), its combined materials,
@@ -45,7 +47,8 @@ Discuss each feature with the owner before building it.
 - `tests/`: `run_tests.py` (syntax, TOCs, globals, then `smoke.lua` against
   the fake client `wowmock.lua`)
 - `tools/`: `fetch_sources.py` (downloads Forever's game data tables from
-  wago.tools and Efficient Games' player-recorded vendors into `.source/`),
+  wago.tools and Efficient Games' player-recorded vendors, trainers, loot,
+  quests and names into `.source/`, skipping unchanged files by EG's index),
   `gen_data.py` (writes the profession data from them and `learned.json`),
   `learned.json` (what the game data lacks: trainer costs, pattern sellers,
   vendor prices, a few item names, the camp and home items; hand-editable),
@@ -92,6 +95,9 @@ Discuss each feature with the owner before building it.
   Old spellings are kept only for upgrades: the no-op `Leprofit` global (1.0's
   modules), `LeprofitCharDB`/`LeprofitDB` (moved over once at login) and the
   `Leprofit_<Profession>` folders the install script deletes.
+- Show all lists everything a character could get; only what's unobtainable
+  for it (the other side's recipes) is never listed, and every learnable
+  recipe's tooltip says where to get it (the owner's rule, 2026-11-22).
 - When the Crafts list gets dense, put per-craft detail in the row tooltip;
   add a column only for things worth sorting or scanning by (the owner's
   rule).

@@ -18,7 +18,6 @@ local DEFAULTS = {
 	showListed = false,      -- the Listed column: how many at the last scan
 	sortBy = "profit",       -- the Crafts list's order: "item", "cost", "buyout", "market" or "profit"
 	sortDesc = true,         -- highest (or Z) first
-	showUnknown = false,     -- also list recipes nobody has recorded a trainer or vendor for
 	professionButton = true, -- a leProfit button on the profession window
 	hidden = {},             -- itemID -> true: marked "doesn't sell", never listed (Options unhides them)
 	plan = {},               -- the shopping list: { { prof, id (recipe), count } } (Shopping.lua)
@@ -30,7 +29,7 @@ local DEFAULTS = {
 ns.DEFAULTS = DEFAULTS
 
 -- The settings the Options tab's Defaults button puts back.
-ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showMarket", "showTrend", "showSeen", "showListed", "showLosses", "hideUnlearned", "showAll", "showUnknown", "professionButton" }
+ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showMarket", "showTrend", "showSeen", "showListed", "showLosses", "hideUnlearned", "showAll", "professionButton" }
 
 local ACCOUNT_DEFAULTS = {
 	vendorPrices = {}, -- itemID -> copper for one, recorded at vendors
@@ -148,6 +147,7 @@ events:SetScript("OnEvent", function(_, event, arg)
 		-- Earlier builds: the Known only box is Hide unlearned now; the Show slider is gone.
 		if ns.db.knownOnly then ns.db.hideUnlearned = true end
 		ns.db.knownOnly, ns.db.showUpTo = nil, nil
+		ns.db.showUnknown = nil -- Show all lists those now
 	elseif event == "PLAYER_LOGIN" then
 		ns.Minimap.Init()
 		ns.ProfessionButton.Init()

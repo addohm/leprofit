@@ -75,12 +75,16 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - Recipes learned from a pattern no vendor sells (a world drop, say) are listed too when the
   pattern can be traded: learning one costs the pattern's price at the auction house, from your
   Auctionator scans ("no auction price yet" until a scan has seen it). Patterns that bind when
-  picked up (raid and dungeon drops, quest and reputation rewards) can't be bought, so those
-  recipes are left out unless you tick the option for them. A profession's starter recipes
-  "come with the profession".
+  picked up (raid and dungeon drops, quest and reputation rewards, token vendors) can't be
+  bought: **Show all** lists those recipes too. A profession's starter recipes "come with the
+  profession".
+- A pattern's tooltip says where to get it: the reputation it needs, who sells it (for gold or
+  tokens, with where they stand), the quests that reward it, and what drops it, with how often
+  players saw it drop (as a percentage once enough loot is recorded). Recipes only the other side
+  can get (a one-side reputation, or quests only for the other side) are never listed.
 - The line above the materials panel says how many crafts were left out and why: not learned (with
   Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, from
-  patterns that bind, or with no known source. Where prices come from is at its right.
+  patterns that bind, with no known source (Show all lists those two), or only for the other side. Where prices come from is at its right.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
   material's need, what you hold, what to buy, its price for one (**Each**) and its cost for the
   number of **Crafts** you set. After each name, where its price is from: auction, vendor, craft it,
@@ -153,11 +157,12 @@ Every profession's recipes (what each makes and from what), trainer costs and pa
 are built in. What your own profession window, trainers and vendors show is added on top. Nothing
 is sent to other players.
 
-The recipes, recipe items and item names come from Forever's own game data (its DB2 tables, via
-[wago.tools](https://wago.tools)). Some pattern sellers and vendor prices come from
+The recipes, recipe items, item names, reputation requirements and factions come from Forever's
+own game data (its DB2 tables, via [wago.tools](https://wago.tools)). Pattern sellers, vendor
+prices, trainer costs, drops and quest rewards come partly from
 [Efficient Games](https://efficient.games)' player-recorded data, licensed under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Trainer costs aren't in either: they're
-kept in `tools/learned.json`, which grows with what leProfit records.
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The rest (most trainer costs and pattern
+sellers, from 1.0's data) is kept in `tools/learned.json`, which grows with what leProfit records.
 
 ### Updating the data yourself
 
@@ -167,7 +172,8 @@ built-in data on your own PC: double-click `tools\update_data.cmd` in a clone (o
 and asks before each change. It:
 
 1. gets the latest leProfit from GitHub;
-2. downloads Forever's newest game data and the players' vendor data;
+2. downloads Forever's newest game data and the players' data (about 70 MB the first time, then
+   only what changed);
 3. adds what leProfit recorded in your game (trainer costs, patterns and their sellers, vendor
    prices: the game saves them when you log out or `/reload`) to `tools/learned.json`;
 4. rebuilds `leProfit/Data/` and lists what's new;

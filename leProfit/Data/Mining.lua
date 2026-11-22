@@ -29,12 +29,28 @@ ns.RegisterProfession({
 	},
 	-- recipe name = { cost (copper), skill (required) }: what trainers charge
 	training = {
+		["Lodestone"] = { cost = 100, skill = 20 },
+		["Smelt Azerothium"] = { cost = 50000, skill = 275 },
+		["Smelt Bronze"] = { cost = 200, skill = 65 },
+		["Smelt Gold"] = { cost = 2500, skill = 155 },
+		["Smelt Heavy Thorium"] = { cost = 50000, skill = 300 },
+		["Smelt Iron"] = { cost = 500, skill = 125 },
+		["Smelt Mithril"] = { cost = 5000, skill = 175 },
+		["Smelt Silver"] = { cost = 200, skill = 75 },
+		["Smelt Steel"] = { cost = 2500, skill = 165 },
+		["Smelt Thorium"] = { cost = 20000, skill = 250 },
+		["Smelt Tin"] = { cost = 50, skill = 65 },
+		["Smelt Truesilver"] = { cost = 10000, skill = 230 },
 	},
-	-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }
+	-- recipe name = { itemID, price, skill, bound, side, rep = { faction, standing, side },
+	--   sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }: patterns vendors sell for gold;
+	--   bound = binds when picked up; side = the only side that can get it
 	patterns = {
 	},
-	-- recipe name = { itemID, skill, bound }: patterns no vendor sells (drops, quest and reputation
-	-- rewards); bound = binds when picked up, so it can't be bought; absent when the data doesn't say
+	-- recipe name = { itemID, skill, bound, side, rep, sellers = { { ..., cost } },
+	--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor
+	--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked
+	--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it
 	otherPatterns = {
 		["Molten Foundry"] = { itemID = 273122, skill = 300, bound = false },
 		["Rock Garden"] = { itemID = 273097, skill = 140, bound = false },

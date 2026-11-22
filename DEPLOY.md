@@ -82,13 +82,18 @@ the tests it offers to put lupa in `.venv`. It remembers your WoW folder in
 By hand:
 
 1. `python3 tools/fetch_sources.py` downloads Forever's game data tables for the newest client
-   build (from wago.tools) and Efficient Games' player-recorded vendors and NPCs into the
-   git-ignored `.source/` (about 20 MB). Give a build to get an older one:
+   build (from wago.tools, about 12 MB) and Efficient Games' player-recorded vendors, NPCs,
+   trainers, loot, quests, creatures and objects for every live build into the git-ignored
+   `.source/` (about 60 MB the first time; Efficient Games' index says when a file changed, so
+   later runs only fetch those). Give a build to get older game data:
    `python3 tools/fetch_sources.py 1.60.1.71037`.
 2. `python3 tools/gen_data.py` writes the data files and lists what's new or gone: recipes,
    trainer costs and patterns, per profession. Besides vendor patterns, each file lists the
-   patterns no vendor sells (`otherPatterns`: the item, its skill, and whether it binds, from the
-   game data) and the starter recipes (`free`).
+   patterns no vendor sells for gold (`otherPatterns`: the item, its skill, whether it binds, the
+   reputation it needs, token vendors, quests and drops) and the starter recipes (`free`). A
+   pattern's `side` is set when only one side can get it: a one-side reputation (from the game's
+   Faction table), or only one side's quests. A vendor's faction alone doesn't set it, since
+   players may have recorded only one side's vendor.
 3. Run the tests, then commit `leProfit/Data/` (and `tools/learned.json` if it changed).
 
 `tools/learned.json` holds what the game data doesn't: trainer costs and the skill each needs,

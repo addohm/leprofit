@@ -4,13 +4,16 @@ Run it with no arguments: python3 tools/fetch_sources.py [client build]
 (tools/update_data.py runs it for you.)
 
 - Forever's game data tables (DB2) as CSV from wago.tools, for one client build (the newest
-  wowf build by default): the recipes, what they make and from what, recipe items, item names.
-- Efficient Games' player-recorded data (vendors and NPCs) for every Forever build, from
-  github.com/JIVESCORP/eg-link-output-wowf (CC BY 4.0: the README credits it): who sells what,
-  for how much, and where they stand.
+  wowf build by default): the recipes, what they make and from what, recipe items, item names,
+  factions and zones.
+- Efficient Games' player-recorded data for every Forever build, from
+  github.com/JIVESCORP/eg-link-output-wowf (CC BY 4.0: the README credits it): vendors (who sells
+  what, for how much, where), trainers (what they charge), loot (what drops from what), quests
+  (their rewards), and the names of creatures, NPCs and objects. Its index says when each file
+  last changed, so a file already here and unchanged isn't downloaded again.
 
-Player files that fail to download or aren't JSON are skipped (not every build has both); gen_data.py works with
-whatever player data it finds. Only the standard library is needed.
+A player file that fails to download or isn't JSON is skipped; gen_data.py works with whatever
+player data it finds. Only the standard library is needed.
 """
 import json
 import pathlib
@@ -23,12 +26,12 @@ GAME = SOURCE / "game"
 EG = SOURCE / "eg"
 
 WAGO = "https://wago.tools"
-EG_API = "https://api.github.com/repos/JIVESCORP/eg-link-output-wowf/contents/data/wowf"
-EG_RAW = "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/main/data/wowf"
+EG_RAW = "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/main/data"
+EG_PRODUCT = "wowf"
 
 TABLES = ["SkillLineAbility", "SpellEffect", "SpellReagents", "SpellName", "ItemSparse", "ItemEffect",
-          "ItemXItemEffect", "UiMap"]
-EG_DATASETS = ["vendors", "npcs"]
+          "ItemXItemEffect", "UiMap", "Faction", "AreaTable"]
+EG_DATASETS = ["vendors", "npcs", "trainers", "loot", "quests.enUS", "creatures", "object_details.enUS"]
 
 
 def get(url):
@@ -56,19 +59,37 @@ def fetch(build=None, say=print):
         say(f"  {table}.csv ({len(data) // 1024} KB)")
     (SOURCE / "BUILD").write_text(build + "\n", encoding="utf-8")
 
-    builds = [x["name"] for x in json.loads(get(EG_API)) if x["type"] == "dir"]
-    got = 0
-    for b in builds:
+    index = json.loads(get(f"{EG_RAW}/index.json"))
+    builds = index.get("products", {}).get(EG_PRODUCT, {})
+    seen_path = EG / "index.json"  # what each file here was, by the index, when it was downloaded
+    try:
+        seen = json.loads(seen_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        seen = {}
+    now, got, kept = {}, 0, 0
+    for b, datasets in sorted(builds.items()):
         short = b.split(".")[-1]
         for ds in EG_DATASETS:
-            try:
-                data = get(f"{EG_RAW}/{b}/{ds}.json")
-                json.loads(data)
-            except Exception:  # not every build has every dataset
+            info = datasets.get(ds)
+            if not info:
                 continue
-            (EG / f"{ds}_{short}.json").write_bytes(data)
+            stamp = f"{info.get('lastCollectedOn')}/{info.get('records')}/{info.get('sources')}"
+            path = EG / f"{ds}_{short}.json"
+            if path.exists() and seen.get(b, {}).get(ds) == stamp:
+                now.setdefault(b, {})[ds] = stamp
+                kept += 1
+                continue
+            try:
+                data = get(f"{EG_RAW}/{EG_PRODUCT}/{b}/{ds}.json")
+                json.loads(data)
+            except Exception as e:
+                say(f"  skipped {b}/{ds}.json ({type(e).__name__})")
+                continue
+            path.write_bytes(data)
+            now.setdefault(b, {})[ds] = stamp
             got += 1
-    say(f"Player data: {got} files from {len(builds)} builds")
+    seen_path.write_text(json.dumps(now, indent=1), encoding="utf-8")
+    say(f"Player data: {got} files downloaded, {kept} unchanged, from {len(builds)} builds")
     return build
 
 
