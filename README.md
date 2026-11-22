@@ -154,14 +154,30 @@ The recipes, recipe items and item names come from Forever's own game data (its 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Trainer costs aren't in either: they're
 kept in `tools/learned.json`, which grows with what leProfit records.
 
+### Updating the data yourself
+
+After a Forever patch adds recipes, or after you've visited trainers and vendors, refresh the
+built-in data on your own PC: double-click `tools\update_data.cmd` in a clone (or run
+`python3 tools/update_data.py`). It needs [Python 3](https://www.python.org/downloads/) and git,
+and asks before each change. It:
+
+1. gets the latest leProfit from GitHub;
+2. downloads Forever's newest game data and the players' vendor data;
+3. adds what leProfit recorded in your game (trainer costs, patterns and their sellers, vendor
+   prices: the game saves them when you log out or `/reload`) to `tools/learned.json`;
+4. rebuilds `leProfit/Data/` and lists what's new;
+5. runs the tests (it can set up the one thing they need);
+6. commits and pushes, if you say so, and installs it into the game.
+
 ## Development
 
 - Tests: `python3 -m venv .venv && .venv/bin/pip install lupa` once, then
   `.venv/bin/python tests/run_tests.py`. They load the addon into a fake client
   (`tests/wowmock.lua`) and run `tests/smoke.lua`.
-- Profession data: `tools/fetch_sources.py` downloads the game data and player data into the
-  git-ignored `.source/`, and `tools/gen_data.py` writes `leProfit/Data/<Profession>.lua` from
-  them and `tools/learned.json` (Python 3, nothing to install; [DEPLOY.md](DEPLOY.md)).
+- Profession data: `tools/update_data.py` does it all, asking first (above). Underneath,
+  `tools/fetch_sources.py` downloads the game data and player data into the git-ignored
+  `.source/`, and `tools/gen_data.py` writes `leProfit/Data/<Profession>.lua` from them and
+  `tools/learned.json` (Python 3, nothing to install; [DEPLOY.md](DEPLOY.md)).
 - Installing and releasing: [DEPLOY.md](DEPLOY.md).
 
 ## Problems, ideas and testing

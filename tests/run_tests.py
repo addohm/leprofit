@@ -1,5 +1,6 @@
-"""leProfit's checks: Lua 5.1 syntax, each addon's TOC file list, globals, and the scenarios in
-smoke.lua against the fake client in wowmock.lua.
+"""leProfit's checks: Lua 5.1 syntax, each addon's TOC file list, globals, the scenarios in
+smoke.lua against the fake client in wowmock.lua, and the data tools' SavedVariables reader and
+merge (tools/update_data.py).
 
 Run: .venv/bin/python tests/run_tests.py   (needs lupa: python3 -m venv .venv && .venv/bin/pip install lupa)
 """
@@ -115,5 +116,79 @@ if not failed:
     except Exception as e:
         fail(f"smoke.lua: {e}")
 
-print("FAILED" if failed else "OK: syntax, the TOC, globals and smoke scenarios")
+# The data tools: reading WoW's SavedVariables files and adding leProfit's records to learned.json.
+sys.path.insert(0, str(ROOT / "tools"))
+try:
+    import update_data as ud
+
+    saved = ud.parse_saved_variables(r'''
+leProfitDB = {
+["vendorPrices"] = {
+[3466] = 2000,
+[2880] = 12.5,
+},
+["itemNames"] = {
+[3466] = "Strong Flux",
+[999001] = "A \"New\" Item\\",
+},
+["patterns"] = {
+["Blacksmithing"] = {
+["Azure Skyforged Chain"] = {
+["itemID"] = 276955,
+["price"] = 900,
+["vendor"] = "Smith Argus",
+["faction"] = "Alliance",
+["mapID"] = 1453,
+["x"] = 0.6420000195503235,
+["y"] = -0.25,
+},
+},
+},
+["training"] = {
+["Blacksmithing"] = {
+["Copper Chain Pants"] = {
+["cost"] = 60,
+["skill"] = 20,
+},
+},
+["Mining"] = {
+["Smelt Copper"] = {
+["cost"] = 25,
+},
+},
+},
+["list"] = {
+"a", -- [1]
+true, -- [2]
+},
+}
+LeprofitDB = nil
+''')
+    db = saved["leProfitDB"]
+    if saved.get("LeprofitDB", 0) is not None or db["list"] != {1: "a", 2: True}:
+        fail("parse_saved_variables: nil or a list read wrong")
+    if db["itemNames"][999001] != 'A "New" Item\\' or db["vendorPrices"][2880] != 12.5:
+        fail("parse_saved_variables: a string or number read wrong")
+    learned = {"training": {"Blacksmithing": {"Copper Chain Pants": {"cost": 50, "skill": 15}}},
+               "patterns": {"Blacksmithing": {"Azure Skyforged Chain": {"itemID": 276955, "price": 1000,
+                            "sellers": [{"vendor": "Smith Argus", "zone": "Old"}, {"vendor": "Other"}]}}},
+               "vendorPrices": {"3466": 2000}, "itemNames": {}, "extraRecipes": {}}
+    counts = ud.merge_recorded(learned, db, game_items={3466})
+    if counts != {"training": 2, "patterns": 1, "vendorPrices": 1, "itemNames": 1}:
+        fail(f"merge_recorded counts: {counts}")
+    chain = learned["patterns"]["Blacksmithing"]["Azure Skyforged Chain"]
+    if (chain["price"] != 900 or [s["vendor"] for s in chain["sellers"]] != ["Smith Argus", "Other"]
+            or chain["sellers"][0].get("zone") or chain["sellers"][0]["x"] != 0.642):
+        fail(f"merge_recorded: the pattern {chain}")
+    if (learned["training"]["Blacksmithing"]["Copper Chain Pants"] != {"cost": 60, "skill": 20}
+            or learned["training"]["Mining"]["Smelt Copper"] != {"cost": 25}):
+        fail("merge_recorded: trainer costs")
+    if learned["vendorPrices"].get("2880") != 12.5 or list(learned["itemNames"]) != ["999001"]:
+        fail("merge_recorded: vendor prices or item names")
+    if ud.merge_recorded(learned, db, game_items={3466}) != {"training": 0, "patterns": 0, "vendorPrices": 0, "itemNames": 0}:
+        fail("merge_recorded: adding the same records twice changed something")
+except Exception as e:
+    fail(f"the data tools: {type(e).__name__}: {e}")
+
+print("FAILED" if failed else "OK: syntax, the TOC, globals, smoke scenarios and the data tools")
 sys.exit(1 if failed else 0)

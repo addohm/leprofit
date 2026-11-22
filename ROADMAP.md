@@ -10,6 +10,8 @@ change.
 - Data from the game (2026-11-22): recipes from Forever's game data tables,
   pattern sellers and vendor prices partly from Efficient Games' player data,
   the rest carried in `tools/learned.json`; Mining's smelting built in.
+  Trainer costs recorded in game. `tools/update_data.cmd` refreshes it all
+  on the owner's PC, asking first.
 - One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
 - 1.0.0 released (2026-11-19): out of beta, with search and All professions.

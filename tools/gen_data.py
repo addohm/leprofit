@@ -96,6 +96,33 @@ def load_learned():
     return learned
 
 
+ABOUT = ("What Forever's game data doesn't have, for tools/gen_data.py: trainer costs and the skill "
+         "each needs (training), vendors' patterns with their sellers and prices (patterns), vendor "
+         "prices of materials in copper for one (vendorPrices), names of items the game data lacks "
+         "(itemNames), and recipes the game files under gathering skills, listed here with crafting "
+         "professions (extraRecipes). tools/update_data.py adds what leProfit records in game; you "
+         "can also edit it by hand.")
+
+
+def save_learned(learned):
+    """Writes tools/learned.json, sorted, so a change reads well in a diff."""
+    by_id = lambda kv: int(kv[0])
+    out = {
+        "about": ABOUT,
+        "training": {p: dict(sorted(v.items())) for p, v in sorted(learned["training"].items()) if v},
+        "patterns": {p: dict(sorted(v.items())) for p, v in sorted(learned["patterns"].items()) if v},
+        "vendorPrices": dict(sorted(learned["vendorPrices"].items(), key=by_id)),
+        "itemNames": dict(sorted(learned["itemNames"].items(), key=by_id)),
+        "extraRecipes": {p: dict(sorted(v.items(), key=by_id)) for p, v in sorted(learned["extraRecipes"].items()) if v},
+    }
+    LEARNED.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+
+
+def game_item_ids():
+    """Every item ID the downloaded game data names."""
+    return {int(r["ID"]) for r in table("ItemSparse")}
+
+
 def lua_string(s):
     return '"' + str(s).replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n") + '"'
 

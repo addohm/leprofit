@@ -1,4 +1,5 @@
 {
+ "about": "What Forever's game data doesn't have, for tools/gen_data.py: trainer costs and the skill each needs (training), vendors' patterns with their sellers and prices (patterns), vendor prices of materials in copper for one (vendorPrices), names of items the game data lacks (itemNames), and recipes the game files under gathering skills, listed here with crafting professions (extraRecipes). tools/update_data.py adds what leProfit records in game; you can also edit it by hand.",
  "training": {
   "Alchemy": {
    "Arcane Elixir": {
@@ -7972,486 +7973,6 @@
   "247786": 10,
   "272941": 200000
  },
- "extraRecipes": {
-  "Alchemy": {
-   "1251750": {
-    "name": "Disorienting Smog Potion",
-    "product": 250952,
-    "yield": 1,
-    "grey": 190,
-    "reagents": [
-     [
-      8845,
-      3
-     ],
-     [
-      3369,
-      2
-     ],
-     [
-      8925,
-      1
-     ]
-    ]
-   },
-   "1262980": {
-    "name": "Greenhouse",
-    "product": 279964,
-    "yield": 1,
-    "grey": 145,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      8836,
-      1
-     ],
-     [
-      8831,
-      1
-     ]
-    ]
-   },
-   "1263070": {
-    "name": "Seed Hybridizer",
-    "product": 279947,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      13465,
-      4
-     ],
-     [
-      8925,
-      1
-     ],
-     [
-      14047,
-      2
-     ]
-    ]
-   },
-   "1229705": {
-    "name": "Incense Candle",
-    "product": 279962,
-    "yield": 1,
-    "grey": 25,
-    "reagents": [
-     [
-      2447,
-      1
-     ],
-     [
-      765,
-      1
-     ]
-    ]
-   }
-  },
-  "Cooking": {
-   "1229517": {
-    "name": "Camp Chair",
-    "product": 279979,
-    "yield": 1,
-    "grey": 25,
-    "reagents": [
-     [
-      2318,
-      3
-     ],
-     [
-      4470,
-      2
-     ]
-    ]
-   },
-   "1262982": {
-    "name": "Trapper's Workbench",
-    "product": 279938,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      4234,
-      4
-     ],
-     [
-      3575,
-      1
-     ]
-    ]
-   },
-   "1262998": {
-    "name": "Fishing Hut",
-    "product": 279966,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      4470,
-      5
-     ],
-     [
-      14048,
-      2
-     ],
-     [
-      273295,
-      1
-     ]
-    ]
-   },
-   "1262990": {
-    "name": "Fishing Rack",
-    "product": 279965,
-    "yield": 1,
-    "grey": 145,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      8925,
-      1
-     ],
-     [
-      8365,
-      2
-     ]
-    ]
-   },
-   "1262985": {
-    "name": "Field Guide",
-    "product": 279969,
-    "yield": 1,
-    "grey": 145,
-    "reagents": [
-     [
-      2319,
-      3
-     ],
-     [
-      5784,
-      2
-     ],
-     [
-      2321,
-      1
-     ]
-    ]
-   },
-   "1229745": {
-    "name": "Fish Bowl",
-    "product": 279967,
-    "yield": 1,
-    "grey": 20,
-    "reagents": [
-     [
-      6291,
-      1
-     ],
-     [
-      3371,
-      1
-     ]
-    ]
-   }
-  },
-  "Enchanting": {
-   "1229745": {
-    "name": "Fish Bowl",
-    "product": 279967,
-    "yield": 1,
-    "grey": 20,
-    "reagents": [
-     [
-      6291,
-      1
-     ],
-     [
-      3371,
-      1
-     ]
-    ]
-   },
-   "1262998": {
-    "name": "Fishing Hut",
-    "product": 279966,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      4470,
-      5
-     ],
-     [
-      14048,
-      2
-     ],
-     [
-      273295,
-      1
-     ]
-    ]
-   },
-   "1262990": {
-    "name": "Fishing Rack",
-    "product": 279965,
-    "yield": 1,
-    "grey": 140,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      8925,
-      1
-     ],
-     [
-      8365,
-      2
-     ]
-    ]
-   }
-  },
-  "First Aid": {
-   "1229705": {
-    "name": "Incense Candle",
-    "product": 279962,
-    "yield": 1,
-    "grey": 20,
-    "reagents": [
-     [
-      2447,
-      1
-     ],
-     [
-      765,
-      1
-     ]
-    ]
-   },
-   "1262985": {
-    "name": "Field Guide",
-    "product": 279969,
-    "yield": 1,
-    "grey": 145,
-    "reagents": [
-     [
-      2319,
-      3
-     ],
-     [
-      5784,
-      2
-     ],
-     [
-      2321,
-      1
-     ]
-    ]
-   },
-   "1262990": {
-    "name": "Fishing Rack",
-    "product": 279965,
-    "yield": 1,
-    "grey": 145,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      8925,
-      1
-     ],
-     [
-      8365,
-      2
-     ]
-    ]
-   },
-   "1262998": {
-    "name": "Fishing Hut",
-    "product": 279966,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      4470,
-      5
-     ],
-     [
-      14048,
-      2
-     ],
-     [
-      273295,
-      1
-     ]
-    ]
-   },
-   "1262982": {
-    "name": "Trapper's Workbench",
-    "product": 279938,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      4234,
-      4
-     ],
-     [
-      3575,
-      1
-     ]
-    ]
-   },
-   "1262980": {
-    "name": "Greenhouse",
-    "product": 279964,
-    "yield": 1,
-    "grey": 140,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      8836,
-      1
-     ],
-     [
-      8831,
-      1
-     ]
-    ]
-   },
-   "1263070": {
-    "name": "Seed Hybridizer",
-    "product": 279947,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      13465,
-      4
-     ],
-     [
-      8925,
-      1
-     ],
-     [
-      14047,
-      2
-     ]
-    ]
-   },
-   "1229745": {
-    "name": "Fish Bowl",
-    "product": 279967,
-    "yield": 1,
-    "grey": 20,
-    "reagents": [
-     [
-      6291,
-      1
-     ],
-     [
-      3371,
-      1
-     ]
-    ]
-   },
-   "1229517": {
-    "name": "Camp Chair",
-    "product": 279979,
-    "yield": 1,
-    "grey": 25,
-    "reagents": [
-     [
-      2318,
-      3
-     ],
-     [
-      4470,
-      2
-     ]
-    ]
-   }
-  },
-  "Leatherworking": {
-   "1262982": {
-    "name": "Trapper's Workbench",
-    "product": 279938,
-    "yield": 1,
-    "grey": 300,
-    "reagents": [
-     [
-      4470,
-      2
-     ],
-     [
-      4234,
-      4
-     ],
-     [
-      3575,
-      1
-     ]
-    ]
-   },
-   "1262985": {
-    "name": "Field Guide",
-    "product": 279969,
-    "yield": 1,
-    "grey": 145,
-    "reagents": [
-     [
-      2319,
-      3
-     ],
-     [
-      5784,
-      2
-     ],
-     [
-      2321,
-      1
-     ]
-    ]
-   },
-   "1229517": {
-    "name": "Camp Chair",
-    "product": 279979,
-    "yield": 1,
-    "grey": 25,
-    "reagents": [
-     [
-      2318,
-      3
-     ],
-     [
-      4470,
-      2
-     ]
-    ]
-   }
-  }
- },
  "itemNames": {
   "11811": "Smoking Heart of the Mountain",
   "12628": "Demon Forged Breastplate",
@@ -8528,5 +8049,485 @@
   "273950": "Pauldrons of Glory",
   "273951": "Sabatons of Glory",
   "274048": "9-60 Battery Pack"
+ },
+ "extraRecipes": {
+  "Alchemy": {
+   "1229705": {
+    "name": "Incense Candle",
+    "product": 279962,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2447,
+      1
+     ],
+     [
+      765,
+      1
+     ]
+    ]
+   },
+   "1251750": {
+    "name": "Disorienting Smog Potion",
+    "product": 250952,
+    "yield": 1,
+    "grey": 190,
+    "reagents": [
+     [
+      8845,
+      3
+     ],
+     [
+      3369,
+      2
+     ],
+     [
+      8925,
+      1
+     ]
+    ]
+   },
+   "1262980": {
+    "name": "Greenhouse",
+    "product": 279964,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8836,
+      1
+     ],
+     [
+      8831,
+      1
+     ]
+    ]
+   },
+   "1263070": {
+    "name": "Seed Hybridizer",
+    "product": 279947,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      13465,
+      4
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      14047,
+      2
+     ]
+    ]
+   }
+  },
+  "Cooking": {
+   "1229517": {
+    "name": "Camp Chair",
+    "product": 279979,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2318,
+      3
+     ],
+     [
+      4470,
+      2
+     ]
+    ]
+   },
+   "1229745": {
+    "name": "Fish Bowl",
+    "product": 279967,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      6291,
+      1
+     ],
+     [
+      3371,
+      1
+     ]
+    ]
+   },
+   "1262982": {
+    "name": "Trapper's Workbench",
+    "product": 279938,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      4234,
+      4
+     ],
+     [
+      3575,
+      1
+     ]
+    ]
+   },
+   "1262985": {
+    "name": "Field Guide",
+    "product": 279969,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      2319,
+      3
+     ],
+     [
+      5784,
+      2
+     ],
+     [
+      2321,
+      1
+     ]
+    ]
+   },
+   "1262990": {
+    "name": "Fishing Rack",
+    "product": 279965,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      8365,
+      2
+     ]
+    ]
+   },
+   "1262998": {
+    "name": "Fishing Hut",
+    "product": 279966,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      5
+     ],
+     [
+      14048,
+      2
+     ],
+     [
+      273295,
+      1
+     ]
+    ]
+   }
+  },
+  "Enchanting": {
+   "1229745": {
+    "name": "Fish Bowl",
+    "product": 279967,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      6291,
+      1
+     ],
+     [
+      3371,
+      1
+     ]
+    ]
+   },
+   "1262990": {
+    "name": "Fishing Rack",
+    "product": 279965,
+    "yield": 1,
+    "grey": 140,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      8365,
+      2
+     ]
+    ]
+   },
+   "1262998": {
+    "name": "Fishing Hut",
+    "product": 279966,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      5
+     ],
+     [
+      14048,
+      2
+     ],
+     [
+      273295,
+      1
+     ]
+    ]
+   }
+  },
+  "First Aid": {
+   "1229517": {
+    "name": "Camp Chair",
+    "product": 279979,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2318,
+      3
+     ],
+     [
+      4470,
+      2
+     ]
+    ]
+   },
+   "1229705": {
+    "name": "Incense Candle",
+    "product": 279962,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      2447,
+      1
+     ],
+     [
+      765,
+      1
+     ]
+    ]
+   },
+   "1229745": {
+    "name": "Fish Bowl",
+    "product": 279967,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      6291,
+      1
+     ],
+     [
+      3371,
+      1
+     ]
+    ]
+   },
+   "1262980": {
+    "name": "Greenhouse",
+    "product": 279964,
+    "yield": 1,
+    "grey": 140,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8836,
+      1
+     ],
+     [
+      8831,
+      1
+     ]
+    ]
+   },
+   "1262982": {
+    "name": "Trapper's Workbench",
+    "product": 279938,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      4234,
+      4
+     ],
+     [
+      3575,
+      1
+     ]
+    ]
+   },
+   "1262985": {
+    "name": "Field Guide",
+    "product": 279969,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      2319,
+      3
+     ],
+     [
+      5784,
+      2
+     ],
+     [
+      2321,
+      1
+     ]
+    ]
+   },
+   "1262990": {
+    "name": "Fishing Rack",
+    "product": 279965,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      8365,
+      2
+     ]
+    ]
+   },
+   "1262998": {
+    "name": "Fishing Hut",
+    "product": 279966,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      5
+     ],
+     [
+      14048,
+      2
+     ],
+     [
+      273295,
+      1
+     ]
+    ]
+   },
+   "1263070": {
+    "name": "Seed Hybridizer",
+    "product": 279947,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      13465,
+      4
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      14047,
+      2
+     ]
+    ]
+   }
+  },
+  "Leatherworking": {
+   "1229517": {
+    "name": "Camp Chair",
+    "product": 279979,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2318,
+      3
+     ],
+     [
+      4470,
+      2
+     ]
+    ]
+   },
+   "1262982": {
+    "name": "Trapper's Workbench",
+    "product": 279938,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      4234,
+      4
+     ],
+     [
+      3575,
+      1
+     ]
+    ]
+   },
+   "1262985": {
+    "name": "Field Guide",
+    "product": 279969,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      2319,
+      3
+     ],
+     [
+      5784,
+      2
+     ],
+     [
+      2321,
+      1
+     ]
+    ]
+   }
+  }
  }
 }

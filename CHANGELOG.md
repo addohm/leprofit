@@ -8,6 +8,10 @@ All notable changes to leprofit. The format follows
 
 ### Added
 
+- `tools\update_data.cmd` (or `python3 tools/update_data.py`): refresh the built-in data on your
+  own PC, asking before each step. It gets the latest, downloads Forever's newest game data and the
+  players' vendor data, adds what leProfit recorded in your game, rebuilds, runs the tests, and
+  can commit, push and install. Needs Python 3 and git.
 - Opening a profession trainer records what it charges for each recipe it lists, and the skill
   each needs, for all your characters; those costs replace the built-in ones. The game data has no
   trainers, so this is how new recipes' costs get known.

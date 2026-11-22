@@ -12,6 +12,11 @@ issue for a vulnerability. Ordinary bugs go on the
 None: the addons and the tools use no secrets, and the addons send nothing to other players or
 anywhere else (no addon messages). Never commit secrets all the same.
 
+The data tools (`tools/fetch_sources.py`, `tools/update_data.py`) download public data over HTTPS
+from wago.tools and GitHub (Efficient Games' data repository), read leProfit's saved files under
+your WoW folder's `WTF`, and only write inside the repo. `update_data.py` commits and pushes only
+when you say so, with your own git login.
+
 ## Access
 
 The repository is public (GNU GPLv3); only the owner and this workspace's deploy key can push.

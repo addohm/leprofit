@@ -32,6 +32,15 @@ so most of it is covered by the first part.
 - [ ] The profession dropdown lists all nine professions, with icons;
       the one shown is ticked, and it follows the profession window's button.
 
+**Updating the data** (on the Windows PC)
+- [ ] Double-clicking `tools\update_data.cmd` finds Python (or says where to get it), shows the
+      status in colour, and quits on Enter at the menu.
+- [ ] Update everything: it pulls, downloads, suggests the install script's WoW folder, reads
+      your accounts' `leProfit.lua` (after a logout), lists what's new, offers to set up the
+      tests and runs them, then commits, pushes and installs when you say yes; the next run
+      remembers the folder.
+- [ ] After visiting a trainer and logging out, a run lists its recipes as "new trainer costs".
+
 **Blacksmithing** (on the Blacksmith)
 - [ ] Opening leProfit opens your Blacksmithing window (not when it's already open, or in combat);
       `/leprofit status` then says how many recipes you know.

@@ -45,8 +45,12 @@ Discuss each feature with the owner before building it.
   `gen_data.py` (writes the profession data from them and `learned.json`),
   `learned.json` (what the game data lacks: trainer costs, pattern sellers,
   vendor prices, a few item names, the camp and home items; hand-editable),
+  `update_data.py` with `update_data.cmd` (the owner's interactive refresh:
+  pull, download, add the records from the WTF saved files, rebuild, test,
+  commit/push/install; revtunnel-style prompts),
   `install_forever.cmd` (Windows install), `make_release.py` (release zip).
-  The data tools use only Python's standard library.
+  The data tools use only Python's standard library; `run_tests.py` also
+  checks `update_data.py`'s SavedVariables reader and merge.
 - `TESTING.md`: the in-game checklist
 - `LISTING.md`: the CurseForge and Wago page text and release notes
 - `art/`: `make_logo.py` draws the icons, the banner and `leProfit/Media/Icon.tga`

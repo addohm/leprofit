@@ -71,7 +71,15 @@ script needs CRLF line endings to run reliably; `.gitattributes` makes git check
 
 ## Refreshing the profession data
 
-`leProfit/Data/*.lua` are generated; don't edit them by hand. To refresh them:
+`leProfit/Data/*.lua` are generated; don't edit them by hand. The easy way to refresh them is
+`tools\update_data.cmd` on Windows (or `python3 tools/update_data.py` anywhere): it pulls, downloads,
+adds what leProfit recorded in your game (from
+`<WoW>\WTF\Account\<account>\SavedVariables\leProfit.lua`, written at logout or `/reload`),
+rebuilds, runs the tests, and offers to commit, push and install. It needs Python 3 and git; for
+the tests it offers to put lupa in `.venv`. It remembers your WoW folder in
+`.source/update_data.json` (the first time it suggests the install script's `WOW`).
+
+By hand:
 
 1. `python3 tools/fetch_sources.py` downloads Forever's game data tables for the newest client
    build (from wago.tools) and Efficient Games' player-recorded vendors and NPCs into the
