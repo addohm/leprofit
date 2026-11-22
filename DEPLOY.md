@@ -92,8 +92,10 @@ By hand:
    patterns no vendor sells for gold (`otherPatterns`: the item, its skill, whether it binds, the
    reputation it needs, token vendors, quests and drops) and the starter recipes (`free`). A
    pattern's `side` is set when only one side can get it: a one-side reputation (from the game's
-   Faction table), or only one side's quests. A vendor's faction alone doesn't set it, since
-   players may have recorded only one side's vendor.
+   Faction table), or every known source that side's (its vendors' faction, its quests' races).
+   A vendor's faction comes from Efficient Games' NPC data when it knows the vendor (1.0's data
+   sometimes gave the recording player's); vendors in `NEUTRAL_PLACES` are neutral; Merchant's
+   Favor vendors count for both sides, and `otherCamp` names the camp nobody has recorded yet.
 3. Run the tests, then commit `leProfit/Data/` (and `tools/learned.json` if it changed).
 
 `tools/learned.json` holds what the game data doesn't: trainer costs and the skill each needs,

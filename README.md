@@ -81,7 +81,9 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 - A pattern's tooltip says where to get it: the reputation it needs, who sells it (for gold or
   tokens, with where they stand), the quests that reward it, and what drops it, with how often
   players saw it drop (as a percentage once enough loot is recorded). Recipes only the other side
-  can get (a one-side reputation, or quests only for the other side) are never listed.
+  can get are never listed: a one-side reputation, quests only for the other side, or a pattern
+  only the other side's vendors sell. Vendors in neutral towns serve both sides, and the trade
+  camps' Merchant's Favor plans count for both (each side's camp sells them).
 - The line above the materials panel says how many crafts were left out and why: not learned (with
   Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, from
   patterns that bind, with no known source (Show all lists those two), or only for the other side. Where prices come from is at its right.

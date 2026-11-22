@@ -465,7 +465,23 @@ ok(said:find("binds when picked up", 1, true) and said:find("Zandalar Tribe", 1,
 local boots = Find("Veteran's Boots")
 eq(ns.Recipes.WhereLines(boots.source)[1], "30 Merchant's Favor from Gor'mak in The Barrens at 49.8, 29.7 (Horde only)",
 	"a token vendor, its price and side")
-eq(ns.Profit.OtherSideOnly(boots.source), false, "one side's vendor doesn't make it that side's only")
+eq(ns.Recipes.WhereLines(boots.source)[2], "Also sold at the Alliance trade camp (not recorded yet)",
+	"a trade camp's plans: the other side's camp sells them too")
+eq(ns.Profit.OtherSideOnly(boots.source), false, "so they're anyone's")
+-- A pattern only one side's vendors sell is that side's: Sovik in Orgrimmar's Red Firework.
+local function FindIn(prof, name)
+	for _, r in ipairs(ns.Recipes.List(prof)) do
+		if r.name == name then return r end
+	end
+end
+local firework = FindIn("Engineering", "Red Firework")
+eq(firework.source.kind, "pattern")
+eq(firework.source.side, "Horde", "sold only in Orgrimmar")
+eq(ns.Profit.OtherSideOnly(firework.source), true, "so not for this Alliance character")
+-- A vendor in a neutral town serves both, whatever faction 1.0's data gave it.
+local wizardOil = FindIn("Enchanting", "Wizard Oil")
+eq(wizardOil.source.side, nil, "Kania in Cenarion Hold sells to both sides")
+eq(wizardOil.source.sellers[1].faction, "Neutral")
 local cloudy = Find("Cloudy Skyforged Helm")
 eq(cloudy.source.side, "Horde", "Earthen Ring's plans are the Horde's")
 eq(ns.Profit.OtherSideOnly(cloudy.source), true, "not for this Alliance character")
@@ -500,11 +516,20 @@ eq(shouldersRow.learnCost, 2500, "with what the plans cost")
 ok(Listed("Bloodsoul Breastplate"), "Show all lists binding plans")
 ok(Listed("Veteran's Boots"), "and token vendors' plans")
 ok(not Listed("Cloudy Skyforged Helm"), "but never the other side's")
+local function ListedIn(prof, name)
+	for _, r in ipairs((ns.Profit.Rows(prof))) do
+		if r.rec.name == name then return r end
+	end
+end
+WM.skills.Engineering = 300
+ok(not ListedIn("Engineering", "Red Firework"), "nor a pattern only the other side's vendors sell")
 ok(Listed("Azure Skyforged Helm"), "your side's are")
 _, counted = ns.Profit.Rows("Blacksmithing")
 ok(counted.otherSide >= 2, "the other side's are counted: " .. counted.otherSide)
 WM.faction = "Horde"
 ok(Listed("Cloudy Skyforged Helm") and not Listed("Azure Skyforged Helm"), "and the other way round for the Horde")
+ok(ListedIn("Engineering", "Red Firework"), "the Horde sees Red Firework")
+WM.skills.Engineering = nil
 WM.faction = "Alliance"
 WM.skills.Blacksmithing = 40
 ns.db.showAll, ns.db.showLosses = saved[1], saved[2]

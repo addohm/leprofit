@@ -18,8 +18,12 @@ All notable changes to leprofit. The format follows
   it needs, the vendors who sell it (for gold, or tokens such as Merchant's Favor), the quests
   that reward it, and what drops it, with how often players saw it drop. From Efficient Games'
   player-recorded loot, quests and vendors, and the game data's reputation requirements.
-- Recipes only the other side can get (a one-side reputation such as Kirin Tor or Earthen Ring,
-  or quests only for the other side's races) are never listed; the "Not listed" line counts them.
+- Recipes only the other side can get are never listed, and the "Not listed" line counts them:
+  a one-side reputation (Kirin Tor, Earthen Ring), quests only for the other side's races, or a
+  pattern only the other side's vendors sell (Red Firework, sold only in Orgrimmar). Vendors in
+  neutral towns (Booty Bay, Gadgetzan, Everlook, Cenarion Hold...) serve both sides, and the trade
+  camps' Merchant's Favor plans count for both, with a note when only one camp's quartermaster
+  has been recorded.
 - Trainer costs players recorded (Efficient Games) fill in what the built-in data lacks: Mining's
   smelting, for one.
 - `tools\update_data.cmd` (or `python3 tools/update_data.py`): refresh the built-in data on your

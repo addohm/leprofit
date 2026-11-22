@@ -21,8 +21,8 @@ Where each part comes from:
   can't be bought); where to get it from Efficient Games' loot, quest and vendor data; the
   reputation it needs from the game data.
 - Which side can get a pattern, when only one can: a one-side reputation (the game data's
-  Faction table), or, for a pattern that binds, sources that are all one side's (the quest's
-  races, the vendor's faction). leProfit leaves the other side's out.
+  Faction table), or every known source that side's (its vendors' faction, its quests' races).
+  leProfit leaves the other side's out.
 - Recipes that come with the profession (the game data's AcquireMethod 1).
 - Vendor prices of materials: tools/learned.json, then Efficient Games' vendors (endless supply).
 - Item names: the game data (ItemSparse); tools/learned.json for the few it doesn't have.
@@ -59,6 +59,12 @@ PROFESSIONS = {
 STANDINGS = ["Hated", "Hostile", "Unfriendly", "Neutral", "Friendly", "Honored", "Revered", "Exalted"]
 ALLIANCE_RACES, HORDE_RACES = 0x4D, 0xB2  # Human, Dwarf, Night Elf, Gnome / Orc, Undead, Tauren, Troll
 MOST_DROPS, MOST_QUESTS = 5, 5            # sources kept per pattern
+MERCHANTS_FAVOR = 3402  # the trade factions' currency: each side's camp sells the same rewards
+# Towns whose vendors serve both sides. 1.0's data sometimes gave a vendor there the faction of the
+# player who recorded it; vendors Efficient Games knows get their own faction from its data instead.
+NEUTRAL_PLACES = {"Booty Bay", "The Old Port Authority", "Gadgetzan", "Steamwheedle Port", "Ratchet", "Everlook",
+                  "Cenarion Hold", "Valor's Rest", "Light's Hope Chapel", "Nighthaven", "Yojamba Isle",
+                  "Thorium Point", "Ravenholdt Manor", "Powderfuse Port"}
 
 
 def side_of_races(mask):
@@ -279,6 +285,16 @@ class Players:
                 seller["mapID"], seller["x"], seller["y"] = int(pos["uiMap"]), round(pos["mapX"], 4), round(pos["mapY"], 4)
             return seller
 
+        # Each NPC's own faction, by name: Alliance, Horde, or Neutral when no record names a side.
+        sides = {}
+        for n in npcs.values():
+            if n.get("name"):
+                sides.setdefault(n["name"], set()).add(n.get("side") if n.get("side") in ("Alliance", "Horde") else None)
+        self.npc_side = {}
+        for name, s in sides.items():
+            known = s - {None}
+            self.npc_side[name] = known.pop() if len(known) == 1 else "Neutral" if not known else None
+
         for vid, v in vendors.items():
             if not v.get("name"):
                 continue
@@ -294,7 +310,10 @@ class Players:
                 if e.get("costItems"):
                     parts = [money(price)] if price else []
                     parts += [f"{c.get('amount', 1)} {c.get('name') or 'tokens'}" for c in e["costItems"]]
-                    self.tokens.setdefault(item, []).append(dict(seller, cost=" and ".join(parts)))
+                    s = dict(seller, cost=" and ".join(parts))
+                    if any(c.get("currencyId") == MERCHANTS_FAVOR for c in e["costItems"]):
+                        s["camp"] = True  # a trade-faction camp's: the other side's camp sells it too
+                    self.tokens.setdefault(item, []).append(s)
                     continue
                 if not price:
                     continue
@@ -373,16 +392,18 @@ class Players:
                     lst.append(e)
 
 
-def only_side(rep, bound, sellers, quests, drops):
-    """The one side that can get a pattern, or None. A one-side reputation decides it; else, for a
-    pattern that binds (or may), quests for one side's races when there's no other way to get it.
-    A vendor's faction doesn't: players may only have recorded one side's vendor for it."""
+def only_side(rep, sellers, quests, drops):
+    """The one side that can get a pattern, or None (the owner's rule: if it's Horde, an Alliance
+    player doesn't see it). A one-side reputation decides it; else every way of getting it known
+    is that side's: its vendors' faction, its quests' races. A drop, a neutral vendor, or a trade
+    camp's quartermaster (both sides' camps sell the same) is anyone's."""
     if rep and rep.get("side"):
         return rep["side"]
-    if bound is False or sellers or drops or not quests:
+    sides = {None if s.get("camp") else s.get("faction") for s in sellers} | {q.get("side") for q in quests}
+    if drops or len(sides) != 1:
         return None
-    sides = {q.get("side") for q in quests}
-    return sides.pop() if len(sides) == 1 and None not in sides else None
+    side = sides.pop()
+    return side if side in ("Alliance", "Horde") else None
 
 
 def profession(name, game, players, learned):
@@ -407,10 +428,22 @@ def profession(name, game, players, learned):
         if rec["name"] not in training and sid in players.trainers:
             training[rec["name"]] = players.trainers[sid]
 
+    def faction_fixed(s):
+        """A seller from learned.json with its faction checked: Efficient Games' for the NPC, or
+        Neutral in a neutral town."""
+        s = dict(s)
+        side = players.npc_side.get(s.get("vendor"))
+        if side:
+            s["faction"] = side
+        elif s.get("subZone") in NEUTRAL_PLACES:
+            s["faction"] = "Neutral"
+        return s
+
     patterns = {}
     for recipe, p in learned["patterns"].get(name, {}).items():
         if recipe in names and p.get("itemID"):
-            patterns[recipe] = {"itemID": int(p["itemID"]), "price": p.get("price"), "sellers": list(p.get("sellers") or [])}
+            patterns[recipe] = {"itemID": int(p["itemID"]), "price": p.get("price"),
+                                "sellers": [faction_fixed(s) for s in p.get("sellers") or []]}
     for item, spells in game.teaches.items():
         for spell in spells:
             recipe = by_spell.get(spell)
@@ -434,7 +467,7 @@ def profession(name, game, players, learned):
         p["skill"] = skill(p["itemID"])
         p["bound"] = game.binds(p["itemID"])
         p["rep"] = game.reputation(p["itemID"])
-        p["side"] = only_side(p["rep"], p["bound"], p["sellers"], [], [])
+        p["side"] = only_side(p["rep"], p["sellers"], [], [])
         used.add(p["itemID"])
 
     # Recipes that come with the profession, and patterns no vendor sells: one per recipe name, a
@@ -460,7 +493,10 @@ def profession(name, game, players, learned):
         p["sellers"] = sorted(players.tokens.get(item, []), key=lambda s: s["vendor"])
         p["quests"] = players.quests.get(item, [])
         p["drops"] = players.drops.get(item, [])
-        p["side"] = only_side(p["rep"], p["bound"], p["sellers"], p["quests"], p["drops"])
+        p["side"] = only_side(p["rep"], p["sellers"], p["quests"], p["drops"])
+        # Only one side's trade camp recorded: say the other's sells it too.
+        camps = {s.get("faction") for s in p["sellers"] if s.get("camp")}
+        p["otherCamp"] = {"Horde": "Alliance", "Alliance": "Horde"}.get(camps.pop()) if len(camps) == 1 else None
     used.update(p["itemID"] for p in other.values())
 
     vendor_prices = {}
@@ -537,12 +573,13 @@ def write(name, build, recipes, training, patterns, other, free, vendor_prices, 
     out += ["\t},", "\t-- recipe name = { itemID, skill, bound, side, rep, sellers = { { ..., cost } },",
             "\t--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor",
             "\t--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked",
-            "\t--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it",
+            "\t--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it;",
+            "\t--   otherCamp = the side whose trade camp sells it too, though players haven't recorded it there",
             "\totherPatterns = {"]
     for recipe in sorted(other):
         p = other[recipe]
         entry = {"itemID": p["itemID"], "skill": p["skill"], "bound": p["bound"], "side": p["side"], "rep": p["rep"],
-                 "sellers": sellers_of(p), "quests": p["quests"], "drops": p["drops"]}
+                 "sellers": sellers_of(p), "otherCamp": p["otherCamp"], "quests": p["quests"], "drops": p["drops"]}
         out.append(f"\t\t[{lua_string(recipe)}] = {lua_value(entry)},")
     out += ["\t},", "\t-- recipes that come with the profession", "\tfree = {"]
     for recipe in sorted(free):

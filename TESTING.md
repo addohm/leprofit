@@ -93,9 +93,11 @@ so most of it is covered by the first part.
 - [ ] Bloodsoul Breastplate (plans that bind) is left out, and listed with Show all, its tooltip
       saying "Needs Zandalar Tribe reputation: Revered"; Veteran's Boots names Gor'mak and "30
       Merchant's Favor"; a starter recipe (Copper Rod) says "Comes with the profession".
-- [ ] On an Alliance character, Cloudy Skyforged plans (Earthen Ring) never show, even with Show
-      all, and "Not listed" counts them as "only the other side can get"; on a Horde one, Azure
-      Skyforged (Kirin Tor) don't.
+- [ ] On an Alliance character, Cloudy Skyforged plans (Earthen Ring) and Engineering's Red
+      Firework (sold only in Orgrimmar) never show, even with Show all, and "Not listed" counts
+      them as "only the other side can get"; on a Horde one, Azure Skyforged (Kirin Tor) don't.
+- [ ] Veteran's Boots shows for both sides; on the Alliance its tooltip adds "Also sold at the
+      Alliance trade camp (not recorded yet)". Wizard Oil (Kania, Cenarion Hold) shows for both.
 
 **The Crafts list**
 - [ ] Columns read Cost, Buyout, Profit (the history columns before Profit when on); Cost matches

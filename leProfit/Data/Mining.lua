@@ -50,7 +50,8 @@ ns.RegisterProfession({
 	-- recipe name = { itemID, skill, bound, side, rep, sellers = { { ..., cost } },
 	--   quests = { { title, zone, side } }, drops = { { how, from, zone, drops, of } } }: patterns no vendor
 	--   sells for gold (drops, quest and reputation rewards, token vendors); bound = binds when picked
-	--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it
+	--   up (false: it can be traded; absent: the data doesn't say); side = the only side that can get it;
+	--   otherCamp = the side whose trade camp sells it too, though players haven't recorded it there
 	otherPatterns = {
 		["Molten Foundry"] = { itemID = 273122, skill = 300, bound = false },
 		["Rock Garden"] = { itemID = 273097, skill = 140, bound = false },

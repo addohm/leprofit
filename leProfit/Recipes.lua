@@ -50,6 +50,9 @@ function Recipes.WhereLines(src, most)
 	for _, s in ipairs(src.sellers or {}) do
 		lines[#lines + 1] = (s.cost and (s.cost .. " from ") or "Sold by ") .. Recipes.SellerText(s)
 	end
+	if src.otherCamp then
+		lines[#lines + 1] = ("Also sold at the %s trade camp (not recorded yet)"):format(src.otherCamp)
+	end
 	for _, q in ipairs(src.quests or {}) do
 		lines[#lines + 1] = ("Reward from the quest %s%s%s"):format(q.title, q.zone and (" in " .. q.zone) or "",
 			q.side and (" (" .. q.side .. " only)") or "")
@@ -112,7 +115,7 @@ local function Source(def, prof, name)
 	if o then
 		return {
 			kind = "other", itemID = o.itemID, skill = o.skill, bound = o.bound, side = o.side, rep = o.rep,
-			sellers = Sellers(nil, o), quests = o.quests, drops = o.drops,
+			sellers = Sellers(nil, o), otherCamp = o.otherCamp, quests = o.quests, drops = o.drops,
 		}
 	end
 	return { kind = "unknown" }

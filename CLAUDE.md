@@ -97,7 +97,10 @@ Discuss each feature with the owner before building it.
   `Leprofit_<Profession>` folders the install script deletes.
 - Show all lists everything a character could get; only what's unobtainable
   for it (the other side's recipes) is never listed, and every learnable
-  recipe's tooltip says where to get it (the owner's rule, 2026-11-22).
+  recipe's tooltip says where to get it (the owner's rule, 2026-11-22). The
+  side is black and white: if every known source is Horde, an Alliance
+  character doesn't see it. Neutral towns' vendors are neutral, and the trade
+  camps' Merchant's Favor plans are both sides' (`gen_data.only_side`).
 - When the Crafts list gets dense, put per-craft detail in the row tooltip;
   add a column only for things worth sorting or scanning by (the owner's
   rule).
