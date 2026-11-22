@@ -7,6 +7,9 @@ change.
 
 - Standard docs (2026-11-16).
 - Design agreed (2026-11-16, below).
+- Data from the game (2026-11-22): recipes from Forever's game data tables,
+  pattern sellers and vendor prices partly from Efficient Games' player data,
+  the rest carried in `tools/learned.json`; Mining's smelting built in.
 - One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
 - 1.0.0 released (2026-11-19): out of beta, with search and All professions.
@@ -55,7 +58,10 @@ change.
   listed greyed out; Show all adds those needing more skill; Hide unlearned
   lists only the known (the owner's pick, after trying a skill slider).
 - **Recipe data:** built-in data, one file per profession, plus
-  what you record playing. No in-game sharing, no share website.
+  what you record playing. No in-game sharing, no share website. Since
+  2026-11-22 it's generated from Forever's game data and Efficient Games'
+  player data, with what neither has (trainer costs, most pattern sellers)
+  in `tools/learned.json`.
 - **One addon:** every profession's data built in (it was a core plus one
   addon per profession until 2026-11-20: the data is only 2.7 MB, so the
   modules weren't worth their trouble). The dropdown lists all nine, starting

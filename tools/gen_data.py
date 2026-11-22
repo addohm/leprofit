@@ -1,74 +1,99 @@
-"""Generate each profession's data file, leProfit/Data/<Profession>.lua, from the source data.
+"""Generate each profession's data file, leProfit/Data/<Profession>.lua.
 
-Run it with no arguments: .venv/bin/python tools/gen_data.py
+Run it with no arguments: python3 tools/gen_data.py   (tools/update_data.py runs it for you)
 
-The source data is .source/CommunityData.lua, which is git-ignored and never committed; replace it
-with a newer copy to refresh the data. It's Lua, so it's run in an empty environment (no os, io
-or other libraries): it only builds a table.
+Where each part comes from:
 
-For each profession in PROFESSIONS this writes leProfit/Data/<Profession>.lua (no spaces:
-FirstAid.lua), which registers the profession with the addon: its recipes (what each makes, how many, from what), what
-trainers charge for the recipes they teach, the patterns sold by vendors and who sells them (with
-where they stand), the vendor prices of its materials, and the item names it mentions.
+- Recipes: Forever's game data tables in .source/game/ (tools/fetch_sources.py downloads them).
+  Every recipe on the profession's skill line (SkillLineAbility) that makes an item (SpellEffect
+  "create item") from materials (SpellReagents): its name, what it makes and how many (the
+  average, for recipes that make a few), and the skill at which it turns grey. Plus
+  tools/learned.json's extraRecipes: Forever's camp and home items, which the game files under
+  gathering skills, listed with the crafting professions that use their materials.
+- Trainer costs and the skill each needs: tools/learned.json. Trainers aren't in the game data;
+  leProfit records them when you open a trainer, and tools/update_data.py adds those.
+- Patterns sold by vendors: the recipe each teaches and the skill it needs from the game data
+  (ItemXItemEffect, ItemSparse); who sells it, for how much and where from tools/learned.json
+  (with what you recorded in game) and from Efficient Games' player-recorded vendors.
+- Vendor prices of materials: tools/learned.json, then Efficient Games' vendors (endless supply).
+- Item names: the game data (ItemSparse); tools/learned.json for the few it doesn't have.
+
+Only the standard library is needed.
 """
+import csv
+import glob
+import json
 import pathlib
+import re
 import sys
 
-try:
-    from lupa import lua51
-except ImportError:
-    sys.exit("lupa is not installed: python3 -m venv .venv && .venv/bin/pip install lupa")
-
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SOURCE = ROOT / ".source" / "CommunityData.lua"
-
-# Profession name -> icon. Add a profession here, run the script, and list its file in leProfit.toc.
-# Mining isn't here: the source data has no smelting, so leProfit/Data/Mining.lua is written by hand.
-PROFESSIONS = {
-    "Alchemy": "Interface\\Icons\\Trade_Alchemy",
-    "Blacksmithing": "Interface\\Icons\\Trade_BlackSmithing",
-    "Cooking": "Interface\\Icons\\INV_Misc_Food_15",
-    "Enchanting": "Interface\\Icons\\Trade_Engraving",
-    "Engineering": "Interface\\Icons\\Trade_Engineering",
-    "First Aid": "Interface\\Icons\\Spell_Holy_SealOfSacrifice",
-    "Leatherworking": "Interface\\Icons\\Trade_LeatherWorking",
-    "Tailoring": "Interface\\Icons\\Trade_Tailoring",
-}
-
-
+SOURCE = ROOT / ".source"
+GAME = SOURCE / "game"
+LEARNED = ROOT / "tools" / "learned.json"
 DATA = ROOT / "leProfit" / "Data"
 
+# Profession -> (skill line, icon, window names if the game calls the window something else).
+# Add a profession here, run the script, and list its file in leProfit.toc.
+PROFESSIONS = {
+    "Alchemy": (171, "Interface\\Icons\\Trade_Alchemy", None),
+    "Blacksmithing": (164, "Interface\\Icons\\Trade_BlackSmithing", None),
+    "Cooking": (185, "Interface\\Icons\\INV_Misc_Food_15", None),
+    "Enchanting": (333, "Interface\\Icons\\Trade_Engraving", None),
+    "Engineering": (202, "Interface\\Icons\\Trade_Engineering", None),
+    "First Aid": (129, "Interface\\Icons\\Spell_Holy_SealOfSacrifice", None),
+    "Leatherworking": (165, "Interface\\Icons\\Trade_LeatherWorking", None),
+    "Mining": (186, "Interface\\Icons\\Trade_Mining", ["Mining", "Smelting"]),
+    "Tailoring": (197, "Interface\\Icons\\Trade_Tailoring", None),
+}
 
-def data_file(name):
-    """The profession's data file: leProfit/Data/ and the profession without spaces."""
-    return DATA / (name.replace(" ", "") + ".lua")
-
-
-def load_community():
-    if not SOURCE.exists():
-        sys.exit(f"Can't find {SOURCE.relative_to(ROOT)}: put the source data there first.")
-    lua = lua51.LuaRuntime(unpack_returned_tuples=True)
-    load = lua.eval("""function(src)
-        local f, err = loadstring(src, '@CommunityData.lua')
-        if not f then error(err) end
-        setfenv(f, {})
-        local ns = {}
-        f('Source', ns)
-        return ns.COMMUNITY
-    end""")
-    return load(SOURCE.read_text(encoding="utf-8"))
+# Vendor discount by standing with the vendor's faction (4 Neutral ... 8 Exalted): players record
+# what they paid, so the full price is worked back from it.
+DISCOUNT = {4: 0, 5: 0, 6: 0.10, 7: 0.15, 8: 0.20}
 
 
-def is_table(v):
-    return lua51.lua_type(v) == "table"
+class DataError(Exception):
+    pass
 
 
-def items(t):
-    return list(t.items()) if is_table(t) else []
+def table(name):
+    path = GAME / f"{name}.csv"
+    if not path.exists():
+        raise DataError(f"Can't find .source/game/{name}.csv: run tools/fetch_sources.py first.")
+    with open(path, encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
 
 
-def values(t):
-    return [v for _, v in sorted(items(t), key=lambda kv: kv[0])]
+def eg(dataset, key):
+    """One player-recorded dataset merged across every build, newest last (so newest wins)."""
+    files = sorted(glob.glob(str(SOURCE / "eg" / f"{dataset}_*.json")),
+                   key=lambda p: int(re.search(r"_(\d+)\.json$", p).group(1)))
+    merged = {}
+    for path in files:
+        with open(path, encoding="utf-8") as f:
+            for k, v in json.load(f).get(key, {}).items():
+                merged.setdefault(k, {}).update(v)
+    return merged
+
+
+def full_price(costs):
+    """The undiscounted copper price from a vendor entry's {standing: copper} (0 if none)."""
+    best = 0
+    for standing, copper in (costs or {}).items():
+        d = DISCOUNT.get(int(standing))
+        if d is not None and copper:
+            best = max(best, round(copper / (1 - d)))
+    return best
+
+
+def load_learned():
+    if not LEARNED.exists():
+        raise DataError("Can't find tools/learned.json.")
+    with open(LEARNED, encoding="utf-8") as f:
+        learned = json.load(f)
+    for key in ("training", "patterns", "vendorPrices", "itemNames", "extraRecipes"):
+        learned.setdefault(key, {})
+    return learned
 
 
 def lua_string(s):
@@ -77,97 +102,196 @@ def lua_string(s):
 
 def lua_number(n):
     n = float(n)
-    return str(int(n)) if n.is_integer() else repr(n)
-
-
-def seller(entry, vendors):
-    """A pattern seller: name, place and faction, and where they stand (map and x, y from 0 to 1).
-    The vendor table's faction is the NPC's own (Alliance, Horde or Neutral); a pattern record's is
-    only the faction of the player who recorded it, so the vendor table wins."""
-    out = {}
-    for key in ("vendor", "zone", "subZone", "faction"):
-        if entry[key] is not None:
-            out[key] = entry[key]
-    v = vendors[out["vendor"]] if out.get("vendor") and vendors else None
-    if is_table(v):
-        for key in ("zone", "subZone", "faction"):
-            if v[key] is not None:
-                out[key] = v[key]
-        if v.mapID and v.x is not None and v.y is not None:
-            out["mapID"], out["x"], out["y"] = int(v.mapID), round(float(v.x), 4), round(float(v.y), 4)
-    return out if out.get("vendor") else None
+    return str(int(n)) if n.is_integer() else repr(round(n, 4))
 
 
 def lua_value(v):
     return lua_number(v) if isinstance(v, (int, float)) else lua_string(v)
 
 
-def profession_data(community, name):
-    prof = community.professions[name]
-    recipes, used = {}, set()
-    for rid, r in items(prof.recipes):
-        if not r.product or not r.name:
-            continue  # enchants on gear make no item to sell
-        reagents = [(int(x[1]), int(x[2])) for x in values(r.reagents) if x[1] and x[2]]
-        if not reagents:
-            continue
-        recipes[int(rid)] = {
-            "name": r.name, "product": int(r.product), "yield": int(r["yield"] or 1),
-            "grey": int(r.grey) if r.grey else None, "icon": r.icon, "reagents": reagents,
-        }
-        used.add(int(r.product))
-        used.update(i for i, _ in reagents)
-    names = {r["name"] for r in recipes.values()}
+def data_file(name):
+    """The profession's data file: leProfit/Data/ and the profession without spaces."""
+    return DATA / (name.replace(" ", "") + ".lua")
 
-    training = {}
-    for recipe, t in items(prof.training):
-        if recipe in names and t.cost is not None:
-            training[recipe] = {"cost": t.cost, "skill": t.requiredSkill}
+
+class Game:
+    """The game data tables, read once."""
+
+    def __init__(self):
+        self.build = (SOURCE / "BUILD").read_text(encoding="utf-8").strip() if (SOURCE / "BUILD").exists() else "?"
+        self.items = {int(r["ID"]): r for r in table("ItemSparse")}
+        self.spell_names = {int(r["ID"]): r["Name_lang"] for r in table("SpellName")}
+        self.reagents = {}
+        for r in table("SpellReagents"):
+            lst = []
+            for n in range(8):
+                item, count = int(r.get(f"Reagent_{n}") or 0), int(r.get(f"ReagentCount_{n}") or 0)
+                if item > 0 and count > 0:
+                    lst.append([item, count])
+            if lst:
+                self.reagents[int(r["SpellID"])] = lst
+        self.creates = {}  # spell -> (item, how many on average)
+        for r in table("SpellEffect"):
+            if r["Effect"] == "24" and int(r["EffectItemType"] or 0) > 0:
+                self.creates.setdefault(int(r["SpellID"]), (int(r["EffectItemType"]), max(1.0, float(r["EffectBasePointsF"] or 1))))
+        self.abilities = {}  # skill line -> [rows]
+        self.grey = {}       # spell -> skill at which it turns grey
+        for r in table("SkillLineAbility"):
+            self.abilities.setdefault(int(r["SkillLine"]), []).append(r)
+            if int(r["TrivialSkillLineRankHigh"] or 0) > 0:
+                self.grey.setdefault(int(r["Spell"]), int(r["TrivialSkillLineRankHigh"]))
+        effects = {int(r["ID"]): r for r in table("ItemEffect")}
+        self.teaches = {}  # recipe item -> spells it teaches (a "learn" effect, trigger type 6)
+        for r in table("ItemXItemEffect"):
+            e = effects.get(int(r["ItemEffectID"]))
+            if e and e["TriggerType"] == "6":
+                self.teaches.setdefault(int(r["ItemID"]), set()).add(int(e["SpellID"]))
+        self.map_names = {int(r["ID"]): r["Name_lang"] for r in table("UiMap")}
+
+    def recipe(self, spell, fallback=None):
+        """A recipe's name, product, yield, grey and materials, or the fallback's if the game has none."""
+        made, reagents = self.creates.get(spell), self.reagents.get(spell)
+        if not (made and reagents and self.spell_names.get(spell)):
+            return fallback
+        r = {"name": self.spell_names[spell], "product": made[0], "yield": made[1], "reagents": reagents}
+        grey = self.grey.get(spell) or (fallback or {}).get("grey")
+        if grey:
+            r["grey"] = grey
+        return r
+
+    def item_name(self, item):
+        r = self.items.get(item)
+        return r["Display_lang"] if r and r["Display_lang"] else None
+
+
+class Players:
+    """Efficient Games' player-recorded vendors: what each sells, for how much, and where."""
+
+    def __init__(self, game):
+        vendors, npcs = eg("vendors", "vendors"), eg("npcs", "npcs")
+        self.builds = len(glob.glob(str(SOURCE / "eg" / "vendors_*.json")))
+        self.sellers = {}  # item -> [(seller, price)]
+        self.prices = {}   # item -> copper for one, in endless supply
+        for vid, v in vendors.items():
+            seller = {"vendor": v.get("name")}
+            if not seller["vendor"]:
+                continue
+            pos = (v.get("positions") or [{}])[0]
+            if game.map_names.get(pos.get("uiMap")):
+                seller["zone"] = game.map_names[pos["uiMap"]]
+            side = (npcs.get(vid) or {}).get("side")
+            if side in ("Alliance", "Horde"):
+                seller["faction"] = side
+            if pos.get("uiMap") and pos.get("mapX") is not None and pos.get("mapY") is not None:
+                seller["mapID"], seller["x"], seller["y"] = int(pos["uiMap"]), round(pos["mapX"], 4), round(pos["mapY"], 4)
+            for e in (v.get("entries") or {}).values():
+                item, price = e.get("itemId"), full_price(e.get("costs"))
+                if not item or not price or e.get("costItems"):
+                    continue
+                self.sellers.setdefault(item, []).append((seller, price))
+                if not e.get("limited"):
+                    each = price / max(1, e.get("stack") or 1)
+                    self.prices[item] = min(self.prices.get(item, each), each)
+
+
+def profession(name, game, players, learned):
+    line, _, _ = PROFESSIONS[name]
+    recipes = {}
+    for r in game.abilities.get(line, []):
+        rec = game.recipe(int(r["Spell"]))
+        if rec:
+            recipes[int(r["Spell"])] = rec
+    for sid, stored in learned["extraRecipes"].get(name, {}).items():
+        recipes.setdefault(int(sid), game.recipe(int(sid), stored))
+    names = {r["name"] for r in recipes.values()}
+    by_spell = {sid: r["name"] for sid, r in recipes.items()}
+    materials = set()  # what the recipes make and use: the items a vendor price matters for
+    for r in recipes.values():
+        materials.add(r["product"])
+        materials.update(i for i, _ in r["reagents"])
+    used = set(materials)
+
+    training = {k: v for k, v in learned["training"].get(name, {}).items() if k in names and "cost" in v}
 
     patterns = {}
-    for recipe, m in items(prof.manuals):
-        if recipe not in names or not m.itemID:
-            continue
-        sellers, seen = [], set()
-        for entry in [m, m.other] + values(m.sellers):
-            s = seller(entry, community.vendors) if is_table(entry) else None
-            if s and s["vendor"] not in seen:
-                seen.add(s["vendor"])
-                sellers.append(s)
-        patterns[recipe] = {"itemID": int(m.itemID), "price": m.price, "skill": m.requiredSkill, "sellers": sellers}
-        used.add(int(m.itemID))
+    for recipe, p in learned["patterns"].get(name, {}).items():
+        if recipe in names and p.get("itemID"):
+            patterns[recipe] = {"itemID": int(p["itemID"]), "price": p.get("price"), "sellers": list(p.get("sellers") or [])}
+    for item, spells in game.teaches.items():
+        for spell in spells:
+            recipe = by_spell.get(spell)
+            if not recipe or item not in players.sellers:
+                continue
+            p = patterns.setdefault(recipe, {"itemID": item, "price": None, "sellers": []})
+            if p["itemID"] != item:
+                continue  # another item teaches it too; keep the one already known
+            have = {s.get("vendor") for s in p["sellers"]}
+            for seller, price in sorted(players.sellers[item], key=lambda sp: sp[0]["vendor"]):
+                if seller["vendor"] not in have:
+                    have.add(seller["vendor"])
+                    p["sellers"].append(seller)
+                if p["price"] is None:
+                    p["price"] = price
+    for p in patterns.values():
+        r = game.items.get(p["itemID"])
+        p["skill"] = int(r["RequiredSkillRank"]) if r and int(r["RequiredSkillRank"] or 0) > 0 else None
+        used.add(p["itemID"])
 
-    vendor_prices = {int(i): p for i, p in items(community.vendorPrices) if int(i) in used}
-    item_names = {int(i): n for i, n in items(community.itemNames) if int(i) in used}
+    vendor_prices = {}
+    for item in materials:
+        price = learned["vendorPrices"].get(str(item))
+        if price is None:
+            price = players.prices.get(item)
+        if price is not None:
+            vendor_prices[item] = price
+    # Names from the game data; a few of Forever's items aren't in it yet, so learned.json keeps theirs.
+    item_names = {}
+    for i in used:
+        n = game.item_name(i) or learned["itemNames"].get(str(i))
+        if n:
+            item_names[i] = n
     return recipes, training, patterns, vendor_prices, item_names
 
 
-def write_module(name, icon, recipes, training, patterns, vendor_prices, item_names, contributors):
-    path = data_file(name)
+def old_names(path):
+    """The recipe, trainer and pattern names a data file lists now, to report what changed."""
+    if not path.exists():
+        return set(), set(), set()
+    text = path.read_text(encoding="utf-8")
+    recipes = set(re.findall(r'^\t\t\[\d+\] = \{ name = "((?:[^"\\]|\\.)*)"', text, re.M))
+    training = set(re.findall(r'^\t\t\["((?:[^"\\]|\\.)*)"\] = \{ cost = ', text, re.M))
+    patterns = set(re.findall(r'^\t\t\["((?:[^"\\]|\\.)*)"\] = \{ itemID = ', text, re.M))
+    unescape = lambda s: s.replace('\\"', '"').replace("\\\\", "\\")
+    return {unescape(n) for n in recipes}, {unescape(n) for n in training}, {unescape(n) for n in patterns}
+
+
+def write(name, build, recipes, training, patterns, vendor_prices, item_names):
+    _, icon, windows = PROFESSIONS[name]
     out = [
         f"-- leProfit: the {name} data. Generated by tools/gen_data.py: don't edit by hand, run the",
-        "-- script again.",
+        f"-- script again. Game data from Forever build {build}; vendor data partly from Efficient Games",
+        "-- (https://efficient.games), licensed under CC BY 4.0.",
         "local _, ns = ...",
         "ns.RegisterProfession({",
         f"\tname = {lua_string(name)},",
         f"\ticon = {lua_string(icon)},",
-        "\t-- recipeID = { name, product (item made), yield, grey (skill), icon, reagents = { { itemID, count } } }",
-        "\trecipes = {",
     ]
+    if windows:
+        out.append(f"\twindowNames = {{ {', '.join(lua_string(w) for w in windows)} }},")
+    out += ["\t-- recipeID = { name, product (item made), yield, grey (skill), reagents = { { itemID, count } } }",
+            "\trecipes = {"]
     for rid in sorted(recipes):
         r = recipes[rid]
         reagents = ", ".join(f"{{ {i}, {n} }}" for i, n in r["reagents"])
-        fields = [f"name = {lua_string(r['name'])}", f"product = {r['product']}", f"yield = {r['yield']}"]
-        if r["grey"]:
+        fields = [f"name = {lua_string(r['name'])}", f"product = {r['product']}", f"yield = {lua_number(r['yield'])}"]
+        if r.get("grey"):
             fields.append(f"grey = {r['grey']}")
-        if r["icon"]:
-            fields.append(f"icon = {lua_number(r['icon'])}")
         fields.append(f"reagents = {{ {reagents} }}")
         out.append(f"\t\t[{rid}] = {{ {', '.join(fields)} }},")
     out += ["\t},", "\t-- recipe name = { cost (copper), skill (required) }: what trainers charge", "\ttraining = {"]
     for recipe in sorted(training):
         t = training[recipe]
-        skill = f", skill = {lua_number(t['skill'])}" if t["skill"] is not None else ""
+        skill = f", skill = {lua_number(t['skill'])}" if t.get("skill") is not None else ""
         out.append(f"\t\t[{lua_string(recipe)}] = {{ cost = {lua_number(t['cost'])}{skill} }},")
     out += ["\t},", "\t-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }",
             "\tpatterns = {"]
@@ -178,7 +302,8 @@ def write_module(name, icon, recipes, training, patterns, vendor_prices, item_na
             fields.append(f"price = {lua_number(p['price'])}")
         if p["skill"] is not None:
             fields.append(f"skill = {lua_number(p['skill'])}")
-        sellers = ", ".join("{ " + ", ".join(f"{k} = {lua_value(v)}" for k, v in s.items()) + " }"
+        sellers = ", ".join("{ " + ", ".join(f"{k} = {lua_value(s[k])}" for k in
+                                             ("vendor", "zone", "subZone", "faction", "mapID", "x", "y") if s.get(k) is not None) + " }"
                             for s in p["sellers"])
         fields.append(f"sellers = {{ {sellers} }}")
         out.append(f"\t\t[{lua_string(recipe)}] = {{ {', '.join(fields)} }},")
@@ -189,16 +314,45 @@ def write_module(name, icon, recipes, training, patterns, vendor_prices, item_na
     for i in sorted(item_names):
         out.append(f"\t\t[{i}] = {lua_string(item_names[i])},")
     out += ["\t},", "})", ""]
-    path.write_text("\n".join(out), encoding="utf-8")
-    print(f"{path.relative_to(ROOT)}: {len(recipes)} recipes, {len(training)} trainer recipes, "
-          f"{len(patterns)} patterns, {len(vendor_prices)} vendor prices, {len(item_names)} item names")
+    data_file(name).write_text("\n".join(out), encoding="utf-8", newline="\n")
+
+
+def generate():
+    """Writes every profession's data file. Returns the build and, per profession, its counts and
+    the recipe, trainer and pattern names added and removed since the files were last written."""
+    game = Game()
+    players = Players(game)
+    learned = load_learned()
+    DATA.mkdir(exist_ok=True)
+    report = {}
+    for name in PROFESSIONS:
+        before = old_names(data_file(name))
+        recipes, training, patterns, vendor_prices, item_names = profession(name, game, players, learned)
+        write(name, game.build, recipes, training, patterns, vendor_prices, item_names)
+        now = ({r["name"] for r in recipes.values()}, set(training), set(patterns))
+        report[name] = {
+            "recipes": len(recipes), "training": len(training), "patterns": len(patterns),
+            "vendorPrices": len(vendor_prices),
+            "added": [sorted(n - b) for n, b in zip(now, before)],
+            "removed": [sorted(b - n) for n, b in zip(now, before)],
+        }
+    return game.build, players.builds, report
 
 
 def main():
-    community = load_community()
-    DATA.mkdir(exist_ok=True)
-    for name, icon in PROFESSIONS.items():
-        write_module(name, icon, *profession_data(community, name), community.contributors)
+    try:
+        build, eg_builds, report = generate()
+    except DataError as e:
+        sys.exit(str(e))
+    print(f"Game data from Forever build {build}; player vendor data from {eg_builds} builds.")
+    for name, r in report.items():
+        print(f"{data_file(name).relative_to(ROOT)}: {r['recipes']} recipes, {r['training']} trainer costs, "
+              f"{r['patterns']} patterns, {r['vendorPrices']} vendor prices")
+        for label, added, removed in zip(("recipes", "trainer costs", "patterns"), r["added"], r["removed"]):
+            if added:
+                print(f"  new {label}: {', '.join(added)}")
+            if removed:
+                print(f"  gone {label}: {', '.join(removed)}")
 
 
 if __name__ == "__main__":

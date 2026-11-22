@@ -1,0 +1,8532 @@
+{
+ "training": {
+  "Alchemy": {
+   "Arcane Elixir": {
+    "cost": 10000,
+    "skill": 235
+   },
+   "Blackmouth Oil": {
+    "cost": 250,
+    "skill": 80
+   },
+   "Catseye Draught": {
+    "cost": 8000,
+    "skill": 200
+   },
+   "Cerulean Dye": {
+    "cost": 150,
+    "skill": 40
+   },
+   "Discolored Healing Potion": {
+    "cost": 500,
+    "skill": 110
+   },
+   "Draught of Detect Demon": {
+    "cost": 14000,
+    "skill": 250
+   },
+   "Draught of Detect Undead": {
+    "cost": 5000,
+    "skill": 230
+   },
+   "Draught of Greater Water Breathing": {
+    "cost": 10000,
+    "skill": 215
+   },
+   "Draught of Water Breathing": {
+    "cost": 450,
+    "skill": 90
+   },
+   "Dreamless Sleep Potion": {
+    "cost": 10000,
+    "skill": 230
+   },
+   "Elixir of Agility": {
+    "cost": 6500,
+    "skill": 185
+   },
+   "Elixir of Defense": {
+    "cost": 7500,
+    "skill": 195
+   },
+   "Elixir of Fire Power": {
+    "cost": 3000,
+    "skill": 140
+   },
+   "Elixir of Greater Agility": {
+    "cost": 12000,
+    "skill": 240
+   },
+   "Elixir of Greater Intellect": {
+    "cost": 12000,
+    "skill": 235
+   },
+   "Elixir of Lesser Defense": {
+    "cost": 2000,
+    "skill": 130
+   },
+   "Elixir of Lesser Fortitude": {
+    "cost": 6000,
+    "skill": 175
+   },
+   "Elixir of Minor Fortitude": {
+    "cost": 250,
+    "skill": 50
+   },
+   "Elixir of Minor Strength": {
+    "cost": 50,
+    "skill": 15
+   },
+   "Elixir of Wisdom": {
+    "cost": 500,
+    "skill": 90
+   },
+   "Fire Oil": {
+    "cost": 1000,
+    "skill": 130
+   },
+   "Greater Discolored Healing Potion": {
+    "cost": 1500,
+    "skill": 155
+   },
+   "Greater Mana Potion": {
+    "cost": 9000,
+    "skill": 205
+   },
+   "Lesser Discolored Healing Potion": {
+    "cost": 100,
+    "skill": 55
+   },
+   "Lesser Invisibility Potion": {
+    "cost": 5000,
+    "skill": 165
+   },
+   "Lesser Mana Potion": {
+    "cost": 1500,
+    "skill": 120
+   },
+   "Lesser Troll's Blood Elixir": {
+    "cost": 1500,
+    "skill": 125
+   },
+   "Magenta Dye": {
+    "cost": 1500,
+    "skill": 120
+   },
+   "Major Discolored Healing Potion": {
+    "cost": 10000,
+    "skill": 270
+   },
+   "Mana Potion": {
+    "cost": 5000,
+    "skill": 160
+   },
+   "Mana Well": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Minor Discolored Healing Potion": {
+    "cost": 10,
+    "skill": 1
+   },
+   "Minor Mana Potion": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Minor Rejuvenation Potion": {
+    "cost": 150,
+    "skill": 40
+   },
+   "Minor Troll's Blood Elixir": {
+    "cost": 50,
+    "skill": 15
+   },
+   "Oil of Immolation": {
+    "cost": 8000,
+    "skill": 205
+   },
+   "Stonescale Oil": {
+    "cost": 15000,
+    "skill": 250
+   },
+   "Sulfuric Acid": {
+    "cost": 150,
+    "skill": 40
+   },
+   "Superior Discolored Healing Potion": {
+    "cost": 5000,
+    "skill": 215
+   },
+   "Swim Speed Potion": {
+    "cost": 1000,
+    "skill": 100
+   },
+   "Viridian Dye": {
+    "cost": 10000,
+    "skill": 215
+   }
+  },
+  "Blacksmithing": {
+   "Arcanite Rod": {
+    "cost": 10000,
+    "skill": 250
+   },
+   "Arcanite Skeleton Key": {
+    "cost": 10000,
+    "skill": 250
+   },
+   "Big Black Mace": {
+    "cost": 15000,
+    "skill": 205
+   },
+   "Big Bronze Knife": {
+    "cost": 600,
+    "skill": 80
+   },
+   "Blight": {
+    "cost": 13500,
+    "skill": 225
+   },
+   "Bronze Axe": {
+    "cost": 200,
+    "skill": 90
+   },
+   "Bronze Battle Axe": {
+    "cost": 500,
+    "skill": 110
+   },
+   "Bronze Greatsword": {
+    "cost": 500,
+    "skill": 105
+   },
+   "Bronze Mace": {
+    "cost": 200,
+    "skill": 85
+   },
+   "Bronze Shortsword": {
+    "cost": 200,
+    "skill": 95
+   },
+   "Bronze Warhammer": {
+    "cost": 250,
+    "skill": 100
+   },
+   "Coarse Grinding Stone": {
+    "cost": 250,
+    "skill": 50
+   },
+   "Coarse Sharpening Stone": {
+    "cost": 100,
+    "skill": 40
+   },
+   "Coarse Weightstone": {
+    "cost": 100,
+    "skill": 40
+   },
+   "Copper Axe": {
+    "cost": 50,
+    "skill": 20
+   },
+   "Copper Battle Axe": {
+    "cost": 250,
+    "skill": 30
+   },
+   "Copper Chain Belt": {
+    "cost": 100,
+    "skill": 30
+   },
+   "Copper Chain Boots": {
+    "cost": 50,
+    "skill": 20
+   },
+   "Copper Chain Pants": {
+    "cost": 50,
+    "skill": 15
+   },
+   "Copper Claymore": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Copper Dagger": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Copper Mace": {
+    "cost": 50,
+    "skill": 15
+   },
+   "Copper Shortsword": {
+    "cost": 50,
+    "skill": 25
+   },
+   "Dense Grinding Stone": {
+    "cost": 10000,
+    "skill": 225
+   },
+   "Dense Sharpening Stone": {
+    "cost": 10000,
+    "skill": 225
+   },
+   "Dense Weightstone": {
+    "cost": 10000,
+    "skill": 225
+   },
+   "Gemmed Copper Boots": {
+    "cost": 100,
+    "skill": 35
+   },
+   "Glinting Steel Dagger": {
+    "cost": 7500,
+    "skill": 155
+   },
+   "Glowing Copper Boots": {
+    "cost": 100,
+    "skill": 35
+   },
+   "Golden Rod": {
+    "cost": 250,
+    "skill": 125
+   },
+   "Golden Scale Bracers": {
+    "cost": 1000,
+    "skill": 160
+   },
+   "Golden Skeleton Key": {
+    "cost": 250,
+    "skill": 125
+   },
+   "Green Iron Bracers": {
+    "cost": 1000,
+    "skill": 140
+   },
+   "Green Iron Hauberk": {
+    "cost": 7500,
+    "skill": 155
+   },
+   "Green Iron Helm": {
+    "cost": 1250,
+    "skill": 145
+   },
+   "Green Iron Leggings": {
+    "cost": 5000,
+    "skill": 130
+   },
+   "Heavy Bronze Mace": {
+    "cost": 1000,
+    "skill": 105
+   },
+   "Heavy Copper Broadsword": {
+    "cost": 500,
+    "skill": 70
+   },
+   "Heavy Copper Maul": {
+    "cost": 300,
+    "skill": 40
+   },
+   "Heavy Grinding Stone": {
+    "cost": 1000,
+    "skill": 100
+   },
+   "Heavy Mithril Axe": {
+    "cost": 10000,
+    "skill": 185
+   },
+   "Heavy Mithril Boots": {
+    "cost": 20000,
+    "skill": 210
+   },
+   "Heavy Mithril Breastplate": {
+    "cost": 15000,
+    "skill": 205
+   },
+   "Heavy Mithril Gauntlet": {
+    "cost": 5000,
+    "skill": 180
+   },
+   "Heavy Mithril Shoulder": {
+    "cost": 5000,
+    "skill": 180
+   },
+   "Heavy Sharpening Stone": {
+    "cost": 1000,
+    "skill": 100
+   },
+   "Heavy Weightstone": {
+    "cost": 1000,
+    "skill": 100
+   },
+   "Iron Buckle": {
+    "cost": 250,
+    "skill": 125
+   },
+   "Justicar's Belt": {
+    "cost": 4250,
+    "skill": 150
+   },
+   "Mithril Coif": {
+    "cost": 15000,
+    "skill": 205
+   },
+   "Mithril Plate Pants": {
+    "cost": 5000,
+    "skill": 185
+   },
+   "Officer's Belt": {
+    "cost": 4250,
+    "skill": 150
+   },
+   "Patterned Bronze Bracers": {
+    "cost": 500,
+    "skill": 95
+   },
+   "Pearl-handled Dagger": {
+    "cost": 800,
+    "skill": 85
+   },
+   "Phantom Blade": {
+    "cost": 13500,
+    "skill": 220
+   },
+   "Prefect's Belt": {
+    "cost": 4250,
+    "skill": 150
+   },
+   "Rough Bronze Boots": {
+    "cost": 200,
+    "skill": 70
+   },
+   "Rough Bronze Cuirass": {
+    "cost": 500,
+    "skill": 80
+   },
+   "Rough Bronze Leggings": {
+    "cost": 300,
+    "skill": 80
+   },
+   "Rough Bronze Shoulders": {
+    "cost": 500,
+    "skill": 85
+   },
+   "Rough Grinding Stone": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Runed Copper Belt": {
+    "cost": 200,
+    "skill": 45
+   },
+   "Runed Copper Bracers": {
+    "cost": 500,
+    "skill": 65
+   },
+   "Runed Copper Gauntlets": {
+    "cost": 100,
+    "skill": 35
+   },
+   "Runed Copper Pants": {
+    "cost": 200,
+    "skill": 35
+   },
+   "Sentinel's Belt": {
+    "cost": 4250,
+    "skill": 150
+   },
+   "Sharpening Wheel": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Shining Silver Breastplate": {
+    "cost": 1000,
+    "skill": 120
+   },
+   "Silver Rod": {
+    "cost": 100,
+    "skill": 75
+   },
+   "Silver Skeleton Key": {
+    "cost": 100,
+    "skill": 75
+   },
+   "Silvered Bronze Boots": {
+    "cost": 500,
+    "skill": 105
+   },
+   "Silvered Bronze Gauntlets": {
+    "cost": 1000,
+    "skill": 110
+   },
+   "Solid Grinding Stone": {
+    "cost": 2500,
+    "skill": 175
+   },
+   "Solid Sharpening Stone": {
+    "cost": 2500,
+    "skill": 175
+   },
+   "Solid Weightstone": {
+    "cost": 2500,
+    "skill": 175
+   },
+   "Steel Breastplate": {
+    "cost": 2500,
+    "skill": 175
+   },
+   "Steel Plate Helm": {
+    "cost": 5000,
+    "skill": 190
+   },
+   "Strange Copper Boots": {
+    "cost": 100,
+    "skill": 35
+   },
+   "The Shatterer": {
+    "cost": 13500,
+    "skill": 210
+   },
+   "Thick War Axe": {
+    "cost": 500,
+    "skill": 45
+   },
+   "Truesilver Breastplate": {
+    "cost": 10000,
+    "skill": 220
+   },
+   "Truesilver Champion": {
+    "cost": 13500,
+    "skill": 235
+   },
+   "Truesilver Gauntlets": {
+    "cost": 10000,
+    "skill": 200
+   },
+   "Truesilver Rod": {
+    "cost": 2500,
+    "skill": 175
+   },
+   "Truesilver Skeleton Key": {
+    "cost": 2500,
+    "skill": 175
+   },
+   "Warder's Belt": {
+    "cost": 4250,
+    "skill": 150
+   }
+  },
+  "Cooking": {
+   "Barbecued Buzzard Wing": {
+    "cost": 500,
+    "skill": 175
+   },
+   "Basic Campfire": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Boiled Clams": {
+    "cost": 100,
+    "skill": 50
+   },
+   "Coyote Steak": {
+    "cost": 100,
+    "skill": 50
+   },
+   "Crab Cake": {
+    "cost": 200,
+    "skill": 75
+   },
+   "Dry Pork Ribs": {
+    "cost": 150,
+    "skill": 80
+   },
+   "Goblin Deviled Clams": {
+    "cost": 300,
+    "skill": 125
+   },
+   "Spiced Wolf Meat": {
+    "cost": 50,
+    "skill": 10
+   },
+   "Spider Sausage": {
+    "cost": 4000,
+    "skill": 200
+   }
+  },
+  "Enchanting": {
+   "Enchanted Leather": {
+    "cost": 10000,
+    "skill": 250
+   },
+   "Enchanted Lute": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Greater Magic Wand": {
+    "cost": 200,
+    "skill": 70
+   },
+   "Greater Mystic Wand": {
+    "cost": 3000,
+    "skill": 175
+   },
+   "Lesser Magic Wand": {
+    "cost": 50,
+    "skill": 10
+   },
+   "Lesser Mystic Wand": {
+    "cost": 2600,
+    "skill": 155
+   },
+   "Runed Golden Rod": {
+    "cost": 2500,
+    "skill": 150
+   },
+   "Runed Silver Rod": {
+    "cost": 1000,
+    "skill": 100
+   },
+   "Runed Truesilver Rod": {
+    "cost": 4000,
+    "skill": 200
+   }
+  },
+  "Engineering": {
+   "Advanced Target Dummy": {
+    "cost": 1200,
+    "skill": 185
+   },
+   "Aquadynamic Fish Attractor": {
+    "cost": 500,
+    "skill": 150
+   },
+   "Arclight Spanner": {
+    "cost": 150,
+    "skill": 50
+   },
+   "Big Bronze Bomb": {
+    "cost": 600,
+    "skill": 140
+   },
+   "Big Iron Bomb": {
+    "cost": 1400,
+    "skill": 190
+   },
+   "Bronze Framework": {
+    "cost": 600,
+    "skill": 145
+   },
+   "Bronze Tube": {
+    "cost": 450,
+    "skill": 105
+   },
+   "Coarse Blasting Powder": {
+    "cost": 250,
+    "skill": 75
+   },
+   "Coarse Dynamite": {
+    "cost": 250,
+    "skill": 75
+   },
+   "Compact Harvest Reaper Kit": {
+    "cost": 1000,
+    "skill": 175
+   },
+   "Copper Modulator": {
+    "cost": 225,
+    "skill": 65
+   },
+   "Copper Tube": {
+    "cost": 150,
+    "skill": 50
+   },
+   "Crafted Heavy Shot": {
+    "cost": 250,
+    "skill": 75
+   },
+   "Crafted Solid Shot": {
+    "cost": 300,
+    "skill": 125
+   },
+   "Crude Scope": {
+    "cost": 200,
+    "skill": 60
+   },
+   "Deadly Blunderbuss": {
+    "cost": 420,
+    "skill": 105
+   },
+   "Dense Blasting Powder": {
+    "cost": 4000,
+    "skill": 250
+   },
+   "Dense Dynamite": {
+    "cost": 5000,
+    "skill": 250
+   },
+   "Explosive Sheep": {
+    "cost": 750,
+    "skill": 150
+   },
+   "Fire Goggles": {
+    "cost": 1600,
+    "skill": 205
+   },
+   "Flying Tiger Goggles": {
+    "cost": 400,
+    "skill": 100
+   },
+   "Gnomish Battle Chicken": {
+    "cost": 2160,
+    "skill": 230
+   },
+   "Gnomish Death Ray": {
+    "cost": 2520,
+    "skill": 240
+   },
+   "Gnomish Goggles": {
+    "cost": 1350,
+    "skill": 210
+   },
+   "Gnomish Harm Prevention Belt": {
+    "cost": 1800,
+    "skill": 215
+   },
+   "Gnomish Mind Control Cap": {
+    "cost": 2340,
+    "skill": 235
+   },
+   "Gnomish Net-o-Matic Projector": {
+    "cost": 1620,
+    "skill": 210
+   },
+   "Gnomish Rocket Boots": {
+    "cost": 1980,
+    "skill": 225
+   },
+   "Gnomish Shrink Ray": {
+    "cost": 1350,
+    "skill": 205
+   },
+   "Goblin Bomb Dispenser": {
+    "cost": 2400,
+    "skill": 230
+   },
+   "Goblin Construction Helmet": {
+    "cost": 1500,
+    "skill": 205
+   },
+   "Goblin Dragon Gun": {
+    "cost": 2800,
+    "skill": 240
+   },
+   "Goblin Mining Helmet": {
+    "cost": 1500,
+    "skill": 205
+   },
+   "Goblin Mortar": {
+    "cost": 1500,
+    "skill": 205
+   },
+   "Goblin Rocket Boots": {
+    "cost": 2200,
+    "skill": 225
+   },
+   "Goblin Rocket Helmet": {
+    "cost": 3000,
+    "skill": 245
+   },
+   "Goblin Sapper Charge": {
+    "cost": 1500,
+    "skill": 205
+   },
+   "Gold Power Core": {
+    "cost": 1000,
+    "skill": 150
+   },
+   "Green Lens": {
+    "cost": 2800,
+    "skill": 245
+   },
+   "Green Tinted Goggles": {
+    "cost": 750,
+    "skill": 150
+   },
+   "Gyrochronatom": {
+    "cost": 900,
+    "skill": 170
+   },
+   "Gyromatic Micro-Adjustor": {
+    "cost": 1000,
+    "skill": 175
+   },
+   "Handful of Copper Bolts": {
+    "cost": 115,
+    "skill": 30
+   },
+   "Heavy Blasting Powder": {
+    "cost": 500,
+    "skill": 125
+   },
+   "Heavy Dynamite": {
+    "cost": 500,
+    "skill": 125
+   },
+   "Hi-Explosive Bomb": {
+    "cost": 2400,
+    "skill": 235
+   },
+   "Hi-Impact Mithril Slugs": {
+    "cost": 1700,
+    "skill": 210
+   },
+   "Iron Grenade": {
+    "cost": 1000,
+    "skill": 175
+   },
+   "Iron Strut": {
+    "cost": 800,
+    "skill": 160
+   },
+   "Large Copper Bomb": {
+    "cost": 450,
+    "skill": 105
+   },
+   "Mechanical Repair Kit": {
+    "cost": 1500,
+    "skill": 200
+   },
+   "Mithril Blunderbuss": {
+    "cost": 1600,
+    "skill": 205
+   },
+   "Mithril Casing": {
+    "cost": 1800,
+    "skill": 215
+   },
+   "Mithril Frag Bomb": {
+    "cost": 1800,
+    "skill": 215
+   },
+   "Mithril Gyro-Shot": {
+    "cost": 2800,
+    "skill": 245
+   },
+   "Mithril Tube": {
+    "cost": 1300,
+    "skill": 195
+   },
+   "Ornate Spyglass": {
+    "cost": 400,
+    "skill": 135
+   },
+   "Practice Lock": {
+    "cost": 300,
+    "skill": 100
+   },
+   "Reagent Bot": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Rose Colored Goggles": {
+    "cost": 2200,
+    "skill": 230
+   },
+   "Rough Boomstick": {
+    "cost": 150,
+    "skill": 50
+   },
+   "Rough Copper Bomb": {
+    "cost": 130,
+    "skill": 30
+   },
+   "Salt Shaker": {
+    "cost": 4000,
+    "skill": 250
+   },
+   "Sandpaper": {
+    "cost": 500,
+    "skill": 120
+   },
+   "Silver Contact": {
+    "cost": 300,
+    "skill": 90
+   },
+   "Silver-plated Shotgun": {
+    "cost": 550,
+    "skill": 130
+   },
+   "Small Bronze Bomb": {
+    "cost": 500,
+    "skill": 120
+   },
+   "Solid Blasting Powder": {
+    "cost": 1000,
+    "skill": 175
+   },
+   "Solid Dynamite": {
+    "cost": 1000,
+    "skill": 175
+   },
+   "Standard Scope": {
+    "cost": 475,
+    "skill": 110
+   },
+   "Target Dummy": {
+    "cost": 300,
+    "skill": 85
+   },
+   "The Big One": {
+    "cost": 2600,
+    "skill": 235
+   },
+   "Unstable Trigger": {
+    "cost": 1500,
+    "skill": 200
+   },
+   "Whirring Bronze Gizmo": {
+    "cost": 500,
+    "skill": 125
+   }
+  },
+  "First Aid": {
+   "Anti-Venom": {
+    "cost": 250,
+    "skill": 80
+   },
+   "First Aid Kit": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Healing Potion": {
+    "cost": 800,
+    "skill": 110
+   },
+   "Heavy Linen Bandage": {
+    "cost": 100,
+    "skill": 40
+   },
+   "Heavy Wool Bandage": {
+    "cost": 1000,
+    "skill": 115
+   },
+   "Lesser Healing Potion": {
+    "cost": 150,
+    "skill": 55
+   },
+   "Minor Healing Potion": {
+    "cost": 100,
+    "skill": 1
+   },
+   "Silk Bandage": {
+    "cost": 5000,
+    "skill": 150
+   },
+   "Simple Poultice": {
+    "cost": 250,
+    "skill": 90
+   },
+   "Wool Bandage": {
+    "cost": 250,
+    "skill": 80
+   },
+   "Woolen Tourniquet": {
+    "cost": 1200,
+    "skill": 120
+   }
+  },
+  "Leatherworking": {
+   "Barbaric Harness": {
+    "cost": 2000,
+    "skill": 165
+   },
+   "Barbaric Shoulders": {
+    "cost": 1200,
+    "skill": 150
+   },
+   "Black Whelp Slippers": {
+    "cost": 500,
+    "skill": 35
+   },
+   "Blue Dragonscale Leggings": {
+    "cost": 45000,
+    "skill": 290
+   },
+   "Camp Tent": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Cured Heavy Hide": {
+    "cost": 500,
+    "skill": 125
+   },
+   "Cured Light Hide": {
+    "cost": 50,
+    "skill": 30
+   },
+   "Cured Medium Hide": {
+    "cost": 200,
+    "skill": 75
+   },
+   "Cured Rugged Hide": {
+    "cost": 5000,
+    "skill": 225
+   },
+   "Cured Thick Hide": {
+    "cost": 2000,
+    "skill": 175
+   },
+   "Dark Leather Belt": {
+    "cost": 400,
+    "skill": 100
+   },
+   "Dark Leather Boots": {
+    "cost": 500,
+    "skill": 35
+   },
+   "Dark Leather Cloak": {
+    "cost": 350,
+    "skill": 85
+   },
+   "Dark Leather Pants": {
+    "cost": 400,
+    "skill": 90
+   },
+   "Dragonscale Breastplate": {
+    "cost": 9000,
+    "skill": 230
+   },
+   "Dragonscale Gauntlets": {
+    "cost": 9000,
+    "skill": 200
+   },
+   "Dusky Belt": {
+    "cost": 2500,
+    "skill": 170
+   },
+   "Dusky Bracers": {
+    "cost": 2000,
+    "skill": 160
+   },
+   "Dusky Leather Armor": {
+    "cost": 1500,
+    "skill": 150
+   },
+   "Embossed Leather Boots": {
+    "cost": 100,
+    "skill": 50
+   },
+   "Embossed Leather Cloak": {
+    "cost": 100,
+    "skill": 40
+   },
+   "Embossed Leather Gloves": {
+    "cost": 150,
+    "skill": 40
+   },
+   "Embossed Leather Pants": {
+    "cost": 200,
+    "skill": 50
+   },
+   "Embossed Leather Vest": {
+    "cost": 100,
+    "skill": 35
+   },
+   "Fine Leather Belt": {
+    "cost": 300,
+    "skill": 55
+   },
+   "Fine Leather Cloak": {
+    "cost": 250,
+    "skill": 50
+   },
+   "Fine Leather Tunic": {
+    "cost": 350,
+    "skill": 60
+   },
+   "Fletcher's Gloves": {
+    "cost": 500,
+    "skill": 100
+   },
+   "Frost Leather Cloak": {
+    "cost": 2000,
+    "skill": 155
+   },
+   "Gauntlets of the Sea": {
+    "cost": 9000,
+    "skill": 205
+   },
+   "Gray Leather Boots": {
+    "cost": 350,
+    "skill": 75
+   },
+   "Green Dragonscale Gauntlets": {
+    "cost": 27000,
+    "skill": 255
+   },
+   "Green Leather Belt": {
+    "cost": 1000,
+    "skill": 135
+   },
+   "Green Leather Bracers": {
+    "cost": 1200,
+    "skill": 155
+   },
+   "Guardian Gloves": {
+    "cost": 2400,
+    "skill": 165
+   },
+   "Guardian Pants": {
+    "cost": 1000,
+    "skill": 135
+   },
+   "Handstitched Leather Belt": {
+    "cost": 75,
+    "skill": 25
+   },
+   "Handstitched Leather Pants": {
+    "cost": 50,
+    "skill": 15
+   },
+   "Heavy Armor Kit": {
+    "cost": 750,
+    "skill": 125
+   },
+   "Heavy Leather": {
+    "cost": 1000,
+    "skill": 125
+   },
+   "Heavy Leather Ammo Pouch": {
+    "cost": 500,
+    "skill": 125
+   },
+   "Heavy Quiver": {
+    "cost": 500,
+    "skill": 125
+   },
+   "Helm of Fire": {
+    "cost": 9000,
+    "skill": 225
+   },
+   "Hillman's Cloak": {
+    "cost": 600,
+    "skill": 125
+   },
+   "Hillman's Leather Gloves": {
+    "cost": 500,
+    "skill": 120
+   },
+   "Hillman's Shoulders": {
+    "cost": 500,
+    "skill": 105
+   },
+   "Light Leather Bracers": {
+    "cost": 150,
+    "skill": 45
+   },
+   "Light Leather Pants": {
+    "cost": 400,
+    "skill": 70
+   },
+   "Light Leather Quiver": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Medium Armor Kit": {
+    "cost": 250,
+    "skill": 75
+   },
+   "Medium Leather": {
+    "cost": 500,
+    "skill": 75
+   },
+   "Mender's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   },
+   "Moonglow Boots": {
+    "cost": 500,
+    "skill": 35
+   },
+   "Murloc Scale Shoes": {
+    "cost": 500,
+    "skill": 35
+   },
+   "Nightscape Boots": {
+    "cost": 4500,
+    "skill": 210
+   },
+   "Nightscape Headband": {
+    "cost": 3000,
+    "skill": 180
+   },
+   "Nightscape Pants": {
+    "cost": 4000,
+    "skill": 205
+   },
+   "Nightscape Tunic": {
+    "cost": 3000,
+    "skill": 180
+   },
+   "Nimble Leather Gloves": {
+    "cost": 500,
+    "skill": 95
+   },
+   "Prowler's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   },
+   "Quickdraw Quiver": {
+    "cost": 3600,
+    "skill": 200
+   },
+   "Rugged Armor Kit": {
+    "cost": 5000,
+    "skill": 225
+   },
+   "Rugged Leather": {
+    "cost": 5000,
+    "skill": 225
+   },
+   "Skirmisher's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   },
+   "Skulker's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   },
+   "Skycaller's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   },
+   "Small Leather Ammo Pouch": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Stalker's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   },
+   "Thick Armor Kit": {
+    "cost": 2000,
+    "skill": 175
+   },
+   "Thick Leather": {
+    "cost": 4000,
+    "skill": 175
+   },
+   "Thick Leather Ammo Pouch": {
+    "cost": 3600,
+    "skill": 200
+   },
+   "Toughened Leather Armor": {
+    "cost": 450,
+    "skill": 95
+   },
+   "Toughened Leather Gloves": {
+    "cost": 500,
+    "skill": 110
+   },
+   "Turtle Scale Bracers": {
+    "cost": 3500,
+    "skill": 185
+   },
+   "Turtle Scale Breastplate": {
+    "cost": 3000,
+    "skill": 185
+   },
+   "Turtle Scale Helm": {
+    "cost": 4000,
+    "skill": 205
+   },
+   "Turtle Scale Leggings": {
+    "cost": 4500,
+    "skill": 210
+   },
+   "Warden's Leather Belt": {
+    "cost": 2000,
+    "skill": 150
+   }
+  },
+  "Tailoring": {
+   "Azure Silk Belt": {
+    "cost": 1000,
+    "skill": 140
+   },
+   "Azure Silk Hood": {
+    "cost": 600,
+    "skill": 120
+   },
+   "Azure Silk Pants": {
+    "cost": 600,
+    "skill": 115
+   },
+   "Azure Silk Vest": {
+    "cost": 750,
+    "skill": 125
+   },
+   "Barbaric Linen Vest": {
+    "cost": 300,
+    "skill": 40
+   },
+   "Black Mageweave Boots": {
+    "cost": 6000,
+    "skill": 190
+   },
+   "Black Mageweave Gloves": {
+    "cost": 5000,
+    "skill": 180
+   },
+   "Black Mageweave Headband": {
+    "cost": 6000,
+    "skill": 190
+   },
+   "Black Mageweave Leggings": {
+    "cost": 4000,
+    "skill": 170
+   },
+   "Black Mageweave Robe": {
+    "cost": 4000,
+    "skill": 175
+   },
+   "Black Mageweave Shoulders": {
+    "cost": 6000,
+    "skill": 190
+   },
+   "Black Mageweave Vest": {
+    "cost": 4000,
+    "skill": 170
+   },
+   "Black Slippers": {
+    "cost": 1450,
+    "skill": 150
+   },
+   "Blue Linen Shirt": {
+    "cost": 50,
+    "skill": 25
+   },
+   "Bolt of Mageweave": {
+    "cost": 1000,
+    "skill": 140
+   },
+   "Bolt of Runecloth": {
+    "cost": 10000,
+    "skill": 205
+   },
+   "Bolt of Silk Cloth": {
+    "cost": 500,
+    "skill": 100
+   },
+   "Bolt of Woolen Cloth": {
+    "cost": 100,
+    "skill": 55
+   },
+   "Brown Linen Pants": {
+    "cost": 50,
+    "skill": 25
+   },
+   "Brown Linen Robe": {
+    "cost": 50,
+    "skill": 25
+   },
+   "Brown Linen Vest": {
+    "cost": 50,
+    "skill": 10
+   },
+   "Cindercloth Boots": {
+    "cost": 7500,
+    "skill": 200
+   },
+   "Cindercloth Robe": {
+    "cost": 5000,
+    "skill": 190
+   },
+   "Crimson Silk Belt": {
+    "cost": 1000,
+    "skill": 140
+   },
+   "Crimson Silk Gloves": {
+    "cost": 5000,
+    "skill": 175
+   },
+   "Crimson Silk Pantaloons": {
+    "cost": 3000,
+    "skill": 160
+   },
+   "Crimson Silk Vest": {
+    "cost": 2500,
+    "skill": 150
+   },
+   "Dreamweave Circlet": {
+    "cost": 7500,
+    "skill": 205
+   },
+   "Dreamweave Gloves": {
+    "cost": 5000,
+    "skill": 190
+   },
+   "Dreamweave Vest": {
+    "cost": 5000,
+    "skill": 190
+   },
+   "Earthen Vest": {
+    "cost": 900,
+    "skill": 135
+   },
+   "Faction Banner": {
+    "cost": 100,
+    "skill": 20
+   },
+   "Fiery Slippers": {
+    "cost": 1450,
+    "skill": 150
+   },
+   "Formal White Shirt": {
+    "cost": 500,
+    "skill": 135
+   },
+   "Frothing Slippers": {
+    "cost": 1450,
+    "skill": 150
+   },
+   "Gilded Slippers": {
+    "cost": 1450,
+    "skill": 150
+   },
+   "Gloves of Meditation": {
+    "cost": 750,
+    "skill": 105
+   },
+   "Golden Slippers": {
+    "cost": 1450,
+    "skill": 150
+   },
+   "Gray Woolen Shirt": {
+    "cost": 200,
+    "skill": 80
+   },
+   "Green Linen Bracers": {
+    "cost": 200,
+    "skill": 35
+   },
+   "Green Linen Shirt": {
+    "cost": 200,
+    "skill": 40
+   },
+   "Green Silken Shoulders": {
+    "cost": 1000,
+    "skill": 145
+   },
+   "Green Woolen Vest": {
+    "cost": 300,
+    "skill": 60
+   },
+   "Handstitched Linen Britches": {
+    "cost": 300,
+    "skill": 45
+   },
+   "Heavy Linen Gloves": {
+    "cost": 100,
+    "skill": 25
+   },
+   "Heavy Woolen Gloves": {
+    "cost": 400,
+    "skill": 60
+   },
+   "Heavy Woolen Pants": {
+    "cost": 500,
+    "skill": 85
+   },
+   "Lesser Wizard's Robe": {
+    "cost": 1000,
+    "skill": 110
+   },
+   "Linen Bag": {
+    "cost": 100,
+    "skill": 5
+   },
+   "Linen Belt": {
+    "cost": 50,
+    "skill": 15
+   },
+   "Linen Boots": {
+    "cost": 200,
+    "skill": 40
+   },
+   "Long Silken Cloak": {
+    "cost": 1000,
+    "skill": 150
+   },
+   "Mageweave Bag": {
+    "cost": 5000,
+    "skill": 190
+   },
+   "Novice Arcanist's Sash": {
+    "cost": 500,
+    "skill": 35
+   },
+   "Novice Ardent's Sash": {
+    "cost": 500,
+    "skill": 35
+   },
+   "Orange Mageweave Shirt": {
+    "cost": 2500,
+    "skill": 180
+   },
+   "Pearl-clasped Cloak": {
+    "cost": 400,
+    "skill": 70
+   },
+   "Radiant Slippers": {
+    "cost": 1450,
+    "skill": 150
+   },
+   "Red Linen Shirt": {
+    "cost": 50,
+    "skill": 25
+   },
+   "Red Mageweave Bag": {
+    "cost": 6500,
+    "skill": 195
+   },
+   "Red Swashbuckler's Shirt": {
+    "cost": 750,
+    "skill": 140
+   },
+   "Reinforced Linen Cape": {
+    "cost": 200,
+    "skill": 35
+   },
+   "Robe of Power": {
+    "cost": 1000,
+    "skill": 155
+   },
+   "Runecloth Belt": {
+    "cost": 10000,
+    "skill": 210
+   },
+   "Silk Headband": {
+    "cost": 750,
+    "skill": 125
+   },
+   "Simple Black Dress": {
+    "cost": 5000,
+    "skill": 195
+   },
+   "Simple Dress": {
+    "cost": 50,
+    "skill": 25
+   },
+   "Simple Kilt": {
+    "cost": 300,
+    "skill": 50
+   },
+   "Simple Linen Boots": {
+    "cost": 50,
+    "skill": 20
+   },
+   "Small Silk Pack": {
+    "cost": 800,
+    "skill": 125
+   },
+   "Soft-soled Linen Boots": {
+    "cost": 300,
+    "skill": 55
+   },
+   "Spidersilk Boots": {
+    "cost": 750,
+    "skill": 100
+   },
+   "Stylish Red Shirt": {
+    "cost": 250,
+    "skill": 85
+   },
+   "White Linen Robe": {
+    "cost": 50,
+    "skill": 25
+   },
+   "White Linen Shirt": {
+    "cost": 25,
+    "skill": 1
+   },
+   "White Swashbuckler's Shirt": {
+    "cost": 500,
+    "skill": 125
+   },
+   "White Woolen Dress": {
+    "cost": 250,
+    "skill": 85
+   },
+   "Woolen Bag": {
+    "cost": 200,
+    "skill": 50
+   },
+   "Woolen Boots": {
+    "cost": 300,
+    "skill": 70
+   },
+   "Woolen Cape": {
+    "cost": 250,
+    "skill": 55
+   }
+  }
+ },
+ "patterns": {
+  "Alchemy": {
+   "Elixir of Shadow Power": {
+    "itemID": 9301,
+    "price": 10000,
+    "sellers": [
+     {
+      "vendor": "Algernon",
+      "zone": "Undercity",
+      "subZone": "The Apothecarium",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.5183,
+      "y": 0.7439
+     },
+     {
+      "vendor": "Maria Lumere",
+      "zone": "Stormwind City",
+      "subZone": "Mage Quarter",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.557,
+      "y": 0.8553
+     }
+    ]
+   },
+   "Fire Protection Potion": {
+    "itemID": 6055,
+    "price": 1500,
+    "sellers": [
+     {
+      "vendor": "Jeeda",
+      "zone": "Stonetalon Mountains",
+      "subZone": "Sun Rock Retreat",
+      "faction": "Horde",
+      "mapID": 1442,
+      "x": 0.4757,
+      "y": 0.6167
+     },
+     {
+      "vendor": "Nandar Branson",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Southshore",
+      "faction": "Alliance",
+      "mapID": 1424,
+      "x": 0.5087,
+      "y": 0.5703
+     }
+    ]
+   },
+   "Free Action Potion": {
+    "itemID": 5642,
+    "price": 1800,
+    "sellers": [
+     {
+      "vendor": "Kor'geld",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5612,
+      "y": 0.3428
+     },
+     {
+      "vendor": "Soolie Berryfizz",
+      "zone": "Ironforge",
+      "subZone": "Tinker Town",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6646,
+      "y": 0.5472
+     },
+     {
+      "vendor": "Ulthir",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5577,
+      "y": 0.2425
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     }
+    ]
+   },
+   "Frost Oil": {
+    "itemID": 14634,
+    "price": 2500,
+    "sellers": [
+     {
+      "vendor": "Bro'kin",
+      "zone": "Alterac Mountains",
+      "subZone": "Ruins of Alterac",
+      "faction": "Neutral",
+      "mapID": 1416,
+      "x": 0.3834,
+      "y": 0.3878
+     }
+    ]
+   },
+   "Frost Protection Potion": {
+    "itemID": 6056,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Glyx Brewright",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2812,
+      "y": 0.7804
+     },
+     {
+      "vendor": "Drovnar Strongbrew",
+      "zone": "Arathi Highlands",
+      "subZone": "Refuge Pointe",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.464,
+      "y": 0.4706
+     }
+    ]
+   },
+   "Ghost Dye": {
+    "itemID": 9302,
+    "price": 9000,
+    "sellers": [
+     {
+      "vendor": "Bronk",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7607,
+      "y": 0.4334
+     },
+     {
+      "vendor": "Logannas",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.3266,
+      "y": 0.4398
+     }
+    ]
+   },
+   "Great Rage Potion": {
+    "itemID": 5643,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Ulthir",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5577,
+      "y": 0.2425
+     },
+     {
+      "vendor": "Hagrus",
+      "zone": "Orgrimmar",
+      "subZone": "Cleft of Shadow",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.4603,
+      "y": 0.4595
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     }
+    ]
+   },
+   "Holy Protection Potion": {
+    "itemID": 6053,
+    "price": 800,
+    "sellers": [
+     {
+      "vendor": "Hula'mahi",
+      "zone": "The Barrens",
+      "subZone": "The Crossroads",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.5142,
+      "y": 0.3022
+     },
+     {
+      "vendor": "Kzixx",
+      "zone": "Duskwood",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1431,
+      "x": 0.8186,
+      "y": 0.1987
+     },
+     {
+      "vendor": "Xandar Goodbeard",
+      "zone": "Loch Modan",
+      "subZone": "Farstrider Lodge",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.825,
+      "y": 0.634
+     }
+    ]
+   },
+   "Nature Protection Potion": {
+    "itemID": 6057,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Bronk",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7607,
+      "y": 0.4334
+     },
+     {
+      "vendor": "Glyx Brewright",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2812,
+      "y": 0.7804
+     },
+     {
+      "vendor": "Alchemist Pestlezugg",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Alliance",
+      "mapID": 1446,
+      "x": 0.5093,
+      "y": 0.2697
+     },
+     {
+      "vendor": "Logannas",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.3266,
+      "y": 0.4398
+     }
+    ]
+   },
+   "Philosopher's Stone": {
+    "itemID": 9303,
+    "price": 8000,
+    "sellers": [
+     {
+      "vendor": "Alchemist Pestlezugg",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Alliance",
+      "mapID": 1446,
+      "x": 0.5093,
+      "y": 0.2697
+     }
+    ]
+   },
+   "Potion of Demon Slaying": {
+    "itemID": 9300,
+    "price": 9000,
+    "sellers": [
+     {
+      "vendor": "Rartar",
+      "zone": "Swamp of Sorrows",
+      "subZone": "Stonard",
+      "faction": "Horde",
+      "mapID": 1435,
+      "x": 0.4548,
+      "y": 0.5708
+     },
+     {
+      "vendor": "Nina Lightbrew",
+      "zone": "Blasted Lands",
+      "subZone": "Nethergarde Keep",
+      "faction": "Alliance",
+      "mapID": 1419,
+      "x": 0.6684,
+      "y": 0.1838
+     }
+    ]
+   },
+   "Rage Potion": {
+    "itemID": 5640,
+    "price": 100,
+    "sellers": [
+     {
+      "vendor": "Defias Profiteer",
+      "zone": "Westfall",
+      "subZone": "Moonbrook",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.4348,
+      "y": 0.6688
+     },
+     {
+      "vendor": "Ranik",
+      "zone": "The Barrens",
+      "subZone": "Ratchet",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.6195,
+      "y": 0.3873
+     },
+     {
+      "vendor": "Xandar Goodbeard",
+      "zone": "Loch Modan",
+      "subZone": "Farstrider Lodge",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.825,
+      "y": 0.634
+     },
+     {
+      "vendor": "Hagrus",
+      "zone": "Orgrimmar",
+      "subZone": "Cleft of Shadow",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.4603,
+      "y": 0.4595
+     }
+    ]
+   },
+   "Shadow Oil": {
+    "itemID": 6068,
+    "price": 1500,
+    "sellers": [
+     {
+      "vendor": "Montarr",
+      "zone": "Thousand Needles",
+      "subZone": "Freewind Post",
+      "faction": "Horde",
+      "mapID": 1441,
+      "x": 0.4519,
+      "y": 0.5073
+     },
+     {
+      "vendor": "Bliztik",
+      "zone": "Duskwood",
+      "subZone": "Raven Hill",
+      "faction": "Neutral",
+      "mapID": 1431,
+      "x": 0.1803,
+      "y": 0.5449
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     }
+    ]
+   },
+   "Shadow Protection Potion": {
+    "itemID": 6054,
+    "price": 900,
+    "sellers": [
+     {
+      "vendor": "Christoph Jeffcoat",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6233,
+      "y": 0.1912
+     },
+     {
+      "vendor": "Harklan Moongrove",
+      "zone": "Ashenvale",
+      "subZone": "Silverwind Refuge",
+      "faction": "Alliance",
+      "mapID": 1440,
+      "x": 0.5083,
+      "y": 0.6705
+     }
+    ]
+   },
+   "Superior Mana Potion": {
+    "itemID": 13477,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Algernon",
+      "zone": "Undercity",
+      "subZone": "The Apothecarium",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.5183,
+      "y": 0.7439
+     },
+     {
+      "vendor": "Ulthir",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5577,
+      "y": 0.2425
+     }
+    ]
+   }
+  },
+  "Blacksmithing": {
+   "Azure Skyforged Chain": {
+    "itemID": 276955,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Skyforged Chainmail": {
+    "itemID": 276952,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Skyforged Gauntlets": {
+    "itemID": 276954,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Skyforged Greaves": {
+    "itemID": 276957,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Skyforged Helm": {
+    "itemID": 276984,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Skyforged Legguards": {
+    "itemID": 276956,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Skyforged Pauldrons": {
+    "itemID": 276985,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Skyforged Wristguards": {
+    "itemID": 276953,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Bold Dirk": {
+    "itemID": 251468,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Pexmit",
+      "zone": "Mount Hyjal",
+      "subZone": "Felblood Scar",
+      "faction": "Alliance"
+     }
+    ]
+   },
+   "Cloudy Skyforged Chain": {
+    "itemID": 276931,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Skyforged Chainmail": {
+    "itemID": 276928,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Skyforged Gauntlets": {
+    "itemID": 276930,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Skyforged Greaves": {
+    "itemID": 276933,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Skyforged Helm": {
+    "itemID": 276976,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Skyforged Legguards": {
+    "itemID": 276932,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Skyforged Pauldrons": {
+    "itemID": 276977,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Skyforged Wristguards": {
+    "itemID": 276929,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Clutchlord's Grips": {
+    "itemID": 275601,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Vargus",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5115,
+      "y": 0.3892
+     }
+    ]
+   },
+   "Clutchlord's Stompers": {
+    "itemID": 275603,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Vargus",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5115,
+      "y": 0.3892
+     }
+    ]
+   },
+   "Clutchlord's Support": {
+    "itemID": 275602,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Vargus",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5115,
+      "y": 0.3892
+     }
+    ]
+   },
+   "Girdle of the Dawn": {
+    "itemID": 19203,
+    "price": 22000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   },
+   "Gloves of the Dawn": {
+    "itemID": 19205,
+    "price": 40000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   },
+   "Golden Scale Coif": {
+    "itemID": 6047,
+    "price": 4400,
+    "sellers": [
+     {
+      "vendor": "Krinkle Goodsteel",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Alliance",
+      "mapID": 1446,
+      "x": 0.5147,
+      "y": 0.2876
+     }
+    ]
+   },
+   "Goregasher Grips": {
+    "itemID": 275598,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Vargus",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5115,
+      "y": 0.3892
+     }
+    ]
+   },
+   "Goregasher Stompers": {
+    "itemID": 275600,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Vargus",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5115,
+      "y": 0.3892
+     }
+    ]
+   },
+   "Goregasher Support": {
+    "itemID": 275599,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Vargus",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5115,
+      "y": 0.3892
+     }
+    ]
+   },
+   "Hardened Iron Shortsword": {
+    "itemID": 12162,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Kaita Deepforge",
+      "zone": "Stormwind City",
+      "subZone": "Dwarven District",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.6337,
+      "y": 0.3759
+     },
+     {
+      "vendor": "Jutak",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2746,
+      "y": 0.7748
+     },
+     {
+      "vendor": "Sumi",
+      "zone": "Orgrimmar",
+      "subZone": "Valley of Honor",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.8241,
+      "y": 0.2379
+     }
+    ]
+   },
+   "Massive Iron Axe": {
+    "itemID": 12164,
+    "price": 4400,
+    "sellers": [
+     {
+      "vendor": "Jaquilina Dramet",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Nesingwary's Expedition",
+      "faction": "Alliance",
+      "mapID": 1434,
+      "x": 0.3572,
+      "y": 0.1066
+     },
+     {
+      "vendor": "Vharr",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Grom'gol Base Camp",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.3233,
+      "y": 0.2798
+     }
+    ]
+   },
+   "Mithril Plate Bracers": {
+    "itemID": 7995,
+    "price": 5400,
+    "sellers": [
+     {
+      "vendor": "Gharash",
+      "zone": "Swamp of Sorrows",
+      "subZone": "Stonard",
+      "faction": "Horde",
+      "mapID": 1435,
+      "x": 0.4541,
+      "y": 0.5155
+     },
+     {
+      "vendor": "Harggan",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1343,
+      "y": 0.4405
+     }
+    ]
+   },
+   "Mithril Warhammer": {
+    "itemID": 251460,
+    "price": 7500,
+    "sellers": [
+     {
+      "vendor": "Martha Wellsworth",
+      "zone": "Riverglades",
+      "subZone": "Farholde Keep",
+      "faction": "Alliance",
+      "mapID": 2548,
+      "x": 0.6426,
+      "y": 0.8412
+     }
+    ]
+   },
+   "Moonsteel Broadsword": {
+    "itemID": 12163,
+    "price": 4400,
+    "sellers": [
+     {
+      "vendor": "Zarena Cromwind",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2836,
+      "y": 0.754
+     }
+    ]
+   },
+   "Solid Iron Maul": {
+    "itemID": 10858,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Jannos Ironwill",
+      "zone": "Arathi Highlands",
+      "subZone": "Refuge Pointe",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.46,
+      "y": 0.4764
+     },
+     {
+      "vendor": "Muuran",
+      "zone": "Desolace",
+      "subZone": "Ghost Walker Post",
+      "faction": "Horde",
+      "mapID": 1443,
+      "x": 0.5563,
+      "y": 0.5645
+     },
+     {
+      "vendor": "Jazzrik",
+      "zone": "Badlands",
+      "subZone": "Valley of Fangs",
+      "faction": "Horde",
+      "mapID": 1418,
+      "x": 0.425,
+      "y": 0.5257
+     }
+    ]
+   }
+  },
+  "Cooking": {
+   "Baked Salmon": {
+    "itemID": 13949,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Sheendra Tallgrass",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.745,
+      "y": 0.4279
+     },
+     {
+      "vendor": "Vivianna",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.3128,
+      "y": 0.4341
+     }
+    ]
+   },
+   "Barbecued Buzzard Wing": {
+    "itemID": 4609,
+    "price": 1000,
+    "sellers": [
+     {
+      "vendor": "Narj Deepslice",
+      "zone": "Arathi Highlands",
+      "subZone": "Refuge Pointe",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.4557,
+      "y": 0.4754
+     },
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Beer Basted Boar Ribs": {
+    "itemID": 2889,
+    "price": 240,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Big Bear Steak": {
+    "itemID": 3734,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Ulthaan",
+      "zone": "Ashenvale",
+      "subZone": "Silverwind Refuge",
+      "faction": "Alliance",
+      "mapID": 1440,
+      "x": 0.5005,
+      "y": 0.6667
+     },
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Blood Sausage": {
+    "itemID": 3679,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Brilliant Smallfish": {
+    "itemID": 6325,
+    "price": 40,
+    "sellers": [
+     {
+      "vendor": "Catherine Leland",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5511,
+      "y": 0.6953
+     },
+     {
+      "vendor": "Martine Tramblay",
+      "zone": "Tirisfal Glades",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.6582,
+      "y": 0.597
+     },
+     {
+      "vendor": "Tharynn Bouden",
+      "zone": "Elwynn Forest",
+      "subZone": "Goldshire",
+      "faction": "Alliance",
+      "mapID": 1429,
+      "x": 0.4188,
+      "y": 0.6709
+     },
+     {
+      "vendor": "Sewa Mistrunner",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.5589,
+      "y": 0.4726
+     },
+     {
+      "vendor": "Lizbeth Cromwell",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.8117,
+      "y": 0.3094
+     },
+     {
+      "vendor": "Khara Deepwater",
+      "zone": "Loch Modan",
+      "subZone": "The Loch",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.4037,
+      "y": 0.3937
+     },
+     {
+      "vendor": "Gretta Ganter",
+      "zone": "Dun Morogh",
+      "subZone": "Iceflow Lake",
+      "faction": "Alliance",
+      "mapID": 1426,
+      "x": 0.3152,
+      "y": 0.4471
+     },
+     {
+      "vendor": "Nyoma",
+      "zone": "Teldrassil",
+      "subZone": "Dolanaar",
+      "faction": "Alliance",
+      "mapID": 1438,
+      "x": 0.5714,
+      "y": 0.6126
+     }
+    ]
+   },
+   "Bristle Whisker Catfish": {
+    "itemID": 6330,
+    "price": 1200,
+    "sellers": [
+     {
+      "vendor": "Ronald Burch",
+      "zone": "Undercity",
+      "subZone": "Trade Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6241,
+      "y": 0.4342
+     },
+     {
+      "vendor": "Catherine Leland",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5511,
+      "y": 0.6953
+     },
+     {
+      "vendor": "Lindea Rabonne",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Southshore",
+      "faction": "Alliance",
+      "mapID": 1424,
+      "x": 0.5008,
+      "y": 0.6274
+     },
+     {
+      "vendor": "Naal Mistrunner",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.5112,
+      "y": 0.5246
+     },
+     {
+      "vendor": "Derak Nightfall",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6308,
+      "y": 0.1949
+     },
+     {
+      "vendor": "Kilxx",
+      "zone": "The Barrens",
+      "subZone": "Ratchet",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.6277,
+      "y": 0.3821
+     },
+     {
+      "vendor": "Sewa Mistrunner",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.5589,
+      "y": 0.4726
+     },
+     {
+      "vendor": "Gritta Chumwater",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.7841,
+      "y": 0.55
+     }
+    ]
+   },
+   "Carrion Surprise": {
+    "itemID": 12232,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Ogg'marr",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Brackenwall Village",
+      "faction": "Horde",
+      "mapID": 1445,
+      "x": 0.3666,
+      "y": 0.31
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     },
+     {
+      "vendor": "Kireena",
+      "zone": "Desolace",
+      "subZone": "Ghost Walker Post",
+      "faction": "Horde",
+      "mapID": 1443,
+      "x": 0.5108,
+      "y": 0.5348
+     },
+     {
+      "vendor": "Banalash",
+      "zone": "Swamp of Sorrows",
+      "subZone": "Stonard",
+      "faction": "Horde",
+      "mapID": 1435,
+      "x": 0.4467,
+      "y": 0.5672
+     }
+    ]
+   },
+   "Clam Chowder": {
+    "itemID": 5528,
+    "price": 800,
+    "sellers": [
+     {
+      "vendor": "Heldan Galesong",
+      "zone": "Darkshore",
+      "subZone": "Twilight Shore",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3696,
+      "y": 0.5631
+     },
+     {
+      "vendor": "Kriggon Talsone",
+      "zone": "Westfall",
+      "subZone": "Longshore",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.3622,
+      "y": 0.901
+     }
+    ]
+   },
+   "Cooked Crab Claw": {
+    "itemID": 2698,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Cooked Glossy Mightfish": {
+    "itemID": 13940,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Kelsey Yance",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.2822,
+      "y": 0.7441
+     }
+    ]
+   },
+   "Crispy Bat Wing": {
+    "itemID": 12226,
+    "price": 25,
+    "sellers": [
+     {
+      "vendor": "Abigail Shiel",
+      "zone": "Tirisfal Glades",
+      "subZone": "Brill",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.6101,
+      "y": 0.5243
+     }
+    ]
+   },
+   "Crispy Lizard Tail": {
+    "itemID": 5488,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Tari'qa",
+      "zone": "The Barrens",
+      "subZone": "The Crossroads",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.5167,
+      "y": 0.3006
+     }
+    ]
+   },
+   "Crocolisk Gumbo": {
+    "itemID": 3681,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Crocolisk Steak": {
+    "itemID": 3678,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Curiously Tasty Omelet": {
+    "itemID": 3682,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     },
+     {
+      "vendor": "Keena",
+      "zone": "Arathi Highlands",
+      "subZone": "Hammerfall",
+      "faction": "Horde",
+      "mapID": 1417,
+      "x": 0.7402,
+      "y": 0.3269
+     },
+     {
+      "vendor": "Nerrist",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Grom'gol Base Camp",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.3266,
+      "y": 0.2921
+     }
+    ]
+   },
+   "Filet of Redgill": {
+    "itemID": 13941,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Kelsey Yance",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.2822,
+      "y": 0.7441
+     }
+    ]
+   },
+   "Fillet of Frenzy": {
+    "itemID": 5485,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Laird",
+      "zone": "Darkshore",
+      "subZone": "Auberdine",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3679,
+      "y": 0.4431
+     }
+    ]
+   },
+   "Giant Clam Scorcho": {
+    "itemID": 6039,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Kelsey Yance",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.2822,
+      "y": 0.7441
+     }
+    ]
+   },
+   "Gooey Spider Cake": {
+    "itemID": 3683,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Goretusk Liver Pie": {
+    "itemID": 2697,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Grilled Squid": {
+    "itemID": 13942,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Gikkix",
+      "zone": "Tanaris",
+      "subZone": "Steamwheedle Port",
+      "faction": "Horde",
+      "mapID": 1446,
+      "x": 0.6664,
+      "y": 0.2214
+     }
+    ]
+   },
+   "Heavy Crocolisk Stew": {
+    "itemID": 20075,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Ogg'marr",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Brackenwall Village",
+      "faction": "Horde",
+      "mapID": 1445,
+      "x": 0.3666,
+      "y": 0.31
+     }
+    ]
+   },
+   "Heavy Kodo Stew": {
+    "itemID": 12240,
+    "price": 7000,
+    "sellers": [
+     {
+      "vendor": "Janet Hommers",
+      "zone": "Desolace",
+      "subZone": "Nijel's Point",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.6622,
+      "y": 0.0668
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     },
+     {
+      "vendor": "Kireena",
+      "zone": "Desolace",
+      "subZone": "Ghost Walker Post",
+      "faction": "Horde",
+      "mapID": 1443,
+      "x": 0.5108,
+      "y": 0.5348
+     }
+    ]
+   },
+   "Hot Lion Chops": {
+    "itemID": 3735,
+    "price": 1800,
+    "sellers": [
+     {
+      "vendor": "Zargh",
+      "zone": "The Barrens",
+      "subZone": "The Crossroads",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.5259,
+      "y": 0.2986
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     }
+    ]
+   },
+   "Hot Smoked Bass": {
+    "itemID": 13943,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Kelsey Yance",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.2822,
+      "y": 0.7441
+     }
+    ]
+   },
+   "Hot Wolf Ribs": {
+    "itemID": 12229,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Sheendra Tallgrass",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.745,
+      "y": 0.4279
+     },
+     {
+      "vendor": "Vivianna",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.3128,
+      "y": 0.4341
+     },
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Jungle Stew": {
+    "itemID": 12231,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Corporal Bluth",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Rebel Camp",
+      "faction": "Alliance",
+      "mapID": 1434,
+      "x": 0.3796,
+      "y": 0.0306
+     },
+     {
+      "vendor": "Nerrist",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Grom'gol Base Camp",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.3266,
+      "y": 0.2921
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     }
+    ]
+   },
+   "Lean Venison": {
+    "itemID": 5489,
+    "price": 1200,
+    "sellers": [
+     {
+      "vendor": "Ulthaan",
+      "zone": "Ashenvale",
+      "subZone": "Silverwind Refuge",
+      "faction": "Alliance",
+      "mapID": 1440,
+      "x": 0.5005,
+      "y": 0.6667
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     }
+    ]
+   },
+   "Lean Wolf Steak": {
+    "itemID": 12227,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Lobster Stew": {
+    "itemID": 13947,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Sheendra Tallgrass",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.745,
+      "y": 0.4279
+     },
+     {
+      "vendor": "Vivianna",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.3128,
+      "y": 0.4341
+     }
+    ]
+   },
+   "Loch Frenzy Delight": {
+    "itemID": 6329,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Khara Deepwater",
+      "zone": "Loch Modan",
+      "subZone": "The Loch",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.4037,
+      "y": 0.3937
+     }
+    ]
+   },
+   "Longjaw Mud Snapper": {
+    "itemID": 6328,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Naal Mistrunner",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.5112,
+      "y": 0.5246
+     },
+     {
+      "vendor": "Tharynn Bouden",
+      "zone": "Elwynn Forest",
+      "subZone": "Goldshire",
+      "faction": "Alliance",
+      "mapID": 1429,
+      "x": 0.4188,
+      "y": 0.6709
+     },
+     {
+      "vendor": "Lizbeth Cromwell",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.8117,
+      "y": 0.3094
+     },
+     {
+      "vendor": "Tansy Puddlefizz",
+      "zone": "Ironforge",
+      "subZone": "The Forlorn Cavern",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4794,
+      "y": 0.0639
+     },
+     {
+      "vendor": "Khara Deepwater",
+      "zone": "Loch Modan",
+      "subZone": "The Loch",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.4037,
+      "y": 0.3937
+     },
+     {
+      "vendor": "Killian Sanatha",
+      "zone": "Silverpine Forest",
+      "subZone": "North Tide's Run",
+      "faction": "Horde",
+      "mapID": 1421,
+      "x": 0.33,
+      "y": 0.1778
+     },
+     {
+      "vendor": "Nyoma",
+      "zone": "Teldrassil",
+      "subZone": "Dolanaar",
+      "faction": "Alliance",
+      "mapID": 1438,
+      "x": 0.5714,
+      "y": 0.6126
+     },
+     {
+      "vendor": "Nyalah Brightfire",
+      "zone": "Zephras Isle",
+      "subZone": "Valanaar",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6066,
+      "y": 0.7272
+     }
+    ]
+   },
+   "Mightfish Steak": {
+    "itemID": 13948,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Sheendra Tallgrass",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.745,
+      "y": 0.4279
+     },
+     {
+      "vendor": "Vivianna",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.3128,
+      "y": 0.4341
+     }
+    ]
+   },
+   "Monster Omelet": {
+    "itemID": 16110,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Bale",
+      "zone": "Felwood",
+      "subZone": "Bloodvenom Post ",
+      "faction": "Horde",
+      "mapID": 1448,
+      "x": 0.3473,
+      "y": 0.5311
+     },
+     {
+      "vendor": "Malygen",
+      "zone": "Felwood",
+      "subZone": "Talonbranch Glade ",
+      "faction": "Alliance",
+      "mapID": 1448,
+      "x": 0.623,
+      "y": 0.2556
+     },
+     {
+      "vendor": "Himmik",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6136,
+      "y": 0.3913
+     }
+    ]
+   },
+   "Murloc Fin Soup": {
+    "itemID": 3680,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Mystery Stew": {
+    "itemID": 12233,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Janet Hommers",
+      "zone": "Desolace",
+      "subZone": "Nijel's Point",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.6622,
+      "y": 0.0668
+     },
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     },
+     {
+      "vendor": "Helenia Olden",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Theramore Isle",
+      "faction": "Alliance",
+      "mapID": 1445,
+      "x": 0.6639,
+      "y": 0.5147
+     }
+    ]
+   },
+   "Nightfin Soup": {
+    "itemID": 13945,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Gikkix",
+      "zone": "Tanaris",
+      "subZone": "Steamwheedle Port",
+      "faction": "Horde",
+      "mapID": 1446,
+      "x": 0.6664,
+      "y": 0.2214
+     }
+    ]
+   },
+   "Plain Ol' Paletusk": {
+    "itemID": 274977,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Martha Wellsworth",
+      "zone": "Riverglades",
+      "subZone": "Farholde Keep",
+      "faction": "Alliance",
+      "mapID": 2548,
+      "x": 0.6426,
+      "y": 0.8412
+     }
+    ]
+   },
+   "Poached Sunscale Salmon": {
+    "itemID": 13946,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Gikkix",
+      "zone": "Tanaris",
+      "subZone": "Steamwheedle Port",
+      "faction": "Horde",
+      "mapID": 1446,
+      "x": 0.6664,
+      "y": 0.2214
+     }
+    ]
+   },
+   "Rainbow Fin Albacore": {
+    "itemID": 6368,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Ronald Burch",
+      "zone": "Undercity",
+      "subZone": "Trade Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6241,
+      "y": 0.4342
+     },
+     {
+      "vendor": "Catherine Leland",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5511,
+      "y": 0.6953
+     },
+     {
+      "vendor": "Nessa Shadowsong",
+      "zone": "Teldrassil",
+      "subZone": "Rut'theran Village",
+      "faction": "Alliance",
+      "mapID": 1438,
+      "x": 0.5626,
+      "y": 0.924
+     },
+     {
+      "vendor": "Shankys",
+      "zone": "Orgrimmar",
+      "subZone": "Valley of Honor",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.698,
+      "y": 0.2962
+     },
+     {
+      "vendor": "Kilxx",
+      "zone": "The Barrens",
+      "subZone": "Ratchet",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.6277,
+      "y": 0.3821
+     },
+     {
+      "vendor": "Stuart Fleming",
+      "zone": "Wetlands",
+      "subZone": "Menethil Harbor",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.0808,
+      "y": 0.5835
+     },
+     {
+      "vendor": "Heldan Galesong",
+      "zone": "Darkshore",
+      "subZone": "Twilight Shore",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3696,
+      "y": 0.5631
+     },
+     {
+      "vendor": "Gritta Chumwater",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.7841,
+      "y": 0.55
+     }
+    ]
+   },
+   "Redridge Goulash": {
+    "itemID": 2699,
+    "price": 800,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Roast Raptor": {
+    "itemID": 12228,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Corporal Bluth",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Rebel Camp",
+      "faction": "Alliance",
+      "mapID": 1434,
+      "x": 0.3796,
+      "y": 0.0306
+     },
+     {
+      "vendor": "Keena",
+      "zone": "Arathi Highlands",
+      "subZone": "Hammerfall",
+      "faction": "Horde",
+      "mapID": 1417,
+      "x": 0.7402,
+      "y": 0.3269
+     },
+     {
+      "vendor": "Hammon Karwn",
+      "zone": "Arathi Highlands",
+      "subZone": "Refuge Pointe",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.4643,
+      "y": 0.4737
+     },
+     {
+      "vendor": "Nerrist",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Grom'gol Base Camp",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.3266,
+      "y": 0.2921
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     },
+     {
+      "vendor": "Ogg'marr",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Brackenwall Village",
+      "faction": "Horde",
+      "mapID": 1445,
+      "x": 0.3666,
+      "y": 0.31
+     },
+     {
+      "vendor": "Helenia Olden",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Theramore Isle",
+      "faction": "Alliance",
+      "mapID": 1445,
+      "x": 0.6639,
+      "y": 0.5147
+     }
+    ]
+   },
+   "Roasted Kodo Meat": {
+    "itemID": 5484,
+    "price": 240,
+    "sellers": [
+     {
+      "vendor": "Wunna Darkmane",
+      "zone": "Mulgore",
+      "subZone": "Bloodhoof Village",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.4553,
+      "y": 0.618
+     }
+    ]
+   },
+   "Rockscale Cod": {
+    "itemID": 6369,
+    "price": 2200,
+    "sellers": [
+     {
+      "vendor": "Wik'Tar",
+      "zone": "Ashenvale",
+      "subZone": "Zoram'gar Outpost",
+      "faction": "Horde",
+      "mapID": 1440,
+      "x": 0.1175,
+      "y": 0.3411
+     },
+     {
+      "vendor": "Lindea Rabonne",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Southshore",
+      "faction": "Alliance",
+      "mapID": 1424,
+      "x": 0.5008,
+      "y": 0.6274
+     },
+     {
+      "vendor": "Wulan",
+      "zone": "Desolace",
+      "subZone": "Shadowprey Village",
+      "faction": "Horde",
+      "mapID": 1443,
+      "x": 0.2617,
+      "y": 0.6973
+     },
+     {
+      "vendor": "Shankys",
+      "zone": "Orgrimmar",
+      "subZone": "Valley of Honor",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.698,
+      "y": 0.2962
+     },
+     {
+      "vendor": "Tansy Puddlefizz",
+      "zone": "Ironforge",
+      "subZone": "The Forlorn Cavern",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4794,
+      "y": 0.0639
+     },
+     {
+      "vendor": "Kelsey Yance",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.2822,
+      "y": 0.7441
+     },
+     {
+      "vendor": "Lizbeth Cromwell",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.8117,
+      "y": 0.3094
+     },
+     {
+      "vendor": "Heldan Galesong",
+      "zone": "Darkshore",
+      "subZone": "Twilight Shore",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3696,
+      "y": 0.5631
+     }
+    ]
+   },
+   "Sagefish Delight": {
+    "itemID": 21219,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Ronald Burch",
+      "zone": "Undercity",
+      "subZone": "Trade Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6241,
+      "y": 0.4342
+     },
+     {
+      "vendor": "Erika Tate",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7841,
+      "y": 0.5299
+     },
+     {
+      "vendor": "Xen'to",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5756,
+      "y": 0.5318
+     },
+     {
+      "vendor": "Micha Yance",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Southshore",
+      "faction": "Alliance",
+      "mapID": 1424,
+      "x": 0.4897,
+      "y": 0.5514
+     },
+     {
+      "vendor": "Naal Mistrunner",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.5112,
+      "y": 0.5246
+     },
+     {
+      "vendor": "Fyldan",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.4874,
+      "y": 0.2135
+     },
+     {
+      "vendor": "Kalsey Sanden",
+      "zone": "Redridge Mountains",
+      "subZone": "Three Corners",
+      "faction": "Alliance",
+      "mapID": 1433,
+      "x": 0.1077,
+      "y": 0.7272
+     },
+     {
+      "vendor": "Emrul Riknussun",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.5995,
+      "y": 0.3779
+     }
+    ]
+   },
+   "Savory Stag Sliders": {
+    "itemID": 250173,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Qia",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6122,
+      "y": 0.3716
+     }
+    ]
+   },
+   "Scorpid Surprise": {
+    "itemID": 5483,
+    "price": 140,
+    "sellers": [
+     {
+      "vendor": "Grimtak",
+      "zone": "Durotar",
+      "subZone": "Razor Hill",
+      "faction": "Horde",
+      "mapID": 1411,
+      "x": 0.5117,
+      "y": 0.426
+     },
+     {
+      "vendor": "Naluk",
+      "zone": "Riverglades",
+      "subZone": "Rog'mar",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.5798,
+      "y": 0.4584
+     }
+    ]
+   },
+   "Seasoned Wolf Kabob": {
+    "itemID": 2701,
+    "price": 1600,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Slitherskin Mackerel": {
+    "itemID": 6326,
+    "price": 40,
+    "sellers": [
+     {
+      "vendor": "Martine Tramblay",
+      "zone": "Tirisfal Glades",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.6582,
+      "y": 0.597
+     },
+     {
+      "vendor": "Nessa Shadowsong",
+      "zone": "Teldrassil",
+      "subZone": "Rut'theran Village",
+      "faction": "Alliance",
+      "mapID": 1438,
+      "x": 0.5626,
+      "y": 0.924
+     },
+     {
+      "vendor": "Tansy Puddlefizz",
+      "zone": "Ironforge",
+      "subZone": "The Forlorn Cavern",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4794,
+      "y": 0.0639
+     },
+     {
+      "vendor": "Nyalah Brightfire",
+      "zone": "Zephras Isle",
+      "subZone": "Valanaar",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6066,
+      "y": 0.7272
+     },
+     {
+      "vendor": "Kriggon Talsone",
+      "zone": "Westfall",
+      "subZone": "Longshore",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.3622,
+      "y": 0.901
+     },
+     {
+      "vendor": "Zansoa",
+      "zone": "Durotar",
+      "subZone": "Sen'jin Village",
+      "faction": "Horde",
+      "mapID": 1411,
+      "x": 0.5611,
+      "y": 0.7343
+     }
+    ]
+   },
+   "Smoked Bear Meat": {
+    "itemID": 6892,
+    "price": 250,
+    "sellers": [
+     {
+      "vendor": "Andrew Hilbert",
+      "zone": "Silverpine Forest",
+      "subZone": "The Sepulcher",
+      "faction": "Horde",
+      "mapID": 1421,
+      "x": 0.432,
+      "y": 0.4074
+     },
+     {
+      "vendor": "Drac Roughcut",
+      "zone": "Loch Modan",
+      "subZone": "Stoutlager Inn",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.3558,
+      "y": 0.4901
+     }
+    ]
+   },
+   "Smoked Sagefish": {
+    "itemID": 21099,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Ronald Burch",
+      "zone": "Undercity",
+      "subZone": "Trade Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6241,
+      "y": 0.4342
+     },
+     {
+      "vendor": "Erika Tate",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7841,
+      "y": 0.5299
+     },
+     {
+      "vendor": "Xen'to",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5756,
+      "y": 0.5318
+     },
+     {
+      "vendor": "Micha Yance",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Southshore",
+      "faction": "Alliance",
+      "mapID": 1424,
+      "x": 0.4897,
+      "y": 0.5514
+     },
+     {
+      "vendor": "Naal Mistrunner",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.5112,
+      "y": 0.5246
+     },
+     {
+      "vendor": "Fyldan",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.4874,
+      "y": 0.2135
+     },
+     {
+      "vendor": "Kalsey Sanden",
+      "zone": "Redridge Mountains",
+      "subZone": "Three Corners",
+      "faction": "Alliance",
+      "mapID": 1433,
+      "x": 0.1077,
+      "y": 0.7272
+     },
+     {
+      "vendor": "Emrul Riknussun",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.5995,
+      "y": 0.3779
+     }
+    ]
+   },
+   "Spiced Chili Crab": {
+    "itemID": 16111,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Uthok",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Grom'gol Base Camp",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.3157,
+      "y": 0.2802
+     },
+     {
+      "vendor": "Kriggon Talsone",
+      "zone": "Westfall",
+      "subZone": "Longshore",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.3622,
+      "y": 0.901
+     }
+    ]
+   },
+   "Spotted Yellowtail": {
+    "itemID": 13939,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Gikkix",
+      "zone": "Tanaris",
+      "subZone": "Steamwheedle Port",
+      "faction": "Horde",
+      "mapID": 1446,
+      "x": 0.6664,
+      "y": 0.2214
+     }
+    ]
+   },
+   "Strider Stew": {
+    "itemID": 5486,
+    "price": 440,
+    "sellers": [
+     {
+      "vendor": "Tari'qa",
+      "zone": "The Barrens",
+      "subZone": "The Crossroads",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.5167,
+      "y": 0.3006
+     }
+    ]
+   },
+   "Succulent Pork Ribs": {
+    "itemID": 2700,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   },
+   "Tender Wolf Steak": {
+    "itemID": 18046,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Innkeeper Fizzgrimble",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Alliance",
+      "mapID": 1446,
+      "x": 0.5249,
+      "y": 0.2793
+     },
+     {
+      "vendor": "Dirge Quikcleave",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Horde",
+      "mapID": 1446,
+      "x": 0.5259,
+      "y": 0.281
+     },
+     {
+      "vendor": "Innkeeper Zizplink",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.7876,
+      "y": 0.5402
+     }
+    ]
+   },
+   "Thistle Tea": {
+    "itemID": 18160,
+    "price": 200,
+    "sellers": [
+     {
+      "vendor": "Smudge Thunderwood",
+      "zone": "Alterac Mountains",
+      "subZone": "Ravenholdt Manor",
+      "faction": "Neutral",
+      "mapID": 1416,
+      "x": 0.8612,
+      "y": 0.7969
+     }
+    ]
+   },
+   "Undermine Clam Chowder": {
+    "itemID": 16767,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Grizzek",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.7664,
+      "y": 0.5316
+     },
+     {
+      "vendor": "Jabbey",
+      "zone": "Tanaris",
+      "subZone": "Steamwheedle Port",
+      "faction": "Horde",
+      "mapID": 1446,
+      "x": 0.6698,
+      "y": 0.2205
+     }
+    ]
+   },
+   "Westfall Stew": {
+    "itemID": 728,
+    "price": 200,
+    "sellers": [
+     {
+      "vendor": "Kendor Kabonka",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7738,
+      "y": 0.5284
+     }
+    ]
+   }
+  },
+  "Enchanting": {
+   "Lesser Mana Oil": {
+    "itemID": 20754,
+    "price": 10000,
+    "sellers": [
+     {
+      "vendor": "Kania",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5199,
+      "y": 0.3948
+     }
+    ]
+   },
+   "Lesser Wizard Oil": {
+    "itemID": 20753,
+    "price": 4000,
+    "sellers": [
+     {
+      "vendor": "Jessara Cordell",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5298,
+      "y": 0.7417
+     },
+     {
+      "vendor": "Thaddeus Webb",
+      "zone": "Undercity",
+      "subZone": "The Apothecarium",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6209,
+      "y": 0.6088
+     },
+     {
+      "vendor": "Kithas",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5372,
+      "y": 0.3803
+     },
+     {
+      "vendor": "Nata Dawnstrider",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4515,
+      "y": 0.3899
+     },
+     {
+      "vendor": "Tilli Thistlefuzz",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6074,
+      "y": 0.4419
+     },
+     {
+      "vendor": "Vaean",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5862,
+      "y": 0.1429
+     },
+     {
+      "vendor": "Crate of Enchanting Supplies",
+      "zone": "Redridge Mountains",
+      "subZone": "Three Corners",
+      "faction": "Horde",
+      "mapID": 1433,
+      "x": 0.1118,
+      "y": 0.716
+     },
+     {
+      "vendor": "Nasalanna Windsinger",
+      "zone": "Zephras Isle",
+      "subZone": "Shen'dar Village",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.4323,
+      "y": 0.4326
+     }
+    ]
+   },
+   "Minor Mana Oil": {
+    "itemID": 20752,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Jessara Cordell",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5298,
+      "y": 0.7417
+     },
+     {
+      "vendor": "Thaddeus Webb",
+      "zone": "Undercity",
+      "subZone": "The Apothecarium",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6209,
+      "y": 0.6088
+     },
+     {
+      "vendor": "Kithas",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5372,
+      "y": 0.3803
+     },
+     {
+      "vendor": "Nata Dawnstrider",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4515,
+      "y": 0.3899
+     },
+     {
+      "vendor": "Tilli Thistlefuzz",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6074,
+      "y": 0.4419
+     },
+     {
+      "vendor": "Vaean",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5862,
+      "y": 0.1429
+     },
+     {
+      "vendor": "Crate of Enchanting Supplies",
+      "zone": "Redridge Mountains",
+      "subZone": "Three Corners",
+      "faction": "Horde",
+      "mapID": 1433,
+      "x": 0.1118,
+      "y": 0.716
+     },
+     {
+      "vendor": "Nasalanna Windsinger",
+      "zone": "Zephras Isle",
+      "subZone": "Shen'dar Village",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.4323,
+      "y": 0.4326
+     }
+    ]
+   },
+   "Minor Wizard Oil": {
+    "itemID": 20758,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Jessara Cordell",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5298,
+      "y": 0.7417
+     },
+     {
+      "vendor": "Thaddeus Webb",
+      "zone": "Undercity",
+      "subZone": "The Apothecarium",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6209,
+      "y": 0.6088
+     },
+     {
+      "vendor": "Kithas",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5372,
+      "y": 0.3803
+     },
+     {
+      "vendor": "Nata Dawnstrider",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4515,
+      "y": 0.3899
+     },
+     {
+      "vendor": "Tilli Thistlefuzz",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6074,
+      "y": 0.4419
+     },
+     {
+      "vendor": "Vaean",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5862,
+      "y": 0.1429
+     },
+     {
+      "vendor": "Crate of Enchanting Supplies",
+      "zone": "Redridge Mountains",
+      "subZone": "Three Corners",
+      "faction": "Horde",
+      "mapID": 1433,
+      "x": 0.1118,
+      "y": 0.716
+     },
+     {
+      "vendor": "Nasalanna Windsinger",
+      "zone": "Zephras Isle",
+      "subZone": "Shen'dar Village",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.4323,
+      "y": 0.4326
+     }
+    ]
+   },
+   "Runed Arcanite Rod": {
+    "itemID": 16243,
+    "price": 22000,
+    "sellers": [
+     {
+      "vendor": "Lorelae Wintersong",
+      "zone": "Moonglade",
+      "subZone": "Nighthaven",
+      "faction": "Neutral",
+      "mapID": 1450,
+      "x": 0.4834,
+      "y": 0.4018
+     }
+    ]
+   },
+   "Wizard Oil": {
+    "itemID": 20755,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Kania",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5199,
+      "y": 0.3948
+     }
+    ]
+   }
+  },
+  "Engineering": {
+   "Accurate Scope": {
+    "itemID": 13310,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Mazk Snipeshot",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2845,
+      "y": 0.751
+     },
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Blue Firework": {
+    "itemID": 18649,
+    "price": 1800,
+    "sellers": [
+     {
+      "vendor": "Gearcutter Cogspinner",
+      "zone": "Ironforge",
+      "subZone": "Tinker Town",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6788,
+      "y": 0.4302
+     },
+     {
+      "vendor": "Darian Singh",
+      "zone": "Stormwind City",
+      "subZone": "Mage Quarter",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.4268,
+      "y": 0.769
+     }
+    ]
+   },
+   "Deadly Scope": {
+    "itemID": 10602,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Knaz Blunderflame",
+      "zone": "Stranglethorn Vale",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1434,
+      "x": 0.5084,
+      "y": 0.3581
+     }
+    ]
+   },
+   "Delicate Arcanite Converter": {
+    "itemID": 16050,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Xizzer Fizzbolt",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6084,
+      "y": 0.3855
+     }
+    ]
+   },
+   "EZ-Thro Dynamite II": {
+    "itemID": 18650,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Fizzix Boomshot",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Alliance",
+      "mapID": 2548,
+      "x": 0.7862,
+      "y": 0.5359
+     },
+     {
+      "vendor": "Blizrik Buckshot",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Neutral",
+      "mapID": 1446,
+      "x": 0.5079,
+      "y": 0.2758
+     }
+    ]
+   },
+   "Gnomish Cloaking Device": {
+    "itemID": 7742,
+    "price": 2400,
+    "sellers": [
+     {
+      "vendor": "Zan Shivsproket",
+      "zone": "Alterac Mountains",
+      "subZone": "Ravenholdt Manor",
+      "faction": "Neutral",
+      "mapID": 1416,
+      "x": 0.8599,
+      "y": 0.8003
+     }
+    ]
+   },
+   "Gnomish Universal Remote": {
+    "itemID": 7560,
+    "price": 1200,
+    "sellers": [
+     {
+      "vendor": "Jinky Twizzlefixxit",
+      "zone": "Thousand Needles",
+      "subZone": "Mirage Raceway",
+      "faction": "Horde",
+      "mapID": 1441,
+      "x": 0.777,
+      "y": 0.778
+     },
+     {
+      "vendor": "Gearcutter Cogspinner",
+      "zone": "Ironforge",
+      "subZone": "Tinker Town",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6788,
+      "y": 0.4302
+     }
+    ]
+   },
+   "Goblin Jumper Cables": {
+    "itemID": 7561,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Green Firework": {
+    "itemID": 18648,
+    "price": 1800,
+    "sellers": [
+     {
+      "vendor": "Gagsprocket",
+      "zone": "The Barrens",
+      "subZone": "Ratchet",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.6266,
+      "y": 0.3629
+     },
+     {
+      "vendor": "Crazk Sparks",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.2833,
+      "y": 0.7669
+     }
+    ]
+   },
+   "Ice Deflector": {
+    "itemID": 13308,
+    "price": 1800,
+    "sellers": [
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     },
+     {
+      "vendor": "Rizz Loosebolt",
+      "zone": "Alterac Mountains",
+      "subZone": "Slaughter Hollow",
+      "faction": "Horde",
+      "mapID": 1416,
+      "x": 0.4738,
+      "y": 0.3524
+     }
+    ]
+   },
+   "Lovingly Crafted Boomstick": {
+    "itemID": 13309,
+    "price": 1000,
+    "sellers": [
+     {
+      "vendor": "Jinky Twizzlefixxit",
+      "zone": "Thousand Needles",
+      "subZone": "Mirage Raceway",
+      "faction": "Horde",
+      "mapID": 1441,
+      "x": 0.777,
+      "y": 0.778
+     },
+     {
+      "vendor": "Fradd Swiftgear",
+      "zone": "Wetlands",
+      "subZone": "Sundown Marsh",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.2638,
+      "y": 0.2581
+     }
+    ]
+   },
+   "Masterwork Target Dummy": {
+    "itemID": 16046,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Kor'gar",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Neutral",
+      "mapID": 2548,
+      "x": 0.7763,
+      "y": 0.5094
+     },
+     {
+      "vendor": "Xizzer Fizzbolt",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6084,
+      "y": 0.3855
+     }
+    ]
+   },
+   "Red Firework": {
+    "itemID": 18647,
+    "price": 1800,
+    "sellers": [
+     {
+      "vendor": "Sovik",
+      "zone": "Orgrimmar",
+      "subZone": "Valley of Honor",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.756,
+      "y": 0.2513
+     }
+    ]
+   },
+   "Snake Burst Firework": {
+    "itemID": 19027,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Zorbin Fandazzle",
+      "zone": "Feralas",
+      "subZone": "The Forgotten Coast",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.4484,
+      "y": 0.4337
+     }
+    ]
+   },
+   "Thorium Grenade": {
+    "itemID": 16041,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Sovik",
+      "zone": "Orgrimmar",
+      "subZone": "Valley of Honor",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.756,
+      "y": 0.2513
+     },
+     {
+      "vendor": "Gearcutter Cogspinner",
+      "zone": "Ironforge",
+      "subZone": "Tinker Town",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6788,
+      "y": 0.4302
+     }
+    ]
+   },
+   "Thorium Tube": {
+    "itemID": 16047,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Kor'gar",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Neutral",
+      "mapID": 2548,
+      "x": 0.7763,
+      "y": 0.5094
+     },
+     {
+      "vendor": "Xizzer Fizzbolt",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6084,
+      "y": 0.3855
+     }
+    ]
+   },
+   "Thorium Widget": {
+    "itemID": 16042,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Sovik",
+      "zone": "Orgrimmar",
+      "subZone": "Valley of Honor",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.756,
+      "y": 0.2513
+     },
+     {
+      "vendor": "Gearcutter Cogspinner",
+      "zone": "Ironforge",
+      "subZone": "Tinker Town",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6788,
+      "y": 0.4302
+     }
+    ]
+   },
+   "Truesilver Transformer": {
+    "itemID": 18651,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Mazk Snipeshot",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2845,
+      "y": 0.751
+     }
+    ]
+   }
+  },
+  "First Aid": {
+   "Heavy Silk Bandage": {
+    "itemID": 16112,
+    "price": 2200,
+    "sellers": [
+     {
+      "vendor": "Balai Lok'Wein",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Brackenwall Village",
+      "faction": "Horde",
+      "mapID": 1445,
+      "x": 0.365,
+      "y": 0.3044
+     },
+     {
+      "vendor": "Deneb Walker",
+      "zone": "Arathi Highlands",
+      "subZone": "Stromgarde Keep",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.2703,
+      "y": 0.588
+     }
+    ]
+   },
+   "Mageweave Bandage": {
+    "itemID": 16113,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Balai Lok'Wein",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Brackenwall Village",
+      "faction": "Horde",
+      "mapID": 1445,
+      "x": 0.365,
+      "y": 0.3044
+     },
+     {
+      "vendor": "Deneb Walker",
+      "zone": "Arathi Highlands",
+      "subZone": "Stromgarde Keep",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.2703,
+      "y": 0.588
+     }
+    ]
+   },
+   "Major Healing Potion": {
+    "itemID": 255729,
+    "price": 80000,
+    "sellers": [
+     {
+      "vendor": "Pexmit",
+      "zone": "Mount Hyjal",
+      "subZone": "Felblood Scar",
+      "faction": "Alliance"
+     }
+    ]
+   },
+   "Powerful Anti-Venom": {
+    "itemID": 19442,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   }
+  },
+  "Leatherworking": {
+   "Azure Gustwoven Belt": {
+    "itemID": 276961,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Gustwoven Boots": {
+    "itemID": 276963,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Gustwoven Bracers": {
+    "itemID": 276959,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Gustwoven Gloves": {
+    "itemID": 276960,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Gustwoven Harness": {
+    "itemID": 276958,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Gustwoven Hood": {
+    "itemID": 276986,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Gustwoven Spaulders": {
+    "itemID": 276987,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Gustwoven Trousers": {
+    "itemID": 276962,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Windraveled Armguards": {
+    "itemID": 276965,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Windraveled Cover": {
+    "itemID": 276988,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Windraveled Drapes": {
+    "itemID": 276989,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Windraveled Footwraps": {
+    "itemID": 276969,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Windraveled Jerkin": {
+    "itemID": 276964,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Windraveled Mitts": {
+    "itemID": 276966,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Windraveled Pants": {
+    "itemID": 276968,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Windraveled Strap": {
+    "itemID": 276967,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Barbaric Leggings": {
+    "itemID": 5973,
+    "price": 650,
+    "sellers": [
+     {
+      "vendor": "Hammon Karwn",
+      "zone": "Arathi Highlands",
+      "subZone": "Refuge Pointe",
+      "faction": "Alliance",
+      "mapID": 1417,
+      "x": 0.4643,
+      "y": 0.4737
+     },
+     {
+      "vendor": "Jandia",
+      "zone": "Thousand Needles",
+      "subZone": "Freewind Post",
+      "faction": "Horde",
+      "mapID": 1441,
+      "x": 0.4613,
+      "y": 0.5148
+     },
+     {
+      "vendor": "Keena",
+      "zone": "Arathi Highlands",
+      "subZone": "Hammerfall",
+      "faction": "Horde",
+      "mapID": 1417,
+      "x": 0.7402,
+      "y": 0.3269
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     },
+     {
+      "vendor": "Lardan",
+      "zone": "Ashenvale",
+      "subZone": "Astranaar",
+      "faction": "Alliance",
+      "mapID": 1440,
+      "x": 0.3479,
+      "y": 0.4979
+     }
+    ]
+   },
+   "Black Whelp Slippers": {
+    "itemID": 252761,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Cloudy Gustwoven Belt": {
+    "itemID": 276937,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Gustwoven Boots": {
+    "itemID": 276939,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Gustwoven Bracers": {
+    "itemID": 276935,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Gustwoven Gloves": {
+    "itemID": 276936,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Gustwoven Harness": {
+    "itemID": 276934,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Gustwoven Hood": {
+    "itemID": 276978,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Gustwoven Spaulders": {
+    "itemID": 276979,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Gustwoven Trousers": {
+    "itemID": 276938,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Windraveled Armguards": {
+    "itemID": 276941,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Windraveled Cover": {
+    "itemID": 276980,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Windraveled Drapes": {
+    "itemID": 276981,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Windraveled Footwraps": {
+    "itemID": 276945,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Windraveled Jerkin": {
+    "itemID": 276940,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Windraveled Mitts": {
+    "itemID": 276942,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Windraveled Pants": {
+    "itemID": 276944,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Windraveled Strap": {
+    "itemID": 276943,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Dark Leather Boots": {
+    "itemID": 252762,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Dawn Treaders": {
+    "itemID": 19328,
+    "price": 22000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   },
+   "Deviate Scale Cloak": {
+    "itemID": 6474,
+    "price": 550,
+    "sellers": [
+     {
+      "vendor": "Kalldan Felmoon",
+      "zone": "Kalimdor",
+      "subZone": "Wailing Caverns",
+      "faction": "Horde",
+      "mapID": 1414,
+      "x": 0.5189,
+      "y": 0.5544
+     }
+    ]
+   },
+   "Deviate Scale Gloves": {
+    "itemID": 6475,
+    "price": 1500,
+    "sellers": [
+     {
+      "vendor": "Kalldan Felmoon",
+      "zone": "Kalimdor",
+      "subZone": "Wailing Caverns",
+      "faction": "Horde",
+      "mapID": 1414,
+      "x": 0.5189,
+      "y": 0.5544
+     }
+    ]
+   },
+   "Earthen Leather Shoulders": {
+    "itemID": 7362,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Zixil",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6022,
+      "y": 0.2096
+     }
+    ]
+   },
+   "Forceful Heavy Armor Kit": {
+    "itemID": 252812,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Saenorion",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6383,
+      "y": 0.221
+     },
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Nioma",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1336,
+      "y": 0.4335
+     }
+    ]
+   },
+   "Forceful Medium Armor Kit": {
+    "itemID": 252784,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Jillian Tanner",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7173,
+      "y": 0.6273
+     },
+     {
+      "vendor": "Tamar",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6295,
+      "y": 0.4535
+     },
+     {
+      "vendor": "Bombus Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3952,
+      "y": 0.3395
+     },
+     {
+      "vendor": "Saenorion",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6383,
+      "y": 0.221
+     },
+     {
+      "vendor": "Joseph Moore",
+      "zone": "Undercity",
+      "subZone": "Rogues' Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7028,
+      "y": 0.5862
+     },
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Nioma",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1336,
+      "y": 0.4335
+     }
+    ]
+   },
+   "Forceful Rugged Armor Kit": {
+    "itemID": 252942,
+    "price": 5500,
+    "sellers": [
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Nioma",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1336,
+      "y": 0.4335
+     }
+    ]
+   },
+   "Frostsaber Boots": {
+    "itemID": 15740,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Qia",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6122,
+      "y": 0.3716
+     }
+    ]
+   },
+   "Golden Mantle of the Dawn": {
+    "itemID": 19329,
+    "price": 40000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   },
+   "Green Leather Armor": {
+    "itemID": 7613,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Wenna Silkbeard",
+      "zone": "Wetlands",
+      "subZone": "Sundown Marsh",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.2565,
+      "y": 0.2584
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     },
+     {
+      "vendor": "George Candarte",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Thoradin's Wall",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.9193,
+      "y": 0.3821
+     }
+    ]
+   },
+   "Green Whelp Bracers": {
+    "itemID": 7451,
+    "price": 2800,
+    "sellers": [
+     {
+      "vendor": "Saenorion",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6383,
+      "y": 0.221
+     },
+     {
+      "vendor": "Joseph Moore",
+      "zone": "Undercity",
+      "subZone": "Rogues' Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7028,
+      "y": 0.5862
+     },
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Vendor-Tron 1000",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Neutral",
+      "mapID": 1443,
+      "x": 0.603,
+      "y": 0.3813
+     },
+     {
+      "vendor": "Pratt McGrubben",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.306,
+      "y": 0.4274
+     }
+    ]
+   },
+   "Heavy Leather Ball": {
+    "itemID": 18731,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Tamar",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6295,
+      "y": 0.4535
+     },
+     {
+      "vendor": "Bombus Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3952,
+      "y": 0.3395
+     }
+    ]
+   },
+   "Heavy Scorpid Bracers": {
+    "itemID": 15724,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Zannok Hidepiercer",
+      "zone": "Silithus",
+      "subZone": "Valor's Rest",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.8204,
+      "y": 0.1767
+     }
+    ]
+   },
+   "Heavy Scorpid Helm": {
+    "itemID": 15762,
+    "price": 25000,
+    "sellers": [
+     {
+      "vendor": "Zannok Hidepiercer",
+      "zone": "Silithus",
+      "subZone": "Valor's Rest",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.8204,
+      "y": 0.1767
+     }
+    ]
+   },
+   "Light Leather Reagent Bag": {
+    "itemID": 277716,
+    "price": 150,
+    "sellers": [
+     {
+      "vendor": "Saenorion",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6383,
+      "y": 0.221
+     },
+     {
+      "vendor": "Flakk",
+      "zone": "Durotar",
+      "subZone": "Razor Hill",
+      "faction": "Horde",
+      "mapID": 1411,
+      "x": 0.5293,
+      "y": 0.4198
+     }
+    ]
+   },
+   "Mender's Leather Belt": {
+    "itemID": 252832,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Moonglow Boots": {
+    "itemID": 252764,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Murloc Scale Belt": {
+    "itemID": 5786,
+    "price": 550,
+    "sellers": [
+     {
+      "vendor": "Gina MacGregor",
+      "zone": "Westfall",
+      "subZone": "Sentinel Hill",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.5758,
+      "y": 0.5397
+     },
+     {
+      "vendor": "Andrew Hilbert",
+      "zone": "Silverpine Forest",
+      "subZone": "The Sepulcher",
+      "faction": "Horde",
+      "mapID": 1421,
+      "x": 0.432,
+      "y": 0.4074
+     },
+     {
+      "vendor": "Mavralyn",
+      "zone": "Darkshore",
+      "subZone": "Auberdine",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3704,
+      "y": 0.4119
+     }
+    ]
+   },
+   "Murloc Scale Bracers": {
+    "itemID": 5789,
+    "price": 2800,
+    "sellers": [
+     {
+      "vendor": "Blixrez Goodstitch",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2823,
+      "y": 0.7751
+     },
+     {
+      "vendor": "Helenia Olden",
+      "zone": "Dustwallow Marsh",
+      "subZone": "Theramore Isle",
+      "faction": "Alliance",
+      "mapID": 1445,
+      "x": 0.6639,
+      "y": 0.5147
+     }
+    ]
+   },
+   "Murloc Scale Breastplate": {
+    "itemID": 5787,
+    "price": 600,
+    "sellers": [
+     {
+      "vendor": "Gina MacGregor",
+      "zone": "Westfall",
+      "subZone": "Sentinel Hill",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.5758,
+      "y": 0.5397
+     },
+     {
+      "vendor": "Andrew Hilbert",
+      "zone": "Silverpine Forest",
+      "subZone": "The Sepulcher",
+      "faction": "Horde",
+      "mapID": 1421,
+      "x": 0.432,
+      "y": 0.4074
+     },
+     {
+      "vendor": "Mavralyn",
+      "zone": "Darkshore",
+      "subZone": "Auberdine",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3704,
+      "y": 0.4119
+     }
+    ]
+   },
+   "Murloc Scale Shoes": {
+    "itemID": 252763,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Mystic Heavy Armor Kit": {
+    "itemID": 252811,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Saenorion",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6383,
+      "y": 0.221
+     },
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Nioma",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1336,
+      "y": 0.4335
+     }
+    ]
+   },
+   "Mystic Medium Armor Kit": {
+    "itemID": 252783,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Jillian Tanner",
+      "zone": "Stormwind City",
+      "subZone": "Old Town",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.7173,
+      "y": 0.6273
+     },
+     {
+      "vendor": "Tamar",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6295,
+      "y": 0.4535
+     },
+     {
+      "vendor": "Bombus Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3952,
+      "y": 0.3395
+     },
+     {
+      "vendor": "Saenorion",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6383,
+      "y": 0.221
+     },
+     {
+      "vendor": "Joseph Moore",
+      "zone": "Undercity",
+      "subZone": "Rogues' Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7028,
+      "y": 0.5862
+     },
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Nioma",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1336,
+      "y": 0.4335
+     }
+    ]
+   },
+   "Nightscape Shoulders": {
+    "itemID": 8409,
+    "price": 4000,
+    "sellers": [
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Nioma",
+      "zone": "The Hinterlands",
+      "subZone": "Wildhammer Keep",
+      "faction": "Alliance",
+      "mapID": 1425,
+      "x": 0.1336,
+      "y": 0.4335
+     }
+    ]
+   },
+   "Prowler's Leather Belt": {
+    "itemID": 252826,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Runic Leather Headband": {
+    "itemID": 15756,
+    "price": 22000,
+    "sellers": [
+     {
+      "vendor": "Jase Farlane",
+      "zone": "Eastern Plaguelands",
+      "subZone": "Light's Hope Chapel",
+      "faction": "Alliance",
+      "mapID": 1423,
+      "x": 0.708,
+      "y": 0.4812
+     }
+    ]
+   },
+   "Skirmisher's Leather Belt": {
+    "itemID": 252830,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Skulker's Leather Belt": {
+    "itemID": 252827,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Skycaller's Leather Belt": {
+    "itemID": 252831,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Stalker's Leather Belt": {
+    "itemID": 252828,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Supple Scorpid Vest": {
+    "itemID": 252933,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Pexmit",
+      "zone": "Mount Hyjal",
+      "subZone": "Felblood Scar",
+      "faction": "Alliance"
+     }
+    ]
+   },
+   "Thick Murloc Armor": {
+    "itemID": 5788,
+    "price": 650,
+    "sellers": [
+     {
+      "vendor": "Christoph Jeffcoat",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6233,
+      "y": 0.1912
+     },
+     {
+      "vendor": "Micha Yance",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Southshore",
+      "faction": "Alliance",
+      "mapID": 1424,
+      "x": 0.4897,
+      "y": 0.5514
+     },
+     {
+      "vendor": "Blixrez Goodstitch",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2823,
+      "y": 0.7751
+     }
+    ]
+   },
+   "Tooled Leather Armor": {
+    "itemID": 252877,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Pexmit",
+      "zone": "Mount Hyjal",
+      "subZone": "Felblood Scar",
+      "faction": "Alliance"
+     }
+    ]
+   },
+   "Turtle Scale Gloves": {
+    "itemID": 8385,
+    "price": 3500,
+    "sellers": [
+     {
+      "vendor": "Jangdor Swiftstrider",
+      "zone": "Feralas",
+      "subZone": "Camp Mojache",
+      "faction": "Horde",
+      "mapID": 1444,
+      "x": 0.7447,
+      "y": 0.4292
+     },
+     {
+      "vendor": "Pratt McGrubben",
+      "zone": "Feralas",
+      "subZone": "Feathermoon Stronghold",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.306,
+      "y": 0.4274
+     }
+    ]
+   },
+   "Warden's Leather Belt": {
+    "itemID": 252829,
+    "price": 2000,
+    "sellers": [
+     {
+      "vendor": "Granny Finespindle",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.3927,
+      "y": 0.3362
+     }
+    ]
+   },
+   "Wicked Leather Gauntlets": {
+    "itemID": 15725,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Leonard Porter",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4302,
+      "y": 0.8427
+     },
+     {
+      "vendor": "Werg Thickblade",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.8323,
+      "y": 0.6971
+     }
+    ]
+   }
+  },
+  "Tailoring": {
+   "Argent Boots": {
+    "itemID": 19216,
+    "price": 22000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   },
+   "Argent Shoulders": {
+    "itemID": 19217,
+    "price": 40000,
+    "sellers": [
+     {
+      "vendor": "Argent Quartermaster Hasana",
+      "zone": "Tirisfal Glades",
+      "subZone": "The Bulwark",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.832,
+      "y": 0.6819
+     },
+     {
+      "vendor": "Argent Quartermaster Lightspark",
+      "zone": "Western Plaguelands",
+      "subZone": "Chillwind Camp",
+      "faction": "Alliance",
+      "mapID": 1422,
+      "x": 0.4288,
+      "y": 0.8379
+     }
+    ]
+   },
+   "Azure Silk Cloak": {
+    "itemID": 7089,
+    "price": 1500,
+    "sellers": [
+     {
+      "vendor": "Jun'ha",
+      "zone": "Arathi Highlands",
+      "subZone": "Hammerfall",
+      "faction": "Horde",
+      "mapID": 1417,
+      "x": 0.7276,
+      "y": 0.3654
+     },
+     {
+      "vendor": "Brienna Starglow",
+      "zone": "Feralas",
+      "subZone": "Thalanaar",
+      "faction": "Alliance",
+      "mapID": 1444,
+      "x": 0.8898,
+      "y": 0.4586
+     },
+     {
+      "vendor": "Norvin Alderman",
+      "zone": "Alterac Mountains",
+      "subZone": "The Threads of Fate",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1598,
+      "y": 0.6561
+     }
+    ]
+   },
+   "Azure Silk Gloves": {
+    "itemID": 7114,
+    "price": 1000,
+    "sellers": [
+     {
+      "vendor": "Wenna Silkbeard",
+      "zone": "Wetlands",
+      "subZone": "Sundown Marsh",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.2565,
+      "y": 0.2584
+     },
+     {
+      "vendor": "Kireena",
+      "zone": "Desolace",
+      "subZone": "Ghost Walker Post",
+      "faction": "Horde",
+      "mapID": 1443,
+      "x": 0.5108,
+      "y": 0.5348
+     }
+    ]
+   },
+   "Azure Stormsewn Cord": {
+    "itemID": 276973,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Stormsewn Cowl": {
+    "itemID": 276990,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Stormsewn Cuffs": {
+    "itemID": 276971,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Stormsewn Epaulets": {
+    "itemID": 276991,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Archmage Alvareaux",
+      "zone": "Alterac Mountains",
+      "subZone": "The Silver Enclave",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1394,
+      "y": 0.6332
+     }
+    ]
+   },
+   "Azure Stormsewn Handwraps": {
+    "itemID": 276972,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Stormsewn Leggings": {
+    "itemID": 276974,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Stormsewn Shoes": {
+    "itemID": 276975,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Azure Stormsewn Vest": {
+    "itemID": 276970,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Black Swashbuckler's Shirt": {
+    "itemID": 10728,
+    "price": 1500,
+    "sellers": [
+     {
+      "vendor": "Narkk",
+      "zone": "Stranglethorn Vale",
+      "subZone": "The Old Port Authority",
+      "faction": "Horde",
+      "mapID": 1434,
+      "x": 0.2819,
+      "y": 0.7445
+     }
+    ]
+   },
+   "Blue Linen Robe": {
+    "itemID": 6272,
+    "price": 300,
+    "sellers": [
+     {
+      "vendor": "Andrew Hilbert",
+      "zone": "Silverpine Forest",
+      "subZone": "The Sepulcher",
+      "faction": "Horde",
+      "mapID": 1421,
+      "x": 0.432,
+      "y": 0.4074
+     },
+     {
+      "vendor": "Elynna",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6434,
+      "y": 0.2156
+     },
+     {
+      "vendor": "Ranik",
+      "zone": "The Barrens",
+      "subZone": "Ratchet",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.6195,
+      "y": 0.3873
+     },
+     {
+      "vendor": "Wrahk",
+      "zone": "The Barrens",
+      "subZone": "The Crossroads",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.5222,
+      "y": 0.3174
+     },
+     {
+      "vendor": "Drake Lindgren",
+      "zone": "Elwynn Forest",
+      "subZone": "Eastvale Logging Camp",
+      "faction": "Alliance",
+      "mapID": 1429,
+      "x": 0.8325,
+      "y": 0.6665
+     }
+    ]
+   },
+   "Blue Linen Vest": {
+    "itemID": 6270,
+    "price": 200,
+    "sellers": [
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Tharynn Bouden",
+      "zone": "Elwynn Forest",
+      "subZone": "Goldshire",
+      "faction": "Alliance",
+      "mapID": 1429,
+      "x": 0.4188,
+      "y": 0.6709
+     },
+     {
+      "vendor": "Constance Brisboise",
+      "zone": "Tirisfal Glades",
+      "subZone": "Cold Hearth Manor",
+      "faction": "Horde",
+      "mapID": 1420,
+      "x": 0.5257,
+      "y": 0.557
+     },
+     {
+      "vendor": "Wrahk",
+      "zone": "The Barrens",
+      "subZone": "The Crossroads",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.5222,
+      "y": 0.3174
+     },
+     {
+      "vendor": "Valdaron",
+      "zone": "Darkshore",
+      "subZone": "Auberdine",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3813,
+      "y": 0.4057
+     }
+    ]
+   },
+   "Blue Overalls": {
+    "itemID": 6274,
+    "price": 400,
+    "sellers": [
+     {
+      "vendor": "Alexandra Bolero",
+      "zone": "Stormwind City",
+      "subZone": "Mage Quarter",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5332,
+      "y": 0.8172
+     },
+     {
+      "vendor": "Mallen Swain",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6202,
+      "y": 0.2093
+     },
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Gina MacGregor",
+      "zone": "Westfall",
+      "subZone": "Sentinel Hill",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.5758,
+      "y": 0.5397
+     },
+     {
+      "vendor": "Yonada",
+      "zone": "The Barrens",
+      "subZone": "Camp Taurajo",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.4497,
+      "y": 0.5934
+     }
+    ]
+   },
+   "Bright Yellow Shirt": {
+    "itemID": 14627,
+    "price": 800,
+    "sellers": [
+     {
+      "vendor": "Danielle Zipstitch",
+      "zone": "Duskwood",
+      "subZone": "Darkshire",
+      "faction": "Alliance",
+      "mapID": 1431,
+      "x": 0.7577,
+      "y": 0.4541
+     }
+    ]
+   },
+   "Cloudy Stormsewn Cord": {
+    "itemID": 276949,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Stormsewn Cowl": {
+    "itemID": 276982,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Stormsewn Cuffs": {
+    "itemID": 276947,
+    "price": 950,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Stormsewn Epaulets": {
+    "itemID": 276983,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Sutara Plainstalker",
+      "zone": "Mulgore",
+      "subZone": "Camp Gev'rek",
+      "faction": "Horde",
+      "mapID": 1412,
+      "x": 0.3452,
+      "y": 0.2294
+     }
+    ]
+   },
+   "Cloudy Stormsewn Handwraps": {
+    "itemID": 276948,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Stormsewn Leggings": {
+    "itemID": 276950,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Stormsewn Shoes": {
+    "itemID": 276951,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Cloudy Stormsewn Vest": {
+    "itemID": 276946,
+    "price": 1250,
+    "sellers": [
+     {
+      "vendor": "Vayn Moongaze",
+      "zone": "Zephras Isle",
+      "subZone": "Nightclaw Cavern",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.6377,
+      "y": 0.3605
+     }
+    ]
+   },
+   "Crimson Silk Cloak": {
+    "itemID": 7087,
+    "price": 1200,
+    "sellers": [
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     },
+     {
+      "vendor": "Xizk Goodstitch",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.287,
+      "y": 0.7682
+     },
+     {
+      "vendor": "Norvin Alderman",
+      "zone": "Alterac Mountains",
+      "subZone": "The Threads of Fate",
+      "faction": "Alliance",
+      "mapID": 1416,
+      "x": 0.1598,
+      "y": 0.6561
+     }
+    ]
+   },
+   "Crimson Silk Robe": {
+    "itemID": 7088,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Vizzklick",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Alliance",
+      "mapID": 1446,
+      "x": 0.5105,
+      "y": 0.2735
+     },
+     {
+      "vendor": "Stitch Pinwizzle",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.7731,
+      "y": 0.514
+     }
+    ]
+   },
+   "Dark Silk Shirt": {
+    "itemID": 6401,
+    "price": 1100,
+    "sellers": [
+     {
+      "vendor": "Mallen Swain",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6202,
+      "y": 0.2093
+     },
+     {
+      "vendor": "Sheri Zipstitch",
+      "zone": "Duskwood",
+      "subZone": "Darkshire",
+      "faction": "Alliance",
+      "mapID": 1431,
+      "x": 0.757,
+      "y": 0.4541
+     },
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     }
+    ]
+   },
+   "Enchanted Mageweave Pouch": {
+    "itemID": 22307,
+    "price": 6000,
+    "sellers": [
+     {
+      "vendor": "Jessara Cordell",
+      "zone": "Stormwind City",
+      "subZone": "The Canals",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5298,
+      "y": 0.7417
+     },
+     {
+      "vendor": "Thaddeus Webb",
+      "zone": "Undercity",
+      "subZone": "The Apothecarium",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.6209,
+      "y": 0.6088
+     },
+     {
+      "vendor": "Kithas",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.5372,
+      "y": 0.3803
+     },
+     {
+      "vendor": "Nata Dawnstrider",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4515,
+      "y": 0.3899
+     },
+     {
+      "vendor": "Tilli Thistlefuzz",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.6074,
+      "y": 0.4419
+     },
+     {
+      "vendor": "Vaean",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.5862,
+      "y": 0.1429
+     },
+     {
+      "vendor": "Crate of Enchanting Supplies",
+      "zone": "Redridge Mountains",
+      "subZone": "Three Corners",
+      "faction": "Horde",
+      "mapID": 1433,
+      "x": 0.1118,
+      "y": 0.716
+     },
+     {
+      "vendor": "Nasalanna Windsinger",
+      "zone": "Zephras Isle",
+      "subZone": "Shen'dar Village",
+      "faction": "Neutral",
+      "mapID": 2521,
+      "x": 0.4323,
+      "y": 0.4326
+     }
+    ]
+   },
+   "Enchanted Runecloth Bag": {
+    "itemID": 22308,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Kania",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.5199,
+      "y": 0.3948
+     }
+    ]
+   },
+   "Enchanter's Cowl": {
+    "itemID": 14630,
+    "price": 1000,
+    "sellers": [
+     {
+      "vendor": "Super-Seller 680",
+      "zone": "Desolace",
+      "subZone": "",
+      "faction": "Alliance",
+      "mapID": 1443,
+      "x": 0.4047,
+      "y": 0.7929
+     },
+     {
+      "vendor": "Xizk Goodstitch",
+      "zone": "Stranglethorn Vale",
+      "subZone": "Booty Bay",
+      "faction": "Neutral",
+      "mapID": 1434,
+      "x": 0.287,
+      "y": 0.7682
+     }
+    ]
+   },
+   "Felcloth Pants": {
+    "itemID": 14483,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Lorelae Wintersong",
+      "zone": "Moonglade",
+      "subZone": "Nighthaven",
+      "faction": "Neutral",
+      "mapID": 1450,
+      "x": 0.4834,
+      "y": 0.4018
+     }
+    ]
+   },
+   "Greater Adept's Robe": {
+    "itemID": 6275,
+    "price": 800,
+    "sellers": [
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Jennabink Powerseam",
+      "zone": "Wetlands",
+      "subZone": "Menethil Harbor",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.0813,
+      "y": 0.5594
+     },
+     {
+      "vendor": "Elynna",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6434,
+      "y": 0.2156
+     },
+     {
+      "vendor": "Ranik",
+      "zone": "The Barrens",
+      "subZone": "Ratchet",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.6195,
+      "y": 0.3873
+     },
+     {
+      "vendor": "Rann Flamespinner",
+      "zone": "Loch Modan",
+      "subZone": "Thelsamar",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.36,
+      "y": 0.4601
+     },
+     {
+      "vendor": "Sheri Zipstitch",
+      "zone": "Duskwood",
+      "subZone": "Darkshire",
+      "faction": "Alliance",
+      "mapID": 1431,
+      "x": 0.757,
+      "y": 0.4541
+     }
+    ]
+   },
+   "Lavender Mageweave Shirt": {
+    "itemID": 10314,
+    "price": 4000,
+    "sellers": [
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Outfitter Eric",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4302,
+      "y": 0.2904
+     }
+    ]
+   },
+   "Linen Reagent Bag": {
+    "itemID": 253665,
+    "price": 150,
+    "sellers": [
+     {
+      "vendor": "Alexandra Bolero",
+      "zone": "Stormwind City",
+      "subZone": "Mage Quarter",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5332,
+      "y": 0.8172
+     },
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Poranna Snowbraid",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4327,
+      "y": 0.2846
+     },
+     {
+      "vendor": "Mallen Swain",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6202,
+      "y": 0.2093
+     },
+     {
+      "vendor": "Reagent Bot",
+      "zone": "Wetlands",
+      "subZone": "Excavation Site: Wetlands",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.4665,
+      "y": 0.5279
+     },
+     {
+      "vendor": "Captured Servant of Azora",
+      "zone": "Redridge Mountains",
+      "subZone": "Render's Valley",
+      "faction": "Alliance",
+      "mapID": 1433,
+      "x": 0.693,
+      "y": 0.7939
+     }
+    ]
+   },
+   "Mooncloth": {
+    "itemID": 14526,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Qia",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6122,
+      "y": 0.3716
+     }
+    ]
+   },
+   "Orange Martial Shirt": {
+    "itemID": 10311,
+    "price": 3000,
+    "sellers": [
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Elynna",
+      "zone": "Darnassus",
+      "subZone": "Craftsmen's Terrace",
+      "faction": "Alliance",
+      "mapID": 1457,
+      "x": 0.6434,
+      "y": 0.2156
+     }
+    ]
+   },
+   "Pink Mageweave Shirt": {
+    "itemID": 10317,
+    "price": 4000,
+    "sellers": [
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Outfitter Eric",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4302,
+      "y": 0.2904
+     }
+    ]
+   },
+   "Red Linen Bag": {
+    "itemID": 5771,
+    "price": 200,
+    "sellers": [
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Gina MacGregor",
+      "zone": "Westfall",
+      "subZone": "Sentinel Hill",
+      "faction": "Alliance",
+      "mapID": 1436,
+      "x": 0.5758,
+      "y": 0.5397
+     },
+     {
+      "vendor": "Andrew Hilbert",
+      "zone": "Silverpine Forest",
+      "subZone": "The Sepulcher",
+      "faction": "Horde",
+      "mapID": 1421,
+      "x": 0.432,
+      "y": 0.4074
+     },
+     {
+      "vendor": "Valdaron",
+      "zone": "Darkshore",
+      "subZone": "Auberdine",
+      "faction": "Alliance",
+      "mapID": 1439,
+      "x": 0.3813,
+      "y": 0.4057
+     }
+    ]
+   },
+   "Red Woolen Bag": {
+    "itemID": 5772,
+    "price": 500,
+    "sellers": [
+     {
+      "vendor": "Amy Davenport",
+      "zone": "Redridge Mountains",
+      "subZone": "Lakeshire",
+      "faction": "Alliance",
+      "mapID": 1433,
+      "x": 0.2396,
+      "y": 0.4752
+     },
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Zixil",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6022,
+      "y": 0.2096
+     },
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Jennabink Powerseam",
+      "zone": "Wetlands",
+      "subZone": "Menethil Harbor",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.0813,
+      "y": 0.5594
+     },
+     {
+      "vendor": "Yonada",
+      "zone": "The Barrens",
+      "subZone": "Camp Taurajo",
+      "faction": "Horde",
+      "mapID": 1413,
+      "x": 0.4497,
+      "y": 0.5934
+     },
+     {
+      "vendor": "Rann Flamespinner",
+      "zone": "Loch Modan",
+      "subZone": "Thelsamar",
+      "faction": "Alliance",
+      "mapID": 1432,
+      "x": 0.36,
+      "y": 0.4601
+     }
+    ]
+   },
+   "Runecloth Boots": {
+    "itemID": 14488,
+    "price": 20000,
+    "sellers": [
+     {
+      "vendor": "Darnall",
+      "zone": "Moonglade",
+      "subZone": "Nighthaven",
+      "faction": "Neutral",
+      "mapID": 1450,
+      "x": 0.5158,
+      "y": 0.3322
+     }
+    ]
+   },
+   "Runecloth Cloak": {
+    "itemID": 14472,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Darnall",
+      "zone": "Moonglade",
+      "subZone": "Nighthaven",
+      "faction": "Neutral",
+      "mapID": 1450,
+      "x": 0.5158,
+      "y": 0.3322
+     }
+    ]
+   },
+   "Runecloth Cuffs": {
+    "itemID": 254124,
+    "price": 100000,
+    "sellers": [
+     {
+      "vendor": "Pexmit",
+      "zone": "Mount Hyjal",
+      "subZone": "Felblood Scar",
+      "faction": "Alliance"
+     }
+    ]
+   },
+   "Runecloth Gloves": {
+    "itemID": 14481,
+    "price": 16000,
+    "sellers": [
+     {
+      "vendor": "Qia",
+      "zone": "Winterspring",
+      "subZone": "Everlook",
+      "faction": "Horde",
+      "mapID": 1452,
+      "x": 0.6122,
+      "y": 0.3716
+     }
+    ]
+   },
+   "Runecloth Robe": {
+    "itemID": 14469,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Darnall",
+      "zone": "Moonglade",
+      "subZone": "Nighthaven",
+      "faction": "Neutral",
+      "mapID": 1450,
+      "x": 0.5158,
+      "y": 0.3322
+     }
+    ]
+   },
+   "Soul Pouch": {
+    "itemID": 21358,
+    "price": 12000,
+    "sellers": [
+     {
+      "vendor": "Vizzklick",
+      "zone": "Tanaris",
+      "subZone": "Gadgetzan",
+      "faction": "Alliance",
+      "mapID": 1446,
+      "x": 0.5105,
+      "y": 0.2735
+     },
+     {
+      "vendor": "Stitch Pinwizzle",
+      "zone": "Riverglades",
+      "subZone": "Powderfuse Port",
+      "faction": "Horde",
+      "mapID": 2548,
+      "x": 0.7731,
+      "y": 0.514
+     }
+    ]
+   },
+   "Swarmtender's Cord": {
+    "itemID": 275584,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Mishta",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.4994,
+      "y": 0.364
+     }
+    ]
+   },
+   "Swarmtender's Footpads": {
+    "itemID": 275585,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Mishta",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.4994,
+      "y": 0.364
+     }
+    ]
+   },
+   "Swarmtender's Gloves": {
+    "itemID": 275583,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Mishta",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.4994,
+      "y": 0.364
+     }
+    ]
+   },
+   "Tuxedo Jacket": {
+    "itemID": 10326,
+    "price": 5000,
+    "sellers": [
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Outfitter Eric",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4302,
+      "y": 0.2904
+     }
+    ]
+   },
+   "Tuxedo Pants": {
+    "itemID": 10323,
+    "price": 4500,
+    "sellers": [
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Outfitter Eric",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4302,
+      "y": 0.2904
+     }
+    ]
+   },
+   "Tuxedo Shirt": {
+    "itemID": 10321,
+    "price": 4500,
+    "sellers": [
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Outfitter Eric",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4302,
+      "y": 0.2904
+     }
+    ]
+   },
+   "Venomspew Cord": {
+    "itemID": 275581,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Mishta",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.4994,
+      "y": 0.364
+     }
+    ]
+   },
+   "Venomspew Footpads": {
+    "itemID": 275582,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Mishta",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.4994,
+      "y": 0.364
+     }
+    ]
+   },
+   "Venomspew Gloves": {
+    "itemID": 275580,
+    "price": 75000,
+    "sellers": [
+     {
+      "vendor": "Mishta",
+      "zone": "Silithus",
+      "subZone": "Cenarion Hold",
+      "faction": "Horde",
+      "mapID": 1451,
+      "x": 0.4994,
+      "y": 0.364
+     }
+    ]
+   },
+   "White Wedding Dress": {
+    "itemID": 10325,
+    "price": 10000,
+    "sellers": [
+     {
+      "vendor": "Alexandra Bolero",
+      "zone": "Stormwind City",
+      "subZone": "Mage Quarter",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5332,
+      "y": 0.8172
+     },
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     }
+    ]
+   },
+   "Woolen Reagent Bag": {
+    "itemID": 253668,
+    "price": 250,
+    "sellers": [
+     {
+      "vendor": "Alexandra Bolero",
+      "zone": "Stormwind City",
+      "subZone": "Mage Quarter",
+      "faction": "Alliance",
+      "mapID": 1453,
+      "x": 0.5332,
+      "y": 0.8172
+     },
+     {
+      "vendor": "Mahu",
+      "zone": "Thunder Bluff",
+      "subZone": "",
+      "faction": "Horde",
+      "mapID": 1456,
+      "x": 0.4378,
+      "y": 0.4467
+     },
+     {
+      "vendor": "Millie Gregorian",
+      "zone": "Undercity",
+      "subZone": "Magic Quarter",
+      "faction": "Horde",
+      "mapID": 1458,
+      "x": 0.7067,
+      "y": 0.2978
+     },
+     {
+      "vendor": "Borya",
+      "zone": "Orgrimmar",
+      "subZone": "The Drag",
+      "faction": "Horde",
+      "mapID": 1454,
+      "x": 0.6305,
+      "y": 0.5119
+     },
+     {
+      "vendor": "Poranna Snowbraid",
+      "zone": "Ironforge",
+      "subZone": "The Great Forge",
+      "faction": "Alliance",
+      "mapID": 1455,
+      "x": 0.4327,
+      "y": 0.2846
+     },
+     {
+      "vendor": "Mallen Swain",
+      "zone": "Hillsbrad Foothills",
+      "subZone": "Tarren Mill",
+      "faction": "Horde",
+      "mapID": 1424,
+      "x": 0.6202,
+      "y": 0.2093
+     },
+     {
+      "vendor": "Reagent Bot",
+      "zone": "Wetlands",
+      "subZone": "Excavation Site: Wetlands",
+      "faction": "Alliance",
+      "mapID": 1437,
+      "x": 0.4665,
+      "y": 0.5279
+     },
+     {
+      "vendor": "Captured Servant of Azora",
+      "zone": "Redridge Mountains",
+      "subZone": "Render's Valley",
+      "faction": "Alliance",
+      "mapID": 1433,
+      "x": 0.693,
+      "y": 0.7939
+     }
+    ]
+   }
+  }
+ },
+ "vendorPrices": {
+  "159": 5,
+  "1179": 25,
+  "1205": 100,
+  "1645": 400,
+  "1708": 200,
+  "2320": 10,
+  "2321": 100,
+  "2324": 25,
+  "2325": 1000,
+  "2594": 1500,
+  "2596": 120,
+  "2604": 50,
+  "2605": 100,
+  "2678": 2,
+  "2686": 50,
+  "2692": 40,
+  "2723": 50,
+  "2880": 100,
+  "2894": 50,
+  "2928": 20,
+  "2930": 50,
+  "3030": 1.5,
+  "3371": 4,
+  "3372": 40,
+  "3466": 2000,
+  "3713": 160,
+  "4289": 50,
+  "4291": 500,
+  "4340": 350,
+  "4341": 500,
+  "4342": 2500,
+  "4399": 200,
+  "4400": 2000,
+  "4470": 38,
+  "4536": 5,
+  "4605": 25,
+  "5173": 100,
+  "6217": 124,
+  "6260": 50,
+  "6261": 1000,
+  "6530": 100,
+  "8343": 2000,
+  "8766": 800,
+  "8923": 200,
+  "8924": 100,
+  "8925": 500,
+  "10284": 200,
+  "10290": 2500,
+  "10647": 2000,
+  "10648": 500,
+  "11291": 4500,
+  "14341": 5000,
+  "16583": 10000,
+  "17034": 200,
+  "17035": 400,
+  "18256": 6000,
+  "18567": 150000,
+  "247786": 10,
+  "272941": 200000
+ },
+ "extraRecipes": {
+  "Alchemy": {
+   "1251750": {
+    "name": "Disorienting Smog Potion",
+    "product": 250952,
+    "yield": 1,
+    "grey": 190,
+    "reagents": [
+     [
+      8845,
+      3
+     ],
+     [
+      3369,
+      2
+     ],
+     [
+      8925,
+      1
+     ]
+    ]
+   },
+   "1262980": {
+    "name": "Greenhouse",
+    "product": 279964,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8836,
+      1
+     ],
+     [
+      8831,
+      1
+     ]
+    ]
+   },
+   "1263070": {
+    "name": "Seed Hybridizer",
+    "product": 279947,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      13465,
+      4
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      14047,
+      2
+     ]
+    ]
+   },
+   "1229705": {
+    "name": "Incense Candle",
+    "product": 279962,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2447,
+      1
+     ],
+     [
+      765,
+      1
+     ]
+    ]
+   }
+  },
+  "Cooking": {
+   "1229517": {
+    "name": "Camp Chair",
+    "product": 279979,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2318,
+      3
+     ],
+     [
+      4470,
+      2
+     ]
+    ]
+   },
+   "1262982": {
+    "name": "Trapper's Workbench",
+    "product": 279938,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      4234,
+      4
+     ],
+     [
+      3575,
+      1
+     ]
+    ]
+   },
+   "1262998": {
+    "name": "Fishing Hut",
+    "product": 279966,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      5
+     ],
+     [
+      14048,
+      2
+     ],
+     [
+      273295,
+      1
+     ]
+    ]
+   },
+   "1262990": {
+    "name": "Fishing Rack",
+    "product": 279965,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      8365,
+      2
+     ]
+    ]
+   },
+   "1262985": {
+    "name": "Field Guide",
+    "product": 279969,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      2319,
+      3
+     ],
+     [
+      5784,
+      2
+     ],
+     [
+      2321,
+      1
+     ]
+    ]
+   },
+   "1229745": {
+    "name": "Fish Bowl",
+    "product": 279967,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      6291,
+      1
+     ],
+     [
+      3371,
+      1
+     ]
+    ]
+   }
+  },
+  "Enchanting": {
+   "1229745": {
+    "name": "Fish Bowl",
+    "product": 279967,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      6291,
+      1
+     ],
+     [
+      3371,
+      1
+     ]
+    ]
+   },
+   "1262998": {
+    "name": "Fishing Hut",
+    "product": 279966,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      5
+     ],
+     [
+      14048,
+      2
+     ],
+     [
+      273295,
+      1
+     ]
+    ]
+   },
+   "1262990": {
+    "name": "Fishing Rack",
+    "product": 279965,
+    "yield": 1,
+    "grey": 140,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      8365,
+      2
+     ]
+    ]
+   }
+  },
+  "First Aid": {
+   "1229705": {
+    "name": "Incense Candle",
+    "product": 279962,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      2447,
+      1
+     ],
+     [
+      765,
+      1
+     ]
+    ]
+   },
+   "1262985": {
+    "name": "Field Guide",
+    "product": 279969,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      2319,
+      3
+     ],
+     [
+      5784,
+      2
+     ],
+     [
+      2321,
+      1
+     ]
+    ]
+   },
+   "1262990": {
+    "name": "Fishing Rack",
+    "product": 279965,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      8365,
+      2
+     ]
+    ]
+   },
+   "1262998": {
+    "name": "Fishing Hut",
+    "product": 279966,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      5
+     ],
+     [
+      14048,
+      2
+     ],
+     [
+      273295,
+      1
+     ]
+    ]
+   },
+   "1262982": {
+    "name": "Trapper's Workbench",
+    "product": 279938,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      4234,
+      4
+     ],
+     [
+      3575,
+      1
+     ]
+    ]
+   },
+   "1262980": {
+    "name": "Greenhouse",
+    "product": 279964,
+    "yield": 1,
+    "grey": 140,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      8836,
+      1
+     ],
+     [
+      8831,
+      1
+     ]
+    ]
+   },
+   "1263070": {
+    "name": "Seed Hybridizer",
+    "product": 279947,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      13465,
+      4
+     ],
+     [
+      8925,
+      1
+     ],
+     [
+      14047,
+      2
+     ]
+    ]
+   },
+   "1229745": {
+    "name": "Fish Bowl",
+    "product": 279967,
+    "yield": 1,
+    "grey": 20,
+    "reagents": [
+     [
+      6291,
+      1
+     ],
+     [
+      3371,
+      1
+     ]
+    ]
+   },
+   "1229517": {
+    "name": "Camp Chair",
+    "product": 279979,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2318,
+      3
+     ],
+     [
+      4470,
+      2
+     ]
+    ]
+   }
+  },
+  "Leatherworking": {
+   "1262982": {
+    "name": "Trapper's Workbench",
+    "product": 279938,
+    "yield": 1,
+    "grey": 300,
+    "reagents": [
+     [
+      4470,
+      2
+     ],
+     [
+      4234,
+      4
+     ],
+     [
+      3575,
+      1
+     ]
+    ]
+   },
+   "1262985": {
+    "name": "Field Guide",
+    "product": 279969,
+    "yield": 1,
+    "grey": 145,
+    "reagents": [
+     [
+      2319,
+      3
+     ],
+     [
+      5784,
+      2
+     ],
+     [
+      2321,
+      1
+     ]
+    ]
+   },
+   "1229517": {
+    "name": "Camp Chair",
+    "product": 279979,
+    "yield": 1,
+    "grey": 25,
+    "reagents": [
+     [
+      2318,
+      3
+     ],
+     [
+      4470,
+      2
+     ]
+    ]
+   }
+  }
+ },
+ "itemNames": {
+  "11811": "Smoking Heart of the Mountain",
+  "12628": "Demon Forged Breastplate",
+  "215127": "High-Yield Radiation Bomb",
+  "215168": "Ez-Thro Radiation Bomb",
+  "227813": "Drinkable Stratholme Holy Water",
+  "252948": "Cleansed Felbloom",
+  "273884": "Grovekeeper Trousers",
+  "273885": "Grovekeeper Grips",
+  "273886": "Grovekeeper Shoulderpads",
+  "273887": "Grovekeeper Stompers",
+  "273888": "Grovekeeper Kilt",
+  "273889": "Grovekeeper Mitts",
+  "273890": "Grovekeeper Mantle",
+  "273891": "Grovekeeper Sandals",
+  "273892": "Grovekeeper Legguards",
+  "273893": "Grovekeeper Handguards",
+  "273894": "Grovekeeper Pauldrons",
+  "273895": "Grovekeeper Boots",
+  "273896": "Grovekeeper Leggings",
+  "273897": "Grovekeeper Gauntlets",
+  "273898": "Grovekeeper Spaulders",
+  "273899": "Grovekeeper Treads",
+  "273900": "Wildstalker's Legguards",
+  "273901": "Wildstalker's Gauntlets",
+  "273902": "Wildstalker's Spaulders",
+  "273903": "Wildstalker's Greaves",
+  "273904": "Manaflare Pants",
+  "273905": "Manaflare Gloves",
+  "273906": "Manaflare Mantle",
+  "273907": "Manaflare Boots",
+  "273908": "Justice Leggings",
+  "273909": "Justice Gauntlets",
+  "273910": "Justice Spaulders",
+  "273911": "Justice Greaves",
+  "273912": "Justice Legplates",
+  "273913": "Justice Gloves",
+  "273914": "Justice Epaulets",
+  "273915": "Justice Treads",
+  "273916": "Justice Legguards",
+  "273917": "Justice Handguards",
+  "273918": "Justice Pauldrons",
+  "273919": "Justice Sabatons",
+  "273920": "Pants of Conviction",
+  "273921": "Gloves of Conviction",
+  "273922": "Mantle of Conviction",
+  "273923": "Treads of Conviction",
+  "273924": "Leggings of Conviction",
+  "273925": "Handguards of Conviction",
+  "273926": "Pauldrons of Conviction",
+  "273927": "Boots of Conviction",
+  "273928": "Grimstitch Pants",
+  "273929": "Grimstitch Gloves",
+  "273930": "Grimstitch Spaulders",
+  "273931": "Grimstitch Boots",
+  "273932": "Spiritcaller Leggings",
+  "273933": "Spiritcaller Grips",
+  "273934": "Spiritcaller Spaulders",
+  "273935": "Spiritcaller Treads",
+  "273936": "Spiritcaller Pants",
+  "273937": "Spiritcaller Gauntlets",
+  "273938": "Spiritcaller Epaulets",
+  "273939": "Spiritcaller Greaves",
+  "273940": "Demonheart Leggings",
+  "273941": "Demonheart Gloves",
+  "273942": "Demonheart Spaulders",
+  "273943": "Demonheart Boots",
+  "273944": "Legplates of Glory",
+  "273945": "Gauntlets of Glory",
+  "273946": "Shoulders of Glory",
+  "273947": "Greaves of Glory",
+  "273948": "Legguards of Glory",
+  "273949": "Handguards of Glory",
+  "273950": "Pauldrons of Glory",
+  "273951": "Sabatons of Glory",
+  "274048": "9-60 Battery Pack"
+ }
+}

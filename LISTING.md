@@ -81,7 +81,9 @@ too, greyed out, with what learning them costs and how many crafts pay that back
 One addon, every crafting profession built in; pick any in the dropdown, even one this character
 hasn't got, to see what it could make. Alchemy, Blacksmithing, Cooking, Enchanting (rods, oils and wands), Engineering, First Aid,
 Leatherworking, Mining (smelting: bars against ore) and Tailoring. Recipes, trainer costs and
-pattern sellers are built in; what your own profession window and vendors show is added on top.
+pattern sellers are built in; what your own profession window, trainers and vendors show is added
+on top. Recipes come from Forever's game data; some vendor data from Efficient Games
+(https://efficient.games, CC BY 4.0).
 A Blacksmith who also mines gets bars at their ore's price when smelting is cheaper.
 
 #### Commands

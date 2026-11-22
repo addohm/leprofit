@@ -134,8 +134,7 @@ you know from it. Recipes you learn at a trainer count as known straight away.
 | `/leprofit help` | The commands and the build |
 
 Enchanting lists only what makes an item (rods, oils, wands): enchants on gear can't be posted.
-Mining ships no recipes (the built-in data has no smelting): open your smelting window and
-leProfit reads them, then lists each bar against its ore. A
+Mining lists its smelting, each bar against its ore. A
 few of Forever's camp and home items (Camp Chair, Fishing Hut...) are listed by several
 professions' windows, so they show under each.
 
@@ -144,16 +143,23 @@ English game clients only: profession and pattern names are matched in English.
 ## Where the data comes from
 
 Every profession's recipes (what each makes and from what), trainer costs and pattern sellers
-are built in. What your own profession window and vendors show is added on top. Nothing is sent to
-other players.
+are built in. What your own profession window, trainers and vendors show is added on top. Nothing
+is sent to other players.
+
+The recipes, recipe items and item names come from Forever's own game data (its DB2 tables, via
+[wago.tools](https://wago.tools)). Some pattern sellers and vendor prices come from
+[Efficient Games](https://efficient.games)' player-recorded data, licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Trainer costs aren't in either: they're
+kept in `tools/learned.json`, which grows with what leProfit records.
 
 ## Development
 
 - Tests: `python3 -m venv .venv && .venv/bin/pip install lupa` once, then
   `.venv/bin/python tests/run_tests.py`. They load the addon into a fake client
   (`tests/wowmock.lua`) and run `tests/smoke.lua`.
-- Profession data: `tools/gen_data.py` writes `leProfit/Data/<Profession>.lua` from the source
-  data ([DEPLOY.md](DEPLOY.md)); Mining's is written by hand.
+- Profession data: `tools/fetch_sources.py` downloads the game data and player data into the
+  git-ignored `.source/`, and `tools/gen_data.py` writes `leProfit/Data/<Profession>.lua` from
+  them and `tools/learned.json` (Python 3, nothing to install; [DEPLOY.md](DEPLOY.md)).
 - Installing and releasing: [DEPLOY.md](DEPLOY.md).
 
 ## Problems, ideas and testing

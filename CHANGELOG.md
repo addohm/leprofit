@@ -8,6 +8,17 @@ All notable changes to leprofit. The format follows
 
 ### Changed
 
+- The built-in data comes from Forever's own game data now: recipes, what they make and from
+  what, recipe items and item names. Some pattern sellers and vendor prices come from Efficient
+  Games' player-recorded data (CC BY 4.0). What neither has (trainer costs, most pattern sellers)
+  is carried over from 1.0. So:
+  - Mining's smelting is built in (18 recipes): its list works without opening the smelting window,
+    and on characters without Mining.
+  - Four more vendor patterns (Alchemy's Arcanite, Iron to Gold and Mithril to Truesilver
+    transmutes, Cooking's Mithril Headed Trout), and more sellers for others.
+  - Recipes that make a few at random (Engineering's dynamite and bombs) count the average made,
+    as the profession window does, not the fewest.
+  - Rogue poisons are no longer listed under Cooking.
 - Renamed to **leProfit**: the folder, title, chat prefix, saved settings (`leProfitCharDB`,
   `leProfitDB`), frames, the Auctionator shopping list and the zips. Your settings and recorded
   vendor prices carry over from `LeprofitCharDB` and `LeprofitDB` at the first login. The

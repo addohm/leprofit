@@ -48,9 +48,7 @@ eq(ns.CurrentProfession(), ns.professionOrder[1], "the first module shown at fir
 
 -- Every module: registered, recipes that make something from something, no recipe in two
 -- professions, and a skill line for opening its window.
--- Mining has no data (the built-in data has no smelting): its recipes come from your window.
 local PROFESSIONS = { "Alchemy", "Blacksmithing", "Cooking", "Enchanting", "Engineering", "First Aid", "Leatherworking", "Mining", "Tailoring" }
-local NO_DATA = { Mining = true }
 eq(#ns.professionOrder, #PROFESSIONS, "all nine professions")
 local owner, shared = {}, 0
 for i, name in ipairs(PROFESSIONS) do
@@ -63,12 +61,8 @@ for i, name in ipairs(PROFESSIONS) do
 		if owner[id] then shared = shared + 1 end
 		owner[id] = name
 	end
-	if NO_DATA[name] then
-		eq(n, 0, name .. " ships no recipes")
-	else
-		ok(n > 20, name .. " has recipes: " .. n)
-		ok(#ns.Recipes.List(name) > 0, name .. " lists them")
-	end
+	ok(n > 15, name .. " has recipes: " .. n) -- Mining has the fewest: 18, its smelting
+	ok(#ns.Recipes.List(name) > 0, name .. " lists them")
 	WM.skills[name] = 1
 	WM.opened = {}
 	ok(ns.Recorder.OpenWindow(name), name .. " can open its window")

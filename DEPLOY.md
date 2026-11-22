@@ -71,10 +71,20 @@ script needs CRLF line endings to run reliably; `.gitattributes` makes git check
 
 ## Refreshing the profession data
 
-The recipe, trainer and pattern data comes from the source data file in the git-ignored `.source/`
-folder. To refresh it, replace that file with a newer one, run
-`.venv/bin/python tools/gen_data.py`, run the tests, and commit the new `leProfit/Data/*.lua`
-files. Mining's file is written by hand (the source data has no smelting).
+`leProfit/Data/*.lua` are generated; don't edit them by hand. To refresh them:
+
+1. `python3 tools/fetch_sources.py` downloads Forever's game data tables for the newest client
+   build (from wago.tools) and Efficient Games' player-recorded vendors and NPCs into the
+   git-ignored `.source/` (about 20 MB). Give a build to get an older one:
+   `python3 tools/fetch_sources.py 1.60.1.71037`.
+2. `python3 tools/gen_data.py` writes the data files and lists what's new or gone: recipes,
+   trainer costs and patterns, per profession.
+3. Run the tests, then commit `leProfit/Data/` (and `tools/learned.json` if it changed).
+
+`tools/learned.json` holds what the game data doesn't: trainer costs and the skill each needs,
+pattern sellers and prices, vendor prices of materials, a few item names the game data lacks yet,
+and Forever's camp and home items (the game files them under gathering skills; they're listed with
+the crafting professions). It started from 1.0's data; you can edit it by hand.
 
 ## Rolling back
 

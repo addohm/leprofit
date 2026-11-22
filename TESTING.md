@@ -40,6 +40,9 @@ so most of it is covered by the first part.
       "(craft it)" in the materials panel.
 
 **Mining**
+- [ ] On a character without Mining, Mining's list shows the smelting recipes, with Show all and
+      Options > "Show recipes nobody has recorded a trainer or vendor for" ticked (smelting's
+      trainer costs aren't known yet).
 - [ ] On the Miner, opening leProfit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
       then counts the smelting recipes you know, and Mining's Crafts list shows bars against ore.
 - [ ] On a character with both Mining and Blacksmithing: Blacksmithing's materials panel
