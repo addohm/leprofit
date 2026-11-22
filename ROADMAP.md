@@ -59,6 +59,9 @@ change.
   Options lists hidden items to unhide). Recipes you could learn now are
   listed greyed out; Show all adds those needing more skill; Hide unlearned
   lists only the known (the owner's pick, after trying a skill slider).
+  Recipes from tradeable patterns no vendor sells are listed, priced at the
+  auction house; patterns that bind are left out unless the option shows
+  them (2026-11-22, the owner's yes).
 - **Recipe data:** built-in data, one file per profession, plus
   what you record playing. No in-game sharing, no share website. Since
   2026-11-22 it's generated from Forever's game data and Efficient Games'

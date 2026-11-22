@@ -277,7 +277,8 @@ local rows, left = ns.Profit.Rows("Blacksmithing")
 ok(#rows >= 2, "profitable crafts listed: " .. #rows)
 eq(rows[1].rec.name, "Test Sharpened Thing", "the most profitable first")
 eq(rows[2].rec.name, "Copper Chain Belt")
-ok(left.unknown > 300, "recipes with no known source left out: " .. left.unknown)
+ok(left.bound > 200, "recipes from patterns that bind left out: " .. left.bound)
+ok(left.unknown < 10, "and the few with no known source: " .. left.unknown)
 ok(left.unpriced > 0, "crafts without a price left out")
 eq(left.losses, 0, "and counted apart from losses")
 ns.db.hidden[990002] = true
@@ -436,6 +437,53 @@ eq(#WM.printed, 0, "nothing new, nothing said")
 wipe(ns.adb.training)
 WM.trainer = {}
 ns.DataChanged()
+
+-- Recipes that come with the profession; patterns no vendor sells, bought at the auction house when
+-- they can be traded and left out (counted) when they bind.
+local rod = Find("Copper Rod")
+eq(rod.source.kind, "free", "Copper Rod comes with Blacksmithing")
+eq(ns.Profit.LearnCost(rod.source), 0, "for nothing")
+local shoulders = Find("Golden Scale Shoulders")
+eq(shoulders.source.kind, "drop", "Golden Scale Shoulders is learned from plans")
+eq(shoulders.source.bound, false, "that can be traded")
+eq(shoulders.source.skill, 150)
+eq(ns.Profit.LearnCost(shoulders.source), nil, "no auction price yet")
+WM.auctionator[3871] = 2500
+eq(ns.Profit.LearnCost(shoulders.source), 2500, "the plans' auction price")
+local said = table.concat(ns.Profit.Explain("Blacksmithing", shoulders), "\n")
+ok(said:find("at the auction house", 1, true), "why says where to buy them: " .. said)
+local blood = Find("Bloodsoul Breastplate")
+eq(blood.source.kind, "drop")
+eq(ns.Profit.Bound(blood.source), true, "Bloodsoul Breastplate's plans bind")
+eq(ns.Profit.LearnCost(blood.source), nil, "so they can't be bought")
+said = table.concat(ns.Profit.Explain("Blacksmithing", blood), "\n")
+ok(said:find("binds when picked up", 1, true), "why says so")
+-- Plans the game data doesn't describe: the game says, once it has loaded the item.
+local defender = Find("Obsidian Defender")
+eq(defender.source.bound, nil)
+eq(ns.Profit.Bound(defender.source), true, "counted as binding until the game has the item")
+WM.items[234228] = { name = "Plans: Obsidian Defender", bindType = 0 }
+eq(ns.Profit.Bound(defender.source), false, "the game says they trade")
+WM.items[234228].bindType = 1
+eq(ns.Profit.Bound(defender.source), true, "or that they bind")
+WM.items[234228] = nil
+-- In the list: tradeable plans are listed, binding ones counted, unless the option shows them.
+local saved = { ns.db.showAll, ns.db.showLosses, ns.db.showUnknown }
+ns.db.showAll, ns.db.showLosses, ns.db.showUnknown = true, true, false
+local function Listed(name)
+	for _, r in ipairs((ns.Profit.Rows("Blacksmithing"))) do
+		if r.rec.name == name then return r end
+	end
+end
+local shouldersRow = Listed("Golden Scale Shoulders")
+ok(shouldersRow, "tradeable plans are listed")
+eq(shouldersRow.learnCost, 2500, "with what they cost")
+ok(not Listed("Bloodsoul Breastplate"), "binding plans aren't")
+ok(select(2, ns.Profit.Rows("Blacksmithing")).bound > 200, "they're counted")
+ns.db.showUnknown = true
+ok(Listed("Bloodsoul Breastplate"), "the option lists them")
+ns.db.showAll, ns.db.showLosses, ns.db.showUnknown = saved[1], saved[2], saved[3]
+WM.auctionator[3871] = nil
 
 -- A stale list right after switching windows: the window says Blacksmithing but lists another
 -- profession's recipes. ns.RegisterProfession adds a made-up profession for the test.
@@ -625,6 +673,21 @@ WM.RunTimers()
 ok(Drawn("Copper Chain Belt"), "everything again")
 box:SetText("chain belt")
 box.scripts.OnTextChanged(box, true)
+-- A tradeable pattern's row says what it costs at the auction house.
+ns.db.showAll = true
+WM.items[3841] = { name = "Golden Scale Shoulders" }
+WM.items[3871] = { name = "Plans: Golden Scale Shoulders" }
+WM.auctionator[3871] = 2500
+ns.DataChanged()
+box:SetText("golden scale shoulders")
+box.scripts.OnTextChanged(box, true)
+WM.RunTimers()
+local plansRow = Drawn("Golden Scale Shoulders")
+ok(plansRow, "Golden Scale Shoulders is listed")
+plansRow.scripts.OnEnter(plansRow)
+ok(TipHas("Plans: Golden Scale Shoulders " .. ns.Money(2500)) and TipHas("at the auction house"), "its tooltip says where to buy the plans")
+ns.db.showAll = false
+WM.auctionator[3871] = nil
 ns.Window.Hide()
 eq(box.text, "", "closing the window clears the search")
 ns.Window.Show("crafts")

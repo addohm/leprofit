@@ -78,6 +78,7 @@ function ns.RegisterProfession(def)
 	if type(def) ~= "table" or type(def.name) ~= "string" then return end
 	def.recipes, def.training, def.patterns = def.recipes or {}, def.training or {}, def.patterns or {}
 	def.vendorPrices, def.itemNames = def.vendorPrices or {}, def.itemNames or {}
+	def.otherPatterns, def.free = def.otherPatterns or {}, def.free or {}
 	def.windowNames = def.windowNames or { def.name } -- what the game calls its profession window
 	if not ns.professions[def.name] then
 		table.insert(ns.professionOrder, def.name)

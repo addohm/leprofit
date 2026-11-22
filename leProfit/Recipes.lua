@@ -50,9 +50,12 @@ function Recipes.SellerText(s)
 	return text
 end
 
--- Where to learn a recipe: a trainer (its cost and the skill it needs; what you recorded at one
--- first), a pattern from a vendor (price, skill, sellers), or nobody recorded yet.
+-- Where to learn a recipe: it comes with the profession; a trainer (its cost and the skill it
+-- needs; what you recorded at one first); a pattern from a vendor (price, skill, sellers); a
+-- pattern no vendor sells ("drop": a drop, quest or reputation reward; Profit.lua prices it at the
+-- auction house unless it binds); or nobody knows.
 local function Source(def, prof, name)
+	if def.free[name] then return { kind = "free", cost = 0, skill = 1 } end
 	local t = (ns.adb.training[prof] and ns.adb.training[prof][name]) or def.training[name]
 	if t then return { kind = "trainer", cost = t.cost, skill = t.skill } end
 	local recorded = ns.adb.patterns[prof] and ns.adb.patterns[prof][name]
@@ -66,6 +69,8 @@ local function Source(def, prof, name)
 			sellers = Sellers(recorded, pattern),
 		}
 	end
+	local drop = def.otherPatterns[name]
+	if drop then return { kind = "drop", itemID = drop.itemID, skill = drop.skill, bound = drop.bound } end
 	return { kind = "unknown" }
 end
 

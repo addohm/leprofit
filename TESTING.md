@@ -50,7 +50,7 @@ so most of it is covered by the first part.
 
 **Mining**
 - [ ] On a character without Mining, Mining's list shows the smelting recipes, with Show all and
-      Options > "Show recipes nobody has recorded a trainer or vendor for" ticked (smelting's
+      Options > "Show recipes from patterns that bind, or with no known source" ticked (smelting's
       trainer costs aren't known yet).
 - [ ] On the Miner, opening leProfit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
       then counts the smelting recipes you know, and Mining's Crafts list shows bars against ore.
@@ -84,7 +84,13 @@ so most of it is covered by the first part.
 - [ ] `/leprofit why <item>` by name, part of a name, and a shift-clicked link; the sum matches the
       list.
 - [ ] The materials panel's Each column and (auction)/(vendor)/(craft it)/(no price) tags.
-- [ ] "Not listed" counts losses and "without a price" apart.
+- [ ] "Not listed" counts losses and "without a price" apart, and "from patterns that bind" apart
+      from "with no known source" (only a handful).
+- [ ] A recipe from a world-drop pattern (Golden Scale Shoulders, with Show all): its tooltip says
+      "Plans: ... at the auction house" with the price after an Auctionator scan has seen the
+      plans ("no auction price yet" before), and the payback; `/leprofit why` says the same.
+- [ ] Bloodsoul Breastplate (plans that bind) is left out, and listed with the Options box; a
+      starter recipe (Copper Rod) says "Comes with the profession".
 
 **The Crafts list**
 - [ ] Columns read Cost, Buyout, Profit (the history columns before Profit when on); Cost matches

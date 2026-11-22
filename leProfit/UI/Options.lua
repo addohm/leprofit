@@ -102,9 +102,9 @@ local function Build(panel)
 	get, set = Setting("showLosses")
 	Add(UI.OptionCheck(panel, "Show crafts at a loss or without a price", get, set))
 	get, set = Setting("showUnknown")
-	Add(UI.OptionCheck(panel, "Show recipes nobody has recorded a trainer or vendor for", get, set, {
-		"Recipes with no known source",
-		"Drops, quests, and recipes Forever lists but no one can learn. Hidden by default so they don't crowd the list.",
+	Add(UI.OptionCheck(panel, "Show recipes from patterns that bind, or with no known source", get, set, {
+		"Recipes you can't buy your way into",
+		"Patterns that bind when picked up (raid and dungeon drops, quest and reputation rewards), and recipes nobody knows a source for. Hidden by default so they don't crowd the list. Patterns you can buy at the auction house are always listed.",
 	}))
 
 	Add(UI.OptionHeading(panel, "Buttons"))

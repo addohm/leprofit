@@ -72,9 +72,15 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   e.g. "from Vayn Moongaze in Nightclaw Cavern, Zephras Isle at 63.8, 36.0", with "(Alliance
   only)" or "(Horde only)" when the vendor serves one faction. **Show all** adds the ones needing more skill than
   you have, greyed too. **Hide unlearned** leaves only the recipes you know.
+- Recipes learned from a pattern no vendor sells (a world drop, say) are listed too when the
+  pattern can be traded: learning one costs the pattern's price at the auction house, from your
+  Auctionator scans ("no auction price yet" until a scan has seen it). Patterns that bind when
+  picked up (raid and dungeon drops, quest and reputation rewards) can't be bought, so those
+  recipes are left out unless you tick the option for them. A profession's starter recipes
+  "come with the profession".
 - The line above the materials panel says how many crafts were left out and why: not learned (with
-  Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, or no
-  known trainer or vendor. Where prices come from is at its right.
+  Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, from
+  patterns that bind, or with no known source. Where prices come from is at its right.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
   material's need, what you hold, what to buy, its price for one (**Each**) and its cost for the
   number of **Crafts** you set. After each name, where its price is from: auction, vendor, craft it,
@@ -117,9 +123,8 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   is used); the Avg 14d, Trend, Seen and Listed columns; the auction house cut; your undercut; how
   old an auction price is before it's flagged.
 - Hide unlearned and Show all, as on the Crafts tab; show crafts at a loss or without a price; and
-  recipes
-  nobody has recorded a trainer or vendor for (drops, quests, and recipes Forever lists but nobody
-  can learn; hidden by default because there are hundreds).
+  recipes from patterns that bind, or with no known source (hidden by default because there are
+  hundreds).
 - The minimap button and the profession window button.
 - **Hidden items:** everything marked Doesn't sell, each with an **Unhide** button, and
   **Unhide all**. Defaults leaves them hidden.

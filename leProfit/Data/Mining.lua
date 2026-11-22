@@ -33,6 +33,17 @@ ns.RegisterProfession({
 	-- recipe name = { itemID, price, skill, sellers = { { vendor, zone, subZone, faction, mapID, x, y } } }
 	patterns = {
 	},
+	-- recipe name = { itemID, skill, bound }: patterns no vendor sells (drops, quest and reputation
+	-- rewards); bound = binds when picked up, so it can't be bought; absent when the data doesn't say
+	otherPatterns = {
+		["Molten Foundry"] = { itemID = 273122, skill = 300, bound = false },
+		["Rock Garden"] = { itemID = 273097, skill = 140, bound = false },
+		["Smelt Obsidian-Infused Thorium Bar"] = { itemID = 234278 },
+	},
+	-- recipes that come with the profession
+	free = {
+		["Smelt Copper"] = true,
+	},
 	-- itemID = copper: what vendors charge for one
 	vendorPrices = {
 		[3857] = 500,
@@ -74,6 +85,8 @@ ns.RegisterProfession({
 		[249426] = "Pitchblende",
 		[249726] = "Azerothium Bar",
 		[251291] = "Heavy Thorium Bar",
+		[273097] = "Blueprint: Rock Garden",
+		[273122] = "Blueprint: Molten Foundry",
 		[279948] = "Rock Garden",
 		[279952] = "Molten Foundry",
 		[279960] = "Lodestone",

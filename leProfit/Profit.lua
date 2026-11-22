@@ -70,11 +70,30 @@ local function SaleValue(buyout, market, vendor, bop)
 end
 Profit.SaleValue = SaleValue -- (tests)
 
+-- A pattern no vendor sells ("drop") can be bought at the auction house unless it binds when picked
+-- up. The data says which for most; for the rest the game does once it has loaded the item (until
+-- then it counts as bound; the list redraws when the item loads).
+function Profit.Bound(src)
+	if src.bound ~= nil then return src.bound end
+	local _, bop = ns.ItemSale(src.itemID)
+	return bop ~= false
+end
+
+-- What learning a recipe costs: the trainer's or vendor's price, nothing for one that comes with
+-- the profession, the auction price of a pattern you can buy there (nil until a scan has seen it).
+function Profit.LearnCost(src)
+	if src.kind == "drop" then
+		if Profit.Bound(src) then return nil end
+		return ns.Prices.Buyout(src.itemID) or ns.Prices.Market(src.itemID)
+	end
+	return src.cost
+end
+
 -- Everything about one recipe's craft. Returns a row:
 --   rec, product, yield; cost (materials for one craft) and materials = { { itemID, count, price,
 --   how } }, missing (a material nobody has a price for); buyout, market, value (one item, after
---   the cut), via ("auction"/"vendor"), bop; profit (one craft); payback (crafts to pay for
---   learning it); age (days since the auction price); stale.
+--   the cut), via ("auction"/"vendor"), bop; profit (one craft); learnCost (Profit.LearnCost);
+--   payback (crafts to pay for learning it); age (days since the auction price); stale.
 function Profit.Evaluate(prof, rec, memo)
 	memo = memo or {}
 	local row = { rec = rec, product = rec.product, yield = math.max(rec.yield or 1, 1), cost = 0, materials = {} }
@@ -97,7 +116,8 @@ function Profit.Evaluate(prof, rec, memo)
 		row.profit = row.value * row.yield - row.cost
 	end
 
-	local learn = rec.source and rec.source.cost
+	local learn = rec.source and Profit.LearnCost(rec.source)
+	row.learnCost = learn
 	if learn and learn > 0 and row.profit and row.profit > 0 then
 		row.payback = math.ceil(learn / row.profit)
 	end
@@ -109,7 +129,8 @@ function Profit.Evaluate(prof, rec, memo)
 end
 
 -- The rows the Crafts tab lists for a profession (those matching the search, when there is one),
--- each with its prof, sorted, and how many were left out: { nomatch = n (the search), unlearned = n (Hide unlearned), unknown = n (no known source), later = n (needing more skill
+-- each with its prof, sorted, and how many were left out: { nomatch = n (the search), unlearned = n (Hide unlearned),
+-- unknown = n (no known source), bound = n (from a pattern that binds), later = n (needing more skill
 -- than you have, without Show all), hidden = n, unpriced = n (a material or the item has no price),
 -- losses = n (0 or less) }. Recipes you'd learn are listed (greyed) when you have the skill.
 -- The search: the item, the recipe, or any of its materials has the text in its name (query is
@@ -127,7 +148,7 @@ Profit.Matches = Matches -- (tests)
 
 function Profit.Rows(prof, query)
 	local db, memo = ns.db, {}
-	local rows, left = {}, { nomatch = 0, unlearned = 0, unknown = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	local rows, left = {}, { nomatch = 0, unlearned = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
 		local known = rec.source.kind == "known"
@@ -138,6 +159,8 @@ function Profit.Rows(prof, query)
 			left.unlearned = left.unlearned + 1
 		elseif rec.source.kind == "unknown" and not db.showUnknown then
 			left.unknown = left.unknown + 1
+		elseif rec.source.kind == "drop" and not db.showUnknown and Profit.Bound(rec.source) then
+			left.bound = left.bound + 1
 		elseif not known and not db.showAll and not (need and skill and need <= skill) then
 			left.later = left.later + 1
 		elseif db.hidden[rec.product] then
@@ -177,7 +200,7 @@ function Profit.RowsAll(query)
 		end
 	end
 	Profit.Sort(rows)
-	return rows, left or { nomatch = 0, unlearned = 0, unknown = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	return rows, left or { nomatch = 0, unlearned = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 end
 
 -- What each Crafts column sorts by.
@@ -289,8 +312,18 @@ function Profit.Explain(prof, rec)
 	elseif src.kind == "pattern" then
 		local s = src.sellers and src.sellers[1]
 		Add(("  The pattern costs %s%s"):format(M(src.cost), s and (" from " .. ns.Recipes.SellerText(s)) or ""))
+	elseif src.kind == "free" then
+		Add("  It comes with the profession")
+	elseif src.kind == "drop" then
+		local skill = src.skill and (", skill " .. src.skill) or ""
+		if Profit.Bound(src) then
+			Add(("  Learn it from %s, which binds when picked up (a drop, quest or reputation reward)%s"):format(ns.ItemName(src.itemID), skill))
+		else
+			Add(("  Learn it from %s: %s at the auction house%s"):format(ns.ItemName(src.itemID),
+				row.learnCost and M(row.learnCost) or "no price seen yet", skill))
+		end
 	elseif src.kind == "unknown" then
-		Add("  Where to learn it isn't recorded")
+		Add("  Where to learn it isn't known")
 	end
 	if row.payback then Add(("  Pays back in %d craft%s"):format(row.payback, row.payback == 1 and "" or "s")) end
 	if row.age then Add(("  The auction price is %d day%s old"):format(row.age, row.age == 1 and "" or "s")) end

@@ -440,7 +440,8 @@ def rebuild():
         return None
     for name, r in report.items():
         say(f"{name}: {counted(r['recipes'], 'recipe')}, {counted(r['training'], 'trainer cost')}, "
-            f"{counted(r['patterns'], 'pattern')}")
+            f"{counted(r['patterns'], 'vendor pattern')}, {counted(r['otherPatterns'], 'other pattern')} "
+            f"({r['tradeable']} tradeable)")
         for label, added, removed in zip(("recipes", "trainer costs", "patterns"), r["added"], r["removed"]):
             if added:
                 dim(f"  new {label}: {listed(added)}")

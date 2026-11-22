@@ -150,8 +150,17 @@ local function LearnLine(row, prof)
 	elseif src.kind == "pattern" then
 		local s = src.sellers and src.sellers[1]
 		text = "Pattern " .. ns.Money(src.cost) .. SkillText(src.skill) .. (s and (" from " .. ns.Recipes.SellerText(s)) or "")
+	elseif src.kind == "free" then
+		text = "Comes with the profession"
+	elseif src.kind == "drop" then
+		if ns.Profit.Bound(src) then
+			text = ns.ItemName(src.itemID) .. SkillText(src.skill) .. ": binds when picked up (a drop, quest or reputation reward)"
+		else
+			text = ns.ItemName(src.itemID) .. " " .. (row.learnCost and ns.Money(row.learnCost) or "(no auction price yet)")
+				.. SkillText(src.skill) .. " at the auction house"
+		end
 	elseif src.kind == "unknown" then
-		text = "Where to learn it isn't recorded"
+		text = "Where to learn it isn't known"
 	else
 		return nil
 	end
@@ -421,7 +430,17 @@ local function LearnText(row, prof)
 		return ("The pattern costs %s%s%s.%s%s"):format(ns.Money(src.cost),
 			src.skill and (" (skill " .. src.skill .. ")") or "", where, payback, others)
 	end
-	return "Where to learn it isn't recorded: a drop, a quest, or not in Forever."
+	if src.kind == "free" then return "It comes with the profession." end
+	if src.kind == "drop" then
+		local skill = src.skill and (" (skill " .. src.skill .. ")") or ""
+		if ns.Profit.Bound(src) then
+			return ("Learn it from %s%s, which binds when picked up: a drop, quest or reputation reward."):format(
+				ns.ItemName(src.itemID), skill)
+		end
+		return ("Learn it from %s%s: %s at the auction house.%s"):format(ns.ItemName(src.itemID), skill,
+			row.learnCost and ns.Money(row.learnCost) or "no price seen yet (scan for it)", payback)
+	end
+	return "Where to learn it isn't known: a quest, perhaps, or not in Forever."
 end
 
 local function ShowDetail(row, prof)
@@ -633,7 +652,8 @@ local function LeftOutText(left)
 	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss" end
 	if left.unpriced > 0 then parts[#parts + 1] = left.unpriced .. " without a price" end
 	if left.hidden > 0 then parts[#parts + 1] = left.hidden .. " marked doesn't sell" end
-	if left.unknown > 0 then parts[#parts + 1] = left.unknown .. " with no known trainer or vendor" end
+	if left.bound > 0 then parts[#parts + 1] = left.bound .. " from patterns that bind (drops, quests, reputation)" end
+	if left.unknown > 0 then parts[#parts + 1] = left.unknown .. " with no known source" end
 	if #parts == 0 then return "" end
 	return "Not listed: " .. table.concat(parts, ", ") .. "."
 end

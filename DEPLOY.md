@@ -86,7 +86,9 @@ By hand:
    git-ignored `.source/` (about 20 MB). Give a build to get an older one:
    `python3 tools/fetch_sources.py 1.60.1.71037`.
 2. `python3 tools/gen_data.py` writes the data files and lists what's new or gone: recipes,
-   trainer costs and patterns, per profession.
+   trainer costs and patterns, per profession. Besides vendor patterns, each file lists the
+   patterns no vendor sells (`otherPatterns`: the item, its skill, and whether it binds, from the
+   game data) and the starter recipes (`free`).
 3. Run the tests, then commit `leProfit/Data/` (and `tools/learned.json` if it changed).
 
 `tools/learned.json` holds what the game data doesn't: trainer costs and the skill each needs,

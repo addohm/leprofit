@@ -60,7 +60,8 @@ too, greyed out, with what learning them costs and how many crafts pay that back
   and their faction), how many crafts pay it back, and anything to watch out for: a material
   with no price, an item that binds on pickup, an auction price days old.
 - **Recipes you haven't learned** but have the skill for are greyed out. Show all adds the ones
-  you'd need more skill for; Hide unlearned keeps only what you know.
+  you'd need more skill for; Hide unlearned keeps only what you know. That includes recipes from
+  world-drop patterns you can buy at the auction house, priced from your scans.
 - **Click a craft** for its materials: what you need, what you hold, what to buy and what it
   costs, for as many crafts as you like. Hide items that never sell (it asks first).
 - **Price history** from your Auctionator scans, as optional columns: a 14-day average, the

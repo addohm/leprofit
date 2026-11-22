@@ -8,6 +8,12 @@ All notable changes to leprofit. The format follows
 
 ### Added
 
+- Recipes learned from a pattern no vendor sells are listed when the pattern can be traded:
+  learning one costs the pattern's auction price, and the payback counts from it (about 640 across
+  the professions, 105 of them Blacksmithing's). Patterns that bind when picked up are counted
+  apart ("from patterns that bind") and listed with the option, which now reads "Show recipes
+  from patterns that bind, or with no known source". Each profession's starter recipes show as
+  coming with the profession.
 - `tools\update_data.cmd` (or `python3 tools/update_data.py`): refresh the built-in data on your
   own PC, asking before each step. It gets the latest, downloads Forever's newest game data and the
   players' vendor data, adds what leProfit recorded in your game, rebuilds, runs the tests, and
