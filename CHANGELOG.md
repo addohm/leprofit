@@ -6,6 +6,11 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-22
+
+Renamed to leProfit, and one addon: every profession is built in. The built-in data comes from
+Forever's own game data now, and tooltips say where to get every pattern.
+
 ### Added
 
 - Recipes learned from a pattern no vendor sells for gold are listed when the pattern can be

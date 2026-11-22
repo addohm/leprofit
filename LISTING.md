@@ -13,7 +13,7 @@ feature list in step with README.md.
 | Slug | `leprofit` |
 | Game version | WoW: Forever (Interface 16001) |
 | Author | addohm |
-| Release type | Release (1.0.0) |
+| Release type | Release (1.1.0) |
 | License | GNU GPLv3 (`LICENSE`) |
 | Source | https://github.com/addohm/leprofit |
 | Issues | https://github.com/addohm/leprofit/issues |
@@ -59,9 +59,10 @@ too, greyed out, with what learning them costs and how many crafts pay that back
   (the trainer's cost, or the pattern's price and **where its seller stands**, with coordinates
   and their faction), how many crafts pay it back, and anything to watch out for: a material
   with no price, an item that binds on pickup, an auction price days old.
-- **Recipes you haven't learned** but have the skill for are greyed out. Show all adds the ones
-  you'd need more skill for; Hide unlearned keeps only what you know. That includes recipes from
-  world-drop patterns you can buy at the auction house, priced from your scans.
+- **Recipes you haven't learned** but have the skill for are greyed out, recipes from world-drop
+  patterns included, priced at the auction house from your scans. **Show all** lists everything
+  you could get: more skill, patterns that bind, and the rest. Hide unlearned keeps only what you
+  know. The other faction's recipes are never listed.
 - **Click a craft** for its materials: what you need, what you hold, what to buy and what it
   costs, for as many crafts as you like. Hide items that never sell (it asks first).
 - **Price history** from your Auctionator scans, as optional columns: a 14-day average, the
@@ -128,6 +129,23 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 ---
 
 ## Release notes
+
+### 1.1.0
+
+**Renamed to leProfit, and one addon:** every profession is built in, with no modules to install.
+Coming from 1.0? Delete the old `Leprofit` folder and the `Leprofit_<Profession>` folders from
+AddOns first; your settings carry over.
+
+- Recipes from world-drop patterns are listed, with the pattern's auction price as what learning
+  costs. **Show all** now lists everything you could get, patterns that bind included.
+- Tooltips say where to get each pattern: vendors and where they stand, reputation, quests and
+  drops. With **QuestieDB** installed (Questie installs it), leProfit asks it for the full
+  picture.
+- The other faction's recipes are never listed.
+- Opening a trainer records what it charges, for all your characters. Mining's smelting is built
+  in.
+- The built-in data comes from Forever's own game data, with vendor, trainer, loot and quest
+  data partly from Efficient Games (https://efficient.games, CC BY 4.0).
 
 ### 1.0.0
 

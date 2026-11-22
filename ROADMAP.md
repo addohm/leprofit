@@ -14,6 +14,11 @@ change.
   on the owner's PC, asking first.
 - One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
+- 1.1.0 released (2026-11-22): one addon renamed leProfit; data from Forever's
+  game data and Efficient Games, refreshed by `tools/update_data.cmd`; trainer
+  costs recorded; tradeable drop patterns listed; Show all lists everything
+  obtainable; tooltips say where to get patterns (QuestieDB first when
+  installed); the other side's recipes never listed.
 - 1.0.0 released (2026-11-19): out of beta, with search and All professions.
 - 0.9.0-beta released (2026-11-18): the release kit (icon and banner art,
   LISTING.md, the zip and the v0.9.0-beta tag).
