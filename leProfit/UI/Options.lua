@@ -99,8 +99,8 @@ local function Build(panel)
 	Add(UI.OptionCheck(panel, "Hide unlearned: only the recipes this character knows", get, set))
 	get, set = Setting("showAll")
 	Add(UI.OptionCheck(panel, "Show all: also recipes needing more skill, from patterns that bind, or with no known source", get, set))
-	get, set = Setting("showLosses")
-	Add(UI.OptionCheck(panel, "Show crafts at a loss or without a price", get, set))
+	get, set = Setting("hideLosses")
+	Add(UI.OptionCheck(panel, "Hide losses: leave out crafts at a loss or without a price", get, set))
 
 	Add(UI.OptionHeading(panel, "Buttons"))
 	Add(UI.OptionCheck(panel, "Minimap button", function() return not ns.db.minimap.hide end,

@@ -283,15 +283,22 @@ WM.profession = "Blacksmithing"
 ns.Recorder.Record()
 eq(ns.db.recipes.Blacksmithing[2657], nil, "smelting stays with Mining")
 
--- The list: most profitable first; losses, hidden items and unknown sources left out.
+-- The list: most profitable first. By default crafts at a loss or without a price are listed too
+-- (Hide losses is off); hidden items and unknown sources are left out.
+eq(ns.db.hideLosses, false, "Hide losses is off by default")
 local rows, left = ns.Profit.Rows("Blacksmithing")
+eq(left.unpriced, 0, "crafts without a price are listed")
+eq(left.losses, 0)
+ok(rows[#rows].profit == nil, "last, unpriced")
+ns.db.hideLosses = true
+rows, left = ns.Profit.Rows("Blacksmithing")
 ok(#rows >= 2, "profitable crafts listed: " .. #rows)
 eq(rows[1].rec.name, "Test Sharpened Thing", "the most profitable first")
 eq(rows[2].rec.name, "Copper Chain Belt")
 ok(left.bound > 200, "recipes from patterns that bind left out: " .. left.bound)
 ok(left.unknown < 10, "and the few with no known source: " .. left.unknown)
-ok(left.unpriced > 0, "crafts without a price left out")
-eq(left.losses, 0, "and counted apart from losses")
+ok(left.unpriced > 0, "Hide losses leaves out crafts without a price")
+eq(left.losses, 0, "and counts them apart from losses")
 ns.db.hidden[990002] = true
 rows, left = ns.Profit.Rows("Blacksmithing")
 eq(rows[1].rec.name, "Copper Chain Belt", "marked doesn't sell")
@@ -300,7 +307,7 @@ ns.db.hidden[990002] = nil
 eq(ns.Profit.Rows("Blacksmithing")[1].rec.name, "Test Sharpened Thing", "unhidden")
 -- Recipes you haven't learned: listed (greyed out) when you have the skill for them; Show all adds
 -- the ones needing more; Hide unlearned leaves only the ones you know.
-ns.db.showLosses = true
+ns.db.hideLosses = false
 rows, left = ns.Profit.Rows("Blacksmithing")
 local learnable = 0
 for _, r in ipairs(rows) do
@@ -333,10 +340,10 @@ eq(ns.db.showUpTo, nil)
 ns.ResetOptions()
 eq(ns.db.hideUnlearned, false, "Defaults: off")
 eq(ns.db.showAll, false)
-ns.db.showLosses = false
+ns.db.hideLosses = true
 
 -- Sorting: by any column, either way round; rows without a value go last.
-ns.db.showLosses = true
+ns.db.hideLosses = false
 ns.db.sortBy, ns.db.sortDesc = "cost", false
 local sorted = ns.Profit.Rows("Blacksmithing")
 for i = 2, #sorted do
@@ -354,12 +361,12 @@ sorted = ns.Profit.Rows("Blacksmithing")
 for i = 2, #sorted do
 	ok(ns.ItemName(sorted[i - 1].product):lower() <= ns.ItemName(sorted[i].product):lower(), "A to Z")
 end
-ns.db.sortBy, ns.db.sortDesc, ns.db.showLosses = "profit", true, false
-ns.db.showLosses = true
+ns.db.sortBy, ns.db.sortDesc, ns.db.hideLosses = "profit", true, true
+ns.db.hideLosses = false
 local all = ns.Profit.Rows("Blacksmithing")
 ok(#all > #rows, "losses shown")
 eq(all[#all].profit, nil, "the unpriced last")
-ns.db.showLosses = false
+ns.db.hideLosses = true
 ns.db.showAll = true
 local _, left2 = ns.Profit.Rows("Blacksmithing")
 eq(left2.unknown, 0, "Show all lists unknown sources")
@@ -510,13 +517,13 @@ WM.items[234228].bindType = 1
 eq(ns.Profit.Bound(defender.source), true, "or that they bind")
 WM.items[234228] = nil
 -- In the list: tradeable plans are listed; binding ones with Show all; the other side's never.
-local saved = { ns.db.showAll, ns.db.showLosses }
+local saved = { ns.db.showAll, ns.db.hideLosses }
 local function Listed(name)
 	for _, r in ipairs((ns.Profit.Rows("Blacksmithing"))) do
 		if r.rec.name == name then return r end
 	end
 end
-ns.db.showAll, ns.db.showLosses = false, true
+ns.db.showAll, ns.db.hideLosses = false, false
 WM.skills.Blacksmithing = 300
 ok(Listed("Golden Scale Shoulders"), "tradeable plans are listed at your skill")
 ok(not Listed("Bloodsoul Breastplate"), "binding plans aren't, without Show all")
@@ -603,7 +610,7 @@ ns.DataChanged()
 eq(Find("Bloodsoul Breastplate").source.side, nil, "without QuestieDB, the built-in data again")
 
 WM.skills.Blacksmithing = 40
-ns.db.showAll, ns.db.showLosses = saved[1], saved[2]
+ns.db.showAll, ns.db.hideLosses = saved[1], saved[2]
 WM.auctionator[3871] = nil
 
 -- A stale list right after switching windows: the window says Blacksmithing but lists another
@@ -695,6 +702,17 @@ end
 local beltRow = Drawn("Copper Chain Belt")
 ok(beltRow, "the Crafts list shows Copper Chain Belt")
 ok(beltRow.profit.text and beltRow.profit.text ~= "", "with its profit")
+ok(not beltRow.profit.text:find("|cffff4040", 1, true), "not red: it makes a profit")
+-- At a loss: still listed (Hide losses is off), its profit in red.
+local beltPrice = WM.auctionator[2851]
+WM.auctionator[2851] = 1000
+ns.Window.Refresh()
+local lossRow = Drawn("Copper Chain Belt")
+ok(lossRow, "a craft at a loss is listed")
+ok(lossRow.profit.text:find("^|cffff4040%-"), "its profit in red: " .. tostring(lossRow.profit.text))
+WM.auctionator[2851] = beltPrice
+ns.Window.Refresh()
+beltRow = Drawn("Copper Chain Belt")
 eq(beltRow.h, 22, "one line per row")
 local function TipHas(text)
 	for _, line in ipairs(GameTooltip.lines) do
@@ -709,7 +727,7 @@ ok(TipHas("Profit | 35s"), "the profit")
 ok(TipHas("Lowest buyout | 1g"), "the buyout")
 ok(not TipHas("Trend"), "no history lines without history")
 ok(TipHas("Shift-click to link it"), "and how to use it")
-ns.db.showLosses = true
+ns.db.hideLosses = false
 ns.Window.Refresh()
 local maceRow = Drawn("Copper Mace")
 ok(maceRow, "a recipe you'd learn, shown with the losses")
@@ -719,7 +737,7 @@ eq(maceRow.line.alpha, 0.55, "faded numbers")
 eq(beltRow.icon.desaturated, false, "a recipe you know isn't")
 maceRow.scripts.OnEnter(maceRow)
 ok(TipHas("Trainer 50c (skill 15)"), "its tooltip says where to learn it")
-ns.db.showLosses = false
+ns.db.hideLosses = true
 ns.Window.Refresh()
 eq(beltRow.market.shown, false, "the Market column is off by default")
 eq(ns.Window.CurrentPanel().header.market.shown, false, "and its heading")
@@ -761,7 +779,7 @@ eq(beltRow.cost.points[1][4], -(2 * 96 + 4), "Cost left of Buyout and Profit")
 eq(beltRow.profit.points[1][4], -4, "Profit at the right edge")
 
 -- The search: item, recipe and material names, in the profession shown or all of them.
-ns.db.showLosses = true
+ns.db.hideLosses = false
 rows, left = ns.Profit.Rows("Blacksmithing", "copper bar")
 ok(#rows > 0, "crafts using Copper Bars: " .. #rows)
 for _, r in ipairs(rows) do ok(ns.Profit.Matches(r.rec, "copper bar"), "matches: " .. r.rec.name) end
@@ -813,7 +831,7 @@ ns.Window.Hide()
 eq(box.text, "", "closing the window clears the search")
 ns.Window.Show("crafts")
 Radio(root, "Blacksmithing"):setSelected()
-ns.db.showLosses = false
+ns.db.hideLosses = true
 WM.opened = {}
 
 -- The headings sort the list: click one, then again to reverse; an arrow marks it.

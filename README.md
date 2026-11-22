@@ -68,7 +68,8 @@ lacks.
   pattern, its price, the skill it needs, and how many crafts pay it back), and anything to be wary
   of: a material with no price, an item that binds on pickup or that a vendor pays more for, an
   auction price several days old.
-- Crafts at 0 or negative profit are hidden; tick **Show losses** to see them.
+- Crafts at a loss are listed too, their profit in red, and crafts without a price last; tick
+  **Hide losses** to leave both out.
 - The list shows the recipes you know, and **greyed out** the trainer and pattern recipes you could
   learn now (your skill is enough). Hover over a greyed one for what learning it costs and how many
   crafts pay that back: is it worth learning? A pattern names its seller and where they stand,
@@ -135,9 +136,7 @@ lacks.
 - Profit from the lowest buyout or the 14-day average (where there's no average, the lowest buyout
   is used); the Avg 14d, Trend, Seen and Listed columns; the auction house cut; your undercut; how
   old an auction price is before it's flagged.
-- Hide unlearned and Show all, as on the Crafts tab; show crafts at a loss or without a price; and
-  recipes from patterns that bind, or with no known source (hidden by default because there are
-  hundreds).
+- Hide unlearned, Show all and Hide losses, as on the Crafts tab.
 - The minimap button.
 - **Hidden items:** everything marked Doesn't sell, each with an **Unhide** button, and
   **Unhide all**. Defaults leaves them hidden.

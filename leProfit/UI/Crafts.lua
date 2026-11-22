@@ -8,7 +8,7 @@ local RIGHT = 4           -- the list's right edge, inside the scroll bar
 local DETAIL_H = 214      -- the materials panel at the bottom
 local MAT_ROWS = 7        -- the most materials a recipe needs
 local MAT_COLS = 5        -- Need, Have, Buy, Each, Cost
-local GREY, ORANGE = "|cff9d9d9d", "|cffff9933"
+local GREY, ORANGE, RED = "|cff9d9d9d", "|cffff9933", "|cffff4040"
 -- Where each material's price comes from, after its name in the materials panel.
 local SOURCE_TAGS = {
 	auction = GREY .. " (auction)|r", vendor = GREY .. " (vendor)|r", craft = GREY .. " (craft it)|r",
@@ -124,6 +124,13 @@ local function Column(parent, font, width)
 	return fs
 end
 
+-- A profit: red, minus sign and all, at a loss; "?" when it can't be worked out.
+local function ProfitText(p)
+	if not p then return GREY .. "?|r" end
+	if p < 0 then return RED .. "-" .. ns.Money(-p) .. "|r" end
+	return ns.Money(p)
+end
+
 -- Each column's cell for a row.
 local function CellText(key, row)
 	if key == "cost" then return row.cost and ns.Money(row.cost) or (ORANGE .. "?|r") end
@@ -132,7 +139,7 @@ local function CellText(key, row)
 	if key == "trend" then return row.trend and TREND[row.trend] or (GREY .. "-|r") end
 	if key == "seen" then return row.seen and (row.seen .. "/" .. row.days) or (GREY .. "-|r") end
 	if key == "listed" then return row.listed and tostring(row.listed) or (GREY .. "-|r") end
-	if key == "profit" then return row.profit and ns.Money(row.profit) or (GREY .. "?|r") end
+	if key == "profit" then return ProfitText(row.profit) end
 end
 
 -- Where to learn a recipe you don't know, and what it pays back in; nil for one you know.
@@ -196,7 +203,7 @@ local function RowTooltip(owner, row, prof)
 		local how = row.via == "vendor" and "to a vendor" or ("after the " .. ns.db.cut .. "% cut")
 		Pair("Sells for " .. how .. (row.yield ~= 1 and (", x" .. row.yield) or ""), ns.Money(row.value))
 	end
-	Pair("Profit", row.profit and ns.Money(row.profit) or (GREY .. "?|r"))
+	Pair("Profit", ProfitText(row.profit))
 	Pair("Lowest buyout", ns.Money(row.buyout))
 	local h = ns.Prices.History(row.product)
 	if h then
@@ -221,11 +228,6 @@ local function RowTooltip(owner, row, prof)
 	for _, w in ipairs(Warnings(row)) do tip:AddLine(w, 1, 0.6, 0.2, true) end
 	tip:AddLine("Click for its materials. Shift-click to link it.", 0.6, 0.6, 0.6, true)
 	tip:Show()
-end
-
-local function ProfitText(p)
-	if not p then return GREY .. "?|r" end
-	return ns.Money(p)
 end
 
 -- List rows -------------------------------------------------------------------------------------
@@ -560,12 +562,12 @@ local function Build(p)
 	losses:SetSize(26, 26)
 	losses:SetPoint("LEFT", picker, "LEFT", picker.right + 8, 0)
 	losses:SetScript("OnClick", function(self)
-		ns.db.showLosses = self:GetChecked() and true or false
+		ns.db.hideLosses = self:GetChecked() and true or false
 		ns.Window.Refresh()
 	end)
 	local lossesLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 	lossesLabel:SetPoint("LEFT", losses, "RIGHT", 2, 0)
-	lossesLabel:SetText("Show losses")
+	lossesLabel:SetText("Hide losses")
 	panel.losses = losses
 
 	panel.hideUnlearned = TopCheck(panel, "Hide unlearned",
@@ -666,7 +668,7 @@ end
 
 local function Refresh()
 	picker.Sync()
-	panel.losses:SetChecked(ns.db.showLosses)
+	panel.losses:SetChecked(ns.db.hideLosses)
 	panel.hideUnlearned:SetChecked(ns.db.hideUnlearned)
 	panel.showAll:SetChecked(ns.db.showAll)
 	panel.showAll:SetUsable(not ns.db.hideUnlearned)
@@ -729,10 +731,13 @@ local function Refresh()
 			text = ("leProfit doesn't know your %s recipes yet: open your %s window once."):format(prof, prof)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
-		elseif db.hideUnlearned or not db.showAll then
-			text = "Nothing here makes a profit at these prices. Tick Show losses, or Show all."
+		elseif db.hideLosses then
+			text = "Nothing here makes a profit at these prices. Untick Hide losses to see the rest"
+				.. ((db.hideUnlearned or not db.showAll) and ", or tick Show all." or ".")
+		elseif db.hideUnlearned then
+			text = "No recipes known here. Untick Hide unlearned to see what you could learn."
 		else
-			text = "Nothing makes a profit at these prices. Tick Show losses to see everything."
+			text = "Nothing to list here." .. (db.showAll and "" or " Tick Show all to see recipes needing more skill.")
 		end
 		emptyText:SetText(text)
 		emptyText:Show()

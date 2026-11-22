@@ -177,9 +177,9 @@ function Profit.Rows(prof, query)
 		else
 			local row = Profit.Evaluate(prof, rec, memo)
 			row.prof = prof
-			if not row.profit and not db.showLosses then
+			if not row.profit and db.hideLosses then
 				left.unpriced = left.unpriced + 1
-			elseif row.profit and row.profit <= 0 and not db.showLosses then
+			elseif row.profit and row.profit <= 0 and db.hideLosses then
 				left.losses = left.losses + 1
 			else
 				rows[#rows + 1] = row

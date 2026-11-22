@@ -58,8 +58,10 @@ change.
 - **Recipes:** the ones you know, and ones you could buy. Those show the
   pattern's price, where to buy it, and how many crafts pay it back.
 - **Only crafts that make an item** (no enchants on gear).
-- **Selling:** crafts at 0 or negative profit are hidden (a setting shows
-  them). Items with no auction listing seen for some days are flagged, and
+- **Selling:** crafts at 0 or negative profit are listed, in red, unless
+  Hide losses is ticked (until 2026-11-22 they were hidden unless Show losses
+  was ticked: the owner kept thinking crafts were missing). Items with no
+  auction listing seen for some days are flagged, and
   you can mark an item as "doesn't sell" to hide it (after a confirmation;
   Options lists hidden items to unhide). Recipes you could learn now are
   listed greyed out; Show all adds those needing more skill; Hide unlearned

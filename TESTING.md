@@ -117,7 +117,9 @@ so most of it is covered by the first part.
 - [ ] Shift-click a row and a material with the chat box open, then with the auction house (or
       Auctionator) search box focused: the link goes in. Ctrl-click opens the dressing room.
 - [ ] Hovering a material shows its tooltip.
-- [ ] Show losses and the Crafts box behave.
+- [ ] Hide losses is off at first: crafts at a loss are listed with their profit in red, and
+      unpriced ones last; ticking it leaves both out and "Not listed" counts them. The Crafts box
+      behaves.
 - [ ] Recipes you haven't learned but have the skill for are listed greyed out (grey name and
       icon, faded numbers), their tooltip starting "Not learned yet"; Show all adds those needing
       more skill; Hide unlearned leaves only the known ones and greys out Show all; the "Not

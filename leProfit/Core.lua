@@ -9,7 +9,7 @@ local DEFAULTS = {
 	cut = 5,                 -- the auction house cut, percent
 	undercut = 0,            -- how far under the price you post, percent
 	staleDays = 3,           -- flag items whose auction price is this many days old or more
-	showLosses = false,      -- also list crafts at 0 or negative profit, and ones that can't be priced
+	hideLosses = false,      -- leave out crafts at 0 or negative profit, and ones that can't be priced
 	hideUnlearned = false,   -- list only the recipes this character knows
 	showAll = false,         -- also list the recipes needing more skill than you have (greyed out)
 	showMarket = false,      -- the Avg 14d column (Auctionator's 14-day average, or TSM's market value)
@@ -28,7 +28,7 @@ local DEFAULTS = {
 ns.DEFAULTS = DEFAULTS
 
 -- The settings the Options tab's Defaults button puts back.
-ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showMarket", "showTrend", "showSeen", "showListed", "showLosses", "hideUnlearned", "showAll" }
+ns.OPTION_KEYS = { "rankBy", "cut", "undercut", "staleDays", "showMarket", "showTrend", "showSeen", "showListed", "hideLosses", "hideUnlearned", "showAll" }
 
 local ACCOUNT_DEFAULTS = {
 	vendorPrices = {}, -- itemID -> copper for one, recorded at vendors
@@ -148,6 +148,7 @@ events:SetScript("OnEvent", function(_, event, arg)
 		ns.db.knownOnly, ns.db.showUpTo = nil, nil
 		ns.db.showUnknown = nil -- Show all lists those now
 		ns.db.professionButton = nil -- the profession window's button is gone
+		ns.db.showLosses = nil -- Hide losses, off by default, replaced it: losses are listed (in red)
 	elseif event == "PLAYER_LOGIN" then
 		ns.Minimap.Init()
 	else

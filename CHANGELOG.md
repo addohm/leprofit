@@ -8,6 +8,9 @@ All notable changes to leprofit. The format follows
 
 ### Changed
 
+- **Hide losses** replaces Show losses, and it's off: crafts at a loss are listed, their profit in
+  red, and crafts without a price come last. Tick it to leave both out, as before. A craft no
+  longer seems missing because of a box you didn't know was unticked.
 - Opening leProfit no longer opens your profession window. Which recipes each character knows
   comes from the game itself, for every profession, without the window; opening the window
   yourself still adds what it shows.
