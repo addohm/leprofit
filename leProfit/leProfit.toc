@@ -35,4 +35,3 @@ UI\Crafts.lua
 UI\Shopping.lua
 UI\Options.lua
 UI\Minimap.lua
-UI\ProfessionButton.lua

@@ -105,11 +105,6 @@ local function Build(panel)
 	Add(UI.OptionHeading(panel, "Buttons"))
 	Add(UI.OptionCheck(panel, "Minimap button", function() return not ns.db.minimap.hide end,
 		function(v) ns.Minimap.SetShown(v) end))
-	Add(UI.OptionCheck(panel, "Button on the profession window", function() return ns.db.professionButton end,
-		function(v)
-			ns.db.professionButton = v
-			ns.ProfessionButton.Apply()
-		end))
 
 	hiddenHeading = UI.OptionHeading(panel, "Hidden items")
 	noneRow = UI.OptionText(panel, "None. Items you mark Doesn't sell on the Crafts tab are listed here.", 24)
@@ -146,7 +141,6 @@ end
 
 local function Defaults()
 	ns.ResetOptions()
-	ns.ProfessionButton.Apply()
 end
 
 ns.Window.AddPage({ id = "options", label = "Options", build = Build, refresh = Refresh, defaults = Defaults })

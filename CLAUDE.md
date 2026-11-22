@@ -46,8 +46,7 @@ Discuss each feature with the owner before building it.
     trainers. leProfit never opens the profession window itself
   - `UI/`: `Widgets.lua`, `Window.lua`, `Minimap.lua` (from leboof), `Confirm.lua`
     (the confirmation dialog), `Crafts.lua`, `Shopping.lua` and `Options.lua`
-    (the tabs),
-    `ProfessionButton.lua`
+    (the tabs)
 - `tests/`: `run_tests.py` (syntax, TOCs, globals, then `smoke.lua` against
   the fake client `wowmock.lua`)
 - `tools/`: `fetch_sources.py` (downloads Forever's game data tables from

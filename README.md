@@ -27,7 +27,7 @@ Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailor
 ## Usage
 
 Open the window with `/leprofit`, the minimap button (right-click for Options), the addon menu by
-the minimap, or the coin button on the profession window, which opens it on that profession.
+the minimap.
 leProfit doesn't need your profession window: which recipes a character knows comes from the game
 itself, for every profession, and a recipe you learn counts as known straight away. When you do
 open the profession window, leProfit reads it quietly too, for the few recipes the built-in data
@@ -138,7 +138,7 @@ lacks.
 - Hide unlearned and Show all, as on the Crafts tab; show crafts at a loss or without a price; and
   recipes from patterns that bind, or with no known source (hidden by default because there are
   hundreds).
-- The minimap button and the profession window button.
+- The minimap button.
 - **Hidden items:** everything marked Doesn't sell, each with an **Unhide** button, and
   **Unhide all**. Defaults leaves them hidden.
 

@@ -12,10 +12,10 @@ All notable changes to leprofit. The format follows
   comes from the game itself, for every profession, without the window; opening the window
   yourself still adds what it shows.
 
-### Fixed
+### Removed
 
-- The coin button on the profession window now appears on Forever. It waited for the window to
-  show and looked too early; it's now put on the window as soon as the game makes it.
+- The button on the profession window: it never showed on Forever's profession windows. The
+  minimap button, the addon menu and `/leprofit` open leProfit; its Options box is gone too.
 
 ## [1.1.0] - 2026-11-22
 

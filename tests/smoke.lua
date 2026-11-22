@@ -1025,30 +1025,6 @@ ns.Window.Show("crafts")
 ns.Window.Refresh()
 ns.professionOrder = order
 
--- The profession window's button opens leProfit on that profession.
-WM.profession = "Blacksmithing"
--- The profession window's button goes on as soon as the window exists, before it shows (on
--- Forever it shows later than the game's event).
-local host = WM.NewFrame("Frame", "ProfessionsFrame")
-host.CloseButton = WM.NewFrame("Button", nil, host)
-host:Hide()
-WM.Fire("ADDON_LOADED", "Blizzard_Professions")
-local button
-for _, f in ipairs(host.children) do
-	if f.kind == "Button" and f ~= host.CloseButton then button = f end
-end
-ok(button, "a button on the profession window")
-ns.Window.Hide()
-ns.db.profession = "Testcraft"
-local openedBefore = #WM.opened
-button:Click()
-ok(ns.Window.IsShown(), "it opens the window")
-eq(ns.db.profession, "Blacksmithing", "on the open profession")
-eq(#WM.opened, openedBefore, "the profession window is already open")
-ns.db.professionButton = false
-ns.ProfessionButton.Apply()
-ok(not button:IsShown(), "the option hides it")
-
 -- The minimap button.
 leProfitMinimapButton:Click("RightButton")
 SlashCmdList.LEPROFIT("minimap")

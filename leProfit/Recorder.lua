@@ -89,14 +89,6 @@ local function OtherProfession(id, prof)
 	end
 end
 
--- The profession window, if one is shown: Forever's ProfessionsFrame, or the older TradeSkillFrame.
-function Recorder.Frame()
-	for _, name in ipairs({ "ProfessionsFrame", "TradeSkillFrame" }) do
-		local f = rawget(_G, name)
-		if f and f.IsShown and f:IsShown() then return f end
-	end
-end
-
 -- How many of a profession's recipes this character knows (by the game, or its window).
 function Recorder.KnownCount(prof)
 	local n = 0

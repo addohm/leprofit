@@ -135,9 +135,6 @@ so most of it is covered by the first part.
 
 **The rest of the window**
 - [ ] Options: each setting changes the list; Defaults puts them back; they're per character.
-- [ ] The coin button on the profession window (there from the first time it opens, 1.1.0 missed it)
-      sits left of its close button and opens leProfit on
-      that profession; the option hides it.
 - [ ] The minimap button: left-click Crafts, right-click Options, drag to move; the addon menu
       entry works.
 - [ ] No Lua errors (`/console scriptErrors 1`).

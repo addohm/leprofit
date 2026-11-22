@@ -86,8 +86,9 @@ change.
   without vendor materials), Options. A search box on the Crafts tab
   matches item, recipe and material names; the dropdown's All professions
   lists every profession together.
-- **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
-  button on the profession window. Opening it doesn't open your profession
+- **Opening it:** `/leprofit`, a minimap button and the addon menu (the
+  profession window's button went 2026-11-22: it never showed on Forever, and
+  the owner finds the minimap button enough). Opening it doesn't open your profession
   window: known recipes come from the game (IsPlayerSpell), the owner's call
   on 2026-11-22 (it opened it every time before).
 - **Settings** are per character.
