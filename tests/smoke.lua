@@ -405,6 +405,38 @@ eq(chain.source.sellers[1].vendor, "Smith Argus", "your seller first")
 eq(#chain.source.sellers, 2)
 ok(#WM.printed >= 2, "the pattern and the prices are announced")
 
+-- A trainer: what it charges for each recipe, and the skill it needs, are recorded account-wide,
+-- and the list uses them before the built-in costs.
+eq(Find("Copper Chain Pants").source.cost, 50, "the built-in cost")
+WM.trainer = {
+	{ name = "Blacksmithing", kind = "header" },
+	{ name = "Copper Chain Pants", cost = 60, skill = 20, line = "Blacksmithing" },
+	{ name = "Journeyman Blacksmith", cost = 500, line = "Blacksmithing" },
+	{ name = "Smelt Copper", cost = 25, line = "Mining" },
+	{ name = "Copper Bracers", cost = 40, skill = 1 }, -- no skill line given: found by name
+	{ name = "Learned Already", kind = "used", cost = 0, line = "Blacksmithing" },
+}
+WM.printed = {}
+WM.Fire("TRAINER_SHOW")
+local trained = ns.adb.training.Blacksmithing
+eq(trained["Copper Chain Pants"].cost, 60, "the trainer's cost")
+eq(trained["Copper Chain Pants"].skill, 20, "and skill")
+eq(trained["Journeyman Blacksmith"], nil, "a rank isn't a recipe")
+eq(trained["Learned Already"], nil, "nor is a name no recipe has")
+eq(ns.adb.training.Mining["Smelt Copper"].cost, 25, "smelting's under Mining")
+eq(ns.adb.training.Mining["Smelt Copper"].skill, nil, "no skill needed")
+eq(trained["Copper Bracers"].cost, 40, "found by its name")
+eq(WM.printed[1], "|cffffd100leProfit|r: recorded 3 trainer costs.")
+local pants = Find("Copper Chain Pants")
+eq(pants.source.cost, 60, "the recorded cost wins")
+eq(pants.source.skill, 20)
+WM.printed = {}
+WM.Fire("TRAINER_UPDATE")
+eq(#WM.printed, 0, "nothing new, nothing said")
+wipe(ns.adb.training)
+WM.trainer = {}
+ns.DataChanged()
+
 -- A stale list right after switching windows: the window says Blacksmithing but lists another
 -- profession's recipes. ns.RegisterProfession adds a made-up profession for the test.
 ns.RegisterProfession({ name = "Testcraft", recipes = {

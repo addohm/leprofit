@@ -15,6 +15,7 @@ local M = {
 	profession = nil, -- the open profession window's name
 	recipes = {},     -- what the open window lists: { id, name, learned, product, min, max, reagents = { { id, n } } }
 	merchant = {},    -- the vendor's stock: { itemID, name, price, stack, available, extended }
+	trainer = {},     -- the trainer's list: { name, kind ("available", "used", "header"...), cost, skill, line }
 	skills = {},      -- profession -> rank
 	faction = "Alliance",
 }
@@ -254,6 +255,19 @@ C_MerchantFrame = {
 		return m and { name = m.name, price = m.price, stackCount = m.stack or 1, numAvailable = m.available or -1, hasExtendedCost = m.extended or false }
 	end,
 }
+
+-- The trainer
+function GetNumTrainerServices() return #M.trainer end
+function GetTrainerServiceInfo(i)
+	local t = M.trainer[i]
+	if t then return t.name, nil, t.kind or "available", true end
+end
+function GetTrainerServiceCost(i) return M.trainer[i] and (M.trainer[i].cost or 0) end
+function GetTrainerServiceSkillReq(i)
+	local t = M.trainer[i]
+	if t and t.skill then return t.line, t.skill, true end
+end
+function GetTrainerServiceSkillLine(i) return M.trainer[i] and M.trainer[i].line end
 
 -- Price addons
 Auctionator = { Constants = { SCAN_DAY_0 = 0 }, Database = {

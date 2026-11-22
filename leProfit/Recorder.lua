@@ -1,5 +1,6 @@
 -- leProfit: what the game shows you. The profession window gives the recipes you know (and what
--- each makes, from what); vendors give material prices and the patterns they sell.
+-- each makes, from what); vendors give material prices and the patterns they sell; trainers what
+-- they charge for each recipe.
 local _, ns = ...
 local Try = ns.Try
 
@@ -293,13 +294,69 @@ function Recorder.ScanMerchant()
 	if changed then ns.DataChanged() end
 end
 
+-- Trainers -------------------------------------------------------------------------------------
+
+-- The profession a trainer's recipe belongs to: the skill line the trainer files it under, else
+-- the one profession with a recipe of that name. Ranks ("Journeyman Blacksmith") aren't recipes.
+local function TrainerProfession(i, name, names)
+	local function Has(prof)
+		if not names[prof] then
+			names[prof] = {}
+			for _, rec in ipairs(ns.Recipes.List(prof)) do names[prof][rec.name] = true end
+		end
+		return names[prof][name]
+	end
+	local line = GetTrainerServiceSkillLine and ns.Plain(Try(GetTrainerServiceSkillLine, i))
+	if line and ns.professions[line] then return Has(line) and line or nil end
+	local found
+	for prof in pairs(ns.professions) do
+		if Has(prof) then
+			if found then return nil end -- in two professions: can't tell which
+			found = prof
+		end
+	end
+	return found
+end
+
+-- What a profession trainer charges for each recipe it lists, and the skill it needs. Trainers
+-- aren't in the game data, so this is how their costs get known (account-wide: every character
+-- pays the same; tools/update_data.py adds them to the built-in data). Only what the window lists
+-- is read: its filters may hide some.
+function Recorder.ScanTrainer()
+	if not (ns.adb and GetNumTrainerServices and GetTrainerServiceInfo and GetTrainerServiceCost) then return end
+	local names, recorded = {}, 0
+	for i = 1, (Try(GetNumTrainerServices) or 0) do
+		local name, _, kind = Try(GetTrainerServiceInfo, i)
+		name = ns.Plain(name)
+		local prof = name and kind ~= "header" and TrainerProfession(i, name, names)
+		local cost = prof and Try(GetTrainerServiceCost, i)
+		if type(cost) == "number" then
+			local _, skill = Try(GetTrainerServiceSkillReq, i)
+			skill = type(skill) == "number" and skill > 0 and skill or nil
+			ns.adb.training[prof] = ns.adb.training[prof] or {}
+			local old = ns.adb.training[prof][name]
+			if not old or old.cost ~= cost or old.skill ~= skill then
+				ns.adb.training[prof][name] = { cost = cost, skill = skill }
+				recorded = recorded + 1
+			end
+		end
+	end
+	if recorded > 0 then
+		ns.Print(("recorded %d trainer cost%s."):format(recorded, recorded == 1 and "" or "s"))
+		ns.DataChanged()
+	end
+end
+
 local events = CreateFrame("Frame")
-for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE" }) do
+for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE",
+	"TRAINER_SHOW", "TRAINER_UPDATE" }) do
 	pcall(events.RegisterEvent, events, e)
 end
 events:SetScript("OnEvent", function(_, event, arg)
 	if event == "MERCHANT_SHOW" or event == "MERCHANT_UPDATE" then
 		Recorder.ScanMerchant()
+	elseif event == "TRAINER_SHOW" or event == "TRAINER_UPDATE" then
+		Recorder.ScanTrainer()
 	else
 		if event == "NEW_RECIPE_LEARNED" then Recorder.Learned(arg) end
 		RecordSoon()

@@ -6,6 +6,12 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Opening a profession trainer records what it charges for each recipe it lists, and the skill
+  each needs, for all your characters; those costs replace the built-in ones. The game data has no
+  trainers, so this is how new recipes' costs get known.
+
 ### Changed
 
 - The built-in data comes from Forever's own game data now: recipes, what they make and from

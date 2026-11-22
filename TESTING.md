@@ -69,6 +69,9 @@ so most of it is covered by the first part.
       records that vendor's place and faction.
 - [ ] Opening a vendor that sells a material (Weak Flux, Coal...) prints "recorded N material
       prices"; a pattern vendor prints "recorded Plans: ...".
+- [ ] Opening a profession trainer (and a Mining trainer, for smelting) prints "recorded N trainer
+      costs" the first time, nothing the next; an unlearned recipe's tooltip then shows that
+      trainer's cost and skill, on your other characters too.
 - [ ] `/leprofit why <item>` by name, part of a name, and a shift-clicked link; the sum matches the
       list.
 - [ ] The materials panel's Each column and (auction)/(vendor)/(craft it)/(no price) tags.

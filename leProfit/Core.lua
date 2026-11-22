@@ -36,6 +36,7 @@ local ACCOUNT_DEFAULTS = {
 	vendorPrices = {}, -- itemID -> copper for one, recorded at vendors
 	itemNames = {},    -- itemID -> name, for items the game hasn't loaded yet
 	patterns = {},     -- profession -> recipe name -> { itemID, price, vendor, zone, subZone, faction }
+	training = {},     -- profession -> recipe name -> { cost, skill }, recorded at trainers
 }
 
 local function CopyDefaults(dst, src)

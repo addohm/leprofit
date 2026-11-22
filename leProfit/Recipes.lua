@@ -50,10 +50,10 @@ function Recipes.SellerText(s)
 	return text
 end
 
--- Where to learn a recipe: a trainer (its cost and the skill it needs), a pattern from a vendor
--- (price, skill, sellers), or nobody recorded yet.
+-- Where to learn a recipe: a trainer (its cost and the skill it needs; what you recorded at one
+-- first), a pattern from a vendor (price, skill, sellers), or nobody recorded yet.
 local function Source(def, prof, name)
-	local t = def.training[name]
+	local t = (ns.adb.training[prof] and ns.adb.training[prof][name]) or def.training[name]
 	if t then return { kind = "trainer", cost = t.cost, skill = t.skill } end
 	local recorded = ns.adb.patterns[prof] and ns.adb.patterns[prof][name]
 	local pattern = def.patterns[name]

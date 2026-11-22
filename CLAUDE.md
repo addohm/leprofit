@@ -31,8 +31,9 @@ Discuss each feature with the owner before building it.
     payback, flags, the filtered and sorted rows, shopping for n crafts
   - `Shopping.lua`: the shopping list (ns.db.plan), its combined materials,
     and Send to Auctionator
-  - `Recorder.lua`: reads the profession window and vendors, opens the
-    profession window, marks recipes learned at trainers
+  - `Recorder.lua`: reads the profession window, vendors and trainers (costs
+    into `ns.adb.training`), opens the profession window, marks recipes
+    learned at trainers
   - `UI/`: `Widgets.lua`, `Window.lua`, `Minimap.lua` (from leboof), `Confirm.lua`
     (the confirmation dialog), `Crafts.lua`, `Shopping.lua` and `Options.lua`
     (the tabs),

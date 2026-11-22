@@ -94,7 +94,9 @@ you know from it. Recipes you learn at a trainer count as known straight away.
   price too: using one you could sell costs you that one. The materials panel shows the gold you'd
   actually spend on what you don't have.
 - leProfit records vendor prices for materials, and the patterns vendors sell, when you open a
-  vendor. Auctionator's own record of vendor prices counts too.
+  vendor. Auctionator's own record of vendor prices counts too. Opening a profession trainer
+  records what it charges for each recipe and the skill it needs; that cost replaces the built-in
+  one for all your characters.
 - `/leprofit why <item>` prints the whole sum for one craft in chat: each material, its price and
   where it's from, the buyout, 14-day average and vendor price, Auctionator's history (days seen,
   how many listed, the trend), the cut, the profit, and where to learn it. Type the name (or part of it), or shift-click the item.
