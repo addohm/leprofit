@@ -163,6 +163,12 @@ local function Better(a, b)
 	return a.id < b.id
 end
 
+-- Whether this character knows a recipe, by asking the game (no profession window needed): the
+-- recipe is a spell the character has.
+local function KnowsSpell(id)
+	return IsPlayerSpell and ns.Try(IsPlayerSpell, id) == true or false
+end
+
 local function Build(prof)
 	local def = ns.professions[prof]
 	local all = {}
@@ -186,6 +192,7 @@ local function Build(prof)
 
 	local best = {}
 	for _, e in pairs(all) do
+		if not e.learned and KnowsSpell(e.id) then e.learned = true end
 		if e.name and e.product and e.reagents and #e.reagents > 0 then
 			e.source = e.learned and { kind = "known" } or Source(def, prof, e.name)
 			if not best[e.name] or Better(e, best[e.name]) then best[e.name] = e end

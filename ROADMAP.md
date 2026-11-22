@@ -87,8 +87,9 @@ change.
   matches item, recipe and material names; the dropdown's All professions
   lists every profession together.
 - **Opening it:** `/leprofit`, a minimap button and the addon menu, and a
-  button on the profession window. Opening it opens your profession window
-  too, every time (the owner's pick), so your known recipes are read.
+  button on the profession window. Opening it doesn't open your profession
+  window: known recipes come from the game (IsPlayerSpell), the owner's call
+  on 2026-11-22 (it opened it every time before).
 - **Settings** are per character.
 - **Tools** as in leboof: an install script for the Windows PC, a release
   script that zips the addons, and tests that run here.

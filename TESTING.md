@@ -42,8 +42,9 @@ so most of it is covered by the first part.
 - [ ] After visiting a trainer and logging out, a run lists its recipes as "new trainer costs".
 
 **Blacksmithing** (on the Blacksmith)
-- [ ] Opening leProfit opens your Blacksmithing window (not when it's already open, or in combat);
-      `/leprofit status` then says how many recipes you know.
+- [ ] Opening leProfit (and picking a profession in its dropdown) doesn't open the profession
+      window; Blacksmithing's known recipes are right anyway (not greyed), and `/leprofit status`
+      counts them, without the profession window opened since login.
 - [ ] Learning a recipe at the trainer lists it as known without opening the profession window.
 - [ ] A material you can craft cheaper than buy (a sharpening or grinding stone) shows
       "(craft it)" in the materials panel.
@@ -52,8 +53,8 @@ so most of it is covered by the first part.
 - [ ] On a character without Mining, Mining's list shows the smelting recipes, with Show all and
       Options > "Show recipes from patterns that bind, or with no known source" ticked (smelting's
       trainer costs aren't known yet).
-- [ ] On the Miner, opening leProfit (or picking Mining in the dropdown) opens the smelting window; `/leprofit status`
-      then counts the smelting recipes you know, and Mining's Crafts list shows bars against ore.
+- [ ] On the Miner, `/leprofit status` counts the smelting recipes you know without the smelting
+      window opened, and Mining's Crafts list shows bars against ore.
 - [ ] On a character with both Mining and Blacksmithing: Blacksmithing's materials panel
       shows "(craft it)" on bars that are cheaper to smelt, and `/leprofit why` says
       "crafted with Smelt ... (Mining)". If the Blacksmith and the Miner are different characters,
@@ -134,7 +135,8 @@ so most of it is covered by the first part.
 
 **The rest of the window**
 - [ ] Options: each setting changes the list; Defaults puts them back; they're per character.
-- [ ] The coin button on the profession window sits left of its close button and opens leProfit on
+- [ ] The coin button on the profession window (there from the first time it opens, 1.1.0 missed it)
+      sits left of its close button and opens leProfit on
       that profession; the option hides it.
 - [ ] The minimap button: left-click Crafts, right-click Options, drag to move; the addon menu
       entry works.
@@ -144,7 +146,7 @@ so most of it is covered by the first part.
 
 For each of Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking and Tailoring, on a
 character that has it:
-- [ ] Opening leProfit opens that profession's window; `/leprofit status` counts its known recipes;
+- [ ] Without opening that profession's window, `/leprofit status` counts its known recipes and
       Hide unlearned lists them.
 - [ ] Recipes that make several (Engineering's ammo, some Cooking) show x2 and so on, and their
       profit counts every item.

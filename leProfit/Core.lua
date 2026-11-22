@@ -166,15 +166,12 @@ local function Status()
 	-- This character's professions in full; the others just by name.
 	local others = {}
 	for _, name in ipairs(ns.professionOrder) do
-		local known = 0
-		for _, rec in pairs(ns.db.recipes[name] or {}) do
-			if rec.learned then known = known + 1 end
-		end
+		local known = ns.Recorder.KnownCount(name)
 		if ns.Skill(name) or known > 0 then
 			local count = 0
 			for _ in pairs(ns.professions[name].recipes) do count = count + 1 end
 			ns.Print(("%s (skill %s): %d recipes in the data, %d known by this character%s"):format(name,
-				ns.Skill(name) or "?", count, known, known == 0 and " (open your profession window once to read them)" or ""))
+				ns.Skill(name) or "?", count, known, known == 0 and " (open your profession window once)" or ""))
 		else
 			others[#others + 1] = name
 		end

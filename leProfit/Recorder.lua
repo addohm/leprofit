@@ -1,6 +1,7 @@
--- leProfit: what the game shows you. The profession window gives the recipes you know (and what
--- each makes, from what); vendors give material prices and the patterns they sell; trainers what
--- they charge for each recipe.
+-- leProfit: what the game shows you. Which recipes you know comes from the game itself
+-- (Recipes.lua asks IsPlayerSpell); the profession window, when you open it, adds what each makes
+-- and from what, and recipes the built-in data lacks. Vendors give material prices and the patterns
+-- they sell; trainers what they charge for each recipe. leProfit never opens a window itself.
 local _, ns = ...
 local Try = ns.Try
 
@@ -96,30 +97,13 @@ function Recorder.Frame()
 	end
 end
 
--- How many of a profession's recipes this character's window has shown as known.
+-- How many of a profession's recipes this character knows (by the game, or its window).
 function Recorder.KnownCount(prof)
 	local n = 0
-	for _, rec in pairs(ns.db.recipes[prof] or {}) do
+	for _, rec in ipairs(ns.Recipes.List(prof)) do
 		if rec.learned then n = n + 1 end
 	end
 	return n
-end
-
--- The game's skill line for each profession, for opening its window.
-local SKILL_LINES = {
-	Alchemy = 171, Blacksmithing = 164, Cooking = 185, Enchanting = 333, Engineering = 202,
-	["First Aid"] = 129, Leatherworking = 165, Mining = 186, Tailoring = 197,
-}
-
--- Opens your profession window on `prof` (leProfit reads your recipes from it), unless it's
--- already open on it, you don't have the profession, or you're in combat. True if it opened.
-function Recorder.OpenWindow(prof)
-	if not prof or InCombatLockdown() then return false end
-	if Recorder.Frame() and Recorder.OpenProfession(false) == prof then return false end
-	local line = (ns.professions[prof] and ns.professions[prof].skillLine) or SKILL_LINES[prof]
-	if not line or not ns.Skill(prof) then return false end
-	local api = C_TradeSkillUI
-	return ns.Try(api and api.OpenTradeSkill, line) and true or false
 end
 
 -- Learning a recipe (at a trainer, or from a pattern) marks it known straight away; the game
@@ -349,11 +333,14 @@ end
 
 local events = CreateFrame("Frame")
 for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE",
-	"TRAINER_SHOW", "TRAINER_UPDATE" }) do
+	"TRAINER_SHOW", "TRAINER_UPDATE", "SPELLS_CHANGED", "SKILL_LINES_CHANGED" }) do
 	pcall(events.RegisterEvent, events, e)
 end
 events:SetScript("OnEvent", function(_, event, arg)
-	if event == "MERCHANT_SHOW" or event == "MERCHANT_UPDATE" then
+	if event == "SPELLS_CHANGED" or event == "SKILL_LINES_CHANGED" then
+		-- What the character knows may have changed (and at login, the spells are only ready now).
+		ns.DataChanged()
+	elseif event == "MERCHANT_SHOW" or event == "MERCHANT_UPDATE" then
 		Recorder.ScanMerchant()
 	elseif event == "TRAINER_SHOW" or event == "TRAINER_UPDATE" then
 		Recorder.ScanTrainer()

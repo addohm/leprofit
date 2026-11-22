@@ -63,14 +63,25 @@ for i, name in ipairs(PROFESSIONS) do
 	end
 	ok(n > 15, name .. " has recipes: " .. n) -- Mining has the fewest: 18, its smelting
 	ok(#ns.Recipes.List(name) > 0, name .. " lists them")
-	WM.skills[name] = 1
-	WM.opened = {}
-	ok(ns.Recorder.OpenWindow(name), name .. " can open its window")
-	WM.skills[name] = nil
 end
 -- A few recipes are listed by several professions (Forever's camp and home items); more than a
 -- handful would mean a data refresh went wrong.
 ok(shared <= 16, "recipes listed by more than one profession: " .. shared)
+
+-- Which recipes the character knows comes from the game (IsPlayerSpell), no window needed.
+local function KnownIn(prof, name)
+	for _, r in ipairs(ns.Recipes.List(prof)) do
+		if r.name == name then return r.learned and true or false end
+	end
+end
+eq(KnownIn("Tailoring", "Linen Cloak"), false, "not known")
+WM.spells[2387] = true -- Linen Cloak
+WM.Fire("SPELLS_CHANGED")
+eq(KnownIn("Tailoring", "Linen Cloak"), true, "known once the game says so, with no window read")
+eq(ns.Recorder.KnownCount("Tailoring"), 1)
+WM.spells[2387] = nil
+WM.Fire("SPELLS_CHANGED")
+eq(KnownIn("Tailoring", "Linen Cloak"), false)
 WM.opened = {}
 ns.db.profession = "Blacksmithing"
 eq(ns.CurrentProfession(), "Blacksmithing", "the profession picked")
@@ -632,8 +643,7 @@ ns.db.profession = "Blacksmithing"
 SlashCmdList.LEPROFIT("")
 WM.RunTimers()
 ok(ns.Window.IsShown(), "/leprofit opens the window")
-eq(#WM.opened, 1, "and the profession window")
-eq(WM.opened[1], 164, "Blacksmithing's")
+eq(#WM.opened, 0, "and no profession window")
 ok(ns.Window.CurrentPanel(), "a page is shown")
 -- The profession dropdown: every ticked module, the one shown selected; picking one switches.
 local dropdown = ns.Window.CurrentPanel().picker.dropdown
@@ -660,7 +670,7 @@ ns.BuildProfessionMenu(dropdown, picked)
 ok(Radio(picked, "Tailoring").isSelected(), "and it's selected now")
 Radio(root, "Blacksmithing"):setSelected()
 eq(ns.db.profession, "Blacksmithing")
-eq(WM.opened[1], 164, "picking one you have opens its window")
+eq(#WM.opened, 0, "picking one you have doesn't open its window either")
 
 
 -- The top bar's Hide unlearned and Show all; Show all is greyed while Hide unlearned is on.
@@ -1017,10 +1027,12 @@ ns.professionOrder = order
 
 -- The profession window's button opens leProfit on that profession.
 WM.profession = "Blacksmithing"
+-- The profession window's button goes on as soon as the window exists, before it shows (on
+-- Forever it shows later than the game's event).
 local host = WM.NewFrame("Frame", "ProfessionsFrame")
 host.CloseButton = WM.NewFrame("Button", nil, host)
-WM.Fire("TRADE_SKILL_SHOW")
-WM.RunTimers()
+host:Hide()
+WM.Fire("ADDON_LOADED", "Blizzard_Professions")
 local button
 for _, f in ipairs(host.children) do
 	if f.kind == "Button" and f ~= host.CloseButton then button = f end

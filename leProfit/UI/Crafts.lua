@@ -495,7 +495,6 @@ end
 local function PickProfession(name)
 	selected = nil
 	ns.SetProfession(name)
-	if name ~= ns.ALL then ns.Recorder.OpenWindow(name) end
 	ns.Window.Refresh()
 end
 
@@ -716,7 +715,7 @@ local function Refresh()
 	for i = #list + 1, #rows do rows[i]:Hide() end
 	inner:SetHeight(math.max(1, y))
 
-	-- Recipes you know are read from the profession window: until then none count as known.
+	-- A profession with no recipe known: the game didn't say (it should), so the window may.
 	local unread = prof and ns.Skill(prof) and ns.Recorder.KnownCount(prof) == 0
 	local db = ns.db
 	if #list == 0 then
@@ -727,7 +726,7 @@ local function Refresh()
 			text = "This character doesn't have " .. prof .. "." .. (db.hideUnlearned and " Untick Hide unlearned and tick" or " Tick")
 				.. " Show all to see what it could learn."
 		elseif prof and db.hideUnlearned and unread then
-			text = ("leProfit hasn't read your %s recipes yet: open your %s window."):format(prof, prof)
+			text = ("leProfit doesn't know your %s recipes yet: open your %s window once."):format(prof, prof)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
 		elseif db.hideUnlearned or not db.showAll then

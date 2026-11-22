@@ -17,6 +17,7 @@ local M = {
 	merchant = {},    -- the vendor's stock: { itemID, name, price, stack, available, extended }
 	trainer = {},     -- the trainer's list: { name, kind ("available", "used", "header"...), cost, skill, line }
 	skills = {},      -- profession -> rank
+	spells = {},      -- spell ID -> true: what IsPlayerSpell says this character knows
 	faction = "Alliance",
 	areas = { [1377] = "Silithus", [1637] = "Orgrimmar", [1519] = "Stormwind City" }, -- AreaTable ID -> name
 }
@@ -176,6 +177,7 @@ function IsModifiedClick(action) return M.modifier ~= nil and M.modifier == acti
 function HandleModifiedItemClick(link) table.insert(M.linked, link) return true end
 function InCombatLockdown() return false end
 function GetCursorPosition() return 0, 0 end
+function IsPlayerSpell(id) return M.spells[id] or false end
 function UnitFactionGroup(unit) return unit == "npc" and M.npcFaction or M.faction end
 function UnitReaction() return M.npcReaction end
 function UnitName(unit) return unit == "npc" and M.vendorName or "Tester" end

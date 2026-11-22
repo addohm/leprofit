@@ -37,17 +37,25 @@ local function Create(host)
 	return b
 end
 
+-- The button goes on the window itself as soon as the window exists, shown or not, so it comes
+-- and goes with it. (Waiting for the window to show missed it on Forever: it shows later than the
+-- game's TRADE_SKILL_SHOW.) The window is made when the game first loads it, on demand.
+local HOSTS = { "ProfessionsFrame", "TradeSkillFrame" }
+
 function PB.Apply()
-	local host = ns.Recorder.Frame()
-	if host and not buttons[host] then buttons[host] = Create(host) end
+	for _, name in ipairs(HOSTS) do
+		local host = rawget(_G, name)
+		if type(host) == "table" and host.CreateTexture and not buttons[host] then buttons[host] = Create(host) end
+	end
 	for _, b in pairs(buttons) do b:SetShown(ns.db.professionButton and true or false) end
 end
 
 function PB.Init()
 	local events = CreateFrame("Frame")
 	events:RegisterEvent("TRADE_SKILL_SHOW")
+	events:RegisterEvent("ADDON_LOADED") -- the game's own profession window addon, loaded when first opened
 	events:SetScript("OnEvent", function()
-		-- The window is shown a moment after the event.
+		PB.Apply()
 		C_Timer.After(0, PB.Apply)
 	end)
 	PB.Apply()

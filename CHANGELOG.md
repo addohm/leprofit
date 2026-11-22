@@ -6,6 +6,17 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Opening leProfit no longer opens your profession window. Which recipes each character knows
+  comes from the game itself, for every profession, without the window; opening the window
+  yourself still adds what it shows.
+
+### Fixed
+
+- The coin button on the profession window now appears on Forever. It waited for the window to
+  show and looked too early; it's now put on the window as soon as the game makes it.
+
 ## [1.1.0] - 2026-11-22
 
 Renamed to leProfit, and one addon: every profession is built in. The built-in data comes from

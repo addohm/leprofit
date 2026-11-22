@@ -22,15 +22,16 @@ Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailor
    from their scans.
 3. Optional: **QuestieDB** (Questie installs it on Forever). With it, tooltips say where every
    pattern comes from, and which side can get it, from its database.
-4. Open leProfit: it opens your profession window too, and reads the recipes you know from it.
+4. Open leProfit. It knows which recipes each character knows from the game itself.
 
 ## Usage
 
 Open the window with `/leprofit`, the minimap button (right-click for Options), the addon menu by
 the minimap, or the coin button on the profession window, which opens it on that profession.
-Opening leProfit (or picking another profession in it) also opens your profession window, unless
-it's already open, you don't have that profession, or you're in combat: leProfit reads the recipes
-you know from it. Recipes you learn at a trainer count as known straight away.
+leProfit doesn't need your profession window: which recipes a character knows comes from the game
+itself, for every profession, and a recipe you learn counts as known straight away. When you do
+open the profession window, leProfit reads it quietly too, for the few recipes the built-in data
+lacks.
 
 **Crafts tab**
 - The dropdown at the top picks the profession: every crafting profession is there, so you can
