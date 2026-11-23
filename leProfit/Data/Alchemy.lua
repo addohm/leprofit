@@ -370,7 +370,7 @@ ns.RegisterProfession({
 		["Lesser Mender's Potion"] = { itemID = 250989, skill = 80, bound = false },
 		["Lesser Spellblasting Potion"] = { itemID = 250977, skill = 85, bound = false },
 		["Lesser Stoneshield Potion"] = { itemID = 4624, skill = 215, bound = false, quests = { { title = "Liquid Stone", zone = "Badlands" } } },
-		["Limited Invulnerability Potion"] = { itemID = 3395, skill = 250, bound = false },
+		["Limited Invulnerability Potion"] = { itemID = 3395, skill = 250, bound = false, drops = { { how = "drop", from = "Venture Co. Strip Miner", zone = "Stranglethorn Vale", drops = 1, of = 15 } } },
 		["Living Action Potion"] = { itemID = 20013, skill = 285, bound = true, rep = { faction = "Zandalar Tribe", standing = "Exalted" } },
 		["Mageblood Elixir"] = { itemID = 20011, skill = 275, bound = true, rep = { faction = "Zandalar Tribe", standing = "Revered" } },
 		["Magic Resistance Potion"] = { itemID = 9293, skill = 210, bound = false },
