@@ -118,6 +118,8 @@ local function Craft(lines, prof, rec)
 		Add("    where: " .. line)
 	end
 	Add("  Listed: " .. (why and ("no, " .. LEFT_OUT[why]) or "yes"))
+	local writ = ns.writs[rec.product]
+	if writ then Add(("  Writ: %s (item %d) asks for it"):format(ns.ItemName(writ), writ)) end
 	local sell, bop = ns.ItemSale(rec.product)
 	Add(("  Sale: %s each via %s (buyout %s, steadier %s; vendor pays %s; binds on pickup %s)"):format(M(row.value),
 		tostring(row.via), M(row.buyout), M(row.market), M(sell), YesNo(bop)))

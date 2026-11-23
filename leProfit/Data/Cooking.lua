@@ -302,6 +302,9 @@ ns.RegisterProfession({
 		["Herb Baked Egg"] = true,
 		["Roasted Boar Meat"] = true,
 	},
+	-- itemID made = the Craftsman's Writ (an item) that asks for it
+	writs = {
+	},
 	-- itemID = copper: what vendors charge for one
 	vendorPrices = {
 		[159] = 5,

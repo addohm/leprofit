@@ -69,6 +69,7 @@ too, greyed out, with what learning them costs and how many crafts pay that back
   trend (up, down or level), how many days it was listed, and how many are up now.
 - **Search** item, recipe and material names as you type ("copper bar" finds everything made from
   Copper Bars), in one profession or all of them at once.
+- **Craftsman's Writ crafts** are marked with a scroll; search "writ" to list them all.
 - **Shift-click** a craft or a material to link it in chat or the auction house search.
 
 #### Shopping

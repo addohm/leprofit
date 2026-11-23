@@ -195,6 +195,9 @@ ns.RegisterProfession({
 		["Novice's Practice Wand"] = true,
 		["Runed Copper Rod"] = true,
 	},
+	-- itemID made = the Craftsman's Writ (an item) that asks for it
+	writs = {
+	},
 	-- itemID = copper: what vendors charge for one
 	vendorPrices = {
 		[3371] = 4,

@@ -124,6 +124,15 @@ local function Column(parent, font, width)
 	return fs
 end
 
+-- A small scroll after the name of a craft a Craftsman's Writ asks for: the writ's own icon.
+local WRIT_ICON = "Interface\\Icons\\INV_Scroll_03"
+local function WritMark(product)
+	local writ = ns.writs[product]
+	if not writ then return "" end
+	local icon = C_Item and C_Item.GetItemIconByID and ns.Try(C_Item.GetItemIconByID, writ)
+	return " |T" .. tostring(icon or WRIT_ICON) .. ":14:14|t"
+end
+
 -- A profit: red, minus sign and all, at a loss; "?" when it can't be worked out.
 local function ProfitText(p)
 	if not p then return GREY .. "?|r" end
@@ -215,6 +224,11 @@ local function RowTooltip(owner, row, prof)
 		if h.listed then Pair("Listed at the last scan", tostring(h.listed)) end
 	elseif market then
 		Pair(ns.Prices.MarketName(), ns.Money(market))
+	end
+	local writ = ns.writs[row.product]
+	if writ then
+		tip:AddLine(("A Craftsman's Writ asks for this (%s): turned in for trade-faction reputation."):format(ns.ItemName(writ)),
+			0.4, 0.8, 1, true)
 	end
 	local learn = LearnLine(row, prof)
 	if learn then
@@ -717,7 +731,8 @@ local function Refresh()
 		-- Recipes you haven't learned are greyed out: grey name, grey icon, faded numbers.
 		local learned = row.rec.source.kind == "known"
 		b.icon:SetDesaturated(not learned)
-		b.name:SetText((learned and ns.ItemNameColored(row.product) or (GREY .. ns.ItemName(row.product) .. "|r")) .. yield)
+		b.name:SetText((learned and ns.ItemNameColored(row.product) or (GREY .. ns.ItemName(row.product) .. "|r")) .. yield
+			.. WritMark(row.product))
 		b.line:SetAlpha(learned and 1 or 0.55)
 		b.unlearned = not learned
 		for _, col in ipairs(COLUMNS) do b[col.key]:SetText(CellText(col.key, row)) end

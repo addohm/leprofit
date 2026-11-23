@@ -6,6 +6,14 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Crafts a trade faction's Craftsman's Writ asks for are marked with a small scroll (the writ's
+  icon) after their name, and their tooltip names the writ. Searching "writ" (or "craftsman")
+  lists them all. 146 of Forever's 150 writs ask for something leProfit crafts (Alchemy,
+  Blacksmithing, Engineering, Leatherworking, Tailoring); the match comes from each writ's name
+  in the game data. `/leprofit debug` names the writ too.
+
 ## [1.2.0] - 2026-11-23
 
 No more lag spikes from leProfit, losses shown in red rather than hidden, and the profession window

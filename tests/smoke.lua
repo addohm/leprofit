@@ -819,6 +819,16 @@ ns.Window.Refresh()
 eq(beltRow.seen.text, "2/14", "Seen")
 beltRow.scripts.OnEnter(beltRow)
 ok(TipHas("Seen | 2 of the last 14 days"), "the tooltip has the history")
+-- A craft a Craftsman's Writ asks for: a scroll after its name, and a line in its tooltip.
+ok(not beltRow.name.text:find("|T", 1, true), "no scroll on a craft no writ asks for")
+ns.writs[2851] = 264069
+WM.items[264069] = { name = "Craftsman's Writ: Copper Chain Belt" }
+ns.Window.Refresh()
+ok(beltRow.name.text:find("|T", 1, true), "a scroll after the name")
+beltRow.scripts.OnEnter(beltRow)
+ok(TipHas("A Craftsman's Writ asks for this (Craftsman's Writ: Copper Chain Belt)"), "and the tooltip says so")
+ns.writs[2851] = nil
+ns.Window.Refresh()
 ok(TipHas("Trend | going up"))
 ok(TipHas("Listed at the last scan | 4"))
 ok(TipHas("14-day average | 95s"))
@@ -1082,6 +1092,18 @@ WM.history[2851], WM.clock = nil, 4001
 ok(Printed("Sells for 95s each after 5% cut, by lowest buyout"), "the sale")
 ok(Printed("Profit: 35s a craft"), "the profit")
 WM.printed = {}
+
+-- Crafts a Craftsman's Writ asks for: known from the writ's name in the game data; "writ" finds them.
+eq(ns.writs[9060], 264069, "Craftsman's Writ: Inlaid Mithril Cylinder asks for the cylinder")
+local cylinder = Find("Inlaid Mithril Cylinder")
+eq(ns.Profit.Matches(cylinder, "writ"), true, "searching writ finds it")
+eq(ns.Profit.Matches(cylinder, "craftsman"), true)
+eq(ns.Profit.Matches(Find("Copper Chain Belt"), "writ"), false, "and not what no writ asks for")
+WM.items[264069] = { name = "Craftsman's Writ: Inlaid Mithril Cylinder" }
+SlashCmdList.LEPROFIT("debug Inlaid Mithril Cylinder")
+ok(leProfitCopy.edit:GetText():find("Writ: Craftsman's Writ: Inlaid Mithril Cylinder (item 264069) asks for it", 1, true),
+	"debug names the writ")
+leProfitCopy:Hide()
 
 -- /leprofit debug <item>: a report to copy, in a window with it all selected.
 eq(ns.Debug.Money(16380), "1g 63s 80c")

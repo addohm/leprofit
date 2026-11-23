@@ -90,7 +90,9 @@ By hand:
 2. `python3 tools/gen_data.py` writes the data files and lists what's new or gone: recipes,
    trainer costs and patterns, per profession. Besides vendor patterns, each file lists the
    patterns no vendor sells for gold (`otherPatterns`: the item, its skill, whether it binds, the
-   reputation it needs, token vendors, quests and drops) and the starter recipes (`free`). A
+   reputation it needs, token vendors, quests and drops), the starter recipes (`free`), and what a
+   Craftsman's Writ asks for (`writs`: the item made and the writ, matched by the writ's name; the
+   run lists any writ no recipe makes). A
    pattern's `side` is set when only one side can get it: a one-side reputation (from the game's
    Faction table), or every known source that side's (its vendors' faction, its quests' races).
    A vendor's faction comes from Efficient Games' NPC data, else from what leProfit recorded at

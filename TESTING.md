@@ -139,6 +139,9 @@ so most of it is covered by the first part.
 - [ ] Options: each setting changes the list; Defaults puts them back; they're per character.
 - [ ] The minimap button: left-click Crafts, right-click Options, drag to move; the addon menu
       entry works.
+- [ ] Crafts a Craftsman's Writ asks for (Inlaid Mithril Cylinder, say) show a small scroll after
+      their name and a tooltip line naming the writ; searching "writ" with All professions lists
+      them across professions.
 - [ ] No Lua errors (`/console scriptErrors 1`).
 - [ ] `/leprofit debug <a craft>` opens a window with the report selected; Ctrl+C copies it all
       and pastes cleanly into Discord; typing in it changes nothing; Escape and Close shut it.

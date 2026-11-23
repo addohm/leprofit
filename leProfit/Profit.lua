@@ -232,6 +232,8 @@ local function Matches(rec, query)
 	if ns.ItemName(rec.product):lower():find(query, 1, true) or rec.name:lower():find(query, 1, true) then
 		return true
 	end
+	-- "writ" (or "craftsman") finds every craft a Craftsman's Writ asks for.
+	if ns.writs[rec.product] and ("craftsman's writ"):find(query, 1, true) then return true end
 	for _, r in ipairs(rec.reagents) do
 		if ns.ItemName(r[1]):lower():find(query, 1, true) then return true end
 	end

@@ -38,6 +38,9 @@ lacks.
   look at one this character hasn't got to see what it could make. It starts on one this
   character has. **All professions** lists them all together (each row's tooltip names its
   profession).
+- Crafts a trade faction's **Craftsman's Writ** asks for have a small scroll after their name,
+  and a line in their tooltip naming the writ. Search for "writ" to list them all (with All
+  professions picked, from every profession).
 - The **search** box filters the list as you type: it matches the item's name, the recipe's name
   and the names of its materials, so "copper bar" finds every craft that uses Copper Bars. It
   searches the profession shown, or all of them with All professions picked. Escape or the x

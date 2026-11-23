@@ -66,6 +66,7 @@ end
 
 -- Each profession's data file (Data/<Profession>.lua) registers it here as the addon loads.
 ns.professions, ns.professionOrder = {}, {}
+ns.writs = {} -- itemID -> the Craftsman's Writ (an item) that asks for it, from every profession's data
 ns.dataVersion = 0 -- bumped whenever recipes, patterns or prices recorded here change
 -- Bumped whenever anything a craft's sums depend on changes: the data, auction prices, the
 -- settings, items the game finished loading. Profit.lua keeps each craft's sums until then.
@@ -86,6 +87,8 @@ function ns.RegisterProfession(def)
 	def.recipes, def.training, def.patterns = def.recipes or {}, def.training or {}, def.patterns or {}
 	def.vendorPrices, def.itemNames = def.vendorPrices or {}, def.itemNames or {}
 	def.otherPatterns, def.free = def.otherPatterns or {}, def.free or {}
+	def.writs = def.writs or {}
+	for product, writ in pairs(def.writs) do ns.writs[product] = writ end
 	def.windowNames = def.windowNames or { def.name } -- what the game calls its profession window
 	if not ns.professions[def.name] then
 		table.insert(ns.professionOrder, def.name)

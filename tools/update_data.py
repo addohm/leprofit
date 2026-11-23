@@ -435,7 +435,7 @@ def rebuild():
     import gen_data
     step("Rebuild leProfit's data", "Writes leProfit/Data/<Profession>.lua from the downloads and tools/learned.json.")
     try:
-        build, eg_builds, report = gen_data.generate()
+        build, eg_builds, report, unmatched = gen_data.generate()
     except gen_data.DataError as e:
         bad(str(e))
         return None
@@ -448,6 +448,8 @@ def rebuild():
                 dim(f"  new {label}: {listed(added)}")
             if removed:
                 dim(f"  gone {label}: {listed(removed)}")
+    if unmatched:
+        dim(f"Craftsman's Writs asking for something no recipe here makes: {listed(unmatched)}")
     ok(f"Built from Forever build {build} and player data from {eg_builds} builds.")
     return build
 

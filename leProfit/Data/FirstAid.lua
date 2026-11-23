@@ -107,6 +107,9 @@ ns.RegisterProfession({
 	free = {
 		["Linen Bandage"] = true,
 	},
+	-- itemID made = the Craftsman's Writ (an item) that asks for it
+	writs = {
+	},
 	-- itemID = copper: what vendors charge for one
 	vendorPrices = {
 		[159] = 5,
