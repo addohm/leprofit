@@ -15,8 +15,16 @@ All notable changes to leprofit. The format follows
   comes from the game itself, for every profession, without the window; opening the window
   yourself still adds what it shows.
 
+### Added
+
+- `/leprofit perf`: how long each kind of leProfit's work has taken since login (each event, a
+  redraw, a slice of sums), slowest first, so a lag report can say what's behind it.
+
 ### Fixed
 
+- Lag at intervals: the game's "profession list updated" event also comes while the profession
+  window is closed, and leProfit read the whole recipe list each time. It reads only while the
+  window is open now (between the game's open and close events).
 - Lag spikes (over a second at worst): every redraw of the Crafts list redid every craft's sums,
   read Auctionator's price history and the game's item details for each, and the first look at a
   profession asked QuestieDB for every pattern's sources at once. Now each craft's sums are kept

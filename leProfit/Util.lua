@@ -45,6 +45,37 @@ function ns.Money(copper)
 	return negative and ("|cffff5555-|r" .. text) or text
 end
 
+-- Timing ----------------------------------------------------------------------------------------
+
+-- How long each kind of leProfit's work takes (an event, a redraw, a slice of sums), for
+-- /leprofit perf: the way to find what's behind a lag spike.
+local perf = {}
+function ns.Timed(name, fn, ...)
+	local start = debugprofilestop()
+	local a, b, c = fn(...)
+	local ms = debugprofilestop() - start
+	local p = perf[name]
+	if not p then
+		p = { n = 0, total = 0, worst = 0 }
+		perf[name] = p
+	end
+	p.n, p.total = p.n + 1, p.total + ms
+	if ms > p.worst then p.worst = ms end
+	return a, b, c
+end
+
+-- The timings, slowest first: { { name, n, total, worst } }.
+function ns.Timings()
+	local list = {}
+	for name, p in pairs(perf) do list[#list + 1] = { name = name, n = p.n, total = p.total, worst = p.worst } end
+	table.sort(list, function(a, b) return a.worst > b.worst end)
+	return list
+end
+
+function ns.ResetTimings()
+	perf = {}
+end
+
 -- Item names --------------------------------------------------------------------------------
 
 -- Items whose names the game hasn't loaded yet: ask for them, remember each name when it

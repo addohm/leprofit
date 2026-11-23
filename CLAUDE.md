@@ -46,7 +46,9 @@ Discuss each feature with the owner before building it.
     before the Crafts list draws (no frame does it all: the lag-spike fix)
   - `Shopping.lua`: the shopping list (ns.db.plan), its combined materials,
     and Send to Auctionator
-  - `Recorder.lua`: reads the profession window when you open it, vendors and
+  - `Recorder.lua`: reads the profession window while it's open (between
+    TRADE_SKILL_SHOW and TRADE_SKILL_CLOSE: the list-update event also fires with
+    it closed), vendors and
     trainers (costs into `ns.adb.training`), marks recipes learned at
     trainers. leProfit never opens the profession window itself
   - `UI/`: `Widgets.lua`, `Window.lua`, `Minimap.lua` (from leboof), `Confirm.lua`
@@ -129,7 +131,8 @@ Discuss each feature with the owner before building it.
   profession here.
 - Performance: nothing heavy per frame. Redraws reuse cached sums; new work
   goes through `Profit.Prepare`; costly reads (price history, QuestieDB names,
-  item details) happen only when shown, and once.
+  item details) happen only when shown, and once. Wrap new event handlers and
+  timers in `ns.Timed(name, fn, ...)` so `/leprofit perf` can name them.
 - Make-vs-buy looks at the recipes this character knows in every
   profession (smelting feeds Blacksmithing); "Smelt ..." recipes are only ever
   recorded under Mining.

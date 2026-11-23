@@ -186,7 +186,7 @@ function Profit.Prepare(profs, done)
 	end)
 	local function Step()
 		start = debugprofilestop()
-		local ok, err = coroutine.resume(co)
+		local ok, err = ns.Timed("work out sums (a slice)", coroutine.resume, co)
 		if not ok then
 			job = nil
 			error(err, 0)

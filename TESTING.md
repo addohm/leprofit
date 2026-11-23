@@ -143,7 +143,8 @@ so most of it is covered by the first part.
 - [ ] No lag: after a while of play with the window open (All professions, Show all, a scan,
       a vendor), this keeps leProfit's peak well under 100 ms:
       `/run for _,r in ipairs(C_AddOnProfiler.GetTopKAddOnsForMetric(Enum.AddOnProfilerMetric.PeakTime,5)) do print(r.addOnName,format("%.0f ms",r.metricValue)) end`.
-      A long list fills in over a moment ("Working out the sums...").
+      A long list fills in over a moment ("Working out the sums..."). If there are spikes,
+      `/leprofit perf` names the slowest work: send its lines with the report.
 
 ## 1.1.0: needs a character with the profession
 

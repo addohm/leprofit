@@ -245,6 +245,19 @@ ns.db.profession = nil
 eq(ns.CurrentProfession(), "Blacksmithing", "with nothing picked, the first profession this character has")
 ns.db.profession = savedProf
 eq(ns.db.recipes.Blacksmithing[990001].yield, 3, "makes 2 to 4: 3 on average")
+-- With the window closed, the game's list updates are left alone (reading the list is costly, and
+-- the event keeps coming in the background); open again, they're read.
+WM.Fire("TRADE_SKILL_CLOSE")
+table.insert(WM.recipes, { id = 2663, name = "Copper Bracers", learned = true, product = 2853, reagents = { { 2840, 2 } } })
+WM.Fire("TRADE_SKILL_LIST_UPDATE")
+WM.RunTimers()
+eq(ns.db.recipes.Blacksmithing[2663], nil, "not read with the window closed")
+WM.Fire("TRADE_SKILL_SHOW")
+WM.RunTimers()
+eq(ns.db.recipes.Blacksmithing[2663].learned, true, "read once it's open")
+table.remove(WM.recipes)
+ns.db.recipes.Blacksmithing[2663] = nil
+ns.DataChanged()
 belt = Find("Copper Chain Belt")
 eq(belt.source.kind, "known", "you know it now")
 row = ns.Profit.Evaluate("Blacksmithing", belt)
@@ -1034,6 +1047,17 @@ local function Printed(text)
 		if line:find(text, 1, true) then return true end
 	end
 end
+-- /leprofit perf: what leProfit's work has cost, slowest first.
+WM.printed = {}
+SlashCmdList.LEPROFIT("perf")
+ok(Printed("the slowest of leProfit's work"), "perf lists the timings")
+local timed = {}
+for _, entry in ipairs(ns.Timings()) do timed[entry.name] = entry.n end
+ok(timed.TRADE_SKILL_SHOW and timed["read the profession window"] and timed["redraw the window"], "events and work, by name")
+SlashCmdList.LEPROFIT("perf reset")
+WM.printed = {}
+SlashCmdList.LEPROFIT("perf")
+ok(Printed("nothing timed yet"), "and reset clears them")
 WM.printed = {}
 SlashCmdList.LEPROFIT("why Copper Chain Belt")
 ok(Printed("6 x Copper Bar: 10s each (auction) = 60s"), "each material and its price")

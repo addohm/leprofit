@@ -154,14 +154,16 @@ function Recorder.Record()
 	if changed then ns.DataChanged() end
 end
 
--- Profession events come several at a time: read once, half a second after the last.
-local pending = false
+-- Profession events come several at a time: read once, half a second after the last. Only while
+-- the profession window is open (between the game's TRADE_SKILL_SHOW and TRADE_SKILL_CLOSE): the
+-- list-update event also comes with the window closed, and reading the whole list is costly.
+local pending, windowOpen = false, false
 local function RecordSoon()
-	if pending then return end
+	if pending or not windowOpen then return end
 	pending = true
 	C_Timer.After(0.5, function()
 		pending = false
-		Recorder.Record()
+		if windowOpen then ns.Timed("read the profession window", Recorder.Record) end
 	end)
 end
 
@@ -350,7 +352,7 @@ local function KnownMayHaveChanged()
 	knownTimer = true
 	C_Timer.After(1, function()
 		knownTimer = false
-		local now = KnownNow()
+		local now = ns.Timed("check the recipes known", KnownNow)
 		if now ~= knownBefore then
 			knownBefore = now
 			ns.DataChanged()
@@ -361,12 +363,15 @@ local function KnownMayHaveChanged()
 end
 
 local events = CreateFrame("Frame")
-for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE",
+for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_CLOSE", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE",
 	"TRAINER_SHOW", "TRAINER_UPDATE", "SPELLS_CHANGED", "SKILL_LINES_CHANGED" }) do
 	pcall(events.RegisterEvent, events, e)
 end
-events:SetScript("OnEvent", function(_, event, arg)
-	if event == "SPELLS_CHANGED" or event == "SKILL_LINES_CHANGED" then
+local function OnEvent(event, arg)
+	if event == "TRADE_SKILL_SHOW" then windowOpen = true end
+	if event == "TRADE_SKILL_CLOSE" then
+		windowOpen = false
+	elseif event == "SPELLS_CHANGED" or event == "SKILL_LINES_CHANGED" then
 		KnownMayHaveChanged()
 	elseif event == "MERCHANT_SHOW" or event == "MERCHANT_UPDATE" then
 		Recorder.ScanMerchant()
@@ -376,4 +381,5 @@ events:SetScript("OnEvent", function(_, event, arg)
 		if event == "NEW_RECIPE_LEARNED" then Recorder.Learned(arg) end
 		RecordSoon()
 	end
-end)
+end
+events:SetScript("OnEvent", function(_, event, arg) ns.Timed(event, OnEvent, event, arg) end)

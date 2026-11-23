@@ -132,7 +132,7 @@ function ns.Refresh()
 	queued = true
 	C_Timer.After(0.2, function()
 		queued = false
-		ns.Window.Refresh()
+		ns.Timed("redraw the window", ns.Window.Refresh)
 	end)
 end
 
@@ -141,7 +141,9 @@ events:RegisterEvent("ADDON_LOADED")
 events:RegisterEvent("PLAYER_LOGIN")
 events:RegisterEvent("BAG_UPDATE_DELAYED")
 events:RegisterEvent("AUCTION_HOUSE_CLOSED")
-events:SetScript("OnEvent", function(_, event, arg)
+local OnEvent
+events:SetScript("OnEvent", function(_, event, arg) ns.Timed(event, OnEvent, event, arg) end)
+function OnEvent(event, arg)
 	if event == "ADDON_LOADED" and arg == ADDON then
 		-- Before the rename to leProfit (1.1.0) the settings were LeprofitCharDB and LeprofitDB (the
 		-- TOC still loads them): carry them over once.
@@ -166,7 +168,7 @@ events:SetScript("OnEvent", function(_, event, arg)
 	else
 		ns.Refresh() -- what you hold changed: the Shopping tab and the materials panel
 	end
-end)
+end
 
 -- Slash commands -------------------------------------------------------------------------------
 
@@ -197,6 +199,26 @@ local function Help()
 	ns.Print("/leprofit why <item> - the whole sum for one craft: name, item ID or shift-click a link")
 	ns.Print("/leprofit minimap - show or hide the minimap button")
 	ns.Print("/leprofit reset - put the window back in the middle at its normal size")
+	ns.Print("/leprofit perf - what leProfit's work has cost since login (or /leprofit perf reset)")
+end
+
+-- /leprofit perf: each kind of work, slowest first: how many times, the worst and the average.
+local function Perf(rest)
+	if rest == "reset" then
+		ns.ResetTimings()
+		ns.Print("timings cleared.")
+		return
+	end
+	local list = ns.Timings()
+	if #list == 0 then
+		ns.Print("nothing timed yet.")
+		return
+	end
+	ns.Print("the slowest of leProfit's work since login (or the last /leprofit perf reset):")
+	for i = 1, math.min(8, #list) do
+		local t = list[i]
+		ns.Print(("  %s: worst %.0f ms, %d times, %.1f ms on average"):format(t.name, t.worst, t.n, t.total / t.n))
+	end
 end
 
 SLASH_LEPROFIT1 = "/leprofit"
@@ -236,6 +258,8 @@ SlashCmdList.LEPROFIT = function(msg)
 		Why(rest)
 	elseif cmd == "minimap" then
 		ns.Minimap.SetShown(ns.db.minimap.hide)
+	elseif cmd == "perf" then
+		Perf(rest)
 	elseif cmd == "reset" then
 		ns.Window.ResetPosition()
 		ns.Print("the window is back in the middle.")
