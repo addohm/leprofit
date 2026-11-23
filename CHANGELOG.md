@@ -15,6 +15,17 @@ All notable changes to leprofit. The format follows
   comes from the game itself, for every profession, without the window; opening the window
   yourself still adds what it shows.
 
+### Fixed
+
+- Lag spikes (over a second at worst): every redraw of the Crafts list redid every craft's sums,
+  read Auctionator's price history and the game's item details for each, and the first look at a
+  profession asked QuestieDB for every pattern's sources at once. Now each craft's sums are kept
+  until prices, the data or the settings change (an Auctionator scan, a recipe learned, Options);
+  a long list's first sums are worked out a few milliseconds per frame ("Working out the
+  sums..."); the price history is only read for a history column or a tooltip; item details are
+  read once; QuestieDB's names and places are only read for a tooltip; and vendors and trainers
+  look names up without rebuilding the lists.
+
 ### Removed
 
 - The button on the profession window: it never showed on Forever's profession windows. The

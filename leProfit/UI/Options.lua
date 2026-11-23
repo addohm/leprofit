@@ -19,7 +19,7 @@ local hiddenRows = {} -- reused rows for the hidden items' list
 local function Setting(key)
 	return function() return ns.db[key] end, function(v)
 		ns.db[key] = v
-		ns.Refresh()
+		ns.SumsChanged()
 	end
 end
 

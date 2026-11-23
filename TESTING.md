@@ -140,6 +140,10 @@ so most of it is covered by the first part.
 - [ ] The minimap button: left-click Crafts, right-click Options, drag to move; the addon menu
       entry works.
 - [ ] No Lua errors (`/console scriptErrors 1`).
+- [ ] No lag: after a while of play with the window open (All professions, Show all, a scan,
+      a vendor), this keeps leProfit's peak well under 100 ms:
+      `/run for _,r in ipairs(C_AddOnProfiler.GetTopKAddOnsForMetric(Enum.AddOnProfilerMetric.PeakTime,5)) do print(r.addOnName,format("%.0f ms",r.metricValue)) end`.
+      A long list fills in over a moment ("Working out the sums...").
 
 ## 1.1.0: needs a character with the profession
 

@@ -187,14 +187,29 @@ end
 
 -- The profession whose recipe a pattern ("Plans: Copper Chain Belt") teaches, and the recipe's name.
 local PREFIXES = { "Plans", "Pattern", "Recipe", "Formula", "Schematic", "Manual" }
+-- Each profession's recipe names, from its data and what its window showed: a quick lookup for
+-- vendors and trainers, kept until the data changes (building the full lists would cost more).
+local namesOf, namesVersion = {}, nil
+local function HasRecipe(prof, name)
+	if namesVersion ~= ns.dataVersion then namesOf, namesVersion = {}, ns.dataVersion end
+	local names = namesOf[prof]
+	if not names then
+		names = {}
+		for _, r in pairs(ns.professions[prof].recipes) do names[r.name] = true end
+		for _, r in pairs(ns.db.recipes[prof] or {}) do
+			if r.name then names[r.name] = true end
+		end
+		namesOf[prof] = names
+	end
+	return names[name] or false
+end
+
 local function PatternFor(itemName)
 	for _, prefix in ipairs(PREFIXES) do
 		local recipe = itemName:match("^" .. prefix .. ": (.+)$")
 		if recipe then
-			for prof in pairs(ns.professions) do
-				for _, rec in ipairs(ns.Recipes.List(prof)) do
-					if rec.name == recipe then return prof, recipe end
-				end
+			for _, prof in ipairs(ns.professionOrder) do
+				if HasRecipe(prof, recipe) then return prof, recipe end
 			end
 		end
 	end
@@ -274,14 +289,8 @@ end
 
 -- The profession a trainer's recipe belongs to: the skill line the trainer files it under, else
 -- the one profession with a recipe of that name. Ranks ("Journeyman Blacksmith") aren't recipes.
-local function TrainerProfession(i, name, names)
-	local function Has(prof)
-		if not names[prof] then
-			names[prof] = {}
-			for _, rec in ipairs(ns.Recipes.List(prof)) do names[prof][rec.name] = true end
-		end
-		return names[prof][name]
-	end
+local function TrainerProfession(i, name)
+	local function Has(prof) return HasRecipe(prof, name) end
 	local line = GetTrainerServiceSkillLine and ns.Plain(Try(GetTrainerServiceSkillLine, i))
 	if line and ns.professions[line] then return Has(line) and line or nil end
 	local found
@@ -300,11 +309,11 @@ end
 -- is read: its filters may hide some.
 function Recorder.ScanTrainer()
 	if not (ns.adb and GetNumTrainerServices and GetTrainerServiceInfo and GetTrainerServiceCost) then return end
-	local names, recorded = {}, 0
+	local recorded = 0
 	for i = 1, (Try(GetNumTrainerServices) or 0) do
 		local name, _, kind = Try(GetTrainerServiceInfo, i)
 		name = ns.Plain(name)
-		local prof = name and kind ~= "header" and TrainerProfession(i, name, names)
+		local prof = name and kind ~= "header" and TrainerProfession(i, name)
 		local cost = prof and Try(GetTrainerServiceCost, i)
 		if type(cost) == "number" then
 			local _, skill = Try(GetTrainerServiceSkillReq, i)
@@ -323,6 +332,34 @@ function Recorder.ScanTrainer()
 	end
 end
 
+-- SPELLS_CHANGED comes often (and at login, when the spells are first ready); what the character
+-- knows rarely changes. So the recipes it knows are counted, a second after the last event, and
+-- the lists are rebuilt only when that changed. A skill-up just redraws (it moves what's listed).
+local knownTimer, knownBefore = false, nil
+local function KnownNow()
+	local n, sum = 0, 0
+	for _, def in pairs(ns.professions) do
+		for id in pairs(def.recipes) do
+			if IsPlayerSpell and ns.Try(IsPlayerSpell, id) == true then n, sum = n + 1, (sum + id) % 2147483647 end
+		end
+	end
+	return n .. ":" .. sum
+end
+local function KnownMayHaveChanged()
+	if knownTimer then return end
+	knownTimer = true
+	C_Timer.After(1, function()
+		knownTimer = false
+		local now = KnownNow()
+		if now ~= knownBefore then
+			knownBefore = now
+			ns.DataChanged()
+		else
+			ns.Refresh()
+		end
+	end)
+end
+
 local events = CreateFrame("Frame")
 for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_LEARNED", "MERCHANT_SHOW", "MERCHANT_UPDATE",
 	"TRAINER_SHOW", "TRAINER_UPDATE", "SPELLS_CHANGED", "SKILL_LINES_CHANGED" }) do
@@ -330,8 +367,7 @@ for _, e in ipairs({ "TRADE_SKILL_SHOW", "TRADE_SKILL_LIST_UPDATE", "NEW_RECIPE_
 end
 events:SetScript("OnEvent", function(_, event, arg)
 	if event == "SPELLS_CHANGED" or event == "SKILL_LINES_CHANGED" then
-		-- What the character knows may have changed (and at login, the spells are only ready now).
-		ns.DataChanged()
+		KnownMayHaveChanged()
 	elseif event == "MERCHANT_SHOW" or event == "MERCHANT_UPDATE" then
 		Recorder.ScanMerchant()
 	elseif event == "TRAINER_SHOW" or event == "TRAINER_UPDATE" then

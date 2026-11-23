@@ -141,7 +141,8 @@ end
 -- Timers run when the test calls WM.RunTimers (C_Timer.After(0) and longer alike).
 C_Timer = { After = function(_, fn) table.insert(M.timers, fn) end }
 function M.RunTimers()
-	for _ = 1, 10 do
+	-- Until none are left (work spread over frames reschedules itself), with a cap against a loop.
+	for _ = 1, 10000 do
 		local list = M.timers
 		M.timers = {}
 		if #list == 0 then return end
@@ -178,6 +179,7 @@ function HandleModifiedItemClick(link) table.insert(M.linked, link) return true 
 function InCombatLockdown() return false end
 function GetCursorPosition() return 0, 0 end
 function IsPlayerSpell(id) return M.spells[id] or false end
+function debugprofilestop() return os.clock() * 1000 end
 function UnitFactionGroup(unit) return unit == "npc" and M.npcFaction or M.faction end
 function UnitReaction() return M.npcReaction end
 function UnitName(unit) return unit == "npc" and M.vendorName or "Tester" end

@@ -12,6 +12,10 @@ local function Find(name)
 		if r.name == name then return r end
 	end
 end
+-- The game spreads long sums over frames (Profit.BUDGET milliseconds each); the tests work them
+-- out at once, except where the spreading is tested.
+ns.Profit.BUDGET = math.huge
+
 local function Defaults()
 	ns.ResetOptions()
 	wipe(ns.db.hidden)
@@ -77,10 +81,17 @@ end
 eq(KnownIn("Tailoring", "Linen Cloak"), false, "not known")
 WM.spells[2387] = true -- Linen Cloak
 WM.Fire("SPELLS_CHANGED")
+WM.RunTimers()
 eq(KnownIn("Tailoring", "Linen Cloak"), true, "known once the game says so, with no window read")
 eq(ns.Recorder.KnownCount("Tailoring"), 1)
+-- SPELLS_CHANGED with nothing learned doesn't rebuild the lists.
+local version = ns.dataVersion
+WM.Fire("SPELLS_CHANGED")
+WM.RunTimers()
+eq(ns.dataVersion, version, "nothing new known, nothing rebuilt")
 WM.spells[2387] = nil
 WM.Fire("SPELLS_CHANGED")
+WM.RunTimers()
 eq(KnownIn("Tailoring", "Linen Cloak"), false)
 WM.opened = {}
 ns.db.profession = "Blacksmithing"
@@ -139,7 +150,14 @@ eq(h.seen, 5, "listed on 5 of the last 14 days")
 eq(h.average, 10400, "the 14-day average")
 eq(h.listed, 7, "7 listed at the last scan")
 eq(h.trend, 1, "going up")
+-- The history and the steadier price are only read when shown or asked for (they cost more).
 row = ns.Profit.Evaluate("Blacksmithing", belt)
+eq(row.seen, nil, "no history read when no column shows it")
+eq(row.market, nil, "nor the average, with a buyout to go on")
+ns.db.showSeen = true
+eq(ns.Profit.Evaluate("Blacksmithing", belt).seen, 5, "read when a column shows it")
+ns.db.showSeen = false
+row = ns.Profit.Evaluate("Blacksmithing", belt, nil, true)
 eq(row.market, 10400, "the average stands in for TSM's market value")
 eq(row.seen, 5)
 eq(row.listed, 7)
@@ -148,7 +166,7 @@ ns.db.rankBy = "market"
 eq(ns.Profit.Evaluate("Blacksmithing", belt).value, 9880, "profit from the average: 10400 less 5%")
 ns.db.rankBy = "buyout"
 WM.SetTSM({ DBMarket = { [2851] = 20000 } })
-eq(ns.Profit.Evaluate("Blacksmithing", belt).market, 20000, "TSM's market value wins when installed")
+eq(ns.Profit.Evaluate("Blacksmithing", belt, nil, true).market, 20000, "TSM's market value wins when installed")
 WM.SetTSM(nil)
 WM.clock = 2002
 WM.history[2851][1].minSeen, WM.history[2851][2].minSeen, WM.history[2851][3].minSeen = 9100, 8900, 9000
@@ -162,7 +180,7 @@ eq(ns.Prices.History(2851).trend, nil, "no trend from one day")
 WM.clock = 2005
 WM.history[2851] = nil
 eq(ns.Prices.History(2851), nil, "no history")
-eq(ns.Profit.Evaluate("Blacksmithing", belt).market, nil)
+eq(ns.Profit.Evaluate("Blacksmithing", belt, nil, true).market, nil)
 -- If Auctionator changes its insides, the history is just missing.
 local database = Auctionator.Database
 Auctionator.Database = nil
@@ -182,11 +200,13 @@ ns.adb.vendorPrices[2840] = nil
 
 -- Binds on pickup: it can't be posted, so a vendor's price.
 WM.items[2851].bindType = 1
+ns.ForgetItemSales() -- item details are read once; the game never changes them, this test does
 row = ns.Profit.Evaluate("Blacksmithing", belt)
 eq(row.bop, true)
 eq(row.via, "vendor")
 eq(row.value, 200)
 WM.items[2851].bindType = nil
+ns.ForgetItemSales()
 
 -- A vendor paying more than the auction wins.
 WM.auctionator[2851] = 100
@@ -514,8 +534,10 @@ eq(ns.Profit.Bound(defender.source), true, "counted as binding until the game ha
 WM.items[234228] = { name = "Plans: Obsidian Defender", bindType = 0 }
 eq(ns.Profit.Bound(defender.source), false, "the game says they trade")
 WM.items[234228].bindType = 1
+ns.ForgetItemSales()
 eq(ns.Profit.Bound(defender.source), true, "or that they bind")
 WM.items[234228] = nil
+ns.ForgetItemSales()
 -- In the list: tradeable plans are listed; binding ones with Show all; the other side's never.
 local saved = { ns.db.showAll, ns.db.hideLosses }
 local function Listed(name)
@@ -706,13 +728,30 @@ ok(not beltRow.profit.text:find("|cffff4040", 1, true), "not red: it makes a pro
 -- At a loss: still listed (Hide losses is off), its profit in red.
 local beltPrice = WM.auctionator[2851]
 WM.auctionator[2851] = 1000
+ns.SumsChanged() -- as a scan does (AUCTION_HOUSE_CLOSED, or Auctionator's price update)
 ns.Window.Refresh()
 local lossRow = Drawn("Copper Chain Belt")
 ok(lossRow, "a craft at a loss is listed")
 ok(lossRow.profit.text:find("^|cffff4040%-"), "its profit in red: " .. tostring(lossRow.profit.text))
 WM.auctionator[2851] = beltPrice
+ns.SumsChanged()
 ns.Window.Refresh()
 beltRow = Drawn("Copper Chain Belt")
+-- Many sums to work out are spread over frames: what's drawn stays until they're ready, and a
+-- redraw with nothing changed works nothing out again.
+ns.Profit.BUDGET = 0
+WM.auctionator[2851] = 1000
+ns.SumsChanged()
+ns.Window.Refresh()
+ok(Drawn("Copper Chain Belt").profit.text == beltRow.profit.text, "the old sums stay drawn meanwhile")
+WM.RunTimers()
+ok(Drawn("Copper Chain Belt").profit.text:find("^|cffff4040%-"), "then the new ones, a few frames later")
+eq(#WM.timers, 0, "and nothing left running")
+WM.auctionator[2851] = beltPrice
+ns.SumsChanged()
+WM.RunTimers()
+ns.Profit.BUDGET = math.huge
+ok(ns.Profit.Prepare({ "Blacksmithing" }, function() error("nothing to wait for") end), "worked out already")
 eq(beltRow.h, 22, "one line per row")
 local function TipHas(text)
 	for _, line in ipairs(GameTooltip.lines) do
@@ -742,6 +781,7 @@ ns.Window.Refresh()
 eq(beltRow.market.shown, false, "the Market column is off by default")
 eq(ns.Window.CurrentPanel().header.market.shown, false, "and its heading")
 ns.db.showMarket = true
+ns.SumsChanged() -- as Options does: the column needs the steadier price read
 ns.Window.Refresh()
 eq(beltRow.market.shown, true, "Options turns it on")
 eq(ns.Window.CurrentPanel().header.market.shown, true)
@@ -754,6 +794,7 @@ WM.history[2851] = {
 	{ rawDay = "1995", minSeen = 9000, maxSeen = 9000 },
 }
 ns.db.showTrend, ns.db.showSeen, ns.db.showListed = true, true, true
+ns.SumsChanged()
 ns.Window.Refresh()
 eq(beltRow.seen.text, "2/14", "Seen")
 beltRow.scripts.OnEnter(beltRow)

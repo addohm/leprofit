@@ -48,18 +48,31 @@ end
 -- Item names --------------------------------------------------------------------------------
 
 -- Items whose names the game hasn't loaded yet: ask for them, remember each name when it
--- arrives, and redraw once.
-local loading = {}
+-- arrives, and redraw. Each item is asked for once a session: one the game never fills in can't
+-- keep the sums being redone.
+local asked = {}
 local function RequestName(itemID)
-	if loading[itemID] or not (Item and Item.CreateFromItemID) then return end
+	if asked[itemID] or not (Item and Item.CreateFromItemID) then return end
+	asked[itemID] = true
 	local item = Try(Item.CreateFromItemID, Item, itemID)
 	if not item or Try(item.IsItemEmpty, item) then return end
-	loading[itemID] = true
 	pcall(item.ContinueOnItemLoad, item, function()
-		loading[itemID] = nil
 		local name = Try(item.GetItemName, item)
 		if name and ns.adb then ns.adb.itemNames[itemID] = name end
-		ns.Refresh()
+		ns.ItemsLoaded()
+	end)
+end
+
+-- Items finish loading in bursts, hundreds when a long list is first shown. What they reveal (a
+-- name, what a vendor pays, whether it binds) can change the sums, so those are redone once a
+-- second at most rather than for each item.
+local loadedTimer = false
+function ns.ItemsLoaded()
+	if loadedTimer then return end
+	loadedTimer = true
+	C_Timer.After(1, function()
+		loadedTimer = false
+		ns.SumsChanged()
 	end)
 end
 
@@ -118,14 +131,24 @@ end
 
 -- What the item sells to a vendor for, and whether it binds when picked up (so it can't be
 -- posted): GetItemInfo's 11th and 14th returns. Unknown until the game has loaded the item.
+-- Read once per item: it doesn't change, and the list asks for hundreds.
+local sales = {}
 function ns.ItemSale(itemID)
+	local s = sales[itemID]
+	if s then return s[1], s[2] end
 	local getInfo = (C_Item and C_Item.GetItemInfo) or GetItemInfo
 	local ok, name, _, _, _, _, _, _, _, _, _, sellPrice, _, _, bindType = pcall(getInfo, itemID)
 	if not ok or not name then
 		RequestName(itemID)
 		return nil, nil
 	end
+	sales[itemID] = { sellPrice or 0, bindType == 1 }
 	return sellPrice or 0, bindType == 1
+end
+
+-- Forgets what ns.ItemSale read (tests change items under it).
+function ns.ForgetItemSales()
+	sales = {}
 end
 
 -- How many you hold in your bags and bank.

@@ -59,6 +59,7 @@ end
 
 function ns.ResetOptions()
 	for _, k in ipairs(ns.OPTION_KEYS) do ns.db[k] = DEFAULTS[k] end
+	ns.SumsChanged()
 end
 
 -- Professions ----------------------------------------------------------------------------------
@@ -66,10 +67,18 @@ end
 -- Each profession's data file (Data/<Profession>.lua) registers it here as the addon loads.
 ns.professions, ns.professionOrder = {}, {}
 ns.dataVersion = 0 -- bumped whenever recipes, patterns or prices recorded here change
+-- Bumped whenever anything a craft's sums depend on changes: the data, auction prices, the
+-- settings, items the game finished loading. Profit.lua keeps each craft's sums until then.
+ns.sumsVersion = 0
+
+function ns.SumsChanged()
+	ns.sumsVersion = ns.sumsVersion + 1
+	ns.Refresh()
+end
 
 function ns.DataChanged()
 	ns.dataVersion = ns.dataVersion + 1
-	ns.Refresh()
+	ns.SumsChanged()
 end
 
 function ns.RegisterProfession(def)
@@ -151,9 +160,11 @@ events:SetScript("OnEvent", function(_, event, arg)
 		ns.db.showLosses = nil -- Hide losses, off by default, replaced it: losses are listed (in red)
 	elseif event == "PLAYER_LOGIN" then
 		ns.Minimap.Init()
+		ns.Prices.Init()
+	elseif event == "AUCTION_HOUSE_CLOSED" then
+		ns.SumsChanged() -- a scan may have brought new prices
 	else
-		-- What you hold changed, or a scan brought new prices.
-		ns.Refresh()
+		ns.Refresh() -- what you hold changed: the Shopping tab and the materials panel
 	end
 end)
 

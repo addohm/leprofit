@@ -81,17 +81,38 @@ end
 
 local ONLY = { A = " (Alliance only)", H = " (Horde only)" }
 
--- A vendor counts for the sides it's friendly to, a quest for the races it's for; a drop, object
--- or container is anyone's.
-local function Look(itemID)
-	local lines, alliance, horde = {}, false, false
+-- Which sides can get an item, from the fewest lookups: its vendors' friendliness and its quests'
+-- races; a drop, object or container is anyone's. Asked for every pattern when a list is built,
+-- so it reads no names or places. nil when QuestieDB knows no way to get it.
+local function SideOf(itemID)
+	local alliance, horde, any = false, false, false
+	for _, npc in ipairs(Get("Item", itemID, "vendors") or {}) do
+		local friendly = Get("Npc", npc, "friendlyToFaction")
+		if friendly == "A" or friendly == "AH" then alliance = true end
+		if friendly == "H" or friendly == "AH" then horde = true end
+		any = true
+	end
+	for _, quest in ipairs(Get("Item", itemID, "questRewards") or {}) do
+		local a, h = QuestSides(Get("Quest", quest, "requiredRaces"))
+		alliance, horde, any = alliance or a, horde or h, true
+	end
+	if Get("Item", itemID, "npcDrops") or Get("Item", itemID, "objectDrops") or Get("Item", itemID, "itemDrops") then
+		alliance, horde, any = true, true, true
+	end
+	if not any then return false end
+	return { side = (alliance and not horde and "Alliance") or (horde and not alliance and "Horde") or nil }
+end
+
+-- Where an item comes from, as tooltip lines: its vendors (and whom they serve), the quests that
+-- reward it (and for whom), and what drops it. Only read when a row's tooltip or /leprofit why
+-- asks, since names and places cost more to read.
+local function LinesOf(itemID)
+	local lines = {}
 	for _, npc in ipairs(Get("Item", itemID, "vendors") or {}) do
 		local name = Get("Npc", npc, "name")
 		if name then
 			local friendly = Get("Npc", npc, "friendlyToFaction")
 			lines[#lines + 1] = "Sold by " .. name .. Place(FirstSpawn(Get("Npc", npc, "spawns"))) .. (ONLY[friendly] or "")
-			if friendly == "A" or friendly == "AH" then alliance = true end
-			if friendly == "H" or friendly == "AH" then horde = true end
 		end
 	end
 	for _, quest in ipairs(Get("Item", itemID, "questRewards") or {}) do
@@ -101,13 +122,12 @@ local function Look(itemID)
 			local zone = Get("Quest", quest, "zoneOrSort")
 			lines[#lines + 1] = ("Reward from the quest %s%s%s"):format(name, Place(AreaName(zone)),
 				(a and not h and ONLY.A) or (h and not a and ONLY.H) or "")
-			alliance, horde = alliance or a, horde or h
 		end
 	end
 	local drops = {}
 	for _, npc in ipairs(Get("Item", itemID, "npcDrops") or {}) do
 		local name = Get("Npc", npc, "name")
-		if name then drops[#drops + 1] = { name = name, zone = (FirstSpawn(Get("Npc", npc, "spawns"))) } end
+		if name then drops[#drops + 1] = { name = name, npc = npc } end
 	end
 	if #drops > MOST_DROPS then
 		table.sort(drops, function(a, b) return a.name < b.name end)
@@ -115,46 +135,40 @@ local function Look(itemID)
 		for i = 1, MOST_DROPS do some[i] = drops[i].name end
 		lines[#lines + 1] = ("Drops from %d creatures (a world drop), such as %s"):format(#drops, table.concat(some, ", "))
 	else
-		for _, d in ipairs(drops) do lines[#lines + 1] = "Drops from " .. d.name .. Place(d.zone) end
+		for _, d in ipairs(drops) do lines[#lines + 1] = "Drops from " .. d.name .. Place(FirstSpawn(Get("Npc", d.npc, "spawns"))) end
 	end
-	local found = #drops > 0
 	for _, object in ipairs(Get("Item", itemID, "objectDrops") or {}) do
 		local name = Get("Object", object, "name")
-		if name then
-			lines[#lines + 1] = "Found in " .. name .. Place(FirstSpawn(Get("Object", object, "spawns")))
-			found = true
-		end
+		if name then lines[#lines + 1] = "Found in " .. name .. Place(FirstSpawn(Get("Object", object, "spawns"))) end
 	end
 	for _, container in ipairs(Get("Item", itemID, "itemDrops") or {}) do
 		local name = Get("Item", container, "name")
-		if name then
-			lines[#lines + 1] = "Found in " .. name
-			found = true
-		end
+		if name then lines[#lines + 1] = "Found in " .. name end
 	end
-	if #lines == 0 then return false end
-	if found then alliance, horde = true, true end
-	local side = (alliance and not horde and "Alliance") or (horde and not alliance and "Horde") or nil
-	return { lines = lines, side = side }
+	return lines
 end
 
--- Where a pattern comes from, by QuestieDB: { lines, side (the only side that can get it, or
--- nil) }, or nil when QuestieDB isn't installed or knows nothing about the item. Read once per
--- item: QuestieDB's data doesn't change while you play.
-local memo = {}
-function Q.Sources(itemID)
+-- Each answer is read once per item: QuestieDB's data doesn't change while you play.
+local sides, lines = {}, {}
+
+-- Which side can get a pattern by QuestieDB: { side = "Alliance" / "Horde" / nil (both) }, or nil
+-- when QuestieDB isn't installed or knows no way to get the item.
+function Q.Side(itemID)
 	if not itemID or not API() then return nil end
-	local found = memo[itemID]
-	if found == nil then
-		found = Look(itemID) or false
-		memo[itemID] = found
-	end
-	return found or nil
+	if sides[itemID] == nil then sides[itemID] = SideOf(itemID) end
+	return sides[itemID] or nil
+end
+
+-- Where a pattern comes from by QuestieDB, as lines; nil when it knows nothing.
+function Q.Lines(itemID)
+	if not Q.Side(itemID) then return nil end
+	if not lines[itemID] then lines[itemID] = LinesOf(itemID) end
+	return lines[itemID]
 end
 
 -- Forgets what was asked, so the next lookup checks for QuestieDB again (tests).
 function Q.Forget()
-	api, checked, memo = nil, false, {}
+	api, checked, sides, lines = nil, false, {}, {}
 end
 
 -- For /leprofit status.

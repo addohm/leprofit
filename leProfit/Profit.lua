@@ -100,7 +100,9 @@ end
 --   how } }, missing (a material nobody has a price for); buyout, market, value (one item, after
 --   the cut), via ("auction"/"vendor"), bop; profit (one craft); learnCost (Profit.LearnCost);
 --   payback (crafts to pay for learning it); age (days since the auction price); stale.
-function Profit.Evaluate(prof, rec, memo)
+-- The steadier price and the auction history cost more to read, so they're read only when a
+-- column shows them, profit is ranked by the steadier price, or `full` asks (/leprofit why).
+function Profit.Evaluate(prof, rec, memo, full)
 	memo = memo or {}
 	local row = { rec = rec, product = rec.product, yield = math.max(rec.yield or 1, 1), cost = 0, materials = {} }
 	for _, r in ipairs(rec.reagents) do
@@ -114,7 +116,10 @@ function Profit.Evaluate(prof, rec, memo)
 	end
 	if row.missing then row.cost = nil end
 
-	row.buyout, row.market = ns.Prices.Buyout(rec.product), ns.Prices.Market(rec.product)
+	local db = ns.db
+	local history = full or db.showMarket or db.showTrend or db.showSeen or db.showListed
+	row.buyout = ns.Prices.Buyout(rec.product)
+	if history or db.rankBy == "market" or not row.buyout then row.market = ns.Prices.Market(rec.product) end
 	local vendor, bop = ns.ItemSale(rec.product)
 	row.bop = bop
 	row.value, row.via = SaleValue(row.buyout, row.market, vendor, bop)
@@ -127,11 +132,77 @@ function Profit.Evaluate(prof, rec, memo)
 	if learn and learn > 0 and row.profit and row.profit > 0 then
 		row.payback = math.ceil(learn / row.profit)
 	end
-	local h = ns.Prices.History(rec.product)
+	local h = history and ns.Prices.History(rec.product)
 	if h then row.seen, row.days, row.listed, row.trend = h.seen, h.days, h.listed, h.trend end
 	row.age = ns.Prices.Age(rec.product)
-	row.stale = (row.age and row.age >= (ns.db.staleDays or 3)) and true or false
+	row.stale = (row.age and row.age >= (db.staleDays or 3)) and true or false
 	return row
+end
+
+-- Each craft's sums are kept until something they depend on changes (ns.sumsVersion: the data,
+-- auction prices, the settings, items the game finished loading). Redrawing the list (bags,
+-- sorting, the boxes, the search) then costs next to nothing.
+local cache, cacheVersion, cacheMemo = {}, nil, {}
+local function Fresh()
+	if cacheVersion ~= ns.sumsVersion then cache, cacheVersion, cacheMemo = {}, ns.sumsVersion, {} end
+end
+local function Cached(prof, rec)
+	Fresh()
+	local key = prof .. ":" .. rec.id
+	local row = cache[key]
+	if not row then
+		row = Profit.Evaluate(prof, rec, cacheMemo)
+		row.prof = prof
+		cache[key] = row
+	end
+	return row
+end
+
+-- Working out many crafts' sums at once (a long list shown for the first time, or after prices
+-- changed) is done a few milliseconds per frame, so the game never stalls: Prepare works through
+-- the professions' recipes, building each list and then its sums, and calls done() when it's
+-- finished. It returns true when there was nothing (left) to do and the list can be drawn now.
+Profit.BUDGET = 8 -- milliseconds of work per frame
+local job
+function Profit.Prepare(profs, done)
+	if job then
+		job.done = done
+		return false
+	end
+	local version = ns.sumsVersion
+	local start
+	-- Only real work counts against the budget: a list that's all worked out is one quick pass, so
+	-- it never waits for a frame (else it could never finish).
+	local co = coroutine.create(function()
+		for _, prof in ipairs(profs) do
+			for _, rec in ipairs(ns.Recipes.List(prof)) do
+				Fresh()
+				if not cache[prof .. ":" .. rec.id] then
+					Cached(prof, rec)
+					if debugprofilestop() - start >= Profit.BUDGET then coroutine.yield() end
+				end
+			end
+		end
+	end)
+	local function Step()
+		start = debugprofilestop()
+		local ok, err = coroutine.resume(co)
+		if not ok then
+			job = nil
+			error(err, 0)
+		end
+		if coroutine.status(co) == "dead" or version ~= ns.sumsVersion then
+			-- Done; or something changed meanwhile, and the refresh that follows starts again.
+			local finished = job
+			job = nil
+			if finished then finished.done() end
+			return true
+		end
+		job = job or { done = done }
+		C_Timer.After(0, Step)
+		return false
+	end
+	return Step()
 end
 
 -- The rows the Crafts tab lists for a profession (those matching the search, when there is one),
@@ -154,7 +225,7 @@ end
 Profit.Matches = Matches -- (tests)
 
 function Profit.Rows(prof, query)
-	local db, memo = ns.db, {}
+	local db = ns.db
 	local rows, left = {}, { nomatch = 0, unlearned = 0, otherSide = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
@@ -175,8 +246,7 @@ function Profit.Rows(prof, query)
 		elseif db.hidden[rec.product] then
 			left.hidden = left.hidden + 1
 		else
-			local row = Profit.Evaluate(prof, rec, memo)
-			row.prof = prof
+			local row = Cached(prof, rec)
 			if not row.profit and db.hideLosses then
 				left.unpriced = left.unpriced + 1
 			elseif row.profit and row.profit <= 0 and db.hideLosses then
@@ -280,7 +350,7 @@ local SOURCES = { auction = "auction", vendor = "vendor", craft = "crafted" }
 -- The whole sum for one recipe, as lines of text: each material and its price, the sale, the
 -- profit, and where to learn it.
 function Profit.Explain(prof, rec)
-	local row = Profit.Evaluate(prof, rec)
+	local row = Profit.Evaluate(prof, rec, nil, true)
 	local M, db = ns.Money, ns.db
 	local lines = {}
 	local function Add(s) lines[#lines + 1] = s end

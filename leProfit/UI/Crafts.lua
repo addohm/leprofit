@@ -206,14 +206,15 @@ local function RowTooltip(owner, row, prof)
 	Pair("Profit", ProfitText(row.profit))
 	Pair("Lowest buyout", ns.Money(row.buyout))
 	local h = ns.Prices.History(row.product)
+	local market = row.market or ns.Prices.Market(row.product)
 	if h then
-		Pair(ns.Prices.MarketName(), ns.Money(row.market))
+		Pair(ns.Prices.MarketName(), ns.Money(market))
 		local trend = h.trend and ({ [1] = "going up", [0] = "level", [-1] = "going down" })[h.trend] or "-"
 		Pair("Trend", trend)
 		Pair("Seen", ("%d of the last %d days"):format(h.seen, h.days))
 		if h.listed then Pair("Listed at the last scan", tostring(h.listed)) end
-	elseif row.market then
-		Pair(ns.Prices.MarketName(), ns.Money(row.market))
+	elseif market then
+		Pair(ns.Prices.MarketName(), ns.Money(market))
 	end
 	local learn = LearnLine(row, prof)
 	if learn then
@@ -685,6 +686,17 @@ local function Refresh()
 		emptyText:Show()
 		leftText:SetText("")
 		detail:Hide()
+		return
+	end
+
+	-- Many crafts' sums to work out (first time shown, or prices changed): spread over a few frames,
+	-- keeping what's drawn until they're ready, then draw again.
+	if not ns.Profit.Prepare(all and ns.professionOrder or { prof }, function() ns.Window.Refresh() end) then
+		if not rows[1] or not rows[1]:IsShown() then
+			emptyText:SetText("Working out the sums...")
+			emptyText:Show()
+		end
+		leftText:SetText("Working out the sums...")
 		return
 	end
 

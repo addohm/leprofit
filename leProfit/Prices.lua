@@ -112,6 +112,22 @@ function Prices.MarketName()
 	return TSM() and "TSM's market value" or "14-day average"
 end
 
+-- When Auctionator's prices change (a scan, or its own price updates), the sums are redone, at
+-- most once a second.
+local priceTimer = false
+function Prices.Init()
+	local api = Auctionator()
+	if not (api and type(api.RegisterForDBUpdate) == "function") then return end
+	ns.Try(api.RegisterForDBUpdate, ADDON, function()
+		if priceTimer then return end
+		priceTimer = true
+		C_Timer.After(1, function()
+			priceTimer = false
+			ns.SumsChanged()
+		end)
+	end)
+end
+
 -- How many days old Auctionator's price is, or nil if unknown.
 function Prices.Age(itemID)
 	local api = Auctionator()

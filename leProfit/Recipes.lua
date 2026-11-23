@@ -51,7 +51,7 @@ function Recipes.WhereLines(src, most)
 		-- QuestieDB's answer, after a seller you recorded yourself (it has the price).
 		local mine = src.recorded and src.recorded.vendor
 		if mine then lines[#lines + 1] = "Sold by " .. Recipes.SellerText(src.sellers[1]) end
-		for _, line in ipairs(src.questie.lines) do
+		for _, line in ipairs(ns.Questie.Lines(src.itemID) or {}) do
 			if not (mine and line:find("Sold by " .. mine, 1, true) == 1) then lines[#lines + 1] = line end
 		end
 		return Recipes.Trim(lines, most)
@@ -125,7 +125,7 @@ local function Source(def, prof, name)
 	local pattern = def.patterns[name]
 	if recorded or pattern then
 		local itemID = (recorded and recorded.itemID) or pattern.itemID
-		local questie = ns.Questie.Sources(itemID)
+		local questie = ns.Questie.Side(itemID)
 		return {
 			kind = "pattern",
 			itemID = itemID,
@@ -141,7 +141,7 @@ local function Source(def, prof, name)
 	end
 	local o = def.otherPatterns[name]
 	if o then
-		local questie = ns.Questie.Sources(o.itemID)
+		local questie = ns.Questie.Side(o.itemID)
 		return {
 			kind = "other", itemID = o.itemID, skill = o.skill, bound = o.bound, rep = o.rep,
 			sellers = Sellers(nil, o), otherCamp = o.otherCamp, quests = o.quests, drops = o.drops,
