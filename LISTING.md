@@ -13,7 +13,7 @@ feature list in step with README.md.
 | Slug | `leprofit` |
 | Game version | WoW: Forever (Interface 16001) |
 | Author | addohm |
-| Release type | Release (1.1.0) |
+| Release type | Release (1.2.0) |
 | License | GNU GPLv3 (`LICENSE`) |
 | Source | https://github.com/addohm/leprofit |
 | Issues | https://github.com/addohm/leprofit/issues |
@@ -101,8 +101,8 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 
 #### Good to know
 
-- **Needs Auctionator** (or TSM) for auction prices: scan the auction house and the list fills
-  in. TradeSkillMaster doesn't seem to run on Forever yet; Auctionator does.
+- **Needs Auctionator** (or TradeSkillMaster) for auction prices: scan the auction house and the
+  list fills in.
 - **Better with QuestieDB** (Questie installs it): tooltips then say where every pattern comes
   from and which side can get it, from its database. Optional.
 - **Reports welcome, especially from other professions.** Blacksmithing and Mining have been
@@ -130,6 +130,19 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 ---
 
 ## Release notes
+
+### 1.2.0
+
+- **No more lag spikes:** each craft's sums are kept until prices or settings change, and long
+  lists are worked out a little per frame. `/leprofit perf` shows what leProfit's work costs.
+- **Losses are shown, in red:** Hide losses (off at first) replaces Show losses, so a craft no
+  longer seems missing because of an unticked box.
+- **Your profession window is left alone:** leProfit knows which recipes you know from the game
+  itself, in every profession, without opening it.
+- **`/leprofit debug <item>`:** a report to paste into a bug report, with every price behind
+  that craft's sums.
+- The button on the profession window is gone (it never showed on Forever); the minimap button
+  and the addon menu open leProfit.
 
 ### 1.1.0
 

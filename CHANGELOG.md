@@ -6,6 +6,11 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-23
+
+No more lag spikes from leProfit, losses shown in red rather than hidden, and the profession window
+left alone: leProfit knows your recipes from the game itself.
+
 ### Changed
 
 - **Hide losses** replaces Show losses, and it's off: crafts at a loss are listed, their profit in

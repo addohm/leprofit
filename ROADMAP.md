@@ -14,6 +14,10 @@ change.
   on the owner's PC, asking first.
 - One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
+- 1.2.0 released (2026-11-23): the lag-spike fixes (cached sums, work spread
+  over frames, /leprofit perf), Hide losses with losses in red, known
+  recipes from the game (no profession window opened), /leprofit debug; the
+  profession window button removed.
 - 1.1.0 released (2026-11-22): one addon renamed leProfit; data from Forever's
   game data and Efficient Games, refreshed by `tools/update_data.cmd`; trainer
   costs recorded; tradeable drop patterns listed; Show all lists everything

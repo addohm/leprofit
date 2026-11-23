@@ -2,7 +2,7 @@
 ## Title: leProfit
 ## Notes: Which crafts make gold: the auction price after the cut, less what the materials cost, most profitable first, for every crafting profession.
 ## Author: addohm
-## Version: 1.1.0
+## Version: 1.2.0
 ## IconTexture: Interface\AddOns\leProfit\Media\Icon
 ## SavedVariables: leProfitDB, LeprofitDB
 ## SavedVariablesPerCharacter: leProfitCharDB, LeprofitCharDB

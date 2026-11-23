@@ -7,7 +7,7 @@ the trainer or pattern costs and how many crafts pay it back. It's for crafters 
 what's worth making and selling.
 
 leProfit is one addon covering every crafting profession: Alchemy, Blacksmithing, Cooking,
-Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 1.1.0 is the current release;
+Enchanting, Engineering, First Aid, Leatherworking, Mining (smelting) and Tailoring. 1.2.0 is the current release;
 [TESTING.md](TESTING.md) is what's left to check in game. Source:
 [addohm/leprofit](https://github.com/addohm/leprofit).
 
