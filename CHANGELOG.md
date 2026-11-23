@@ -22,6 +22,12 @@ All notable changes to leprofit. The format follows
 
 ### Fixed
 
+- A 123 ms hitch when the sums are worked out (seen with `/leprofit perf`): working out one craft's
+  materials asked every profession what this character can craft, and that built every
+  profession's full list, QuestieDB lookups and all, in one go. Make-vs-buy now uses a cheap list
+  of the recipes you know by what they make, and the full lists are built a step at a time with
+  the sums. Reading the profession window keeps each recipe's materials after the first read
+  (they don't change), so later reads only ask which recipes are learned.
 - Lag at intervals: the game's "profession list updated" event also comes while the profession
   window is closed, and leProfit read the whole recipe list each time. It reads only while the
   window is open now (between the game's open and close events).

@@ -169,7 +169,9 @@ local function KnowsSpell(id)
 	return IsPlayerSpell and ns.Try(IsPlayerSpell, id) == true or false
 end
 
-local function Build(prof)
+-- A profession's recipes from its data and what its window showed, each marked learned if the
+-- window or the game says so. Cheap: no sources yet.
+local function Entries(prof)
 	local def = ns.professions[prof]
 	local all = {}
 	for id, r in pairs(def.recipes) do
@@ -189,45 +191,74 @@ local function Build(prof)
 		e.recorded = true
 		all[id] = e
 	end
-
-	local best = {}
 	for _, e in pairs(all) do
 		if not e.learned and KnowsSpell(e.id) then e.learned = true end
+	end
+	return all
+end
+
+-- The full list, one recipe per name with where to learn it (the costly part: sources, and
+-- QuestieDB when installed). `pause`, when given, is called between recipes so the work can be
+-- spread over frames (Profit.Prepare).
+local function Build(prof, pause)
+	local def = ns.professions[prof]
+	local best = {}
+	for _, e in pairs(Entries(prof)) do
 		if e.name and e.product and e.reagents and #e.reagents > 0 then
 			e.source = e.learned and { kind = "known" } or Source(def, prof, e.name)
 			if not best[e.name] or Better(e, best[e.name]) then best[e.name] = e end
 		end
+		if pause then pause() end
 	end
-	local list, makers = {}, {}
-	for _, e in pairs(best) do
-		list[#list + 1] = e
-		if e.learned then
+	local list = {}
+	for _, e in pairs(best) do list[#list + 1] = e end
+	table.sort(list, function(a, b) return a.name < b.name end)
+	return list
+end
+
+-- The recipes you know, by what they make: all make-vs-buy needs, so it skips the sources. Working
+-- out one craft's materials asks every profession, and that mustn't build every full list.
+local function BuildMakers(prof)
+	local makers = {}
+	for _, e in pairs(Entries(prof)) do
+		if e.learned and e.product and e.reagents and #e.reagents > 0 then
 			makers[e.product] = makers[e.product] or {}
 			table.insert(makers[e.product], e)
 		end
 	end
-	table.sort(list, function(a, b) return a.name < b.name end)
-	return list, makers
+	return makers
 end
 
-local function Get(prof)
-	local c = cache[prof]
-	if not c or c.version ~= ns.dataVersion then
-		local list, makers = Build(prof)
-		c = { version = ns.dataVersion, list = list, makers = makers }
-		cache[prof] = c
-	end
-	return c
-end
+local makersCache = {}
 
 -- The profession's recipes that make an item, one per name, sorted by name.
-function Recipes.List(prof)
+function Recipes.List(prof, pause)
 	if not ns.professions[prof] then return {} end
-	return Get(prof).list
+	local c = cache[prof]
+	if not c or c.version ~= ns.dataVersion then
+		c = { version = ns.dataVersion, list = Build(prof, pause) }
+		cache[prof] = c
+	end
+	return c.list
+end
+
+-- Whether a profession's list (or its known recipes by product) is built for the current data.
+function Recipes.Built(prof)
+	local c = cache[prof]
+	return c and c.version == ns.dataVersion or false
+end
+function Recipes.MakersBuilt(prof)
+	local c = makersCache[prof]
+	return c and c.version == ns.dataVersion or false
 end
 
 -- The recipes you know that make an item, for crafting a material instead of buying it.
 function Recipes.Makers(prof, itemID)
 	if not ns.professions[prof] then return nil end
-	return Get(prof).makers[itemID]
+	local c = makersCache[prof]
+	if not c or c.version ~= ns.dataVersion then
+		c = { version = ns.dataVersion, makers = BuildMakers(prof) }
+		makersCache[prof] = c
+	end
+	return c.makers[itemID]
 end

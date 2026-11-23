@@ -173,7 +173,22 @@ function Profit.Prepare(profs, done)
 	local start
 	-- Only real work counts against the budget: a list that's all worked out is one quick pass, so
 	-- it never waits for a frame (else it could never finish).
+	local function Pause()
+		if debugprofilestop() - start >= Profit.BUDGET then coroutine.yield() end
+	end
 	local co = coroutine.create(function()
+		-- First what every sum needs: which recipes each profession has (make-vs-buy asks all of
+		-- them) and the lists shown, built a step at a time; then the sums.
+		-- Only real work pauses: with everything built, this is one quick pass.
+		for _, prof in ipairs(ns.professionOrder) do
+			if not ns.Recipes.MakersBuilt(prof) then
+				ns.Recipes.Makers(prof, 0)
+				Pause()
+			end
+		end
+		for _, prof in ipairs(profs) do
+			if not ns.Recipes.Built(prof) then ns.Recipes.List(prof, Pause) end
+		end
 		for _, prof in ipairs(profs) do
 			for _, rec in ipairs(ns.Recipes.List(prof)) do
 				Fresh()

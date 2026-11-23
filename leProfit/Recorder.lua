@@ -52,6 +52,29 @@ function Recorder.OpenProfession(strict)
 	return found
 end
 
+-- What a recipe makes and from what never changes: read once a session, so reading the window
+-- again only asks which recipes are learned.
+local schematics = {}
+local function Schematic(api, id)
+	local s = schematics[id]
+	if s == nil then
+		local schematic = Try(api.GetRecipeSchematic, id, false)
+		if schematic and schematic.outputItemID then
+			-- Some recipes make a few at a time: count the average.
+			local lo, hi = schematic.quantityMin or 1, schematic.quantityMax or schematic.quantityMin or 1
+			s = { product = schematic.outputItemID, yield = (lo + math.max(lo, hi)) / 2, reagents = {} }
+			for _, slot in ipairs(schematic.reagentSlotSchematics or {}) do
+				local reagent = slot.reagents and slot.reagents[1]
+				if reagent and reagent.itemID and slot.required ~= false then
+					table.insert(s.reagents, { reagent.itemID, slot.quantityRequired or 1 })
+				end
+			end
+		end
+		schematics[id] = s or false
+	end
+	return s or nil
+end
+
 local function ReadRecipes()
 	local api = C_TradeSkillUI
 	local ids = api and Try(api.GetAllRecipeIDs)
@@ -59,22 +82,12 @@ local function ReadRecipes()
 	local list = {}
 	for _, id in ipairs(ids) do
 		local info = Try(api.GetRecipeInfo, id)
-		local schematic = Try(api.GetRecipeSchematic, id, false)
-		if info and info.name and schematic and schematic.outputItemID then
-			local r = {
+		local s = info and info.name and Schematic(api, id)
+		if s then
+			list[#list + 1] = {
 				id = id, name = info.name, learned = info.learned and true or false, icon = info.icon,
-				product = schematic.outputItemID, reagents = {},
+				product = s.product, yield = s.yield, reagents = s.reagents,
 			}
-			-- Some recipes make a few at a time: count the average.
-			local lo, hi = schematic.quantityMin or 1, schematic.quantityMax or schematic.quantityMin or 1
-			r.yield = (lo + math.max(lo, hi)) / 2
-			for _, slot in ipairs(schematic.reagentSlotSchematics or {}) do
-				local reagent = slot.reagents and slot.reagents[1]
-				if reagent and reagent.itemID and slot.required ~= false then
-					table.insert(r.reagents, { reagent.itemID, slot.quantityRequired or 1 })
-				end
-			end
-			list[#list + 1] = r
 		end
 	end
 	return list

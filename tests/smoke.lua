@@ -765,6 +765,12 @@ ns.SumsChanged()
 WM.RunTimers()
 ns.Profit.BUDGET = math.huge
 ok(ns.Profit.Prepare({ "Blacksmithing" }, function() error("nothing to wait for") end), "worked out already")
+-- One craft's sums ask every profession what this character can craft (make-vs-buy), but that
+-- mustn't build their full lists, the costly part (it made a 123 ms slice in game).
+ns.DataChanged()
+ns.Profit.Evaluate("Blacksmithing", Find("Copper Chain Belt"))
+eq(ns.Recipes.MakersBuilt("Tailoring"), true, "known recipes by product, cheaply")
+eq(ns.Recipes.Built("Tailoring"), false, "not Tailoring's full list")
 eq(beltRow.h, 22, "one line per row")
 local function TipHas(text)
 	for _, line in ipairs(GameTooltip.lines) do

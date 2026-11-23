@@ -31,7 +31,11 @@ Discuss each feature with the owner before building it.
     or Smelting)
   - `Recipes.lua`: a profession's recipes (its data + what the window
     showed), one per name, known if the game says so (`IsPlayerSpell`, no
-    window needed) or the window did, and where to learn each: `source.kind` = known,
+    window needed) or the window did. `Recipes.List(prof, pause)` builds the
+    full list (sources: the costly part; `pause` lets `Profit.Prepare` spread
+    it); `Recipes.Makers` is a separate cheap index of known recipes by product
+    for make-vs-buy, so one craft's sums never build every list. Where to learn
+    each: `source.kind` = known,
     free (comes with the profession), trainer, pattern (a vendor's, for gold),
     other (a pattern no vendor sells for gold: `Profit.Bound` says if it
     binds, the game deciding when the data doesn't; `Profit.LearnCost` prices
