@@ -149,6 +149,7 @@ lacks.
 | `/leprofit status` | Price sources, and this character's professions and recipes known |
 | `/leprofit why <item>` | The whole sum for one craft (name, part of it, or a shift-clicked link) |
 | `/leprofit minimap` | Show or hide the minimap button |
+| `/leprofit debug [item]` | A report to copy into a bug report (it opens selected: Ctrl+C): versions, settings, price addons, and for the item every price leProfit could use, which it chose, the sums and why it's listed or not. No character names |
 | `/leprofit perf` | What leProfit's work has cost since login, slowest first (`perf reset` clears it): for lag reports |
 | `/leprofit reset` | Put the window back in the middle at its normal size |
 | `/leprofit help` | The commands and the build |

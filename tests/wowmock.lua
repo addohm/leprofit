@@ -179,6 +179,9 @@ function HandleModifiedItemClick(link) table.insert(M.linked, link) return true 
 function InCombatLockdown() return false end
 function GetCursorPosition() return 0, 0 end
 function IsPlayerSpell(id) return M.spells[id] or false end
+function GetBuildInfo() return "1.60.1", "71037", "Nov 20 2026", 16001 end
+function GetLocale() return "enUS" end
+ChatFontNormal = {} -- the game's chat font object
 function debugprofilestop() return os.clock() * 1000 end
 function UnitFactionGroup(unit) return unit == "npc" and M.npcFaction or M.faction end
 function UnitReaction() return M.npcReaction end

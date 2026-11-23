@@ -1081,6 +1081,42 @@ WM.history[2851], WM.clock = nil, 4001
 ok(Printed("Sells for 95s each after 5% cut, by lowest buyout"), "the sale")
 ok(Printed("Profit: 35s a craft"), "the profit")
 WM.printed = {}
+
+-- /leprofit debug <item>: a report to copy, in a window with it all selected.
+eq(ns.Debug.Money(16380), "1g 63s 80c")
+eq(ns.Debug.Money(-371), "-3s 71c")
+eq(ns.Debug.Money(0), "0c")
+eq(ns.Debug.Money(nil), "none")
+SlashCmdList.LEPROFIT("debug Copper Chain Belt")
+ok(leProfitCopy and leProfitCopy:IsShown(), "debug opens the copy window")
+local report = leProfitCopy.edit:GetText()
+local function Has(text) return report:find(text, 1, true) ~= nil end
+ok(Has("leProfit debug report"), "the report's first line")
+ok(Has("game 1.60.1 (71037) enUS"), "the game build and language")
+ok(Has("data from game build 1.60.1.71037"), "the data's game build")
+ok(Has("Character: Alliance | Blacksmithing"), "the faction and professions")
+ok(Has("Settings: profit from lowest buyout | cut 5% | undercut 0%"), "the settings that change the sums")
+ok(Has("Price addons: Auctionator found"), "the price addons")
+ok(Has("Craft: Copper Chain Belt (recipe 2661, Blacksmithing)"), "the craft")
+ok(Has("Known: yes"), "known or not")
+ok(Has("Listed: yes"), "whether the list shows it")
+ok(Has("6 x Copper Bar (item 2840): 10s each via auction = 60s"), "each material, its price and where from")
+ok(Has("Auctionator 10s"), "every price for it")
+ok(Has("Profit: 35s a craft"), "the profit")
+ok(Has("Slowest work: "), "the timings")
+ok(not Has(UnitName("player")), "no character name in it")
+-- It's read-only: typing puts the report back.
+leProfitCopy.edit.scripts.OnTextChanged(leProfitCopy.edit, true)
+eq(leProfitCopy.edit:GetText(), report)
+leProfitCopy:Hide()
+-- Without an item: the setup alone; an unknown item says so.
+SlashCmdList.LEPROFIT("debug")
+report = leProfitCopy.edit:GetText()
+ok(Has("Settings: ") and not Has("Craft: "), "the setup without a craft")
+WM.printed = {}
+SlashCmdList.LEPROFIT("debug no such thing at all")
+ok(Printed("no recipe in your enabled professions makes"), "an unknown item")
+leProfitCopy:Hide()
 SlashCmdList.LEPROFIT("why |cff1eff00|Hitem:2851::::::::|h[Copper Chain Belt]|h|r")
 ok(Printed("Copper Chain Belt|r (Blacksmithing, you know it)"), "a shift-clicked link")
 WM.printed = {}

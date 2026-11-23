@@ -200,6 +200,7 @@ local function Help()
 	ns.Print("/leprofit minimap - show or hide the minimap button")
 	ns.Print("/leprofit reset - put the window back in the middle at its normal size")
 	ns.Print("/leprofit perf - what leProfit's work has cost since login (or /leprofit perf reset)")
+	ns.Print("/leprofit debug [item] - a report to copy into a bug report: what leProfit saw for that craft")
 end
 
 -- /leprofit perf: each kind of work, slowest first: how many times, the worst and the average.
@@ -222,27 +223,41 @@ local function Perf(rest)
 end
 
 SLASH_LEPROFIT1 = "/leprofit"
+-- The craft a /leprofit why or debug means: its profession and recipe, or nil after saying why not.
+local function FindCraft(query)
+	local prof, rec = ns.Profit.Find(query)
+	if prof then return prof, rec end
+	local list = rec or {}
+	if #list == 0 then
+		ns.Print("no recipe in your enabled professions makes '" .. query .. "'.")
+	else
+		local names = {}
+		for i = 1, math.min(#list, 8) do names[i] = list[i].rec.name end
+		ns.Print(("%d recipes match: %s%s. Type more of the name."):format(#list, table.concat(names, ", "),
+			#list > 8 and ", ..." or ""))
+	end
+end
+
 local function Why(query)
 	if query == "" then
 		ns.Print("/leprofit why <item>: type the item's name or shift-click it.")
 		return
 	end
-	local prof, rec = ns.Profit.Find(query)
-	if not prof then
-		local list = rec or {}
-		if #list == 0 then
-			ns.Print("no recipe in your enabled professions makes '" .. query .. "'.")
-		else
-			local names = {}
-			for i = 1, math.min(#list, 8) do names[i] = list[i].rec.name end
-			ns.Print(("%d recipes match: %s%s. Type more of the name."):format(#list, table.concat(names, ", "),
-				#list > 8 and ", ..." or ""))
-		end
-		return
-	end
+	local prof, rec = FindCraft(query)
+	if not prof then return end
 	for i, line in ipairs(ns.Profit.Explain(prof, rec)) do
 		if i == 1 then ns.Print(line) else print(line) end
 	end
+end
+
+-- /leprofit debug [item]: the report to copy into a bug report, in a window that selects it all.
+local function DebugReport(query)
+	if query == "" then
+		ns.ShowCopy("leProfit debug report", ns.Debug.Report())
+		return
+	end
+	local prof, rec = FindCraft(query)
+	if prof then ns.ShowCopy("leProfit debug report: " .. rec.name, ns.Debug.Report(prof, rec)) end
 end
 
 SlashCmdList.LEPROFIT = function(msg)
@@ -256,6 +271,8 @@ SlashCmdList.LEPROFIT = function(msg)
 		Status()
 	elseif cmd == "why" then
 		Why(rest)
+	elseif cmd == "debug" then
+		DebugReport(rest)
 	elseif cmd == "minimap" then
 		ns.Minimap.SetShown(ns.db.minimap.hide)
 	elseif cmd == "perf" then

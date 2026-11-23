@@ -50,14 +50,19 @@ Discuss each feature with the owner before building it.
     before the Crafts list draws (no frame does it all: the lag-spike fix)
   - `Shopping.lua`: the shopping list (ns.db.plan), its combined materials,
     and Send to Auctionator
+  - `Debug.lua`: `/leprofit debug [item]`, a plain-text report (setup,
+    settings, price addons, timings; for a craft every price it could use via
+    `Prices.Detail`, the choice, the sums, `Profit.LeftOut`'s verdict) shown in
+    `UI/Copy.lua`'s select-all window. Keep it in step when the sums change:
+    it's how the owner shares discrepancies
   - `Recorder.lua`: reads the profession window while it's open (between
     TRADE_SKILL_SHOW and TRADE_SKILL_CLOSE: the list-update event also fires with
     it closed), vendors and
     trainers (costs into `ns.adb.training`), marks recipes learned at
     trainers. leProfit never opens the profession window itself
   - `UI/`: `Widgets.lua`, `Window.lua`, `Minimap.lua` (from leboof), `Confirm.lua`
-    (the confirmation dialog), `Crafts.lua`, `Shopping.lua` and `Options.lua`
-    (the tabs)
+    (the confirmation dialog), `Copy.lua` (text to copy out), `Crafts.lua`,
+    `Shopping.lua` and `Options.lua` (the tabs)
 - `tests/`: `run_tests.py` (syntax, TOCs, globals, then `smoke.lua` against
   the fake client `wowmock.lua`)
 - `tools/`: `fetch_sources.py` (downloads Forever's game data tables from

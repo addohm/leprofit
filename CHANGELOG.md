@@ -17,6 +17,12 @@ All notable changes to leprofit. The format follows
 
 ### Added
 
+- `/leprofit debug [item]`: a report to copy into a bug report, in a window with it all selected
+  (Ctrl+C). The versions (leProfit, the game, the data), the faction and professions, the
+  settings that change the sums, the price addons found, the slowest work, and for the item every
+  price leProfit could have used (Auctionator, TSM's minimum and market value, the history,
+  vendors, crafting it), which it chose, the sums, and why the list shows it or not. No character
+  or realm names.
 - `/leprofit perf`: how long each kind of leProfit's work has taken since login (each event, a
   redraw, a slice of sums), slowest first, so a lag report can say what's behind it.
 

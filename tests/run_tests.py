@@ -17,7 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 TESTS = ROOT / "tests"
 CORE = "leProfit"
 ALLOWED_GLOBALS = {"Leprofit", "leProfitDB", "leProfitCharDB", "leProfitFrame", "leProfitMinimapButton",
-                   "leProfitConfirm", "SLASH_LEPROFIT1", "leProfit_OnAddonCompartmentClick"}
+                   "leProfitConfirm", "leProfitCopy", "SLASH_LEPROFIT1", "leProfit_OnAddonCompartmentClick"}
 
 OPTIONAL_GLOBALS = {"GetTradeSkillLine", "GetMerchantItemInfo", "GetProfessions", "GetProfessionInfo",
                     "GetCoinTextureString", "GetItemCount", "GetItemInfo", "issecretvalue", "TSM_API"}

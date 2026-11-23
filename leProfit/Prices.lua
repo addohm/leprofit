@@ -163,6 +163,29 @@ function Prices.Buy(itemID)
 	return nil, nil
 end
 
+-- Every price leProfit can see for an item, each from where it comes, for /leprofit debug:
+-- { auctionator, age, tsmMin, tsmMarket, history, vendorRecorded, vendorData, vendorAuctionator }.
+function Prices.Detail(itemID)
+	local d = {}
+	local api = Auctionator()
+	if api and api.GetAuctionPriceByItemID then
+		local price = ns.Try(api.GetAuctionPriceByItemID, ADDON, itemID)
+		d.auctionator = type(price) == "number" and price or nil
+	end
+	d.age = Prices.Age(itemID)
+	d.tsmMin, d.tsmMarket = TSMPrice("DBMinBuyout", itemID), TSMPrice("DBMarket", itemID)
+	d.history = Prices.History(itemID)
+	d.vendorRecorded = ns.adb and ns.adb.vendorPrices[itemID]
+	for name, def in pairs(ns.professions) do
+		if def.vendorPrices[itemID] then d.vendorData, d.vendorDataFrom = def.vendorPrices[itemID], name end
+	end
+	if api and api.GetVendorPriceByItemID then
+		local price = ns.Try(api.GetVendorPriceByItemID, ADDON, itemID)
+		d.vendorAuctionator = type(price) == "number" and price > 0 and price or nil
+	end
+	return d
+end
+
 function Prices.HasAuctionator() return Auctionator() ~= nil end
 function Prices.HasTSM() return TSM() ~= nil end
 

@@ -140,6 +140,9 @@ so most of it is covered by the first part.
 - [ ] The minimap button: left-click Crafts, right-click Options, drag to move; the addon menu
       entry works.
 - [ ] No Lua errors (`/console scriptErrors 1`).
+- [ ] `/leprofit debug <a craft>` opens a window with the report selected; Ctrl+C copies it all
+      and pastes cleanly into Discord; typing in it changes nothing; Escape and Close shut it.
+      `/leprofit debug` alone gives the setup without a craft.
 - [ ] No lag: after a while of play with the window open (All professions, Show all, a scan,
       a vendor), this keeps leProfit's peak well under 100 ms:
       `/run for _,r in ipairs(C_AddOnProfiler.GetTopKAddOnsForMetric(Enum.AddOnProfilerMetric.PeakTime,5)) do print(r.addOnName,format("%.0f ms",r.metricValue)) end`.

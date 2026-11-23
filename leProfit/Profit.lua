@@ -239,36 +239,34 @@ local function Matches(rec, query)
 end
 Profit.Matches = Matches -- (tests)
 
-function Profit.Rows(prof, query)
+-- Why the Crafts list leaves a recipe out (a key of Rows' counts), or nil and its row when it's
+-- listed. The one place that decides: the list and /leprofit debug both ask it.
+function Profit.LeftOut(prof, rec, query, skill)
 	local db = ns.db
+	local known = rec.source.kind == "known"
+	local need = rec.source.skill
+	if query and not Matches(rec, query) then return "nomatch" end
+	if not known and db.hideUnlearned then return "unlearned" end
+	if not known and Profit.OtherSideOnly(rec.source) then return "otherSide" end
+	if rec.source.kind == "unknown" and not db.showAll then return "unknown" end
+	if rec.source.kind == "other" and not db.showAll and Profit.Bound(rec.source) then return "bound" end
+	if not known and not db.showAll and not (need and skill and need <= skill) then return "later" end
+	if db.hidden[rec.product] then return "hidden" end
+	local row = Cached(prof, rec)
+	if not row.profit and db.hideLosses then return "unpriced", row end
+	if row.profit and row.profit <= 0 and db.hideLosses then return "losses", row end
+	return nil, row
+end
+
+function Profit.Rows(prof, query)
 	local rows, left = {}, { nomatch = 0, unlearned = 0, otherSide = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
 	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
-		local known = rec.source.kind == "known"
-		local need = rec.source.skill
-		if query and not Matches(rec, query) then
-			left.nomatch = left.nomatch + 1
-		elseif not known and db.hideUnlearned then
-			left.unlearned = left.unlearned + 1
-		elseif not known and Profit.OtherSideOnly(rec.source) then
-			left.otherSide = left.otherSide + 1
-		elseif rec.source.kind == "unknown" and not db.showAll then
-			left.unknown = left.unknown + 1
-		elseif rec.source.kind == "other" and not db.showAll and Profit.Bound(rec.source) then
-			left.bound = left.bound + 1
-		elseif not known and not db.showAll and not (need and skill and need <= skill) then
-			left.later = left.later + 1
-		elseif db.hidden[rec.product] then
-			left.hidden = left.hidden + 1
+		local why, row = Profit.LeftOut(prof, rec, query, skill)
+		if why then
+			left[why] = left[why] + 1
 		else
-			local row = Cached(prof, rec)
-			if not row.profit and db.hideLosses then
-				left.unpriced = left.unpriced + 1
-			elseif row.profit and row.profit <= 0 and db.hideLosses then
-				left.losses = left.losses + 1
-			else
-				rows[#rows + 1] = row
-			end
+			rows[#rows + 1] = row
 		end
 	end
 	Profit.Sort(rows)

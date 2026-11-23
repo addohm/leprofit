@@ -536,6 +536,7 @@ def write(name, build, recipes, training, patterns, other, free, vendor_prices, 
         "ns.RegisterProfession({",
         f"\tname = {lua_string(name)},",
         f"\ticon = {lua_string(icon)},",
+        f"\tdataBuild = {lua_string(build)}, -- the game build the data was made from (/leprofit debug says it)",
     ]
     if windows:
         out.append(f"\twindowNames = {{ {', '.join(lua_string(w) for w in windows)} }},")

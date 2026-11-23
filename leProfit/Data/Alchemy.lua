@@ -5,6 +5,7 @@ local _, ns = ...
 ns.RegisterProfession({
 	name = "Alchemy",
 	icon = "Interface\\Icons\\Trade_Alchemy",
+	dataBuild = "1.60.1.71037", -- the game build the data was made from (/leprofit debug says it)
 	-- recipeID = { name, product (item made), yield, grey (skill), reagents = { { itemID, count } } }
 	recipes = {
 		[2329] = { name = "Elixir of Minor Strength", product = 2454, yield = 1, grey = 95, reagents = { { 2449, 1 }, { 765, 1 }, { 3371, 1 } } },

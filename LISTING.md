@@ -96,6 +96,7 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 | `/leprofit` | Open or close the window (also the minimap button and the addon menu) |
 | `/leprofit why <item>` | The whole sum for one craft, in chat (type the name or shift-click it) |
 | `/leprofit status` | Price sources, your professions and recipes known |
+| `/leprofit debug <item>` | A report to paste into a bug report: every price behind that craft's sums |
 | `/leprofit help` | All commands |
 
 #### Good to know
