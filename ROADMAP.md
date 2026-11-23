@@ -14,6 +14,8 @@ change.
   on the owner's PC, asking first.
 - One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
+- 1.3.0 released (2026-11-23): Craftsman's Writ crafts marked (a scroll
+  after the name, a tooltip line, the "writ" search).
 - 1.2.0 released (2026-11-23): the lag-spike fixes (cached sums, work spread
   over frames, /leprofit perf), Hide losses with losses in red, known
   recipes from the game (no profession window opened), /leprofit debug; the

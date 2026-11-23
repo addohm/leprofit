@@ -13,7 +13,7 @@ feature list in step with README.md.
 | Slug | `leprofit` |
 | Game version | WoW: Forever (Interface 16001) |
 | Author | addohm |
-| Release type | Release (1.2.0) |
+| Release type | Release (1.3.0) |
 | License | GNU GPLv3 (`LICENSE`) |
 | Source | https://github.com/addohm/leprofit |
 | Issues | https://github.com/addohm/leprofit/issues |
@@ -131,6 +131,12 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 ---
 
 ## Release notes
+
+### 1.3.0
+
+**Craftsman's Writ crafts are marked:** a small scroll after the name of every craft a trade
+faction's Craftsman's Writ asks for, and a tooltip line naming the writ. Search "writ" (with All
+professions picked) to list them all.
 
 ### 1.2.0
 

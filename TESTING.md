@@ -8,7 +8,7 @@ The owner's characters so far are a Blacksmith and a Miner, so the list is split
 check, and what waits for a character with each other profession. Nearly everything is shared code,
 so most of it is covered by the first part.
 
-## 1.2.0: on a Blacksmith or a Miner
+## 1.3.0: on a Blacksmith or a Miner
 
 **Install**
 - [ ] The release zip unzips into AddOns as one `leProfit` folder, and the AddOns list shows its
@@ -152,7 +152,7 @@ so most of it is covered by the first part.
       A long list fills in over a moment ("Working out the sums..."). If there are spikes,
       `/leprofit perf` names the slowest work: send its lines with the report.
 
-## 1.2.0: needs a character with the profession
+## 1.3.0: needs a character with the profession
 
 For each of Alchemy, Cooking, Enchanting, Engineering, First Aid, Leatherworking and Tailoring, on a
 character that has it:

@@ -6,6 +6,10 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-23
+
+Crafts a Craftsman's Writ asks for are marked.
+
 ### Added
 
 - Crafts a trade faction's Craftsman's Writ asks for are marked with a small scroll (the writ's
