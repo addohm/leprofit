@@ -417,7 +417,7 @@ ns.RegisterProfession({
 		["EZ-Thro Bronze Mortar"] = { itemID = 264212, skill = 190, bound = false },
 		["EZ-Thro Copper Bomb XL"] = { itemID = 264205, skill = 130, bound = false },
 		["EZ-Thro Dark Bomb"] = { itemID = 264227, skill = 300, bound = false },
-		["EZ-Thro Dynamite"] = { itemID = 6716, skill = 100, bound = false, drops = { { how = "drop", from = "Webwood Lurker", zone = "Teldrassil", drops = 1, of = 7 } } },
+		["EZ-Thro Dynamite"] = { itemID = 6716, skill = 100, bound = false, drops = { { how = "drop", from = "나무그물 늑대거미", zone = "Teldrassil", drops = 1, of = 7 } } },
 		["EZ-Thro Field Transporter: Gadgetzan"] = { itemID = 264229, skill = 300, bound = false },
 		["EZ-Thro Fireproof Fuse"] = { itemID = 264211, skill = 190, bound = false },
 		["EZ-Thro Grenade"] = { itemID = 264213, skill = 200, bound = false },

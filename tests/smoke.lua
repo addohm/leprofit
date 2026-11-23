@@ -514,8 +514,9 @@ eq(ns.Recipes.WhereLines(blood.source)[1], "Needs Zandalar Tribe reputation: Rev
 said = table.concat(ns.Profit.Explain("Blacksmithing", blood), "\n")
 ok(said:find("binds when picked up", 1, true) and said:find("Zandalar Tribe", 1, true), "why says where: " .. said)
 local boots = Find("Veteran's Boots")
-eq(ns.Recipes.WhereLines(boots.source)[1], "30 Merchant's Favor from Gor'mak in The Barrens at 49.8, 29.7 (Horde only)",
-	"a token vendor, its price and side")
+-- (Where the vendor stands comes from players' records, which keep getting refined: any x, y.)
+ok(ns.Recipes.WhereLines(boots.source)[1]:find("^30 Merchant's Favor from Gor'mak in The Barrens at %d+%.%d, %d+%.%d %(Horde only%)$"),
+	"a token vendor, its price, place and side: " .. ns.Recipes.WhereLines(boots.source)[1])
 eq(ns.Recipes.WhereLines(boots.source)[2], "Also sold at the Alliance trade camp (not recorded yet)",
 	"a trade camp's plans: the other side's camp sells them too")
 eq(ns.Profit.OtherSideOnly(boots.source), false, "so they're anyone's")
