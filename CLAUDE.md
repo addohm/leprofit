@@ -50,9 +50,11 @@ Discuss each feature with the owner before building it.
     when only one side can get them (`Profit.OtherSideOnly`: never listed).
     `rec.spec` = the path a recipe needs (`specOf`, or a trainer's record);
     `Profit.OtherSpecOnly` = a path the character can't have (it picked a
-    sibling, or the path it's within is closed): never listed. The Crafts
-    tab's Specialization dropdown is `ns.db.specFilter[prof]`, read through
-    `Profit.SpecFilter` (a closed path's pick counts as all)
+    sibling, or the path it's within is closed): listed only with Show all
+    (the owner's call, 2026-11-25). The Crafts tab's Specialization dropdown
+    is `ns.db.specFilter[prof]`, read through `Profit.SpecFilter` (a closed
+    path's pick counts as all without Show all); with Show all it offers
+    every path
   - `Profit.lua`: the sums: make-vs-buy, sale value after the cut, profit,
     payback, flags, the filtered and sorted rows, shopping for n crafts. Each
     craft's sums are cached until `ns.sumsVersion` changes (`ns.SumsChanged`:
@@ -127,8 +129,8 @@ Discuss each feature with the owner before building it.
   modules), `LeprofitCharDB`/`LeprofitDB` (moved over once at login) and the
   `Leprofit_<Profession>` folders the install script deletes.
 - Show all lists everything a character could get; only what's unobtainable
-  for it (the other side's recipes, and another specialization's once it has
-  picked its path) is never listed, and every learnable
+  for it (the other side's recipes) is never listed (another specialization's,
+  once it has picked its path, only with Show all), and every learnable
   recipe's tooltip says where to get it (the owner's rule, 2026-11-22). The
   side is black and white: if every known source is Horde, an Alliance
   character doesn't see it. A vendor's side comes only from a record of that

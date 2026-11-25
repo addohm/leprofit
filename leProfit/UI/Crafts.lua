@@ -531,8 +531,8 @@ end
 -- The Specialization dropdown, for a profession with paths (Blacksmithing, Leatherworking,
 -- Engineering): one path's recipes (Weaponsmith takes in its masters'), or only those that need
 -- none. It starts on all, for every character: starting on your own path would hide the recipes
--- every smith can make. The paths closed to the character aren't offered (their recipes are never
--- listed anyway).
+-- every smith can make. The paths closed to the character are offered only with Show all (their
+-- recipes aren't listed without it).
 local SPEC_NONE = "No specialization needed"
 function ns.BuildSpecMenu(_, root)
 	local prof = ns.CurrentProfession()
@@ -613,7 +613,7 @@ local function Build(p)
 		function(v) ns.db.hideUnlearned = v end)
 	panel.hideUnlearned:SetPoint("LEFT", lossesLabel, "RIGHT", 12, 0)
 	panel.showAll = TopCheck(panel, "Show all",
-		"Also list, greyed out, the recipes that need more skill than you have, those from patterns that bind when picked up, and those nobody knows a source for. Recipes only the other side can get are never listed.",
+		"Also list, greyed out, the recipes that need more skill than you have, those from patterns that bind when picked up, those nobody knows a source for, and other specializations' recipes. Recipes only the other side can get are never listed.",
 		function(v) ns.db.showAll = v end)
 	panel.showAll:SetPoint("LEFT", panel.hideUnlearned.label, "RIGHT", 12, 0)
 
@@ -641,7 +641,7 @@ local function Build(p)
 	spec:HookScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
 		GameTooltip:AddLine("Specialization")
-		GameTooltip:AddLine("List one path's recipes (Weaponsmith takes in its masters'), or only those every crafter can learn. Once a character has picked a path, the other paths' recipes are never listed.", 1, 1, 1, true)
+		GameTooltip:AddLine("List one path's recipes (Weaponsmith takes in its masters'), or only those every crafter can learn. Once a character has picked a path, the other paths' recipes are listed only with Show all.", 1, 1, 1, true)
 		GameTooltip:Show()
 	end)
 	spec:HookScript("OnLeave", GameTooltip_Hide)

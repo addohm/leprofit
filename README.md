@@ -50,9 +50,12 @@ lacks.
   within Weaponsmith the Master Axesmith, Hammersmith and Swordsmith), Leatherworking's
   Dragonscale, Elemental and Tribal, and Gnomish and Goblin Engineering. A recipe that needs one
   says so in its tooltip ("Armorsmith only"), and searching a path's name finds its recipes.
-  Once a character has picked a path, the other paths' recipes are never listed. For those three
+  Once a character has picked a path, the other paths' recipes are listed only with **Show all**
+  (and Hide unlearned unticked), their tooltip saying "not your path". For those three
   professions, the **Specialization** dropdown beside the search box lists one path's recipes
   (Weaponsmith with its masters'), or only those that need none; it starts on Any specialization.
+  It offers the paths the character could have, or with Show all every path: an Armorsmith can
+  pick Master Axesmith to see what axesmiths make.
   Which path a recipe needs comes from its pattern in the game data; Gnomish and Goblin
   Engineering's trainer recipes aren't marked there, so leProfit notes them when you visit a
   trainer that teaches them.
@@ -101,8 +104,8 @@ lacks.
   without it, or for an item QuestieDB doesn't know, the built-in data answers (with how often
   players saw a drop, as a percentage once enough loot is recorded).
 - Recipes only the other side can get are never listed: a one-side reputation, quests only for
-  the other side, or a pattern only the other side's vendors sell. Nor are another
-  specialization's, once the character has picked its path. A vendor's side comes from
+  the other side, or a pattern only the other side's vendors sell. (Another specialization's,
+  once the character has picked its path, are listed only with Show all.) A vendor's side comes from
   QuestieDB, or from Efficient Games' or your own record of it; a vendor nobody has recorded
   counts for both sides. The trade camps' Merchant's Favor plans count for both (each side's camp
   sells them).

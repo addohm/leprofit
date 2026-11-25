@@ -116,21 +116,28 @@ local function OtherPath(prof, name)
 end
 
 -- True when the recipe needs a specialization the character can't have: another path's recipes
--- are never listed for it. A character with no path yet sees them all.
+-- are listed only with Show all. A character with no path yet has them all open.
 function Profit.OtherSpecOnly(prof, rec)
 	return rec.spec and OtherPath(prof, rec.spec) or false
 end
 
--- The profession's paths the character could have, for the Specialization dropdown: each with
--- the paths within it straight after, by name. { { name, parent } }
+-- Whether the list shows other paths' recipes too: with Show all, when unlearned recipes are listed
+-- at all (Hide unlearned off).
+local function OtherPathsShown()
+	return ns.db.showAll and not ns.db.hideUnlearned
+end
+
+-- The paths for the Specialization dropdown: the ones the character could have, or with Show all
+-- every one; each with the paths within it straight after, by name. { { name, parent } }
 function Profit.Specs(prof)
 	local def = ns.professions[prof]
 	local list = {}
 	if not def then return list end
+	local every = OtherPathsShown()
 	local function Add(parent)
 		local names = {}
 		for name, s in pairs(def.specs) do
-			if s.parent == parent and not OtherPath(prof, name) then names[#names + 1] = name end
+			if s.parent == parent and (every or not OtherPath(prof, name)) then names[#names + 1] = name end
 		end
 		table.sort(names)
 		for _, name in ipairs(names) do
@@ -143,12 +150,13 @@ function Profit.Specs(prof)
 end
 
 -- The Specialization dropdown's pick for a profession: a path's name, "none" (only recipes that
--- need none) or nil (all). A path the character can't have (or the data no longer lists) is all.
+-- need none) or nil (all). A path the data no longer lists is all, and so is one the character
+-- can't have once Show all is off (its recipes aren't listed then).
 function Profit.SpecFilter(prof)
 	local pick = ns.db.specFilter[prof]
 	if pick == "none" then return pick end
 	local def = ns.professions[prof]
-	if def and def.specs[pick] and not OtherPath(prof, pick) then return pick end
+	if def and def.specs[pick] and (OtherPathsShown() or not OtherPath(prof, pick)) then return pick end
 	return nil
 end
 
@@ -162,10 +170,11 @@ local function FitsSpec(prof, rec, pick)
 	return s and s.parent == pick or false
 end
 
--- "Armorsmith only", and whether the character has that path: for tooltips.
+-- "Armorsmith only", and whether the character has that path, could pick it, or can't: for tooltips.
 function Profit.SpecText(prof, rec)
 	if not rec.spec then return nil end
 	if rec.source.kind == "known" or Profit.HasSpec(prof, rec.spec) then return rec.spec .. " only" end
+	if Profit.OtherSpecOnly(prof, rec) then return rec.spec .. " only: not your path" end
 	return rec.spec .. " only: a path you haven't picked"
 end
 
@@ -297,7 +306,7 @@ end
 -- The rows the Crafts tab lists for a profession (those matching the search, when there is one),
 -- each with its prof, sorted, and how many were left out: { nomatch = n (the search), specFilter = n
 -- (the Specialization dropdown), unlearned = n (Hide unlearned), otherSide = n (only the other side
--- can get them: never listed), otherSpec = n (another path's: never listed), unknown = n (no known source),
+-- can get them: never listed), otherSpec = n (another path's: Show all lists them), unknown = n (no known source),
 -- bound = n (from a pattern that binds; Show all lists those and the unknown), later = n (needing more skill
 -- than you have, without Show all), hidden = n, unpriced = n (a material or the item has no price),
 -- losses = n (0 or less) }. Recipes you'd learn are listed (greyed) when you have the skill.
@@ -333,7 +342,7 @@ function Profit.LeftOut(prof, rec, query, skill, spec)
 	if not FitsSpec(prof, rec, spec) then return "specFilter" end
 	if not known and db.hideUnlearned then return "unlearned" end
 	if not known and Profit.OtherSideOnly(rec.source) then return "otherSide" end
-	if not known and Profit.OtherSpecOnly(prof, rec) then return "otherSpec" end
+	if not known and not db.showAll and Profit.OtherSpecOnly(prof, rec) then return "otherSpec" end
 	if rec.source.kind == "unknown" and not db.showAll then return "unknown" end
 	if rec.source.kind == "other" and not db.showAll and Profit.Bound(rec.source) then return "bound" end
 	if not known and not db.showAll and not (need and skill and need <= skill) then return "later" end

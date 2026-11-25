@@ -145,9 +145,12 @@ so most of it is covered by the first part.
 - [ ] Specializations, on the Blacksmith: Blacksmithing shows a Specialization dropdown beside the
       search box (not for Mining, Tailoring or All professions). Before picking a path, every path
       is offered and Lionheart Helm's tooltip says "Armorsmith only: a path you haven't picked".
-      As an Armorsmith (or Weaponsmith), the other path's recipes, and the masters' for an
-      Armorsmith, aren't listed (Show all ticked) and the "Not listed" line counts them as "for
-      another specialization"; the dropdown offers only your own path(s). Weaponsmith lists its
+      As an Armorsmith (or Weaponsmith), with Show all off, the other path's recipes (and the
+      masters' for an Armorsmith) aren't listed, the "Not listed" line counts them as "for
+      another specialization", and the dropdown offers only your own path(s). With Show all
+      ticked (Hide unlearned off), the dropdown offers every path; picking Master Axesmith lists
+      Dawn's Edge and the other axesmith recipes, greyed, tooltip "Master Axesmith only: not your
+      path". Unticking Show all with another path picked goes back to all. Weaponsmith lists its
       masters' recipes too; No specialization needed only the ordinary ones. Searching
       "armorsmith" finds its recipes. `/leprofit debug Lionheart Helm` has a Specialization line.
 - [ ] No Lua errors (`/console scriptErrors 1`).
