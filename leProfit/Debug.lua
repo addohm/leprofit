@@ -90,8 +90,10 @@ local LEARN = {
 
 local LEFT_OUT = {
 	nomatch = "it doesn't match the search",
+	specFilter = "the Specialization dropdown picks another",
 	unlearned = "Hide unlearned is ticked and the character doesn't know it",
 	otherSide = "only the other side can get it",
+	otherSpec = "it needs a specialization the character can't have (another path)",
 	unknown = "nobody knows where to learn it (Show all lists it)",
 	bound = "its pattern binds when picked up (Show all lists it)",
 	later = "it needs more skill (Show all lists it)",
@@ -104,7 +106,8 @@ local function Craft(lines, prof, rec)
 	local function Add(s) lines[#lines + 1] = s end
 	local src = rec.source
 	local row = ns.Profit.Evaluate(prof, rec, nil, true)
-	local why = ns.Profit.LeftOut(prof, rec, nil, ns.Skill(prof))
+	local spec = ns.Profit.SpecFilter(prof)
+	local why = ns.Profit.LeftOut(prof, rec, nil, ns.Skill(prof), spec)
 	Add(("Craft: %s (recipe %d, %s) makes %s (item %d) x%s"):format(rec.name, rec.id, prof, ns.ItemName(rec.product),
 		rec.product, tostring(row.yield)))
 	local recorded = ns.db.recipes[prof] and ns.db.recipes[prof][rec.id]
@@ -116,6 +119,11 @@ local function Craft(lines, prof, rec)
 		src.side and (" | only the " .. src.side) or "", src.bound ~= nil and (" | binds " .. YesNo(src.bound)) or ""))
 	for _, line in ipairs((src.kind == "pattern" or src.kind == "other") and ns.Recipes.WhereLines(src, 4) or {}) do
 		Add("    where: " .. line)
+	end
+	if rec.spec or spec then
+		Add(("  Specialization: %s%s | the dropdown: %s"):format(rec.spec or "none needed",
+			rec.spec and (" (has it %s, another path %s)"):format(YesNo(ns.Profit.HasSpec(prof, rec.spec)),
+				YesNo(ns.Profit.OtherSpecOnly(prof, rec))) or "", spec or "all"))
 	end
 	Add("  Listed: " .. (why and ("no, " .. LEFT_OUT[why]) or "yes"))
 	local writ = ns.writs[rec.product]

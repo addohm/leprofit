@@ -92,7 +92,10 @@ By hand:
    patterns no vendor sells for gold (`otherPatterns`: the item, its skill, whether it binds, the
    reputation it needs, token vendors, quests and drops), the starter recipes (`free`), and what a
    Craftsman's Writ asks for (`writs`: the item made and the writ, matched by the writ's name; the
-   run lists any writ no recipe makes). A
+   run lists any writ no recipe makes), and the specializations (`specs`: each path's spell, and
+   the path it's within for the weapon masters; `specOf`: the path each recipe needs, from its
+   pattern's required ability in the game data, or the `requires` a trainer named, recorded by
+   leProfit into `learned.json`; the run counts them per path). A
    pattern's `side` is set when only one side can get it: a one-side reputation (from the game's
    Faction table), or every known source that side's (its vendors' faction, its quests' races).
    A vendor's faction comes from Efficient Games' NPC data, else from what leProfit recorded at
@@ -102,10 +105,11 @@ By hand:
    answer (when installed) comes before all of this; a one-side reputation still decides.
 3. Run the tests, then commit `leProfit/Data/` (and `tools/learned.json` if it changed).
 
-`tools/learned.json` holds what the game data doesn't: trainer costs and the skill each needs,
-pattern sellers and prices, vendor prices of materials, a few item names the game data lacks yet,
-and Forever's camp and home items (the game files them under gathering skills; they're listed with
-the crafting professions). It started from 1.0's data; you can edit it by hand.
+`tools/learned.json` holds what the game data doesn't: trainer costs, the skill and any
+specialization each needs, pattern sellers and prices, vendor prices of materials, a few item
+names the game data lacks yet, and Forever's camp and home items (the game files them under
+gathering skills; they're listed with the crafting professions). It started from 1.0's data; you
+can edit it by hand.
 
 ## Rolling back
 

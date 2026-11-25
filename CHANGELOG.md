@@ -6,6 +6,22 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Specializations: Blacksmithing's Armorsmith and Weaponsmith (and within Weaponsmith the Master
+  Axesmith, Hammersmith and Swordsmith), Leatherworking's Dragonscale, Elemental and Tribal paths,
+  and Gnomish and Goblin Engineering. A recipe that needs one says so in its tooltip ("Armorsmith
+  only", or "a path you haven't picked"), and searching a path's name finds its recipes
+  ("weaponsmith" takes in the masters'). Once a character has picked a path, the other paths'
+  recipes are never listed: it can't learn them.
+- A **Specialization** dropdown beside the search box, for those three professions: one path's
+  recipes (Weaponsmith with its masters'), or only those that need none. It starts on Any
+  specialization. The "Not listed" line counts what it and the paths left out, and
+  `/leprofit debug` names a craft's path.
+- Which path a recipe needs comes from its pattern in Forever's game data (116 recipes). Gnomish and
+  Goblin Engineering's trainer recipes aren't marked there, so leProfit notes the path a trainer
+  asks for when you visit one, and `tools/update_data.py` adds it to the built-in data.
+
 ## [1.3.0] - 2026-11-23
 
 Crafts a Craftsman's Writ asks for are marked.

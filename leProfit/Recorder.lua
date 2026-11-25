@@ -318,10 +318,22 @@ local function TrainerProfession(i, name)
 	return found
 end
 
--- What a profession trainer charges for each recipe it lists, and the skill it needs. Trainers
--- aren't in the game data, so this is how their costs get known (account-wide: every character
--- pays the same; tools/update_data.py adds them to the built-in data). Only what the window lists
--- is read: its filters may hide some.
+-- The specialization a trainer's recipe needs (Gnomish Engineer, say: the game data doesn't mark
+-- those), when the trainer names one of the profession's paths among what the recipe requires.
+local function TrainerSpec(i, prof)
+	local specs = ns.professions[prof].specs
+	if not (next(specs) and GetTrainerServiceNumAbilityReq and GetTrainerServiceAbilityReq) then return nil end
+	for r = 1, (Try(GetTrainerServiceNumAbilityReq, i) or 0) do
+		local ability = ns.Plain(Try(GetTrainerServiceAbilityReq, i, r))
+		if ability and specs[ability] then return ability end
+	end
+	return nil
+end
+
+-- What a profession trainer charges for each recipe it lists, the skill it needs and the
+-- specialization, if any. Trainers aren't in the game data, so this is how their costs get known
+-- (account-wide: every character pays the same; tools/update_data.py adds them to the built-in
+-- data). Only what the window lists is read: its filters may hide some.
 function Recorder.ScanTrainer()
 	if not (ns.adb and GetNumTrainerServices and GetTrainerServiceInfo and GetTrainerServiceCost) then return end
 	local recorded = 0
@@ -333,10 +345,11 @@ function Recorder.ScanTrainer()
 		if type(cost) == "number" then
 			local _, skill = Try(GetTrainerServiceSkillReq, i)
 			skill = type(skill) == "number" and skill > 0 and skill or nil
+			local requires = TrainerSpec(i, prof)
 			ns.adb.training[prof] = ns.adb.training[prof] or {}
 			local old = ns.adb.training[prof][name]
-			if not old or old.cost ~= cost or old.skill ~= skill then
-				ns.adb.training[prof][name] = { cost = cost, skill = skill }
+			if not old or old.cost ~= cost or old.skill ~= skill or old.requires ~= requires then
+				ns.adb.training[prof][name] = { cost = cost, skill = skill, requires = requires }
 				recorded = recorded + 1
 			end
 		end

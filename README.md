@@ -46,6 +46,16 @@ lacks.
   searches the profession shown, or all of them with All professions picked. Escape or the x
   clears it, and closing the window does too. The other filters still apply, and the "Not listed"
   line counts what didn't match.
+- **Specializations** have their own recipes: Blacksmithing's Armorsmith and Weaponsmith (and
+  within Weaponsmith the Master Axesmith, Hammersmith and Swordsmith), Leatherworking's
+  Dragonscale, Elemental and Tribal, and Gnomish and Goblin Engineering. A recipe that needs one
+  says so in its tooltip ("Armorsmith only"), and searching a path's name finds its recipes.
+  Once a character has picked a path, the other paths' recipes are never listed. For those three
+  professions, the **Specialization** dropdown beside the search box lists one path's recipes
+  (Weaponsmith with its masters'), or only those that need none; it starts on Any specialization.
+  Which path a recipe needs comes from its pattern in the game data; Gnomish and Goblin
+  Engineering's trainer recipes aren't marked there, so leProfit notes them when you visit a
+  trainer that teaches them.
 - Each row is a craft: the item, then **Cost** (the materials for one craft), **Buyout** (the lowest
   buyout for one item) and **Profit** (per craft, after the cut). A recipe that makes several (x3
   after its name) sells them all, so its Cost and Buyout don't add up to its Profit. Hover over a
@@ -91,13 +101,16 @@ lacks.
   without it, or for an item QuestieDB doesn't know, the built-in data answers (with how often
   players saw a drop, as a percentage once enough loot is recorded).
 - Recipes only the other side can get are never listed: a one-side reputation, quests only for
-  the other side, or a pattern only the other side's vendors sell. A vendor's side comes from
+  the other side, or a pattern only the other side's vendors sell. Nor are another
+  specialization's, once the character has picked its path. A vendor's side comes from
   QuestieDB, or from Efficient Games' or your own record of it; a vendor nobody has recorded
   counts for both sides. The trade camps' Merchant's Favor plans count for both (each side's camp
   sells them).
-- The line above the materials panel says how many crafts were left out and why: not learned (with
-  Hide unlearned), needing more skill, at a loss, without a price (a material or the item has none), marked doesn't sell, from
-  patterns that bind, with no known source (Show all lists those two), or only for the other side. Where prices come from is at its right.
+- The line above the materials panel says how many crafts were left out and why: not matching the
+  search, outside the specialization picked, not learned (with Hide unlearned), needing more
+  skill, at a loss, without a price (a material or the item has none), marked doesn't sell, from
+  patterns that bind, with no known source (Show all lists those two), only for the other side,
+  or for another specialization. Where prices come from is at its right.
 - Click a row for its materials panel: what it sells for and the profit, where to learn it, and each
   material's need, what you hold, what to buy, its price for one (**Each**) and its cost for the
   number of **Crafts** you set. After each name, where its price is from: auction, vendor, craft it,
@@ -187,8 +200,9 @@ and asks before each change. It:
 1. gets the latest leProfit from GitHub;
 2. downloads Forever's newest game data and the players' data (about 70 MB the first time, then
    only what changed);
-3. adds what leProfit recorded in your game (trainer costs, patterns and their sellers, vendor
-   prices: the game saves them when you log out or `/reload`) to `tools/learned.json`;
+3. adds what leProfit recorded in your game (trainer costs and the specialization a trainer
+   recipe needs, patterns and their sellers, vendor prices: the game saves them when you log out
+   or `/reload`) to `tools/learned.json`;
 4. rebuilds `leProfit/Data/` and lists what's new;
 5. runs the tests (it can set up the one thing they need);
 6. commits and pushes, if you say so, and installs it into the game.

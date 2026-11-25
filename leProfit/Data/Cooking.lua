@@ -302,6 +302,12 @@ ns.RegisterProfession({
 		["Herb Baked Egg"] = true,
 		["Roasted Boar Meat"] = true,
 	},
+	-- specialization = { id (its spell), parent (the path it's within) }: paths a character picks
+	specs = {
+	},
+	-- recipe name = the specialization it needs
+	specOf = {
+	},
 	-- itemID made = the Craftsman's Writ (an item) that asks for it
 	writs = {
 	},

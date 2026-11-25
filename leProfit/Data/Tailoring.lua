@@ -937,6 +937,12 @@ ns.RegisterProfession({
 		["Linen Cloak"] = true,
 		["Simple Linen Pants"] = true,
 	},
+	-- specialization = { id (its spell), parent (the path it's within) }: paths a character picks
+	specs = {
+	},
+	-- recipe name = the specialization it needs
+	specOf = {
+	},
 	-- itemID made = the Craftsman's Writ (an item) that asks for it
 	writs = {
 		[4245] = 264050,

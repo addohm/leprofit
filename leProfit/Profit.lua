@@ -95,6 +95,80 @@ function Profit.OtherSideOnly(src)
 	return src.side ~= ns.Plain(ns.Try(UnitFactionGroup, "player"))
 end
 
+-- Specializations: paths a character picks within a profession (Armorsmith or Weaponsmith, and
+-- within Weaponsmith one of the masters; a leatherworking path; Gnomish or Goblin Engineering),
+-- each with its own recipes. Whether the character has one: the game says (it's a spell).
+function Profit.HasSpec(prof, name)
+	local s = ns.professions[prof] and ns.professions[prof].specs[name]
+	return s and IsPlayerSpell and ns.Try(IsPlayerSpell, s.id) == true or false
+end
+
+-- True when a path is closed to the character: it has picked another beside it (a sibling with the
+-- same parent), or the path it's within is closed (an Armorsmith can't be a Master Axesmith).
+local function OtherPath(prof, name)
+	local specs = ns.professions[prof].specs
+	local spec = specs[name]
+	if not spec then return false end
+	for other, s in pairs(specs) do
+		if other ~= name and s.parent == spec.parent and Profit.HasSpec(prof, other) then return true end
+	end
+	return spec.parent and OtherPath(prof, spec.parent) or false
+end
+
+-- True when the recipe needs a specialization the character can't have: another path's recipes
+-- are never listed for it. A character with no path yet sees them all.
+function Profit.OtherSpecOnly(prof, rec)
+	return rec.spec and OtherPath(prof, rec.spec) or false
+end
+
+-- The profession's paths the character could have, for the Specialization dropdown: each with
+-- the paths within it straight after, by name. { { name, parent } }
+function Profit.Specs(prof)
+	local def = ns.professions[prof]
+	local list = {}
+	if not def then return list end
+	local function Add(parent)
+		local names = {}
+		for name, s in pairs(def.specs) do
+			if s.parent == parent and not OtherPath(prof, name) then names[#names + 1] = name end
+		end
+		table.sort(names)
+		for _, name in ipairs(names) do
+			list[#list + 1] = { name = name, parent = parent }
+			Add(name)
+		end
+	end
+	Add(nil)
+	return list
+end
+
+-- The Specialization dropdown's pick for a profession: a path's name, "none" (only recipes that
+-- need none) or nil (all). A path the character can't have (or the data no longer lists) is all.
+function Profit.SpecFilter(prof)
+	local pick = ns.db.specFilter[prof]
+	if pick == "none" then return pick end
+	local def = ns.professions[prof]
+	if def and def.specs[pick] and not OtherPath(prof, pick) then return pick end
+	return nil
+end
+
+-- Whether a recipe fits the dropdown's pick: a path takes in the paths within it (Weaponsmith,
+-- its masters' recipes too).
+local function FitsSpec(prof, rec, pick)
+	if not pick then return true end
+	if pick == "none" then return rec.spec == nil end
+	if rec.spec == pick then return true end
+	local s = rec.spec and ns.professions[prof].specs[rec.spec]
+	return s and s.parent == pick or false
+end
+
+-- "Armorsmith only", and whether the character has that path: for tooltips.
+function Profit.SpecText(prof, rec)
+	if not rec.spec then return nil end
+	if rec.source.kind == "known" or Profit.HasSpec(prof, rec.spec) then return rec.spec .. " only" end
+	return rec.spec .. " only: a path you haven't picked"
+end
+
 -- Everything about one recipe's craft. Returns a row:
 --   rec, product, yield; cost (materials for one craft) and materials = { { itemID, count, price,
 --   how } }, missing (a material nobody has a price for); buyout, market, value (one item, after
@@ -221,19 +295,26 @@ function Profit.Prepare(profs, done)
 end
 
 -- The rows the Crafts tab lists for a profession (those matching the search, when there is one),
--- each with its prof, sorted, and how many were left out: { nomatch = n (the search), unlearned = n (Hide unlearned),
--- otherSide = n (only the other side can get them: never listed), unknown = n (no known source),
+-- each with its prof, sorted, and how many were left out: { nomatch = n (the search), specFilter = n
+-- (the Specialization dropdown), unlearned = n (Hide unlearned), otherSide = n (only the other side
+-- can get them: never listed), otherSpec = n (another path's: never listed), unknown = n (no known source),
 -- bound = n (from a pattern that binds; Show all lists those and the unknown), later = n (needing more skill
 -- than you have, without Show all), hidden = n, unpriced = n (a material or the item has no price),
 -- losses = n (0 or less) }. Recipes you'd learn are listed (greyed) when you have the skill.
 -- The search: the item, the recipe, or any of its materials has the text in its name (query is
--- lower case).
-local function Matches(rec, query)
+-- lower case); or the specialization it needs, or the path that's within ("weaponsmith" finds the
+-- masters' recipes too).
+local function Matches(rec, query, prof)
 	if ns.ItemName(rec.product):lower():find(query, 1, true) or rec.name:lower():find(query, 1, true) then
 		return true
 	end
 	-- "writ" (or "craftsman") finds every craft a Craftsman's Writ asks for.
 	if ns.writs[rec.product] and ("craftsman's writ"):find(query, 1, true) then return true end
+	if rec.spec then
+		if rec.spec:lower():find(query, 1, true) then return true end
+		local s = prof and ns.professions[prof] and ns.professions[prof].specs[rec.spec]
+		if s and s.parent and s.parent:lower():find(query, 1, true) then return true end
+	end
 	for _, r in ipairs(rec.reagents) do
 		if ns.ItemName(r[1]):lower():find(query, 1, true) then return true end
 	end
@@ -242,14 +323,17 @@ end
 Profit.Matches = Matches -- (tests)
 
 -- Why the Crafts list leaves a recipe out (a key of Rows' counts), or nil and its row when it's
--- listed. The one place that decides: the list and /leprofit debug both ask it.
-function Profit.LeftOut(prof, rec, query, skill)
+-- listed. The one place that decides: the list and /leprofit debug both ask it. `spec` is the
+-- Specialization dropdown's pick (Profit.SpecFilter; nil for all).
+function Profit.LeftOut(prof, rec, query, skill, spec)
 	local db = ns.db
 	local known = rec.source.kind == "known"
 	local need = rec.source.skill
-	if query and not Matches(rec, query) then return "nomatch" end
+	if query and not Matches(rec, query, prof) then return "nomatch" end
+	if not FitsSpec(prof, rec, spec) then return "specFilter" end
 	if not known and db.hideUnlearned then return "unlearned" end
 	if not known and Profit.OtherSideOnly(rec.source) then return "otherSide" end
+	if not known and Profit.OtherSpecOnly(prof, rec) then return "otherSpec" end
 	if rec.source.kind == "unknown" and not db.showAll then return "unknown" end
 	if rec.source.kind == "other" and not db.showAll and Profit.Bound(rec.source) then return "bound" end
 	if not known and not db.showAll and not (need and skill and need <= skill) then return "later" end
@@ -260,11 +344,16 @@ function Profit.LeftOut(prof, rec, query, skill)
 	return nil, row
 end
 
-function Profit.Rows(prof, query)
-	local rows, left = {}, { nomatch = 0, unlearned = 0, otherSide = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+local function NoneLeft()
+	return { nomatch = 0, specFilter = 0, unlearned = 0, otherSide = 0, otherSpec = 0, unknown = 0, bound = 0, later = 0,
+		hidden = 0, unpriced = 0, losses = 0 }
+end
+
+function Profit.Rows(prof, query, spec)
+	local rows, left = {}, NoneLeft()
 	local skill = ns.Skill(prof)
 	for _, rec in ipairs(ns.Recipes.List(prof)) do
-		local why, row = Profit.LeftOut(prof, rec, query, skill)
+		local why, row = Profit.LeftOut(prof, rec, query, skill, spec)
 		if why then
 			left[why] = left[why] + 1
 		else
@@ -276,7 +365,8 @@ function Profit.Rows(prof, query)
 end
 
 -- Every ticked profession's rows together ("All professions" in the dropdown), sorted as one list.
--- A recipe several professions list (Forever's camp and home items) appears once.
+-- A recipe several professions list (Forever's camp and home items) appears once. The
+-- Specialization dropdown is one profession's, so it doesn't apply here.
 function Profit.RowsAll(query)
 	local rows, left, seen = {}, nil, {}
 	for _, prof in ipairs(ns.professionOrder) do
@@ -294,7 +384,7 @@ function Profit.RowsAll(query)
 		end
 	end
 	Profit.Sort(rows)
-	return rows, left or { nomatch = 0, unlearned = 0, otherSide = 0, unknown = 0, bound = 0, later = 0, hidden = 0, unpriced = 0, losses = 0 }
+	return rows, left or NoneLeft()
 end
 
 -- What each Crafts column sorts by.
@@ -371,6 +461,7 @@ function Profit.Explain(prof, rec)
 	local function Add(s) lines[#lines + 1] = s end
 	local known = rec.source.kind == "known" and "you know it" or "you don't know it"
 	Add(("%s (%s, %s)"):format(ns.ItemNameColored(rec.product), prof, known))
+	if rec.spec then Add("  " .. Profit.SpecText(prof, rec)) end
 	for _, m in ipairs(row.materials) do
 		local how = m.how == "craft"
 			and ("crafted with " .. m.option.rec.name .. (m.option.prof ~= prof and (" (" .. m.option.prof .. ")") or ""))

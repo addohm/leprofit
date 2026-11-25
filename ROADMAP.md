@@ -14,6 +14,11 @@ change.
   on the owner's PC, asking first.
 - One addon (2026-11-20): the nine profession modules merged into leProfit, after a
   load-on-demand version that was never released.
+- Specializations (2026-11-25, unreleased): Armorsmith, Weaponsmith and the
+  weapon masters, the leatherworking paths, Gnomish and Goblin Engineering
+  marked from the game data (trainer-only ones recorded at trainers); another
+  path's recipes never listed; a Specialization dropdown, tooltip line and
+  search.
 - 1.3.0 released (2026-11-23): Craftsman's Writ crafts marked (a scroll
   after the name, a tooltip line, the "writ" search).
 - 1.2.0 released (2026-11-23): the lag-spike fixes (cached sums, work spread

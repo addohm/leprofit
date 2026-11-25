@@ -294,6 +294,12 @@ function GetTrainerServiceSkillReq(i)
 	if t and t.skill then return t.line, t.skill, true end
 end
 function GetTrainerServiceSkillLine(i) return M.trainer[i] and M.trainer[i].line end
+-- What else a recipe needs: { requires = { "Gnomish Engineer" } } (name, and whether you have it).
+function GetTrainerServiceNumAbilityReq(i) return M.trainer[i] and #(M.trainer[i].requires or {}) or 0 end
+function GetTrainerServiceAbilityReq(i, r)
+	local t = M.trainer[i]
+	if t and t.requires and t.requires[r] then return t.requires[r], false end
+end
 
 -- Price addons
 Auctionator = { Constants = { SCAN_DAY_0 = 0 }, Database = {

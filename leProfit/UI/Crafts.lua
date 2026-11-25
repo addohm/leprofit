@@ -230,6 +230,8 @@ local function RowTooltip(owner, row, prof)
 		tip:AddLine(("A Craftsman's Writ asks for this (%s): turned in for trade-faction reputation."):format(ns.ItemName(writ)),
 			0.4, 0.8, 1, true)
 	end
+	local spec = ns.Profit.SpecText(prof, row.rec)
+	if spec then tip:AddLine(spec, 1, 0.82, 0, true) end
 	local learn = LearnLine(row, prof)
 	if learn then
 		tip:AddLine("Not learned yet. " .. learn, 1, 1, 1, true)
@@ -526,6 +528,27 @@ function ns.BuildProfessionMenu(_, root)
 	end
 end
 
+-- The Specialization dropdown, for a profession with paths (Blacksmithing, Leatherworking,
+-- Engineering): one path's recipes (Weaponsmith takes in its masters'), or only those that need
+-- none. It starts on all, for every character: starting on your own path would hide the recipes
+-- every smith can make. The paths closed to the character aren't offered (their recipes are never
+-- listed anyway).
+local SPEC_NONE = "No specialization needed"
+function ns.BuildSpecMenu(_, root)
+	local prof = ns.CurrentProfession()
+	if not prof or ns.ShowingAll() then return end
+	local function Radio(text, value)
+		root:CreateRadio(text, function() return ns.Profit.SpecFilter(prof) == value end, function()
+			ns.db.specFilter[prof] = value
+			selected = nil
+			ns.Window.Refresh()
+		end)
+	end
+	Radio("Any specialization", nil)
+	for _, s in ipairs(ns.Profit.Specs(prof)) do Radio(s.name, s.name) end
+	Radio(SPEC_NONE, "none")
+end
+
 -- A checkbox with its label in the top bar; the label greys when the box is disabled.
 local function TopCheck(parent, label, tooltip, onClick)
 	local cb = CreateFrame("CheckButton", nil, parent, "UICheckButtonTemplate")
@@ -611,6 +634,18 @@ local function Build(p)
 		self:ClearFocus()
 	end)
 	panel.search = searchBox
+	local spec = CreateFrame("DropdownButton", nil, panel, "WowStyle1DropdownTemplate")
+	spec:SetWidth(210)
+	spec:SetPoint("LEFT", searchBox, "RIGHT", 12, 0)
+	spec:SetupMenu(ns.BuildSpecMenu)
+	spec:HookScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+		GameTooltip:AddLine("Specialization")
+		GameTooltip:AddLine("List one path's recipes (Weaponsmith takes in its masters'), or only those every crafter can learn. Once a character has picked a path, the other paths' recipes are never listed.", 1, 1, 1, true)
+		GameTooltip:Show()
+	end)
+	spec:HookScript("OnLeave", GameTooltip_Hide)
+	panel.spec = spec
 	-- Closing the window clears the search, so it never opens on a mysteriously short list.
 	local window = ns.Window.Frame()
 	if window then
@@ -669,6 +704,7 @@ end
 local function LeftOutText(left)
 	local parts = {}
 	if left.nomatch > 0 then parts[#parts + 1] = left.nomatch .. " don't match the search" end
+	if left.specFilter > 0 then parts[#parts + 1] = left.specFilter .. " outside the specialization picked" end
 	if left.unlearned > 0 then parts[#parts + 1] = left.unlearned .. " you haven't learned" end
 	if left.later > 0 then parts[#parts + 1] = left.later .. " needing more skill" end
 	if left.losses > 0 then parts[#parts + 1] = left.losses .. " at a loss" end
@@ -677,6 +713,7 @@ local function LeftOutText(left)
 	if left.bound > 0 then parts[#parts + 1] = left.bound .. " from patterns that bind" end
 	if left.unknown > 0 then parts[#parts + 1] = left.unknown .. " with no known source" end
 	if left.otherSide > 0 then parts[#parts + 1] = left.otherSide .. " only the other side can get" end
+	if left.otherSpec > 0 then parts[#parts + 1] = left.otherSpec .. " for another specialization" end
 	if #parts == 0 then return "" end
 	return "Not listed: " .. table.concat(parts, ", ") .. "."
 end
@@ -700,8 +737,14 @@ local function Refresh()
 		emptyText:Show()
 		leftText:SetText("")
 		detail:Hide()
+		panel.spec:Hide()
 		return
 	end
+	-- The Specialization dropdown: only for one profession with paths.
+	local hasSpecs = not all and next(ns.professions[prof].specs) ~= nil
+	panel.spec:SetShown(hasSpecs)
+	if hasSpecs then panel.spec:GenerateMenu() end
+	local specPick = hasSpecs and ns.Profit.SpecFilter(prof) or nil
 
 	-- Many crafts' sums to work out (first time shown, or prices changed): spread over a few frames,
 	-- keeping what's drawn until they're ready, then draw again.
@@ -716,7 +759,7 @@ local function Refresh()
 
 	local query = search ~= "" and search:lower() or nil
 	local list, left
-	if all then list, left = ns.Profit.RowsAll(query) else list, left = ns.Profit.Rows(prof, query) end
+	if all then list, left = ns.Profit.RowsAll(query) else list, left = ns.Profit.Rows(prof, query, specPick) end
 	local y, picked = 0, nil
 	for i, row in ipairs(list) do
 		local b = GetRow(i)
@@ -756,6 +799,9 @@ local function Refresh()
 				.. " Show all to see what it could learn."
 		elseif prof and db.hideUnlearned and unread then
 			text = ("leProfit doesn't know your %s recipes yet: open your %s window once."):format(prof, prof)
+		elseif specPick and left.specFilter > 0 then
+			text = ("Nothing listed for %s. Pick Any specialization to see the rest, or change the boxes above."):format(
+				specPick == "none" and SPEC_NONE or specPick)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
 		elseif db.hideLosses then

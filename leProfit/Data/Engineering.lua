@@ -558,6 +558,17 @@ ns.RegisterProfession({
 		["Rough Blasting Powder"] = true,
 		["Rough Dynamite"] = true,
 	},
+	-- specialization = { id (its spell), parent (the path it's within) }: paths a character picks
+	specs = {
+		["Gnomish Engineer"] = { id = 20219 },
+		["Goblin Engineer"] = { id = 20222 },
+	},
+	-- recipe name = the specialization it needs
+	specOf = {
+		["Alarm-O-Bot"] = "Gnomish Engineer",
+		["Goblin Jumper Cables XL"] = "Goblin Engineer",
+		["World Enlarger"] = "Gnomish Engineer",
+	},
 	-- itemID made = the Craftsman's Writ (an item) that asks for it
 	writs = {
 		[4373] = 264034,

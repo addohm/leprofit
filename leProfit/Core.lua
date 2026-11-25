@@ -18,6 +18,7 @@ local DEFAULTS = {
 	showListed = false,      -- the Listed column: how many at the last scan
 	sortBy = "profit",       -- the Crafts list's order: "item", "cost", "buyout", "market" or "profit"
 	sortDesc = true,         -- highest (or Z) first
+	specFilter = {},         -- profession -> the Specialization dropdown's pick: a path's name, or "none" (all when unset)
 	hidden = {},             -- itemID -> true: marked "doesn't sell", never listed (Options unhides them)
 	plan = {},               -- the shopping list: { { prof, id (recipe), count } } (Shopping.lua)
 	recipes = {},            -- profession -> recipeID -> what the profession window showed (Recorder.lua)
@@ -88,6 +89,7 @@ function ns.RegisterProfession(def)
 	def.vendorPrices, def.itemNames = def.vendorPrices or {}, def.itemNames or {}
 	def.otherPatterns, def.free = def.otherPatterns or {}, def.free or {}
 	def.writs = def.writs or {}
+	def.specs, def.specOf = def.specs or {}, def.specOf or {} -- the paths a character picks (Armorsmith...)
 	for product, writ in pairs(def.writs) do ns.writs[product] = writ end
 	def.windowNames = def.windowNames or { def.name } -- what the game calls its profession window
 	if not ns.professions[def.name] then

@@ -261,6 +261,8 @@ def merge_recorded(learned, db, game_items=None):
             entry = {"cost": number(t["cost"])}
             if isinstance(t.get("skill"), (int, float)) and t["skill"] > 0:
                 entry["skill"] = number(t["skill"])
+            if isinstance(t.get("requires"), str) and t["requires"]:
+                entry["requires"] = t["requires"]  # the specialization the trainer asks for
             if learned["training"].setdefault(prof, {}).get(name) != entry:
                 learned["training"][prof][name] = entry
                 counts["training"] += 1

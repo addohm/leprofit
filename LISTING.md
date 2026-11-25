@@ -62,7 +62,7 @@ too, greyed out, with what learning them costs and how many crafts pay that back
 - **Recipes you haven't learned** but have the skill for are greyed out, recipes from world-drop
   patterns included, priced at the auction house from your scans. **Show all** lists everything
   you could get: more skill, patterns that bind, and the rest. Hide unlearned keeps only what you
-  know. The other faction's recipes are never listed.
+  know. The other faction's recipes are never listed, nor another specialization's.
 - **Click a craft** for its materials: what you need, what you hold, what to buy and what it
   costs, for as many crafts as you like. Hide items that never sell (it asks first).
 - **Price history** from your Auctionator scans, as optional columns: a 14-day average, the
@@ -70,6 +70,10 @@ too, greyed out, with what learning them costs and how many crafts pay that back
 - **Search** item, recipe and material names as you type ("copper bar" finds everything made from
   Copper Bars), in one profession or all of them at once.
 - **Craftsman's Writ crafts** are marked with a scroll; search "writ" to list them all.
+- **Specializations:** Armorsmith, Weaponsmith and the weapon masters, the leatherworking paths,
+  Gnomish and Goblin Engineering. Each path's recipes say so, a dropdown lists one path's (or
+  only those every crafter can learn), and once you've picked a path the others' are never
+  listed.
 - **Shift-click** a craft or a material to link it in chat or the auction house search.
 
 #### Shopping

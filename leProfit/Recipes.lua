@@ -197,6 +197,14 @@ local function Entries(prof)
 	return all
 end
 
+-- The specialization a recipe needs (Armorsmith, Gnomish Engineer...), or nil: the data's (its
+-- pattern says), else what a trainer said when you visited (Recorder.lua).
+local function SpecOf(def, prof, name)
+	if def.specOf[name] then return def.specOf[name] end
+	local t = ns.adb.training[prof] and ns.adb.training[prof][name]
+	return t and def.specs[t.requires] and t.requires or nil
+end
+
 -- The full list, one recipe per name with where to learn it (the costly part: sources, and
 -- QuestieDB when installed). `pause`, when given, is called between recipes so the work can be
 -- spread over frames (Profit.Prepare).
@@ -211,7 +219,10 @@ local function Build(prof, pause)
 		if pause then pause() end
 	end
 	local list = {}
-	for _, e in pairs(best) do list[#list + 1] = e end
+	for _, e in pairs(best) do
+		e.spec = SpecOf(def, prof, e.name)
+		list[#list + 1] = e
+	end
 	table.sort(list, function(a, b) return a.name < b.name end)
 	return list
 end
@@ -231,7 +242,8 @@ end
 
 local makersCache = {}
 
--- The profession's recipes that make an item, one per name, sorted by name.
+-- The profession's recipes that make an item, one per name, sorted by name, each with where to
+-- learn it (source) and the specialization it needs (spec, or nil).
 function Recipes.List(prof, pause)
 	if not ns.professions[prof] then return {} end
 	local c = cache[prof]

@@ -1105,6 +1105,134 @@ ok(leProfitCopy.edit:GetText():find("Writ: Craftsman's Writ: Inlaid Mithril Cyli
 	"debug names the writ")
 leProfitCopy:Hide()
 
+-- Specializations: Armorsmith or Weaponsmith, and within Weaponsmith a master, known from the
+-- patterns' required ability in the game data. Once a character has a path, the other paths'
+-- recipes are never listed.
+do
+	local bs = ns.professions.Blacksmithing
+	eq(bs.specs.Armorsmith.id, 9788, "Armorsmith's spell")
+	eq(bs.specs.Weaponsmith.parent, nil, "a path of its own")
+	eq(bs.specs["Master Axesmith"].parent, "Weaponsmith", "the masters are within Weaponsmith")
+	eq(ns.professions.Leatherworking.specs["Tribal Leatherworking"].id, 10660, "Leatherworking's paths")
+	eq(ns.professions.Engineering.specs["Gnomish Engineer"].id, 20219, "and Engineering's")
+	eq(next(ns.professions.Tailoring.specs), nil, "Tailoring has none")
+	local lionheart, reaper, blackfury, persuader = Find("Lionheart Helm"), Find("Arcanite Reaper"), Find("Blackfury"), Find("Persuader")
+	eq(lionheart.spec, "Armorsmith", "Lionheart Helm needs Armorsmith")
+	eq(reaper.spec, "Master Axesmith", "Arcanite Reaper a Master Axesmith")
+	eq(blackfury.spec, "Weaponsmith")
+	eq(Find("Copper Chain Belt").spec, nil, "an ordinary recipe needs none")
+	local function Specs()
+		local names = {}
+		for _, s in ipairs(ns.Profit.Specs("Blacksmithing")) do names[#names + 1] = s.name end
+		return table.concat(names, ", ")
+	end
+	local function Listed(name, spec, query)
+		for _, r in ipairs((ns.Profit.Rows("Blacksmithing", query, spec))) do
+			if r.rec.name == name then return true end
+		end
+		return false
+	end
+	local hideLosses = ns.db.hideLosses
+	ns.db.showAll, ns.db.hideLosses = true, false -- (unpriced crafts listed too)
+	-- No path yet: every recipe is open to it, and each says which path it needs.
+	eq(ns.Profit.OtherSpecOnly("Blacksmithing", lionheart), false, "no path yet: every recipe's open")
+	ok(Listed("Lionheart Helm") and Listed("Arcanite Reaper"), "so all are listed")
+	eq(ns.Profit.SpecText("Blacksmithing", lionheart), "Armorsmith only: a path you haven't picked")
+	eq(Specs(), "Armorsmith, Weaponsmith, Master Axesmith, Master Hammersmith, Master Swordsmith", "every path offered")
+	-- An Armorsmith: Weaponsmith's recipes, and its masters', are never listed.
+	WM.spells[9788] = true
+	eq(ns.Profit.OtherSpecOnly("Blacksmithing", blackfury), true, "Weaponsmith's is another path")
+	eq(ns.Profit.OtherSpecOnly("Blacksmithing", reaper), true, "and so are the masters' within it")
+	eq(ns.Profit.OtherSpecOnly("Blacksmithing", lionheart), false)
+	eq(ns.Profit.SpecText("Blacksmithing", lionheart), "Armorsmith only")
+	ok(Listed("Lionheart Helm") and not Listed("Blackfury") and not Listed("Arcanite Reaper"), "only its own path's")
+	local _, left = ns.Profit.Rows("Blacksmithing")
+	ok(left.otherSpec >= 20, "the others counted: " .. left.otherSpec)
+	eq(Specs(), "Armorsmith", "only its own path offered")
+	ns.db.specFilter.Blacksmithing = "Weaponsmith"
+	eq(ns.Profit.SpecFilter("Blacksmithing"), nil, "a pick of a closed path counts as all")
+	-- A Weaponsmith: the dropdown's picks. Weaponsmith takes in its masters'.
+	WM.spells[9788], WM.spells[9787] = nil, true
+	eq(ns.Profit.SpecFilter("Blacksmithing"), "Weaponsmith")
+	ok(Listed("Blackfury", "Weaponsmith") and Listed("Arcanite Reaper", "Weaponsmith"), "Weaponsmith: its masters' too")
+	ok(not Listed("Copper Chain Belt", "Weaponsmith"), "not the ordinary recipes")
+	ok(Listed("Arcanite Reaper", "Master Axesmith") and not Listed("Blackfury", "Master Axesmith"), "a master: its own")
+	ok(Listed("Copper Chain Belt", "none") and not Listed("Blackfury", "none"), "none: only those needing no path")
+	_, left = ns.Profit.Rows("Blacksmithing", nil, "none")
+	ok(left.specFilter > 0, "the rest counted")
+	eq(Specs(), "Weaponsmith, Master Axesmith, Master Hammersmith, Master Swordsmith")
+	-- A Master Axesmith: the other masters' are closed; Weaponsmith's own are still open.
+	WM.spells[17041] = true
+	eq(ns.Profit.OtherSpecOnly("Blacksmithing", persuader), true, "a Master Hammersmith's")
+	ok(Listed("Blackfury") and Listed("Arcanite Reaper"), "Weaponsmith's and its own")
+	eq(Specs(), "Weaponsmith, Master Axesmith")
+	-- The search finds a path's recipes by its name; a path's takes in those within it.
+	eq(ns.Profit.Matches(lionheart, "armorsmith", "Blacksmithing"), true, "searching armorsmith")
+	eq(ns.Profit.Matches(reaper, "weaponsmith", "Blacksmithing"), true, "weaponsmith finds the masters'")
+	eq(ns.Profit.Matches(Find("Copper Chain Belt"), "armorsmith", "Blacksmithing"), false)
+	-- The dropdown: shown for Blacksmithing, its picks; not for a profession without paths, nor All.
+	ns.Window.Show("crafts")
+	ns.SetProfession("Blacksmithing")
+	ns.Window.Refresh()
+	local spec = ns.Window.CurrentPanel().spec
+	ok(spec:IsShown(), "Blacksmithing has the Specialization dropdown")
+	eq(spec.menuGenerator, ns.BuildSpecMenu)
+	local menu = WM.MenuRoot()
+	ns.BuildSpecMenu(spec, menu)
+	local texts = {}
+	for _, r in ipairs(menu.radios) do texts[#texts + 1] = r.text end
+	eq(table.concat(texts, ", "), "Any specialization, Weaponsmith, Master Axesmith, No specialization needed")
+	ok(menu.radios[2].isSelected() and not menu.radios[1].isSelected(), "the pick selected")
+	menu.radios[1].setSelected()
+	eq(ns.db.specFilter.Blacksmithing, nil, "Any: all of them")
+	menu.radios[4].setSelected()
+	eq(ns.db.specFilter.Blacksmithing, "none")
+	ok(not Drawn("Arcanite Reaper"), "the list follows the pick")
+	menu.radios[1].setSelected()
+	box:SetText("arcanite reaper")
+	box.scripts.OnTextChanged(box, true)
+	WM.RunTimers()
+	local reaperRow = Drawn("Arcanite Reaper")
+	ok(reaperRow, "listed again")
+	reaperRow.scripts.OnEnter(reaperRow)
+	ok(TipHas("Master Axesmith only"), "its tooltip names the path")
+	box:SetText("")
+	box.scripts.OnTextChanged(box, true)
+	ns.SetProfession("Tailoring")
+	ns.Window.Refresh()
+	ok(not spec:IsShown(), "no dropdown for Tailoring")
+	ns.SetProfession(ns.ALL)
+	ns.Window.Refresh()
+	ok(not spec:IsShown(), "nor for All professions")
+	ns.SetProfession("Blacksmithing")
+	ns.Window.Hide()
+	-- debug says which path a craft needs.
+	SlashCmdList.LEPROFIT("debug Persuader")
+	ok(leProfitCopy.edit:GetText():find("Specialization: Master Hammersmith (has it no, another path yes) | the dropdown: all", 1, true),
+		"debug names the path")
+	ok(leProfitCopy.edit:GetText():find("Listed: no, it needs a specialization", 1, true), "and why it isn't listed")
+	leProfitCopy:Hide()
+	-- A trainer that teaches a recipe only to one path (the game data doesn't mark Gnomish and
+	-- Goblin Engineering's): recorded, and then the recipe needs it.
+	WM.trainer = {
+		{ name = "Gnomish Universal Remote", cost = 1500, skill = 125, line = "Engineering", requires = { "Gnomish Engineer" } },
+		{ name = "Goblin Jumper Cables", cost = 1500, skill = 165, line = "Engineering", requires = { "Not A Path" } },
+	}
+	WM.Fire("TRAINER_SHOW")
+	eq(ns.adb.training.Engineering["Gnomish Universal Remote"].requires, "Gnomish Engineer", "the path recorded")
+	eq(ns.adb.training.Engineering["Goblin Jumper Cables"].requires, nil, "only a path counts")
+	local remote = FindIn("Engineering", "Gnomish Universal Remote")
+	eq(remote.spec, "Gnomish Engineer", "the recipe needs it now")
+	WM.spells[20222] = true -- a Goblin Engineer
+	eq(ns.Profit.OtherSpecOnly("Engineering", remote), true, "so a Goblin Engineer never sees it")
+	WM.spells[20222], WM.spells[9787], WM.spells[17041] = nil, nil, nil
+	WM.trainer = {}
+	wipe(ns.adb.training)
+	wipe(ns.db.specFilter)
+	ns.db.showAll, ns.db.hideLosses = false, hideLosses
+	ns.DataChanged()
+end
+
 -- /leprofit debug <item>: a report to copy, in a window with it all selected.
 eq(ns.Debug.Money(16380), "1g 63s 80c")
 eq(ns.Debug.Money(-371), "-3s 71c")

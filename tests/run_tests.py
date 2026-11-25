@@ -156,6 +156,13 @@ leProfitDB = {
 ["cost"] = 25,
 },
 },
+["Engineering"] = {
+["Gnomish Universal Remote"] = {
+["cost"] = 1500,
+["skill"] = 125,
+["requires"] = "Gnomish Engineer",
+},
+},
 },
 ["list"] = {
 "a", -- [1]
@@ -174,14 +181,16 @@ LeprofitDB = nil
                             "sellers": [{"vendor": "Smith Argus", "zone": "Old"}, {"vendor": "Other"}]}}},
                "vendorPrices": {"3466": 2000}, "itemNames": {}, "extraRecipes": {}}
     counts = ud.merge_recorded(learned, db, game_items={3466})
-    if counts != {"training": 2, "patterns": 1, "vendorPrices": 1, "itemNames": 1}:
+    if counts != {"training": 3, "patterns": 1, "vendorPrices": 1, "itemNames": 1}:
         fail(f"merge_recorded counts: {counts}")
     chain = learned["patterns"]["Blacksmithing"]["Azure Skyforged Chain"]
     if (chain["price"] != 900 or [s["vendor"] for s in chain["sellers"]] != ["Smith Argus", "Other"]
             or chain["sellers"][0].get("zone") or chain["sellers"][0]["x"] != 0.642):
         fail(f"merge_recorded: the pattern {chain}")
     if (learned["training"]["Blacksmithing"]["Copper Chain Pants"] != {"cost": 60, "skill": 20}
-            or learned["training"]["Mining"]["Smelt Copper"] != {"cost": 25}):
+            or learned["training"]["Mining"]["Smelt Copper"] != {"cost": 25}
+            or learned["training"]["Engineering"]["Gnomish Universal Remote"]
+            != {"cost": 1500, "skill": 125, "requires": "Gnomish Engineer"}):
         fail("merge_recorded: trainer costs")
     if learned["vendorPrices"].get("2880") != 12.5 or list(learned["itemNames"]) != ["999001"]:
         fail("merge_recorded: vendor prices or item names")

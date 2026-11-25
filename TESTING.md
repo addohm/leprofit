@@ -142,6 +142,14 @@ so most of it is covered by the first part.
 - [ ] Crafts a Craftsman's Writ asks for (Inlaid Mithril Cylinder, say) show a small scroll after
       their name and a tooltip line naming the writ; searching "writ" with All professions lists
       them across professions.
+- [ ] Specializations, on the Blacksmith: Blacksmithing shows a Specialization dropdown beside the
+      search box (not for Mining, Tailoring or All professions). Before picking a path, every path
+      is offered and Lionheart Helm's tooltip says "Armorsmith only: a path you haven't picked".
+      As an Armorsmith (or Weaponsmith), the other path's recipes, and the masters' for an
+      Armorsmith, aren't listed (Show all ticked) and the "Not listed" line counts them as "for
+      another specialization"; the dropdown offers only your own path(s). Weaponsmith lists its
+      masters' recipes too; No specialization needed only the ordinary ones. Searching
+      "armorsmith" finds its recipes. `/leprofit debug Lionheart Helm` has a Specialization line.
 - [ ] No Lua errors (`/console scriptErrors 1`).
 - [ ] `/leprofit debug <a craft>` opens a window with the report selected; Ctrl+C copies it all
       and pastes cleanly into Discord; typing in it changes nothing; Escape and Close shut it.
@@ -161,3 +169,9 @@ character that has it:
 - [ ] Recipes that make several (Engineering's ammo, some Cooking) show x2 and so on, and their
       profit counts every item.
 - [ ] Learning a recipe at its trainer lists it as known straight away.
+- [ ] Leatherworking and Engineering: the Specialization dropdown lists the paths (Dragonscale,
+      Elemental, Tribal; Gnomish, Goblin Engineer); a character with one doesn't see the others'
+      recipes (Alarm-O-Bot is Gnomish, Goblin Jumper Cables XL Goblin).
+- [ ] Engineering: at a Gnomish or Goblin trainer, `/reload` and check `leProfit.lua` in
+      SavedVariables: its recipes' `training` entries have `requires` = "Gnomish Engineer" (or
+      Goblin). If the game doesn't name the path there, nothing's recorded: say so.
