@@ -6,6 +6,11 @@ All notable changes to leprofit. The format follows
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-25
+
+Specializations: each path's crafts marked, and a dropdown for the crafts a crafter on one path
+can make.
+
 ### Added
 
 - Specializations: Blacksmithing's Armorsmith and Weaponsmith (and within Weaponsmith the Master

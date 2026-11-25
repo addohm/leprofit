@@ -13,7 +13,7 @@ feature list in step with README.md.
 | Slug | `leprofit` |
 | Game version | WoW: Forever (Interface 16001) |
 | Author | addohm |
-| Release type | Release (1.3.0) |
+| Release type | Release (1.4.0) |
 | License | GNU GPLv3 (`LICENSE`) |
 | Source | https://github.com/addohm/leprofit |
 | Issues | https://github.com/addohm/leprofit/issues |
@@ -135,6 +135,15 @@ A Blacksmith who also mines gets bars at their ore's price when smelting is chea
 ---
 
 ## Release notes
+
+### 1.4.0
+
+**Specializations:** Armorsmith, Weaponsmith and the weapon masters, the leatherworking paths
+(Dragonscale, Elemental, Tribal), and Gnomish and Goblin Engineering. A craft that needs a path
+says so in its tooltip ("Armorsmith only"), and searching a path's name finds its crafts. The new
+**Specialization** dropdown shows what a crafter on one path can make: the ordinary crafts plus
+that path's (a Weaponsmith's include the masters'). Once you've picked a path, the other paths'
+crafts are listed only with Show all.
 
 ### 1.3.0
 
