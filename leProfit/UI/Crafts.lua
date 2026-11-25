@@ -529,10 +529,10 @@ function ns.BuildProfessionMenu(_, root)
 end
 
 -- The Specialization dropdown, for a profession with paths (Blacksmithing, Leatherworking,
--- Engineering): one path's recipes (Weaponsmith takes in its masters'), or only those that need
--- none. It starts on all, for every character: starting on your own path would hide the recipes
--- every smith can make. The paths closed to the character are offered only with Show all (their
--- recipes aren't listed without it).
+-- Engineering): what a crafter on one path can make (the recipes that need no path, plus that
+-- path's: a Weaponsmith's take in the masters', a master's take in Weaponsmith's), or only those
+-- that need none. It starts on all. The paths closed to the character are offered only with Show
+-- all (their recipes aren't listed without it).
 local SPEC_NONE = "No specialization needed"
 function ns.BuildSpecMenu(_, root)
 	local prof = ns.CurrentProfession()
@@ -641,7 +641,7 @@ local function Build(p)
 	spec:HookScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
 		GameTooltip:AddLine("Specialization")
-		GameTooltip:AddLine("List one path's recipes (Weaponsmith takes in its masters'), or only those every crafter can learn. Once a character has picked a path, the other paths' recipes are listed only with Show all.", 1, 1, 1, true)
+		GameTooltip:AddLine("What a crafter on one path can make: the crafts every crafter can learn, plus that path's (a Weaponsmith's include the masters', a master's include Weaponsmith's). Or only the crafts every crafter can learn. Once a character has picked a path, the other paths' recipes are listed only with Show all.", 1, 1, 1, true)
 		GameTooltip:Show()
 	end)
 	spec:HookScript("OnLeave", GameTooltip_Hide)
@@ -799,9 +799,6 @@ local function Refresh()
 				.. " Show all to see what it could learn."
 		elseif prof and db.hideUnlearned and unread then
 			text = ("leProfit doesn't know your %s recipes yet: open your %s window once."):format(prof, prof)
-		elseif specPick and left.specFilter > 0 then
-			text = ("Nothing listed for %s. Pick Any specialization to see the rest, or change the boxes above."):format(
-				specPick == "none" and SPEC_NONE or specPick)
 		elseif not hasAuction then
 			text = "No auction prices: install Auctionator (or TSM) and scan the auction house, then open this again."
 		elseif db.hideLosses then

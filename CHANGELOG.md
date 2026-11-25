@@ -14,10 +14,12 @@ All notable changes to leprofit. The format follows
   only", "a path you haven't picked", or "not your path"), and searching a path's name finds its
   recipes ("weaponsmith" takes in the masters'). Once a character has picked a path, the other
   paths' recipes are listed only with Show all (it can't learn them, but can see what they make).
-- A **Specialization** dropdown beside the search box, for those three professions: one path's
-  recipes (Weaponsmith with its masters'), or only those that need none. It starts on Any
-  specialization. It offers the character's own paths, or with Show all every path. The "Not listed" line counts what it and the paths left out, and
-  `/leprofit debug` names a craft's path.
+- A **Specialization** dropdown beside the search box, for those three professions: what a crafter
+  on one path can make (the crafts that need no path, plus that path's; a Weaponsmith's include
+  the masters', a Master Axesmith's include Weaponsmith's), or only the crafts that need no path.
+  It starts on Any specialization, and offers the character's own paths, or with Show all every
+  path. The "Not listed" line counts what it and the paths left out, and `/leprofit debug` names
+  a craft's path.
 - Which path a recipe needs comes from its pattern in Forever's game data (116 recipes). Gnomish and
   Goblin Engineering's trainer recipes aren't marked there, so leProfit notes the path a trainer
   asks for when you visit one, and `tools/update_data.py` adds it to the built-in data.

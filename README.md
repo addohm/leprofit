@@ -52,10 +52,13 @@ lacks.
   says so in its tooltip ("Armorsmith only"), and searching a path's name finds its recipes.
   Once a character has picked a path, the other paths' recipes are listed only with **Show all**
   (and Hide unlearned unticked), their tooltip saying "not your path". For those three
-  professions, the **Specialization** dropdown beside the search box lists one path's recipes
-  (Weaponsmith with its masters'), or only those that need none; it starts on Any specialization.
-  It offers the paths the character could have, or with Show all every path: an Armorsmith can
-  pick Master Axesmith to see what axesmiths make.
+  professions, the **Specialization** dropdown beside the search box shows what a crafter on one
+  path can make: the crafts that need no path, plus that path's (Armorsmith: the ordinary crafts
+  and Armorsmith's; Weaponsmith: those, Weaponsmith's and every master's; Master Axesmith: the
+  ordinary crafts, Weaponsmith's and the axesmith's). **No specialization needed** shows only the
+  ordinary crafts. It starts on Any specialization (everything). It offers the paths the
+  character could have, or with Show all every path: an Armorsmith can pick Master Axesmith to
+  see what an axesmith makes.
   Which path a recipe needs comes from its pattern in the game data; Gnomish and Goblin
   Engineering's trainer recipes aren't marked there, so leProfit notes them when you visit a
   trainer that teaches them.

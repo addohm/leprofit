@@ -71,9 +71,9 @@ too, greyed out, with what learning them costs and how many crafts pay that back
   Copper Bars), in one profession or all of them at once.
 - **Craftsman's Writ crafts** are marked with a scroll; search "writ" to list them all.
 - **Specializations:** Armorsmith, Weaponsmith and the weapon masters, the leatherworking paths,
-  Gnomish and Goblin Engineering. Each path's recipes say so, and a dropdown lists one path's (or
-  only those every crafter can learn). Once you've picked a path, the others' are listed only
-  with Show all.
+  Gnomish and Goblin Engineering. Each path's recipes say so, and a dropdown shows what a crafter
+  on one path can make: the ordinary crafts plus that path's. Once you've picked a path, the
+  others' are listed only with Show all.
 - **Shift-click** a craft or a material to link it in chat or the auction house search.
 
 #### Shopping

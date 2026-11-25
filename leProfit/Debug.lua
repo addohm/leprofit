@@ -90,7 +90,7 @@ local LEARN = {
 
 local LEFT_OUT = {
 	nomatch = "it doesn't match the search",
-	specFilter = "the Specialization dropdown picks another",
+	specFilter = "it needs a path the Specialization dropdown's pick leaves out",
 	unlearned = "Hide unlearned is ticked and the character doesn't know it",
 	otherSide = "only the other side can get it",
 	otherSpec = "it needs a specialization the character can't have (another path; Show all lists it)",

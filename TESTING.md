@@ -150,8 +150,10 @@ so most of it is covered by the first part.
       another specialization", and the dropdown offers only your own path(s). With Show all
       ticked (Hide unlearned off), the dropdown offers every path; picking Master Axesmith lists
       Dawn's Edge and the other axesmith recipes, greyed, tooltip "Master Axesmith only: not your
-      path". Unticking Show all with another path picked goes back to all. Weaponsmith lists its
-      masters' recipes too; No specialization needed only the ordinary ones. Searching
+      path". Unticking Show all with another path picked goes back to all. Every path's pick
+      keeps the ordinary crafts (Copper Chain Belt) and adds its own: Armorsmith its 24,
+      Weaponsmith its own and every master's, Master Axesmith Weaponsmith's and the axesmith's
+      (not Persuader, a hammersmith's); No specialization needed only the ordinary ones. Searching
       "armorsmith" finds its recipes. `/leprofit debug Lionheart Helm` has a Specialization line.
 - [ ] No Lua errors (`/console scriptErrors 1`).
 - [ ] `/leprofit debug <a craft>` opens a window with the report selected; Ctrl+C copies it all

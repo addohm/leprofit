@@ -160,14 +160,25 @@ function Profit.SpecFilter(prof)
 	return nil
 end
 
--- Whether a recipe fits the dropdown's pick: a path takes in the paths within it (Weaponsmith,
--- its masters' recipes too).
+-- Whether a recipe fits the dropdown's pick. Every pick keeps the recipes that need no path: a
+-- path's view is what a crafter on it can make. A path adds its own recipes, those of the path
+-- it's within (a Master Axesmith is a Weaponsmith) and those of the paths within it (a Weaponsmith
+-- can still become any master). "none" keeps only the recipes that need no path.
 local function FitsSpec(prof, rec, pick)
-	if not pick then return true end
-	if pick == "none" then return rec.spec == nil end
-	if rec.spec == pick then return true end
-	local s = rec.spec and ns.professions[prof].specs[rec.spec]
-	return s and s.parent == pick or false
+	if not pick or not rec.spec then return true end
+	if pick == "none" then return false end
+	local specs = ns.professions[prof].specs
+	local p = pick
+	while p do
+		if rec.spec == p then return true end
+		p = specs[p] and specs[p].parent
+	end
+	local s = specs[rec.spec]
+	while s and s.parent do
+		if s.parent == pick then return true end
+		s = specs[s.parent]
+	end
+	return false
 end
 
 -- "Armorsmith only", and whether the character has that path, could pick it, or can't: for tooltips.

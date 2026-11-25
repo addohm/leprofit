@@ -54,7 +54,9 @@ Discuss each feature with the owner before building it.
     (the owner's call, 2026-11-25). The Crafts tab's Specialization dropdown
     is `ns.db.specFilter[prof]`, read through `Profit.SpecFilter` (a closed
     path's pick counts as all without Show all); with Show all it offers
-    every path
+    every path. A path's pick adds that path's recipes to the ordinary ones,
+    never filters those out (the owner's rule): its own, its parent's and
+    the paths within it (`FitsSpec`)
   - `Profit.lua`: the sums: make-vs-buy, sale value after the cut, profit,
     payback, flags, the filtered and sorted rows, shopping for n crafts. Each
     craft's sums are cached until `ns.sumsVersion` changes (`ns.SumsChanged`:

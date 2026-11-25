@@ -1160,12 +1160,18 @@ do
 	ns.db.showAll, ns.db.hideUnlearned = true, true
 	eq(Specs(), "Armorsmith", "nor with Hide unlearned: those recipes aren't listed")
 	ns.db.showAll, ns.db.hideUnlearned = true, false
-	-- A Weaponsmith: the dropdown's picks. Weaponsmith takes in its masters'.
+	-- A Weaponsmith: the dropdown's picks. Each keeps the ordinary recipes and adds a path's: what
+	-- a crafter on it can make.
 	WM.spells[9788], WM.spells[9787] = nil, true
 	eq(ns.Profit.SpecFilter("Blacksmithing"), "Weaponsmith")
-	ok(Listed("Blackfury", "Weaponsmith") and Listed("Arcanite Reaper", "Weaponsmith"), "Weaponsmith: its masters' too")
-	ok(not Listed("Copper Chain Belt", "Weaponsmith"), "not the ordinary recipes")
-	ok(Listed("Arcanite Reaper", "Master Axesmith") and not Listed("Blackfury", "Master Axesmith"), "a master: its own")
+	ok(Listed("Copper Chain Belt", "Weaponsmith") and Listed("Blackfury", "Weaponsmith"), "Weaponsmith: the ordinary ones and its own")
+	ok(Listed("Arcanite Reaper", "Weaponsmith") and Listed("Persuader", "Weaponsmith"), "and every master's")
+	ok(not Listed("Lionheart Helm", "Weaponsmith"), "not Armorsmith's")
+	ok(Listed("Copper Chain Belt", "Master Axesmith") and Listed("Arcanite Reaper", "Master Axesmith")
+		and Listed("Blackfury", "Master Axesmith"), "a master: the ordinary ones, its own and Weaponsmith's")
+	ok(not Listed("Persuader", "Master Axesmith") and not Listed("Lionheart Helm", "Master Axesmith"), "not another master's")
+	ok(Listed("Copper Chain Belt", "Armorsmith") and Listed("Lionheart Helm", "Armorsmith")
+		and not Listed("Blackfury", "Armorsmith"), "Armorsmith (Show all): the ordinary ones and its own")
 	ok(Listed("Copper Chain Belt", "none") and not Listed("Blackfury", "none"), "none: only those needing no path")
 	_, left = ns.Profit.Rows("Blacksmithing", nil, "none")
 	ok(left.specFilter > 0, "the rest counted")
